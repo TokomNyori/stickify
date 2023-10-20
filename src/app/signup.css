@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.signup-form-container {
+  width: 28%;
+  @apply bg-gray-800/50;
+  min-width: 20rem;
+  margin: auto;
+  padding: 1.25rem 1.25rem 2.5rem 1.25rem;
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.signup-input {
+  width: 100%;
+  padding: 0.625rem;
+  margin: 0.625rem 0;
+  border: 0.0625rem solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.signup-btn {
+  width: 100%;
+  padding: 0.625rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  margin-top: 0.625rem;
+}
+
+.signup-btn:hover {
+  background-color: #0056b3;
+}
+
+.signup-radio-btn[type="radio"]:checked + label {
+  border: 1.6px solid rgb(190, 190, 190);
+  transform: scale(1.1);
+}
+
+
+@media (max-width: 560px) {
+  .signup-form-container {
+    width: 95%;
+    @apply bg-gray-800/50;
+    margin: auto;
+    padding: 1.25rem 1.25rem 2.5rem 1.25rem;
+    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+  }
+}

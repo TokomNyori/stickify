@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.modal-blur {
+  z-index: 20;
+}
+
+.gpt-modal-blur {
+  z-index: 30;
+}
+
+.loader-gpt{
+  z-index: 100;
+}
+
+.modal-main{
+  width: 36%;
+  height: auto;
+  flex-wrap: wrap;
+  padding: 1rem 1rem;
+  /* @apply bg-gray-700; */
+  backdrop-filter: blur(0.625rem); 
+  /* border: 1px solid rgba(255, 255, 255, 0.2); */
+  border-radius: 10px;
+  overflow: auto;
+  box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.2);
+  background-image: 
+    radial-gradient(circle at 20% 35%, rgba(255,255,255,0.2), rgba(0,0,0,0.2)),
+    radial-gradient(circle at 75% 44%, rgba(255,255,255,0.2), rgba(0,0,0,0.2)),
+    linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(0,0,0,0.1));
+}
+
+.gpt-generate-modal{
+  width: 80%;
+  height: auto;
+  flex-wrap: wrap;
+  padding: 1rem 1rem;
+  /* @apply bg-gray-700; */
+  backdrop-filter: blur(0.625rem); 
+  /* border: 1px solid rgba(255, 255, 255, 0.2); */
+  border-radius: 10px;
+  overflow: auto;
+  box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.2);
+}
+
+.modal-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fix-modal {
+  z-index: 30;
+  position: fixed;
+  animation-name: modalopen;
+  animation-duration: 1s;
+}
+
+.gpt-fix-modal {
+  z-index: 50;
+  position: fixed;
+  animation-name: modalopen;
+  animation-duration: 1s;
+}
+
+@keyframes modalopen {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.profilePopUp {
+  width: 8rem;
+  display: flex;
+  font-size: 0.9rem;
+  position: absolute;
+  flex-direction: column;
+  row-gap: 0.3rem;
+  @apply bg-gray-800/50;
+  backdrop-filter: blur(0.225rem);
+  padding: 0.5rem;
+  border-radius: 10px;
+  left: -6rem;
+  top: 2.5rem;
+  border-top-right-radius: 0;
+}
+
+@media (max-width: 560px) {
+  .modal-main {
+    width: 95%;
+    height: auto;
+    overflow: auto;
+    padding: 1rem 1rem;
+    flex-wrap: wrap;
+  }
+}
