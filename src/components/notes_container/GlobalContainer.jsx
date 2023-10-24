@@ -7,6 +7,10 @@ import HomePageSkeleton from '../skeleton_loaders/HomePageSkeleton';
 import scrollToTop from '@/helper/scrollToTop';
 import { CookieHelper } from '@/helper/httpHelpers/httpCookieHelper';
 import { getGlobalUsersHelper } from '@/helper/httpHelpers/httpUserHelper';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUser } from '@/redux_features/user/userSlice';
+import { addPage } from '@/redux_features/pages/pageSlice';
+
 
 export default function GlobalContainer() {
     const [notes, setNotes] = useState([])
@@ -14,11 +18,15 @@ export default function GlobalContainer() {
     const [initialLoading, setInitialLoading] = useState(true);
     const [deletedNotes, setDeletedNotes] = useState({});
     const [detailNotes, setDetailNotes] = useState([])
+    const users = useSelector(state => state.user.users)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         getGlobalNotes()
         getGlobalUsers()
+        getUserCookie()
         scrollToTop()
+        dispatch(addPage('feeds'))
     }, [])
 
     useEffect(() => {
@@ -95,6 +103,18 @@ export default function GlobalContainer() {
                 icon: '🥺',
                 duration: 3000,
             });
+        }
+    }
+
+    async function getUserCookie() {
+        try {
+            const res = await CookieHelper()
+            // console.log('CookieHelper')
+            // console.log(res.body)
+            dispatch(addUser(res.body))
+        } catch (error) {
+            console.log('CookieHelper Error')
+            console.log(error.message)
         }
     }
 

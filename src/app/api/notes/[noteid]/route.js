@@ -4,7 +4,7 @@ import { NoteModel } from "@/models/notemodel"
 import { UserModel } from "@/models/usermodel"
 import { NextResponse } from "next/server"
 
-//connectDB()
+connectDB()
 
 // Delete note by noteId
 export async function DELETE(request, { params }) {

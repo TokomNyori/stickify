@@ -12,8 +12,8 @@ const NoteSchema = new Schema({
     color: { type: String },
     status: {
         type: String,
-        enum: ['pinned', 'normal'],
-        default: 'normal',
+        enum: ['pinned', 'others'],
+        default: 'others',
     },
     userId: {
         type: mongoose.ObjectId,

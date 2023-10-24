@@ -2,12 +2,12 @@ import { openAiPostHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import { useEffect, useState } from 'react'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { BiSolidSend } from 'react-icons/bi'
-import ClipLoader from "react-spinners/ClimbingBoxLoader";
+import ClipLoader from "react-spinners/GridLoader";
 import toast, { Toaster } from 'react-hot-toast';
 
-const GptSubmit = ({ gptSubmitModalState, noteFromMainModal, changeGptRequirementModal, changeNoteContentByGpt }) => {
+const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequirementModal, changeNoteContentByGpt }) => {
 
-    const nfmm = { ...noteFromMainModal }
+    const nfmm = { ...noteFromNoteModal }
     // console.log('NoteFromMainModal')
     // console.log(nfmm.title)
     const [generateRequirementGpt, setGenerateRequirementGpt] = useState({
@@ -24,7 +24,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromMainModal, changeGptRequiremen
             ...prev,
             generate_title: nfmm.title
         }))
-    }, [noteFromMainModal])
+    }, [noteFromNoteModal])
 
     function changeGenerateRequirementGpt(event) {
         const { name, value, type, checked } = event.target
@@ -62,16 +62,23 @@ const GptSubmit = ({ gptSubmitModalState, noteFromMainModal, changeGptRequiremen
         }
         const headers = {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${'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'}`
+            'Authorization': `Bearer ${'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'}`
         }
-        setLoadingGpt(true)
-        const res = await openAiPostHelper({ method: 'POST', headers: headers, body: gptData })
-        changeNoteContentByGpt(res.choices[0].message.content)
-        setLoadingGpt(false)
-        changeGptRequirementModal()
-        toast('Generated!', {
-            icon: '😀'
-        })
+        try {
+            setLoadingGpt(true)
+            const res = await openAiPostHelper({ method: 'POST', headers: headers, body: gptData })
+            changeNoteContentByGpt(res.choices[0].message.content)
+            setLoadingGpt(false)
+            changeGptRequirementModal()
+            toast('Generated!', {
+                icon: '😀'
+            })
+        } catch (error) {
+            setLoadingGpt(false)
+            toast(error.message, {
+                icon: '😀'
+            })
+        }
     }
 
     return (
@@ -133,7 +140,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromMainModal, changeGptRequiremen
             </div>
             {loadingGpt &&
                 <div
-                    className={`loader-gpt absolute inset-0 bg-black bg-opacity-30 backdrop-blur-[1px] flex justify-center 
+                    className={`modal-blur absolute inset-0 bg-black bg-opacity-30 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
                     <ClipLoader
                         color='#e2e8f0'
@@ -144,6 +151,9 @@ const GptSubmit = ({ gptSubmitModalState, noteFromMainModal, changeGptRequiremen
                         data-testid="loader"
                         speedMultiplier={1}
                     />
+                    <div className="text-2xl mt-5 font-bold text-[#e2e8f0]">
+                        Generating...
+                    </div>
                 </div>
 
             }

@@ -3,7 +3,7 @@ import { UserModel } from "@/models/usermodel"
 import { getResponseMsg } from "@/helper/getResponseMsg"
 import { connectDB } from "@/helper/db"
 
-//connectDB()
+connectDB()
 
 // Get user by id
 export async function GET(request, { params }) {

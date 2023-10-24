@@ -4,9 +4,8 @@
 
 .signup-form-container {
   width: 28%;
-  @apply bg-gray-800/50;
   min-width: 20rem;
-  margin: auto;
+  /* margin: auto; */
   padding: 1.25rem 1.25rem 2.5rem 1.25rem;
   box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem;
@@ -41,15 +40,13 @@ h1 {
 }
 
 .signup-radio-btn[type="radio"]:checked + label {
-  border: 1.6px solid rgb(190, 190, 190);
-  transform: scale(1.1);
+  border: 1.6px solid rgb(22, 188, 108);
+  transform: scale(1.12);
 }
-
 
 @media (max-width: 560px) {
   .signup-form-container {
     width: 95%;
-    @apply bg-gray-800/50;
     margin: auto;
     padding: 1.25rem 1.25rem 2.5rem 1.25rem;
     box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);

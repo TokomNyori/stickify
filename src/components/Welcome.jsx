@@ -13,10 +13,17 @@ import { loginHelper, signupHelper } from '@/helper/httpHelpers/httpUserHelper';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { addUser } from '@/redux_features/user/userSlice';
+import { useTheme } from 'next-themes';
+import { MdOutlineDarkMode } from 'react-icons/md'
+import { MdOutlineLightMode } from 'react-icons/md'
+import { PiStickerLight } from 'react-icons/pi'
+import ClipLoader from "react-spinners/SquareLoader";
+import { addTheme } from '@/redux_features/theme/themeSlice';
 
 const Welcome = () => {
     const [isLogin, setIsLogin] = useState(false);
     const [isAvatar, setIsAvatar] = useState(true)
+    const [loading, setLoading] = useState(false)
     //const [userCookie, setUserCookie] = useState({})
     const [formData, setFormData] = useState({
         avatar: '',
@@ -26,6 +33,7 @@ const Welcome = () => {
     });
 
     const dispatch = useDispatch()
+    const { theme, setTheme } = useTheme()
     const router = useRouter()
 
     const handleChange = (e) => {
@@ -41,6 +49,7 @@ const Welcome = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
         if (isLogin) {
             // Handle login logic here
 
@@ -56,11 +65,13 @@ const Welcome = () => {
                     body: loginFormData
                 })
                 //localStorage.setItem('userData', JSON.stringify(res.body))
+                setLoading(false)
                 router.push('/')
                 toast(res.message, {
                     icon: '🤗',
                 })
             } catch (error) {
+                setLoading(false)
                 toast.error(error.message)
             }
 
@@ -81,9 +92,7 @@ const Welcome = () => {
                     body: formData
                 })
                 localStorage.setItem('userData', JSON.stringify(res.body))
-                toast.success(res.message, {
-                    duration: 3000
-                })
+                setLoading(false)
                 setFormData({
                     avatar: '',
                     username: '',
@@ -91,7 +100,11 @@ const Welcome = () => {
                     password: '',
                 })
                 router.push('/')
+                toast.success(res.message, {
+                    duration: 3000
+                })
             } catch (error) {
+                setLoading(false)
                 toast.error(error.message, {
                     duration: 4000
                 })
@@ -99,108 +112,161 @@ const Welcome = () => {
         }
     };
 
-    return (
-        <div className="signup-form-container">
-            <Toaster />
-            <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
-            <form onSubmit={handleSubmit}>
-                <div className='input-group grid gap-4'>
-                    {!isLogin && (
-                        <div className='avatars'>
-                            <p className='text-sm'>Select an avatar</p>
-                            <p className={`text-sm font-light text-red-400 ${isAvatar && 'hidden'}`}>Please select an avatar</p>
-                            <div className="radio-inputs mb-4 flex gap-3 mt-2">
-                                <div>
-                                    <input type="radio" id="boy1" name="avatar" className="hidden signup-radio-btn" value="boy1"
-                                        onChange={handleChange} checked={formData.avatar === 'boy1'}
-                                    />
-                                    <label htmlFor="boy1"
-                                        className="block w-10 h-10 rounded-full border border-gray-500 p-[0.5px]
-                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
-                                        <Image src={BoyAvatar1} width={400} height={400} className='rounded-full' />
-                                    </label>
-                                </div>
-                                <div>
-                                    <input type="radio" id="girl1" name="avatar" className="hidden signup-radio-btn" value="girl1"
-                                        onChange={handleChange} checked={formData.avatar === 'girl1'}
-                                    />
-                                    <label htmlFor="girl1"
-                                        className="block w-10 h-10 rounded-full border border-gray-500 p-[0.5px]
-                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
-                                        <Image src={GirlAvatar1} width={400} height={400} className='rounded-full' />
-                                    </label>
-                                </div>
-                                <div>
-                                    <input type="radio" id="boy2" name="avatar" className="hidden signup-radio-btn" value="boy2"
-                                        onChange={handleChange} checked={formData.avatar === 'boy2'}
-                                    />
-                                    <label htmlFor="boy2"
-                                        className="block w-10 h-10 rounded-full border border-gray-500 p-[0.5px]
-                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
-                                        <Image src={BoyAvatar2} width={400} height={400} className='rounded-full' />
-                                    </label>
-                                </div>
-                                <div>
-                                    <input type="radio" id="girl2" name="avatar" className="hidden signup-radio-btn" value="girl2"
-                                        onChange={handleChange} checked={formData.avatar === 'girl2'}
-                                    />
-                                    <label htmlFor="girl2"
-                                        className="block w-10 h-10 rounded-full border border-gray-500 p-[0.5px]
-                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
-                                        <Image src={GirlAvatar2} width={400} height={400} className=' rounded-full' />
-                                    </label>
-                                </div>
-                                <div>
-                                    <input type="radio" id="anonymous" name="avatar" className="hidden signup-radio-btn" value="anonymous"
-                                        onChange={handleChange} checked={formData.avatar === 'anonymous'}
-                                    />
-                                    <label htmlFor="anonymous"
-                                        className="block w-10 h-10 rounded-full border border-gray-500 p-[0.5px]
-                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
-                                        <Image src={AnonymousAvatar} width={400} height={400} className=' rounded-full' />
-                                    </label>
-                                </div>
-                            </div>
-                            <input
-                                className='rounded-xl bg-gray-700 border-gray-600 block w-full 
-                                p-2.5 text-sm placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500'
-                                type="text"
-                                name="username"
-                                placeholder="Username"
-                                value={formData.username}
-                                onChange={handleChange} required
-                            />
-                        </div>
-                    )}
-                    <input
-                        className='rounded-lg bg-gray-700 border-gray-600 block w-full 
-                                p-2.5 text-sm placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500'
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={formData.email}
-                        onChange={handleChange} required
-                    />
-                    <input
-                        className='rounded-lg bg-gray-700 border-gray-600 block w-full 
-                                p-2.5 text-sm placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500'
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        value={formData.password}
-                        onChange={handleChange} required
-                    />
-                    <button className='border border-blue-400/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 mb-2
-                            bg-gray-700 text-whiteborder-gray-600  hover:border-blue-400/75 focus:ring-gray-700 block w-full '
-                        type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
-                </div>
+    function toggleTheme(mode) {
+        if (mode === 'light') {
+            setTheme('light')
+            dispatch(addTheme('light'))
+        } else {
+            setTheme('dark')
+            dispatch(addTheme('dark'))
+        }
+    }
 
-            </form>
-            <button className='border border-green-400/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 mb-2
-                            bg-gray-700 text-whiteborder-gray-600  hover:border-green-400/75 focus:ring-gray-700 block w-full'
-                onClick={() => setIsLogin(!isLogin)}>
-                {isLogin ? 'Create an Account' : 'Already have an account?'}
-            </button>
+    return (
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-0 justify-center items-center'>
+            <Toaster />
+            {loading &&
+                <div
+                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    items-center flex-wrap -mt-6`}>
+                    <ClipLoader
+                        color={`${theme === 'dark' ? '#e2e8f0' : '#1f2937'}`}
+                        loading='Generating...'
+                        //cssOverride={override}
+                        size={120}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    {/* <div className="text-2xl mt-5 font-bold text-[#ac3232]">
+                        Deleting note...
+                    </div> */}
+                </div>
+            }
+            <div className='text-center flex flex-col justify-center items-center'>
+                <div className="mb-6 sm:mb-8">
+                    {
+                        theme === 'light' ?
+                            <MdOutlineDarkMode
+                                className="text-3xl font-light text-gray-500 hover:text-black cursor-pointer"
+                                onClick={() => toggleTheme('dark')} /> :
+                            <MdOutlineLightMode
+                                className="text-3xl font-light hover:text-gray-400 cursor-pointer"
+                                onClick={() => toggleTheme('light')} />
+                    }
+                </div>
+                <div className='text-3xl italic'>Stickify</div>
+                <p
+                    className='dark:text-gray-300'>Your AI sticker-note
+                    <span><PiStickerLight className='ml-1 inline text-xl' /></span>
+                </p>
+            </div>
+            <div className="signup-form-container bg-[#f6f8f6] dark:bg-gray-800/50 sm:ml-12">
+                <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className='input-group grid gap-4'>
+                        {!isLogin && (
+                            <div className='avatars'>
+                                <p className='text-sm'>Select an avatar</p>
+                                <p className={`text-sm font-light text-red-400 ${isAvatar && 'hidden'}`}>Please select an avatar</p>
+                                <div className="radio-inputs mb-4 flex gap-3 mt-2">
+                                    <div>
+                                        <input type="radio" id="boy1" name="avatar" className="hidden signup-radio-btn" value="boy1"
+                                            onChange={handleChange} checked={formData.avatar === 'boy1'}
+                                        />
+                                        <label htmlFor="boy1"
+                                            className="block w-10 h-10 rounded-full border border-gray-700 dark:border-gray-500 p-[0.5px]
+                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                                            <Image src={BoyAvatar1} width={400} height={400} className='rounded-full' />
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" id="girl1" name="avatar" className="hidden signup-radio-btn" value="girl1"
+                                            onChange={handleChange} checked={formData.avatar === 'girl1'}
+                                        />
+                                        <label htmlFor="girl1"
+                                            className="block w-10 h-10 rounded-full border border-gray-700 dark:border-gray-500 p-[0.5px]
+                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                                            <Image src={GirlAvatar1} width={400} height={400} className='rounded-full' />
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" id="boy2" name="avatar" className="hidden signup-radio-btn" value="boy2"
+                                            onChange={handleChange} checked={formData.avatar === 'boy2'}
+                                        />
+                                        <label htmlFor="boy2"
+                                            className="block w-10 h-10 rounded-full border border-gray-700 dark:border-gray-500 p-[0.5px]
+                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                                            <Image src={BoyAvatar2} width={400} height={400} className='rounded-full' />
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" id="girl2" name="avatar" className="hidden signup-radio-btn" value="girl2"
+                                            onChange={handleChange} checked={formData.avatar === 'girl2'}
+                                        />
+                                        <label htmlFor="girl2"
+                                            className="block w-10 h-10 rounded-full border border-gray-700 dark:border-gray-500 p-[0.5px]
+                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                                            <Image src={GirlAvatar2} width={400} height={400} className=' rounded-full' />
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" id="anonymous" name="avatar" className="hidden signup-radio-btn" value="anonymous"
+                                            onChange={handleChange} checked={formData.avatar === 'anonymous'}
+                                        />
+                                        <label htmlFor="anonymous"
+                                            className="block w-10 h-10 rounded-full border border-gray-700 dark:border-gray-500 p-[0.5px]
+                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                                            <Image src={AnonymousAvatar} width={400} height={400} className=' rounded-full' />
+                                        </label>
+                                    </div>
+                                </div>
+                                <input
+                                    className='rounded-xl bg-[#e6e9e7] dark:bg-gray-700 dark:border-gray-600 block w-full 
+                                p-2.5 text-sm dark:placeholder-gray-400 dark:text-white
+                                focus:ring-blue-500 focus:border-blue-500'
+                                    type="text"
+                                    name="username"
+                                    placeholder="Username"
+                                    value={formData.username}
+                                    onChange={handleChange} required
+                                />
+                            </div>
+                        )}
+                        <input
+                            className='rounded-lg bg-[#e6e9e7] dark:bg-gray-700 dark:border-gray-600 block w-full 
+                                p-2.5 text-sm dark:placeholder-gray-400 dark:text-white 
+                                focus:ring-blue-500 focus:border-blue-500'
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value={formData.email}
+                            onChange={handleChange} required
+                        />
+                        <input
+                            className='rounded-lg bg-[#e6e9e7] dark:bg-gray-700 dark:border-gray-600 block w-full 
+                                p-2.5 text-sm dark:placeholder-gray-400 dark:text-white 
+                                focus:ring-blue-500 focus:border-blue-500'
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            value={formData.password}
+                            onChange={handleChange} required
+                        />
+                        <button className='border border-blue-400/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 mb-2
+                            bg-[#e6e9e7] dark:bg-gray-700 text-whiteborder-gray-600  hover:border-blue-400
+                            focus:ring-gray-700 block w-full '
+                            type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
+                    </div>
+
+                </form>
+                <button className='border border-green-400/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 mb-2
+                            bg-[#e6e9e7] dark:bg-gray-700 text-whiteborder-gray-600  hover:border-green-400 
+                            focus:ring-gray-700 block w-full'
+                    onClick={() => setIsLogin(!isLogin)}>
+                    {isLogin ? 'Create an Account' : 'Already have an account?'}
+                </button>
+            </div>
         </div>
     )
 }

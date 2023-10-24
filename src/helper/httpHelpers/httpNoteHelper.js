@@ -43,6 +43,21 @@ export const deleteNoteHelper = async ({ method, headers, noteid }) => {
     return res.json()
 }
 
+export const editStatusNoteHelper = async ({ method, headers, noteid, body }) => {
+    const res = await fetch(`api/notes/${noteid}/change-status`, {
+        method: method,
+        headers: headers,
+        body: JSON.stringify(body)
+    })
+    if (!res.ok) {
+        const errorData = await res.json();
+        console.log(errorData)
+        throw new Error(errorData.message)
+    }
+
+    return res.json()
+}
+
 export const getGlobalNoteHelper = async ({ method }) => {
     const res = await fetch(`api/admin/managetasks/`, {
         method: method,
@@ -71,4 +86,18 @@ export async function openAiPostHelper({ method, headers, body }) {
     }
 
     return res.json()
+}
+
+export async function voiceRssApiHelper({ method, body }) {
+    const res = await fetch(`http://api.voicerss.org/?key=c9e7257a78644d1c824e7821d3b4a148&hl=en-us&c=MP3&f=16khz_16bit_stereo&v=Amy&src=Hello world!`, {
+        method: method,
+    })
+
+    // if (!res.ok) {
+    //     const errorData = await res.json();
+    //     console.log(errorData)
+    //     throw new Error(errorData.message)
+    // }
+
+    return res.text()
 }

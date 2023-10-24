@@ -4,7 +4,7 @@ import { NoteModel } from "@/models/notemodel"
 import { NextResponse } from "next/server"
 import jwt from "jsonwebtoken"
 
-//connectDB()
+connectDB()
 
 export async function GET(request) {
     const userCookie = request.cookies.get('userJwtCookie')?.value

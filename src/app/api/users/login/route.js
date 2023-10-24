@@ -12,12 +12,11 @@ export async function POST(request) {
 
     //Fetch user request from request
     const { email, password } = await request.json();
-    console.log('Login Data:')
-    console.log(`${email} and ${password}`)
 
     try {
         // Validation
         const user = await UserModel.findOne({ email: email })
+
         // Checking if user exist
         if (!user) {
             throw new Error('User does not exist')

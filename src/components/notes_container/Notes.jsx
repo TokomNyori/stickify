@@ -5,19 +5,39 @@ import { HiMiniViewfinderCircle } from 'react-icons/hi2'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { AiOutlineFileAdd } from 'react-icons/ai'
 import { IoAddOutline } from "react-icons/io5";
+import { BsPinAngle } from "react-icons/bs"
+import { BsPinAngleFill } from "react-icons/bs"
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { useDispatch } from 'react-redux'
+import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice'
 
-const Notes = ({ notes, container, deleteNotes, deletedNotes }) => {
+const Notes = ({ notes, container, deleteNotes, deletedNotes, noteType, togglePinned }) => {
+
+    const dispatch = useDispatch()
+    const router = useRouter()
+
+    function toTheNotePage(e, noteid) {
+        e.stopPropagation()
+        const clickedNote = notes.filter(note => note._id === noteid)
+        dispatch(addCurrentNotePage(clickedNote[0]))
+        router.push(`/note/${noteid}`)
+    }
+
     const taskBoxes = notes?.map(note => {
         const random = Math.random();
         const sign = Math.random() < 0.5 ? -1 : 1;
         const rotation = random > 0.6 ? (Math.random() * (1.5 - 1.2) + 1.2).toFixed(1) * sign : 0
         //style={{ transform: `rotate(${rotation}deg)` }}
+        const router = useRouter()
+
         return (
             <div
-                className={`note-box flex flex-col px-3 py-3 rounded-lg text-gray-700/75 bg-[${note.color}] 
-                            ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer`}
-                             key={note._id}>
+                className={`note-box flex flex-col px-3 py-3 rounded-lg border-2 border-white text-gray-700/75 bg-[${note.color}] 
+                            ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-md dark:brightness-[85%]`} key={note._id}
+                onClick={(e) => toTheNotePage(e, note._id)}
+            >
                 <div className='truncate text-sm font-bold'>
                     {note.title}
                 </div>
@@ -28,21 +48,33 @@ const Notes = ({ notes, container, deleteNotes, deletedNotes }) => {
                     container === 'noteContainer' ?
                         // For Note Container
                         <div className='text-sm mt-4 flex justify-end items-center gap-2'>
-                            <div>
-                                <AiOutlineHeart
-                                    className='text-gray-600/70 transition ease-in-out duration-300 hover:scale-125 active:text-red-400' />
-                            </div>
+                            {
+                                noteType === 'pinned' ?
+                                    <div onClick={(e) => togglePinned(e, note._id, 'remove')} >
+                                        <BsPinAngleFill
+                                            className='text-gray-700 transition ease-in-out duration-300 hover:scale-125 
+                                            active:text-black' />
+                                    </div> :
+                                    <div onClick={(e) => togglePinned(e, note._id, 'add')}>
+                                        <BsPinAngle
+                                            className='text-gray-600/70 transition ease-in-out duration-300 hover:scale-125 
+                                            active:text-black' />
+                                    </div>
+                            }
                             <div onClick={() => deleteNotes(note._id)}>
                                 <MdDeleteOutline
-                                    className=' text-gray-600/70 font-light transition ease-in-out duration-300 hover:scale-125 active:text-black' />
+                                    className=' text-gray-700/70 font-light transition ease-in-out duration-300 hover:scale-125 
+                                    active:text-black' />
                             </div>
                             <div>
                                 <MdOutlineModeEditOutline
-                                    className='text-gray-600/70 font-light transition ease-in-out duration-300 hover:scale-125 active:text-black' />
+                                    className='text-gray-600/70 font-light transition ease-in-out duration-300 hover:scale-125 
+                                    active:text-black' />
                             </div>
-                            <div>
+                            <div onClick={(e) => toTheNotePage(e, note._id)}>
                                 <HiMiniViewfinderCircle
-                                    className='text-gray-600/70 transition ease-in-out duration-300 hover:scale-125 active:text-black' />
+                                    className='text-gray-600/70 transition ease-in-out duration-300 hover:scale-125 
+                                    active:text-black' />
                             </div>
                         </div>
                         :
@@ -61,7 +93,8 @@ const Notes = ({ notes, container, deleteNotes, deletedNotes }) => {
                             <div className='text-sm flex items-center gap-2'>
                                 <div>
                                     <HiMiniViewfinderCircle
-                                        className='text-gray-600/70 transition ease-in-out duration-300 hover:scale-125 active:text-black' />
+                                        className='text-gray-600/70 transition ease-in-out duration-300 hover:scale-125 
+                                        active:text-black' />
                                 </div>
                                 <div>
                                     <AiOutlineFileAdd

@@ -1,5 +1,5 @@
 'use client'
-import { deleteNoteHelper, getNoteHelper } from '@/helper/httpHelpers/httpNoteHelper'
+import { deleteNoteHelper, editStatusNoteHelper, getNoteHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import toast, { Toaster } from 'react-hot-toast';
 import { useContext, useEffect, useState } from 'react'
 import Notes from './Notes';
@@ -9,32 +9,44 @@ import { CookieHelper } from '@/helper/httpHelpers/httpCookieHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '@/redux_features/user/userSlice';
 import { addNote } from '@/redux_features/notes/noteSlice';
+import ClipLoader from "react-spinners/HashLoader";
+import { useTheme } from 'next-themes';
+import { IoAddSharp } from "react-icons/io5";
+import { addPage } from '@/redux_features/pages/pageSlice';
+import { setNoteModalState } from '@/redux_features/noteModalState/noteModalStateSlice';
 
 export default function NotesContainer() {
     //const [notes, setNotes] = useState([])
-    const [initialLoading, setInitialLoading] = useState(true);
-    const [deletedNotes, setDeletedNotes] = useState({});
-
     const users = useSelector(state => state.user.users)
     const notes = useSelector(state => state.note.notes)
+    const [pinnedNotes, setPinnedNotes] = useState([])
+    const [otherNotes, setOtherNotes] = useState([])
+    const [deletedNotes, setDeletedNotes] = useState({});
+    const [initialLoading, setInitialLoading] = useState(true);
+    const [deleteLoading, setDeleteLoading] = useState(false);
+    const [pinLoading, setPinLoading] = useState(false);
     const dispatch = useDispatch()
     useEffect(() => {
         getNotes()
-        scrollToTop()
         getUserCookie()
+        scrollToTop()
+        dispatch(addPage('home'))
     }, [])
 
-    // useEffect(() => {
-    //     if (Object.keys(users).length !== 0) {
-            
-    //     }
-    // }, [users])
+    useEffect(() => {
+        const pinned = notes.filter(note => note.status === 'pinned')
+        setPinnedNotes(pinned)
+        const others = notes.filter(note => note.status !== 'pinned')
+        setOtherNotes(others)
+    }, [notes])
+
+    const { theme, setTheme } = useTheme()
 
     async function getUserCookie() {
         try {
             const res = await CookieHelper()
-            console.log('CookieHelper')
-            console.log(res.body)
+            // console.log('CookieHelper')
+            // console.log(res.body)
             dispatch(addUser(res.body))
         } catch (error) {
             console.log('CookieHelper Error')
@@ -59,6 +71,7 @@ export default function NotesContainer() {
 
     async function deleteNotes(noteid) {
         const backupNotes = [...notes]
+        setDeleteLoading(true)
         try {
             const res = await deleteNoteHelper({ noteid: noteid, method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
             setDeletedNotes({ ...deletedNotes, [noteid]: true });
@@ -69,12 +82,14 @@ export default function NotesContainer() {
                 const newDeletedNotes = { ...deletedNotes };
                 delete newDeletedNotes[noteid];
                 setDeletedNotes(newDeletedNotes);
+                setDeleteLoading(false)
                 toast('Destroyed successfully!', {
                     icon: '🔥',
                 });
                 getNotes()
             }, 500); // Match this with the CSS animation duration
         } catch (error) {
+            setDeleteLoading(false)
             dispatch(addNote(backupNotes))
             toast(`Sorry could not delete!`, {
                 icon: '🥺',
@@ -83,22 +98,149 @@ export default function NotesContainer() {
         }
     }
 
-    console.log('redux users')
-    console.log(users)
+    async function togglePinned(e, id, func) {
+        // Unpinned or remove from pinned
+        e.stopPropagation()
+        setPinLoading(true)
+        if (func === 'remove') {
+            const pinned = pinnedNotes.filter(pinNote => pinNote._id !== id)
+            const other = pinnedNotes.filter(pinNote => pinNote._id === id)
+            const otherCopy = [...other][0]
+            const otherChangeStatus = { ...otherCopy, status: 'others' }
+            try {
+                const res = await editStatusNoteHelper({
+                    noteid: id,
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: otherChangeStatus
+                })
+                setPinnedNotes(pinned)
+                setOtherNotes(prev => ([otherChangeStatus, ...prev]))
+                setPinLoading(false)
+                toast.success('Unpinned')
+                getNotes()
+            } catch (error) {
+                setPinLoading(false)
+                toast.error(error.message)
+            }
+        } else {
+            // Pinned or add to pinned
+            const others = otherNotes.filter(otherNote => otherNote._id !== id)
+            const pinned = otherNotes.filter(otherNote => otherNote._id === id)
+            const pinnedCopy = [...pinned][0]
+            const pinnedChangeStatus = { ...pinnedCopy, status: 'pinned' }
+            try {
+                const res = await editStatusNoteHelper({
+                    noteid: id,
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: pinnedChangeStatus
+                })
+                setOtherNotes(others)
+                setPinnedNotes(prev => ([pinnedChangeStatus, ...prev]))
+                setPinLoading(false)
+                toast.success('Pinned')
+                getNotes()
+            } catch (error) {
+                setPinLoading(false)
+                toast.error(error.message)
+            }
+        }
+    }
+
+    // console.log('Notes')
+    // console.log(notes)
+    // console.log(otherNotes)
 
     return (
-        <div>
-            <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6 mt-12'>
-                {initialLoading ?
-                    <HomePageSkeleton number={18} /> :
-                    <Notes
-                        notes={notes} //array of note objects
-                        container='noteContainer'
-                        deleteNotes={deleteNotes} //function
-                        deletedNotes={deletedNotes} //function
-                    />}
-                <Toaster />
-            </div>
+        <div className=''>
+            {
+                initialLoading ?
+                    <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6 mt-12'>
+                        <HomePageSkeleton number={18} />
+                    </div>
+                    :
+                    <>
+                        {
+                            notes.length === 0 &&
+                            <div
+                                className=' mt-20 flex justify-center items-center gap-2 text-2xl opacity-50 
+                                max-w-fit m-auto cursor-pointer hover:opacity-100'
+                                onClick={() => dispatch(setNoteModalState(true))}
+                            >
+                                <span className='inline'>Create note</span>
+                                <span className='inline'>
+                                    <IoAddSharp className='text-3xl' />
+                                </span>
+                            </div>
+                        }
+                        {pinnedNotes.length !== 0 ?
+                            <>
+                                <div className='mt-12 mb-2'>Pinned</div>
+                                <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6'>
+                                    <Notes
+                                        notes={pinnedNotes} //array of note objects
+                                        container='noteContainer'
+                                        noteType='pinned'
+                                        deleteNotes={deleteNotes} //function
+                                        deletedNotes={deletedNotes} //function
+                                        togglePinned={togglePinned} //function
+                                    />
+                                </div>
+                            </> : ''
+                        }
+                        <div className={`${pinnedNotes.length !== 0 ? 'mt-6' : 'mt-12'} mb-2`}>
+                            {pinnedNotes.length !== 0 ? 'Others' : ''}
+                        </div>
+                        <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6'>
+                            <Notes
+                                notes={otherNotes} //array of note objects
+                                container='noteContainer'
+                                noteType='others'
+                                deleteNotes={deleteNotes} //function
+                                deletedNotes={deletedNotes} //function
+                                togglePinned={togglePinned} //function
+                            />
+                        </div>
+                    </>
+            }
+            {deleteLoading &&
+                <div
+                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    items-center flex-wrap`}>
+                    <ClipLoader
+                        color={`${theme === 'dark' ? '#f86464' : '#ac3232'}`}
+                        loading='Generating...'
+                        //cssOverride={override}
+                        size={70}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    {/* <div className="text-2xl mt-5 font-bold text-[#ac3232]">
+                        Deleting note...
+                    </div> */}
+                </div>
+            }
+            {pinLoading &&
+                <div
+                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    items-center flex-wrap`}>
+                    <ClipLoader
+                        color={`${theme === 'dark' ? '#51f770' : '#35a149'}`}
+                        loading='Generating...'
+                        //cssOverride={override}
+                        size={70}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    {/* <div className="text-2xl mt-5 font-bold text-[#35a149]">
+                        Deleting note...
+                    </div> */}
+                </div>
+            }
+            <Toaster />
         </div>
     )
 }

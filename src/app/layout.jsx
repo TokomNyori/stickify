@@ -15,7 +15,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${nunito.className} flex flex-col min-h-screen`}>
+      <body
+        className={`${nunito.className} flex flex-col min-h-screen bg-[#e6e9e7] text-gray-700 dark:bg-gray-700 dark:text-gray-100`}>
         <ReduxProvider>
           <Navbar />
           <div className='mt-16 mb-16 flex-grow'>

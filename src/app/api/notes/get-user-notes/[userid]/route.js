@@ -3,7 +3,7 @@ import { getResponseMsg } from "@/helper/getResponseMsg"
 import { NoteModel } from "@/models/notemodel"
 import { NextResponse } from "next/server"
 
-//connectDB()
+connectDB()
 
 export async function GET(request, { params }) {
     const { userid } = params
