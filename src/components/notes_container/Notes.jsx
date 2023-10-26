@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice'
+import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice'
 
 const Notes = ({ notes, container, deleteNotes, deletedNotes, noteType, togglePinned }) => {
 
@@ -25,6 +26,14 @@ const Notes = ({ notes, container, deleteNotes, deletedNotes, noteType, togglePi
         router.push(`/note/${noteid}`)
     }
 
+    function editNote(e, noteid) {
+        e.stopPropagation()
+        const clickedNote = notes.filter(note => note._id === noteid)[0]
+        
+    
+        dispatch(setNoteModalConfig({ noteModalState: true, as: 'edit', noteObject: clickedNote }))
+    }
+
     const taskBoxes = notes?.map(note => {
         const random = Math.random();
         const sign = Math.random() < 0.5 ? -1 : 1;
@@ -34,7 +43,7 @@ const Notes = ({ notes, container, deleteNotes, deletedNotes, noteType, togglePi
 
         return (
             <div
-                className={`note-box flex flex-col px-3 py-3 rounded-lg border-2 border-white text-gray-700/75 bg-[${note.color}] 
+                className={`note-box flex flex-col px-3 py-3 rounded-lg border-2 border-white text-gray-700 bg-[${note.color}] 
                             ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-md dark:brightness-[85%]`} key={note._id}
                 onClick={(e) => toTheNotePage(e, note._id)}
             >
@@ -61,21 +70,21 @@ const Notes = ({ notes, container, deleteNotes, deletedNotes, noteType, togglePi
                                             active:text-black' />
                                     </div>
                             }
-                            <div onClick={() => deleteNotes(note._id)}>
+                            <div onClick={(e) => deleteNotes(e, note._id)}>
                                 <MdDeleteOutline
                                     className=' text-gray-700/70 font-light transition ease-in-out duration-300 hover:scale-125 
                                     active:text-black' />
                             </div>
-                            <div>
+                            <div onClick={(e) => editNote(e, note._id)}>
                                 <MdOutlineModeEditOutline
                                     className='text-gray-600/70 font-light transition ease-in-out duration-300 hover:scale-125 
                                     active:text-black' />
                             </div>
-                            <div onClick={(e) => toTheNotePage(e, note._id)}>
+                            {/* <div onClick={(e) => toTheNotePage(e, note._id)}>
                                 <HiMiniViewfinderCircle
                                     className='text-gray-600/70 transition ease-in-out duration-300 hover:scale-125 
                                     active:text-black' />
-                            </div>
+                            </div> */}
                         </div>
                         :
                         // For Global Container
@@ -91,11 +100,11 @@ const Notes = ({ notes, container, deleteNotes, deletedNotes, noteType, togglePi
                                 </div>
                             </div>
                             <div className='text-sm flex items-center gap-2'>
-                                <div>
+                                {/* <div>
                                     <HiMiniViewfinderCircle
                                         className='text-gray-600/70 transition ease-in-out duration-300 hover:scale-125 
                                         active:text-black' />
-                                </div>
+                                </div> */}
                                 <div>
                                     <AiOutlineFileAdd
                                         className='text-gray-600/70 font-bold transition ease-in-out duration-300 hover:scale-125 

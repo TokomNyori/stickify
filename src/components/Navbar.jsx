@@ -23,7 +23,7 @@ import { addUser, removeUser } from "@/redux_features/user/userSlice";
 import { useTheme } from "next-themes";
 import { addPage } from "@/redux_features/pages/pageSlice";
 import { addTheme } from "@/redux_features/theme/themeSlice";
-import { setNoteModalState } from "@/redux_features/noteModalState/noteModalStateSlice";
+import { setNoteModalConfig } from "@/redux_features/noteModalConfig/noteModalConfigSlice";
 
 export default function Navbar() {
     //const [noteModalState, setNoteModalState] = useState(false)
@@ -33,7 +33,7 @@ export default function Navbar() {
     const page = useSelector(state => state.page.page)
     const [activePage, setActivePage] = useState(page)
 
-    const noteModalState = useSelector(state => state.noteModalState.noteModalState)
+    const noteModalConfig = useSelector(state => state.noteModalConfig.noteModalConfig)
     const userCookie = useSelector(state => state.user.users)
     const dispatch = useDispatch()
 
@@ -57,13 +57,10 @@ export default function Navbar() {
     }, [profilePopUp]);
 
     const router = useRouter()
+
     function changeModal(event, id) {
         //setCurrentID(id)
-        dispatch(setNoteModalState(true))
-    }
-
-    function closeModal(event) {
-        dispatch(setNoteModalState(false))
+        dispatch(setNoteModalConfig({ noteModalState: true, as: 'create', noteObject: {} }))
     }
 
     async function logoutFunction() {
@@ -279,7 +276,7 @@ export default function Navbar() {
                         </div>
                     </div>
                 </nav >
-                <NoteModal noteModalState={noteModalState} closeModal={closeModal} userCookie={userCookie} />
+                <NoteModal userCookie={userCookie} />
             </>
             :
             <>

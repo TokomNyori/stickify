@@ -11,7 +11,7 @@ export async function GET(request) {
     const tokenPayload = jwt.verify(userCookie, process.env.JWT_SECRET)
 
     try {
-        const notes = await NoteModel.find({ userId: tokenPayload._id })
+        const notes = await NoteModel.find({ userId: tokenPayload._id }).sort({ created: -1 })
         return NextResponse.json({
             message: `Dynamically Fetched notes for user id: ${tokenPayload._id}`,
             success: true,

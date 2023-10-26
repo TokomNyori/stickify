@@ -122,6 +122,7 @@
   left: -7rem;
   top: 2rem;
   border-bottom-right-radius: 0;
+  z-index: 40;
 }
 
 .nightModeBigScreen{
@@ -146,7 +147,7 @@
 
 .ai-rephrase-options {
   left: 63.5%;
-  top: 25.8%;
+  top: 31.8%;
 }
 
 @media (max-width: 560px) {
@@ -171,7 +172,7 @@
 
   .ai-rephrase-options {
     left: 57%;
-    top: 25.8%;
+    top: 31.8%;
   }
 }
 
@@ -182,6 +183,6 @@
 
   .ai-rephrase-options {
     left: 52.5%;
-    top: 25.8%;
+    top: 31.8%;
   }
 }

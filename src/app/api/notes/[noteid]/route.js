@@ -23,20 +23,26 @@ export async function DELETE(request, { params }) {
 
 // Edit note by noteId
 export async function PUT(request, { params }) {
-    const { nodeid } = params
+    const { noteid } = params
     //Fetch work data from request
-    const { title, content, status } = await request.json()
+    const { title, content, status, color, } = await request.json()
+
+    console.log(title)
 
     try {
-        const note = await NoteModel.findById({ _id: nodeid })
+        const note = await NoteModel.findById({ _id: noteid })
         note.title = title
         note.content = content
         note.status = status
+        note.color = color
+        note.created = new Date()
 
         const updatedNote = await note.save()
+        console.log('NOTE SAVED')
+        console.log(updatedNote)
 
         return getResponseMsg(
-            { message: `Dynamically updated note: ${nodeid}`, status: 200, success: true, body: updatedNote }
+            { message: `Dynamically updated note: ${noteid}`, status: 200, success: true, body: updatedNote }
         )
     } catch (error) {
         return getResponseMsg(

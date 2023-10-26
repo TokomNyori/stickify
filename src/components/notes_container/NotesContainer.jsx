@@ -13,7 +13,7 @@ import ClipLoader from "react-spinners/HashLoader";
 import { useTheme } from 'next-themes';
 import { IoAddSharp } from "react-icons/io5";
 import { addPage } from '@/redux_features/pages/pageSlice';
-import { setNoteModalState } from '@/redux_features/noteModalState/noteModalStateSlice';
+import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 
 export default function NotesContainer() {
     //const [notes, setNotes] = useState([])
@@ -57,7 +57,7 @@ export default function NotesContainer() {
     async function getNotes() {
         try {
             const res = await getNoteHelper({ method: 'GET' })
-            dispatch(addNote(res.body.reverse()))
+            dispatch(addNote(res.body))
             setInitialLoading(false)
         } catch (error) {
             console.log('getNoteHelper error message:')
@@ -69,7 +69,8 @@ export default function NotesContainer() {
         }
     }
 
-    async function deleteNotes(noteid) {
+    async function deleteNotes(e, noteid) {
+        e.stopPropagation()
         const backupNotes = [...notes]
         setDeleteLoading(true)
         try {
@@ -166,7 +167,7 @@ export default function NotesContainer() {
                             <div
                                 className=' mt-20 flex justify-center items-center gap-2 text-2xl opacity-50 
                                 max-w-fit m-auto cursor-pointer hover:opacity-100'
-                                onClick={() => dispatch(setNoteModalState(true))}
+                                onClick={() => dispatch(setNoteModalConfig({ noteModalState: true, as: 'create', noteObject: {} }))}
                             >
                                 <span className='inline'>Create note</span>
                                 <span className='inline'>

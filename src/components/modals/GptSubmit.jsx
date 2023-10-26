@@ -52,7 +52,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         const emojiOption = ' Generate 3 to 4 meaningful emojis interspersed throughout the content. The emojis should be relevant to the context.'
         const instruction = `Your job is to create content for the given topic. Act as an expert in the topic and explain it like a good teacher. ${output_type}. Don't be verbose. Generate at least ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} End with an interesting fact about the topic. The topic is inside of curly brackets. The topic is: {${generateRequirementGpt.generate_title}}`
         const gptData = {
-            model: 'gpt-3.5-turbo-0301',
+            model: 'gpt-3.5-turbo',
             temperature: temperature,
             max_tokens: 3000,
             messages: [{
@@ -62,7 +62,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         }
         const headers = {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${'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'}`
+            'Authorization': `Bearer ${'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'}`
         }
         try {
             setLoadingGpt(true)
