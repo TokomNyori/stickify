@@ -1,7 +1,7 @@
 'use client'
 import { deleteNoteHelper, editStatusNoteHelper, getNoteHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import toast, { Toaster } from 'react-hot-toast';
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Notes from './Notes';
 import HomePageSkeleton from '../skeleton_loaders/HomePageSkeleton';
 import scrollToTop from '@/helper/scrollToTop';

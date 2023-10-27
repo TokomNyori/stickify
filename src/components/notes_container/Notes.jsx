@@ -19,18 +19,16 @@ const Notes = ({ notes, container, deleteNotes, deletedNotes, noteType, togglePi
     const dispatch = useDispatch()
     const router = useRouter()
 
-    function toTheNotePage(e, noteid) {
+    function toTheNotePage(e, id) {
         e.stopPropagation()
-        const clickedNote = notes.filter(note => note._id === noteid)
+        const clickedNote = notes.filter(note => note._id === id)
         dispatch(addCurrentNotePage(clickedNote[0]))
-        router.push(`/note/${noteid}`)
+        router.push(`/${id}`)
     }
 
     function editNote(e, noteid) {
         e.stopPropagation()
         const clickedNote = notes.filter(note => note._id === noteid)[0]
-        
-    
         dispatch(setNoteModalConfig({ noteModalState: true, as: 'edit', noteObject: clickedNote }))
     }
 

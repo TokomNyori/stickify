@@ -13,6 +13,20 @@ export const getNoteHelper = async ({ method, userId }) => {
     return res.json()
 }
 
+export const getSingleNoteHelper = async ({ method, noteid }) => {
+    const res = await fetch(`api/notes/${noteid}/`, {
+        method: method,
+    })
+    //console.log(res)
+    if (!res.ok) {
+        const errorData = await res.json();
+        console.log(errorData)
+        throw new Error(errorData.message)
+    }
+
+    return res.json()
+}
+
 export const postNoteHelper = async ({ method, headers, body }) => {
     const res = await fetch(`api/notes`, {
         method: method,

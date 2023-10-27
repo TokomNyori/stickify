@@ -24,7 +24,7 @@ export default function GlobalContainer() {
     useEffect(() => {
         getGlobalNotes()
         getGlobalUsers()
-        getUserCookie()
+        //getUserCookie()
         scrollToTop()
         dispatch(addPage('feeds'))
     }, [])

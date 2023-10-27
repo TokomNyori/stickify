@@ -6,6 +6,23 @@ import { NextResponse } from "next/server"
 
 connectDB()
 
+// Get Note by NoteId
+export async function GET(request, { params }) {
+    const { noteid } = params
+    try {
+        const note = await NoteModel.findById({ _id: noteid })
+        console.log('Getting Single Note')
+        console.log(note)
+        return getResponseMsg(
+            { message: 'Note fetched successfully', status: 200, success: true, body: note }
+        )
+    } catch (error) {
+        return getResponseMsg(
+            { message: 'Failed to fetch note', status: 500, success: false, body: error.message }
+        )
+    }
+}
+
 // Delete note by noteId
 export async function DELETE(request, { params }) {
     const { noteid } = params
@@ -25,7 +42,7 @@ export async function DELETE(request, { params }) {
 export async function PUT(request, { params }) {
     const { noteid } = params
     //Fetch work data from request
-    const { title, content, status, color, } = await request.json()
+    const { title, content, status, color } = await request.json()
 
     console.log(title)
 
