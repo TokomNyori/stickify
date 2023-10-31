@@ -28,13 +28,14 @@ export default function NotesContainer() {
     const dispatch = useDispatch()
     useEffect(() => {
         getUserCookie()
-        getNotes()
-        scrollToTop()
         dispatch(addPage('home'))
     }, [])
 
     useEffect(() => {
-        getNotes()
+        if (users._id) {
+            getNotes()
+            scrollToTop()
+        }
     }, [users])
 
     useEffect(() => {
@@ -62,7 +63,7 @@ export default function NotesContainer() {
 
     async function getNotes() {
         try {
-            const res = await getNoteHelper({ method: 'GET' })
+            const res = await getNoteHelper({ method: 'GET', userId: users._id })
             console.log('Get notes:')
             console.log(res.body)
             dispatch(addNote(res.body))
