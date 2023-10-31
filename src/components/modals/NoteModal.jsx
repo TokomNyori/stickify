@@ -194,6 +194,7 @@ const NoteModal = ({ userCookie }) => {
                 closeModal(event)
             } catch (error) {
                 console.log(error)
+                setLoading(false)
                 toast(`Could not edit!`, {
                     icon: '🥺'
                 });
@@ -215,6 +216,7 @@ const NoteModal = ({ userCookie }) => {
             closeModal(event)
         } catch (error) {
             console.log(error)
+            setLoading(false)
             toast(`Could not save it!`, {
                 icon: '🥺'
             });
