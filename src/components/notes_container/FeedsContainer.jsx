@@ -10,9 +10,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '@/redux_features/user/userSlice';
 import { addPage } from '@/redux_features/pages/pageSlice';
 import FeedsNotes from './FeedsNotes';
-import Lottie from 'lottie-react'
-import loveAni from '@/assets/others/loveLottie.json'
-import loveAni2 from '@/assets/others/celebrateLottie.json'
+// import Lottie from 'lottie-react'
+// import loveAni from '@/assets/others/loveLottie.json'
+// import loveAni2 from '@/assets/others/celebrateLottie.json'
 
 
 
@@ -183,7 +183,7 @@ export default function FeedsContainer() {
                     className={`loader-gpt absolute inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
                     <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
-                        <Lottie className="text-sm" animationData={loveAni} loop={false} />
+                        {/* <Lottie className="text-sm" animationData={loveAni} loop={false} /> */}
                     </div>
                 </div>
 

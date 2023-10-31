@@ -15,7 +15,6 @@ export function middleware(request) {
 
     // Extracting the current path
     const { pathname } = request.nextUrl
-    console.log(`Pathname: ${pathname}`)
 
     // NO restrictions for these two APIs, the middleware will be closed.
     if (pathname === '/api/users/login' || pathname === '/api/users/signup' || pathname === '/api/admin/managetasks') {

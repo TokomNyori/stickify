@@ -45,8 +45,6 @@ export default function NotesContainer() {
     async function getUserCookie() {
         try {
             const res = await CookieHelper()
-            console.log('CookieHelper')
-            console.log(res.body)
             dispatch(addUser(res.body))
         } catch (error) {
             console.log('CookieHelper Error')
