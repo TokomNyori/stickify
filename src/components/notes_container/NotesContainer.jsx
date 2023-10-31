@@ -32,10 +32,8 @@ export default function NotesContainer() {
     }, [])
 
     useEffect(() => {
-        if (users._id) {
-            getNotes()
-            scrollToTop()
-        }
+        getNotes()
+        scrollToTop()
     }, [users])
 
     useEffect(() => {
@@ -66,7 +64,7 @@ export default function NotesContainer() {
             const res = await getNoteHelper({ method: 'GET', userId: users._id, headers: { 'Content-Type': 'application/json' } })
             console.log('Get notes:')
             console.log(res.body)
-            dispatch(addNote(JSON.parse(res.body)))
+            dispatch(addNote(res.body))
             setInitialLoading(false)
         } catch (error) {
             console.log('getNoteHelper error message:')
