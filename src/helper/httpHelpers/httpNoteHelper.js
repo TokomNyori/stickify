@@ -5,6 +5,7 @@ export const getNoteHelper = async ({ method, userId, headers }) => {
         method: method,
         headers: headers,
     })
+    console.log(res)
     if (!res.ok) {
         const errorData = await res.json();
         console.log(errorData)
