@@ -27,8 +27,8 @@ export default function NotesContainer() {
     const [pinLoading, setPinLoading] = useState(false);
     const dispatch = useDispatch()
     useEffect(() => {
-        getNotes()
         getUserCookie()
+        getNotes()
         scrollToTop()
         dispatch(addPage('home'))
     }, [])
