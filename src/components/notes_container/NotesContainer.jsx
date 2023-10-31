@@ -38,10 +38,12 @@ export default function NotesContainer() {
     }, [users])
 
     useEffect(() => {
-        const pinned = notes.filter(note => note.status === 'pinned')
-        setPinnedNotes(pinned)
-        const others = notes.filter(note => note.status !== 'pinned')
-        setOtherNotes(others)
+        if (notes) {
+            const pinned = notes?.filter(note => note.status === 'pinned')
+            setPinnedNotes(pinned)
+            const others = notes?.filter(note => note.status !== 'pinned')
+            setOtherNotes(others)
+        }
     }, [notes])
 
     const { theme, setTheme } = useTheme()
