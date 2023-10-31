@@ -66,7 +66,7 @@ export default function NotesContainer() {
             const res = await getNoteHelper({ method: 'GET', userId: users._id, headers: { 'Content-Type': 'application/json' } })
             console.log('Get notes:')
             console.log(res.body)
-            dispatch(addNote(res.body))
+            dispatch(addNote(JSON.parse(res.body)))
             setInitialLoading(false)
         } catch (error) {
             console.log('getNoteHelper error message:')
