@@ -12,7 +12,9 @@ export const getNoteHelper = async ({ method, userId, headers }) => {
         throw new Error(errorData.message)
     }
 
-    return res.json()
+    const data = await res.json();
+
+    return data
 }
 
 export const getSingleNoteHelper = async ({ method, noteid }) => {
