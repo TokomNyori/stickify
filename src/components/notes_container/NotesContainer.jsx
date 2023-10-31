@@ -63,7 +63,7 @@ export default function NotesContainer() {
 
     async function getNotes() {
         try {
-            const res = await getNoteHelper({ method: 'GET', userId: users._id })
+            const res = await getNoteHelper({ method: 'GET', userId: users._id, headers: { 'Content-Type': 'application/json' } })
             console.log('Get notes:')
             console.log(res.body)
             dispatch(addNote(res.body))
