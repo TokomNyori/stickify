@@ -42,7 +42,7 @@ export async function DELETE(request, { params }) {
 export async function PUT(request, { params }) {
     const { noteid } = params
     //Fetch work data from request
-    const { title, content, status, color } = await request.json()
+    const { title, content, status, color, isPrivate } = await request.json()
 
     console.log(title)
 
@@ -52,7 +52,8 @@ export async function PUT(request, { params }) {
         note.content = content
         note.status = status
         note.color = color
-        note.created = new Date()
+        note.isPrivate = isPrivate
+        note.updated = new Date()
 
         const updatedNote = await note.save()
         console.log('NOTE SAVED')

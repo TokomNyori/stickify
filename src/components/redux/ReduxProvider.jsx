@@ -1,11 +1,12 @@
 'use client'
 import { store } from "@/redux_store/store";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider, useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 
 const ReduxProvider = ({ children }) => {
     // const [mounted, setMounted] = useState(false)
+    // const { theme, setTheme } = useTheme()
     // useEffect(() => {
     //     setMounted(true)
     // }, [])

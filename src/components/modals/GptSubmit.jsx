@@ -62,7 +62,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         }
         const headers = {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${'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'}`
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`
         }
         try {
             setLoadingGpt(true)

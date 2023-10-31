@@ -127,7 +127,7 @@ export default function Navbar() {
                                 </div>
                             </li>
                             <li className="relative flex flex-col items-center">
-                                <Link href='/global'
+                                <Link href='/feeds'
                                     className={
                                         `home-link ${page === 'feeds' && 'border-b-[1px] border-gray-700 dark:border-gray-100'}`
                                     }
@@ -209,13 +209,12 @@ export default function Navbar() {
                                                     className={`${profilePopUp ? 'profilePopUp' : 'hidden'} dark:bg-gray-800/50
                                                     bg-[#f6f8f6]`}
                                                     ref={profilePopUpRef}>
-                                                    <div className="grid grid-cols-12 gap-0 cursor-pointer hover:scale-[1.03] 
-                                                            transition-all duration-150 ease-in-out">
-                                                        <div className="w-5 h-5 rounded-full col-span-4">
+                                                    <div className="grid grid-cols-12 gap-0">
+                                                        <div className="w-5 h-5 rounded-full col-span-3">
                                                             <Image src={`/assets/avatars/${userCookie.avatar}.jpeg`}
                                                                 width={100} height={100} alt="avatar" className=" rounded-full" />
                                                         </div>
-                                                        <div className="col-span-8 truncate">
+                                                        <div className="col-span-9 truncate">
                                                             {userCookie.username}
                                                         </div>
                                                     </div>
@@ -225,10 +224,10 @@ export default function Navbar() {
                                                                 transition-all duration-150 ease-in-out nightModeSmallScreen"
                                                                 onClick={() => toggleTheme('dark')}
                                                             >
-                                                                <div className="col-span-4 text-xl">
+                                                                <div className="col-span-3 text-xl">
                                                                     <MdOutlineDarkMode />
                                                                 </div>
-                                                                <div className="col-span-8">
+                                                                <div className="col-span-9">
                                                                     Dark Mode
                                                                 </div>
                                                             </div> :
@@ -236,30 +235,32 @@ export default function Navbar() {
                                                                 transition-all duration-150 ease-in-out nightModeSmallScreen"
                                                                 onClick={() => toggleTheme('light')}
                                                             >
-                                                                <div className="col-span-4 text-xl">
+                                                                <div className="col-span-3 text-xl">
                                                                     <MdOutlineLightMode />
                                                                 </div>
-                                                                <div className="col-span-8">
+                                                                <div className="col-span-9">
                                                                     Light Mode
                                                                 </div>
                                                             </div>
                                                     }
-                                                    <div className="grid grid-cols-12 gap-0 cursor-pointer hover:scale-[1.03] 
+                                                    <Link
+                                                        href='/manage-profile'
+                                                        className="grid grid-cols-12 gap-0 cursor-pointer hover:scale-[1.03] 
                                                         transition-all duration-150 ease-in-out">
-                                                        <div className="col-span-4 text-xl">
+                                                        <div className="col-span-3 text-xl">
                                                             <BiCog />
                                                         </div>
-                                                        <div className="col-span-8">
-                                                            Profile
+                                                        <div className="col-span-9">
+                                                            Manage Profile
                                                         </div>
-                                                    </div>
+                                                    </Link>
                                                     <div className="grid grid-cols-12 gap-0 cursor-pointer hover:scale-[1.03] 
                                                         transition-all duration-150 ease-in-out"
                                                         onClick={logoutFunction}>
-                                                        <div className="col-span-4 text-xl">
+                                                        <div className="col-span-3 text-xl">
                                                             <AiOutlineLogout />
                                                         </div>
-                                                        <div className="col-span-8">
+                                                        <div className="col-span-9">
                                                             Logout
                                                         </div>
                                                     </div>

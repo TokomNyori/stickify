@@ -2,6 +2,8 @@ import { NextResponse } from "next/server"
 import { UserModel } from "@/models/usermodel"
 import { getResponseMsg } from "@/helper/getResponseMsg"
 import { connectDB } from "@/helper/db"
+import jwt from "jsonwebtoken";
+import bcrypt from 'bcryptjs'
 
 connectDB()
 
@@ -23,25 +25,71 @@ export async function GET(request, { params }) {
 // Update user data by id
 export async function PUT(request, { params }) {
     const { userid } = params
-    const { name, email, password, about, profileUrl } = await request.json();
-    try {
+    const { username, email, password, avatar, operation } = await request.json();
+    if (operation === 'edit-profile') {
+        try {
+            // Validation
+            const user = await UserModel.findById({ _id: userid })
+
+            // Checking if user already exist
+            if (user.email !== email) {
+                const newuserReq = await UserModel.findOne({ email: email })
+                if (newuserReq) {
+                    console.log('Oops! An account with this email already exists')
+                    throw new Error('Oops! An account with this email already exists')
+                }
+            }
+
+            user.avatar = avatar
+            user.username = username
+            user.email = email
+            const updatedUser = await user.save()
+
+            // Creating Jwt Token
+            const jwtToken = jwt.sign({
+                _id: updatedUser._id,
+                avatar: updatedUser.avatar,
+                username: updatedUser.username,
+                email: updatedUser.email,
+            }, process.env.JWT_SECRET)
+
+            console.log(jwtToken)
+
+            // Set Cookies using NextResponse
+            const maxage = 30 * 24 * 60 * 60
+            const response = NextResponse.json({
+                message: 'Successfully updated',
+                success: 'true',
+            }, { status: 200 })
+            //response.cookies.delete ('userJwtCookie')
+            response.cookies.set('userJwtCookie', jwtToken, { maxAge: maxage })
+            return response
+        } catch (error) {
+            return getResponseMsg(
+                { message: `Failed to update`, status: 400, success: false, body: error }
+            )
+        }
+    } else {
         const user = await UserModel.findById({ _id: userid })
+        // Checking if user exist
+        if (!user) {
+            throw new Error('User does not exist')
+        }
 
-        user.name = name
-        user.email = email
-        user.password = password
-        user.about = about
-        user.profileUrl = profileUrl
-
-        const updatedUser = await user.save()
-
-        return getResponseMsg(
-            { message: `Dynamically Updated User: ${userid}`, status: 200, success: true, body: updatedUser }
-        )
-    } catch (error) {
-        return getResponseMsg(
-            { message: `Problem Updating the User: ${userid}`, status: 500, success: false, body: error.message }
-        )
+        // Encrypt password
+        const salt = await bcrypt.genSalt(10)
+        const encryptedPassword = await bcrypt.hash(password, salt)
+        user.password = encryptedPassword
+        try {
+            const updatedUser = await user.save()
+            return getResponseMsg(
+                { message: `Password created successfully`, status: 200, success: true, body: updatedUser }
+            )
+        } catch (error) {
+            return getResponseMsg(
+                { message: `Failed to create new password`, status: 400, success: false, body: error }
+            )
+        }
     }
 }
 

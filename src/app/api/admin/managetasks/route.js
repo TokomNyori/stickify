@@ -6,7 +6,7 @@ connectDB()
 
 export async function GET(request) {
     try {
-        const notes = await NoteModel.find()
+        const notes = await NoteModel.find().sort({ updated: -1 })
         return getResponseMsg(
             { message: 'Fetched notes', status: 200, success: true, body: notes }
         )

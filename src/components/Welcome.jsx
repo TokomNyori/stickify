@@ -49,8 +49,8 @@ const Welcome = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true)
         if (isLogin) {
+            setLoading(true)
             // Handle login logic here
 
             // Extract data needed for login form submission
@@ -85,6 +85,7 @@ const Welcome = () => {
                 })
                 return
             }
+            setLoading(true)
             try {
                 const res = await signupHelper({
                     method: 'POST',

@@ -75,9 +75,9 @@
 }
 
 .profilePopUp {
-  width: 8rem;
+  width: 10rem;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   font-size: 0.9rem;
   position: absolute;
   flex-direction: column;
@@ -85,7 +85,7 @@
   backdrop-filter: blur(0.225rem);
   padding: 0.5rem;
   border-radius: 10px;
-  left: -6rem;
+  left: -8rem;
   top: 2.3rem;
   border-top-right-radius: 0;
 }
@@ -125,6 +125,11 @@
   z-index: 40;
 }
 
+.manage-radio-btn[type="radio"]:checked + label {
+  border: 1.6px solid rgb(0, 0, 0);
+  transform: scale(1.14);
+}
+
 .nightModeBigScreen{
   display: flex;
 }
@@ -142,7 +147,8 @@
 }
 
 .ai-rephrase-btn {
-  left: 77.2%
+  left: 77.2%;
+  bottom: 21.5%;
 }
 
 .ai-rephrase-options {

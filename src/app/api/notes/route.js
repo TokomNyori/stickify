@@ -5,13 +5,13 @@ import jwt from "jsonwebtoken"
 import { UserModel } from "@/models/usermodel"
 import { NextResponse } from "next/server"
 
-//connectDB()
+connectDB()
 
 // Post Note
 export async function POST(request) {
 
     //Fetch work data from request
-    const { title, content, userId, status, color } = await request.json()
+    const { title, content, userId, status, color, isPrivate } = await request.json()
     const userCookie = request.cookies.get('userJwtCookie')?.value
     const tokenPayload = jwt.verify(userCookie, process.env.JWT_SECRET)
     console.log('tokenPayload')
@@ -23,7 +23,10 @@ export async function POST(request) {
         status,
         color,
         content,
+        isPrivate,
+        likes: 0,
         userId: tokenPayload._id,
+        likedBy: [],
     })
 
     try {

@@ -88,7 +88,22 @@ export const editStatusNoteHelper = async ({ method, headers, noteid, body }) =>
     return res.json()
 }
 
-export const getGlobalNoteHelper = async ({ method }) => {
+export const updateNoteLikesHelper = async ({ method, headers, noteid, body }) => {
+    const res = await fetch(`api/notes/${noteid}/update-likes`, {
+        method: method,
+        headers: headers,
+        body: JSON.stringify(body)
+    })
+    if (!res.ok) {
+        const errorData = await res.json();
+        console.log(errorData)
+        throw new Error(errorData.message)
+    }
+
+    return res.json()
+}
+
+export const getFeedsNoteHelper = async ({ method }) => {
     const res = await fetch(`api/admin/managetasks/`, {
         method: method,
     })

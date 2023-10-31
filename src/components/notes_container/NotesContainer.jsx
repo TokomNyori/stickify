@@ -45,8 +45,8 @@ export default function NotesContainer() {
     async function getUserCookie() {
         try {
             const res = await CookieHelper()
-            // console.log('CookieHelper')
-            // console.log(res.body)
+            console.log('CookieHelper')
+            console.log(res.body)
             dispatch(addUser(res.body))
         } catch (error) {
             console.log('CookieHelper Error')
@@ -103,24 +103,30 @@ export default function NotesContainer() {
         // Unpinned or remove from pinned
         e.stopPropagation()
         setPinLoading(true)
+        //Backup 
+        const pinnedNotesBackup = [...pinnedNotes]
+        const otherNotesBackup = [...otherNotes]
+
         if (func === 'remove') {
             const pinned = pinnedNotes.filter(pinNote => pinNote._id !== id)
             const other = pinnedNotes.filter(pinNote => pinNote._id === id)
             const otherCopy = [...other][0]
             const otherChangeStatus = { ...otherCopy, status: 'others' }
             try {
+                setPinnedNotes(pinned)
+                setOtherNotes(prev => ([otherChangeStatus, ...prev]))
+                setPinLoading(false)
+                toast.success('Unpinned')
                 const res = await editStatusNoteHelper({
                     noteid: id,
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: otherChangeStatus
                 })
-                setPinnedNotes(pinned)
-                setOtherNotes(prev => ([otherChangeStatus, ...prev]))
-                setPinLoading(false)
-                toast.success('Unpinned')
                 getNotes()
             } catch (error) {
+                setPinnedNotes(pinnedNotesBackup)
+                setOtherNotes(otherNotesBackup)
                 setPinLoading(false)
                 toast.error(error.message)
             }
@@ -131,18 +137,20 @@ export default function NotesContainer() {
             const pinnedCopy = [...pinned][0]
             const pinnedChangeStatus = { ...pinnedCopy, status: 'pinned' }
             try {
+                setOtherNotes(others)
+                setPinnedNotes(prev => ([pinnedChangeStatus, ...prev]))
+                setPinLoading(false)
+                toast.success('Pinned')
                 const res = await editStatusNoteHelper({
                     noteid: id,
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: pinnedChangeStatus
                 })
-                setOtherNotes(others)
-                setPinnedNotes(prev => ([pinnedChangeStatus, ...prev]))
-                setPinLoading(false)
-                toast.success('Pinned')
                 getNotes()
             } catch (error) {
+                setPinnedNotes(pinnedNotesBackup)
+                setOtherNotes(otherNotesBackup)
                 setPinLoading(false)
                 toast.error(error.message)
             }
@@ -181,7 +189,6 @@ export default function NotesContainer() {
                                 <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6'>
                                     <Notes
                                         notes={pinnedNotes} //array of note objects
-                                        container='noteContainer'
                                         noteType='pinned'
                                         deleteNotes={deleteNotes} //function
                                         deletedNotes={deletedNotes} //function
@@ -196,7 +203,6 @@ export default function NotesContainer() {
                         <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6'>
                             <Notes
                                 notes={otherNotes} //array of note objects
-                                container='noteContainer'
                                 noteType='others'
                                 deleteNotes={deleteNotes} //function
                                 deletedNotes={deletedNotes} //function
@@ -236,9 +242,11 @@ export default function NotesContainer() {
                         data-testid="loader"
                         speedMultiplier={1}
                     />
-                    {/* <div className="text-2xl mt-5 font-bold text-[#35a149]">
-                        Deleting note...
-                    </div> */}
+                    {
+                        /* <div className="text-2xl mt-5 font-bold text-[#35a149]">
+                            Deleting note...
+                        </div> */
+                    }
                 </div>
             }
             <Toaster />

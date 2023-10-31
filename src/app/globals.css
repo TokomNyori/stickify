@@ -26,6 +26,17 @@ nav{
   transform: scale(1.02) !important; /* Slightly zoom in */
 }
 
+.note-box-two {
+  width: 100%;
+  height: 226px;
+  /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.1); */
+  transition: transform 0.2s ease-in-out !important;
+}
+
+.note-box-two:hover {
+  transform: scale(1.02) !important; /* Slightly zoom in */
+}
+
 .shrink {
   animation: shrinkAnimation 0.5s ease-in-out forwards;
 }
@@ -42,10 +53,6 @@ nav{
     height: 0;
     overflow: hidden;
   }
-}
-
-.note-radio-btn{
-
 }
 
 .note-radio-btn[type="radio"]:checked + label {

@@ -48,6 +48,22 @@ export const logOutHelper = async ({ method, headers }) => {
     }
 }
 
+export const editSelfHelper = async ({ method, headers, body, id }) => {
+    const res = await fetch(`api/users/${id}/`, {
+        method: method,
+        headers: headers,
+        body: JSON.stringify(body)
+    })
+
+    if (!res.ok) {
+        const errorData = await res.json();
+        console.log(errorData)
+        throw new Error(errorData.message)
+    }
+
+    return res.json()
+}
+
 export const deleteSelfHelper = async ({ method, headers, body, id }) => {
     const res = await fetch(`api/users/${id}/`, {
         method: method,

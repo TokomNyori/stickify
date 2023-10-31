@@ -20,6 +20,10 @@ const NoteSchema = new Schema({
         required: true,
     },
     created: { type: Date, default: Date.now },
+    updated: { type: Date, default: Date.now },
+    likes: { type: Number },
+    likedBy: [{ type: mongoose.ObjectId }],
+    isPrivate: { type: Boolean },
 })
 
 export const NoteModel = mongoose.models.notes || mongoose.model('notes', NoteSchema)
