@@ -40,9 +40,9 @@ export default function NotesContainer() {
 
     useEffect(() => {
         if (notes) {
-            const pinned = notes?.filter(note => note.status === 'pinned')
+            const pinned = notes.filter(note => note.status === 'pinned')
             setPinnedNotes(pinned)
-            const others = notes?.filter(note => note.status !== 'pinned')
+            const others = notes.filter(note => note.status !== 'pinned')
             setOtherNotes(others)
         }
     }, [notes])
