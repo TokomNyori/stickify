@@ -32,8 +32,10 @@ export default function NotesContainer() {
     }, [])
 
     useEffect(() => {
-        getNotes()
-        scrollToTop()
+        if (users._id) {
+            getNotes()
+            scrollToTop()
+        }
     }, [users])
 
     useEffect(() => {
