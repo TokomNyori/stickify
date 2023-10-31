@@ -308,11 +308,6 @@ const NoteModal = ({ userCookie }) => {
         setLoadingRephraser(val)
     }
 
-    // function closeNoteModalFun(event) {
-    //     clearForm(event)
-    //     closeModal()
-    // }
-
     // console.log('NoteConfig')
     // console.log(noteModalConfig)
 
