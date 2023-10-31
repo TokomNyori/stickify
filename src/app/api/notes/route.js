@@ -13,11 +13,6 @@ export async function POST(request) {
     //Fetch work data from request
     const { title, content, userId, status, color, isPrivate } = await request.json()
     const userCookie = request.cookies.get('userJwtCookie')?.value
-    if (!userCookie) {
-        return NextResponse.json({
-            message: 'User is not logged in'
-        })
-    }
     const tokenPayload = jwt.verify(userCookie, process.env.JWT_SECRET)
 
     // Create object for the collection
