@@ -179,7 +179,7 @@ export default function NotesContainer() {
                     :
                     <>
                         {
-                            notes.length === 0 &&
+                            notes?.length === 0 &&
                             <div
                                 className=' mt-20 flex justify-center items-center gap-2 text-2xl opacity-50 
                                 max-w-fit m-auto cursor-pointer hover:opacity-100'
