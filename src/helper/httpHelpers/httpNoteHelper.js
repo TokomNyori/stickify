@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 
 export const getNoteHelper = async ({ method, userId, headers }) => {
-    const res = await fetch(`https://stickify-navy.vercel.app/api/notes/get-user-notes/${userId}`, {
+    const res = await fetch(`/api/notes/get-user-notes/${userId}`, {
         method: method,
         headers: headers,
     })
