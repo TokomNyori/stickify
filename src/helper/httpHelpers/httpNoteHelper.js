@@ -5,16 +5,15 @@ export const getNoteHelper = async ({ method, userId, headers }) => {
         method: method,
         headers: headers,
     })
-    console.log(res)
+    
     if (!res.ok) {
+        console.log(res.headers)
         const errorData = await res.json();
         console.log(errorData)
         throw new Error(errorData.message)
     }
 
-    const data = await res.json();
-
-    return data
+    return res.json()
 }
 
 export const getSingleNoteHelper = async ({ method, noteid }) => {
@@ -135,18 +134,4 @@ export async function openAiPostHelper({ method, headers, body }) {
     }
 
     return res.json()
-}
-
-export async function voiceRssApiHelper({ method, body }) {
-    const res = await fetch(`http://api.voicerss.org/?key=c9e7257a78644d1c824e7821d3b4a148&hl=en-us&c=MP3&f=16khz_16bit_stereo&v=Amy&src=Hello world!`, {
-        method: method,
-    })
-
-    // if (!res.ok) {
-    //     const errorData = await res.json();
-    //     console.log(errorData)
-    //     throw new Error(errorData.message)
-    // }
-
-    return res.text()
 }
