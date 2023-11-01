@@ -96,12 +96,12 @@ export default function Navbar() {
     return (
         Object.keys(userCookie).length !== 0 ?
             <>
-                <nav className=" z-10 fixed top-0 w-full flex justify-between items-start pt-2 pb-1 px-3 sm:px-5">
+                <nav className=" z-10 fixed top-0 w-full flex justify-between items-center pt-2 pb-1 px-3 sm:px-5">
                     <div>
-                        <Link href='/' className="italic text-lg font-bold">stickify</Link>
+                        <Link href='/' className="italic text-xl sm:text-lg font-bold">stickify</Link>
                     </div>
                     <div>
-                        <ul className="flex gap-5 justify-center items-center sm:ml-8">
+                        <ul className="flex gap-5 justify-center items-center sm:ml-12 ml-2">
                             <li className="relative flex flex-col items-center">
                                 <Link href='/'
                                     className={
@@ -112,11 +112,11 @@ export default function Navbar() {
                                     {
                                         page === 'home' ?
                                             <GoHomeFill
-                                                className="text-2xl hover:scale-[1.04] hover:text-black dark:hover:text-white
+                                                className="text-3xl sm:text-2xl hover:scale-[1.04] hover:text-black dark:hover:text-white
                                                     transition-all duration-150 ease-in-out"
                                             /> :
                                             <GoHome
-                                                className="text-2xl hover:scale-[1.04] hover:text-black dark:hover:text-white
+                                                className="text-3xl sm:text-2xl hover:scale-[1.04] hover:text-black dark:hover:text-white
                                                     transition-all duration-150 ease-in-out"
                                             />
                                     }
@@ -136,11 +136,11 @@ export default function Navbar() {
                                     {
                                         page === 'feeds' ?
                                             <BiSolidGroup
-                                                className="text-2xl hover:scale-[1.04] hover:text-black dark:hover:text-white
+                                                className="text-3xl sm:text-2xl hover:scale-[1.04] hover:text-black dark:hover:text-white
                                                     transition-all duration-150 ease-in-out"
                                             /> :
                                             <BiGroup
-                                                className="text-2xl hover:scale-[1.04] hover:text-black dark:hover:text-white
+                                                className="text-3xl sm:text-2xl hover:scale-[1.04] hover:text-black dark:hover:text-white
                                                     transition-all duration-150 ease-in-out"
                                             />
                                     }
@@ -153,7 +153,7 @@ export default function Navbar() {
                             <li className="relative flex flex-col items-center">
                                 <div onClick={changeModal} className="cursor-pointer home-link">
                                     <IoAddSharp
-                                        className="text-[1.7rem] hover:scale-[1.05] hover:text-black dark:hover:text-white
+                                        className="text-[2.1rem] sm:text-[1.7rem] hover:scale-[1.05] hover:text-black dark:hover:text-white
                                                     transition-all duration-150 ease-in-out"
                                     />
                                 </div>
@@ -171,7 +171,7 @@ export default function Navbar() {
                                 Object.keys(userCookie).length !== 0 ?
                                     <>
                                         <div className="flex justify-center items-center gap-3">
-                                            <div className="nightModeBigScreen flex flex-col items-center relative">
+                                            <div className="nightModeBigScreen flex-col items-center relative">
                                                 {
                                                     theme === 'light' ?
                                                         <>
@@ -220,7 +220,7 @@ export default function Navbar() {
                                                     </div>
                                                     {
                                                         theme === 'light' ?
-                                                            <div className="grid grid-cols-12 gap-0 cursor-pointer hover:scale-[1.03] 
+                                                            <div className="grid-cols-12 gap-0 cursor-pointer hover:scale-[1.03] 
                                                                 transition-all duration-150 ease-in-out nightModeSmallScreen"
                                                                 onClick={() => toggleTheme('dark')}
                                                             >
@@ -231,7 +231,7 @@ export default function Navbar() {
                                                                     Dark Mode
                                                                 </div>
                                                             </div> :
-                                                            <div className="grid grid-cols-12 gap-0 cursor-pointer hover:scale-[1.03] 
+                                                            <div className="grid-cols-12 gap-0 cursor-pointer hover:scale-[1.03] 
                                                                 transition-all duration-150 ease-in-out nightModeSmallScreen"
                                                                 onClick={() => toggleTheme('light')}
                                                             >
