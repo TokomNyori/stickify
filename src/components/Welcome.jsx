@@ -123,7 +123,7 @@ const Welcome = () => {
     }
 
     return (
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-0 justify-center items-center'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-0 justify-center items-center -mt-8 sm:-mt-4'>
             <Toaster />
             {loading &&
                 <div
@@ -162,12 +162,12 @@ const Welcome = () => {
                 </p>
             </div>
             <div className="signup-form-container bg-[#f6f8f6] dark:bg-gray-800/50 sm:ml-12">
-                <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
+                <h1 className='text-lg'>{isLogin ? 'Login' : 'Sign Up'}</h1>
                 <form onSubmit={handleSubmit}>
-                    <div className='input-group grid gap-4 text-lg'>
+                    <div className='input-group flex flex-col gap-3 w-full'>
                         {!isLogin && (
                             <div className='avatars'>
-                                <p className='text-sm'>Select an avatar</p>
+                                <p className='text-md'>Select an avatar</p>
                                 <p className={`text-sm font-light text-red-400 ${isAvatar && 'hidden'}`}>Please select an avatar</p>
                                 <div className="radio-inputs mb-4 flex gap-3 mt-2">
                                     <div>
@@ -175,7 +175,7 @@ const Welcome = () => {
                                             onChange={handleChange} checked={formData.avatar === 'boy1'}
                                         />
                                         <label htmlFor="boy1"
-                                            className="block w-10 h-10 rounded-full border border-gray-700 dark:border-gray-500 
+                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                                             <Image src={BoyAvatar1} width={400} height={400} className='rounded-full' />
@@ -186,7 +186,7 @@ const Welcome = () => {
                                             onChange={handleChange} checked={formData.avatar === 'girl1'}
                                         />
                                         <label htmlFor="girl1"
-                                            className="block w-10 h-10 rounded-full border border-gray-700 dark:border-gray-500 
+                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                                             <Image src={GirlAvatar1} width={400} height={400} className='rounded-full' />
@@ -197,7 +197,7 @@ const Welcome = () => {
                                             onChange={handleChange} checked={formData.avatar === 'boy2'}
                                         />
                                         <label htmlFor="boy2"
-                                            className="block w-10 h-10 rounded-full border border-gray-700 dark:border-gray-500 
+                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                                             <Image src={BoyAvatar2} width={400} height={400} className='rounded-full' />
@@ -208,7 +208,7 @@ const Welcome = () => {
                                             onChange={handleChange} checked={formData.avatar === 'girl2'}
                                         />
                                         <label htmlFor="girl2"
-                                            className="block w-10 h-10 rounded-full border border-gray-700 dark:border-gray-500 
+                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                                             <Image src={GirlAvatar2} width={400} height={400} className=' rounded-full' />
@@ -220,7 +220,7 @@ const Welcome = () => {
                                             onChange={handleChange} checked={formData.avatar === 'anonymous'}
                                         />
                                         <label htmlFor="anonymous"
-                                            className="block w-10 h-10 rounded-full border border-gray-700 dark:border-gray-500 
+                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                                             <Image src={AnonymousAvatar} width={400} height={400} className=' rounded-full' />
@@ -229,7 +229,7 @@ const Welcome = () => {
                                 </div>
                                 <input
                                     className='rounded-xl bg-[#e6e9e7] dark:bg-gray-700 dark:border-gray-600 block w-full 
-                                p-2.5 text-sm dark:placeholder-gray-400 dark:text-white
+                                p-2.5 py-3.5 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white
                                 focus:ring-blue-500 focus:border-blue-500'
                                     type="text"
                                     name="username"
@@ -241,7 +241,7 @@ const Welcome = () => {
                         )}
                         <input
                             className='rounded-lg bg-[#e6e9e7] dark:bg-gray-700 dark:border-gray-600 block w-full 
-                                p-2.5 text-sm dark:placeholder-gray-400 dark:text-white 
+                                p-2.5 py-3.5 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white 
                                 focus:ring-blue-500 focus:border-blue-500'
                             type="email"
                             name="email"
@@ -251,7 +251,7 @@ const Welcome = () => {
                         />
                         <input
                             className='rounded-lg bg-[#e6e9e7] dark:bg-gray-700 dark:border-gray-600 block w-full 
-                                p-2.5 text-sm dark:placeholder-gray-400 dark:text-white 
+                                p-2.5 py-3.5 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white 
                                 focus:ring-blue-500 focus:border-blue-500'
                             type="password"
                             name="password"
@@ -259,15 +259,14 @@ const Welcome = () => {
                             value={formData.password}
                             onChange={handleChange} required
                         />
-                        <button className='border border-blue-400/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 mb-2
-                            bg-[#e6e9e7] dark:bg-gray-700 text-whiteborder-gray-600  hover:border-blue-400
+                        <button className='border border-blue-400/50 focus:outline-none font-medium rounded-lg text-md px-5 py-3.5 
+                        sm:py-3 mb-2 bg-[#e6e9e7] dark:bg-gray-700 text-whiteborder-gray-600  hover:border-blue-400
                             focus:ring-gray-700 block w-full '
                             type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
                     </div>
-
                 </form>
-                <button className='border border-green-400/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 mb-2
-                            bg-[#e6e9e7] dark:bg-gray-700 text-whiteborder-gray-600  hover:border-green-400 
+                <button className='border border-green-400/50 focus:outline-none font-medium rounded-lg text-md px-5 py-3.5 
+                sm:py-3 mb-2 bg-[#e6e9e7] dark:bg-gray-700 text-whiteborder-gray-600  hover:border-green-400
                             focus:ring-gray-700 block w-full'
                     onClick={() => setIsLogin(!isLogin)}>
                     {isLogin ? 'Create an Account' : 'Already have an account?'}
