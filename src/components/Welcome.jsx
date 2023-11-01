@@ -175,7 +175,7 @@ const Welcome = () => {
                                             onChange={handleChange} checked={formData.avatar === 'boy1'}
                                         />
                                         <label htmlFor="boy1"
-                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
+                                            className="block w-14 h-14 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                                             <Image src={BoyAvatar1} width={400} height={400} className='rounded-full' />
@@ -186,7 +186,7 @@ const Welcome = () => {
                                             onChange={handleChange} checked={formData.avatar === 'girl1'}
                                         />
                                         <label htmlFor="girl1"
-                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
+                                            className="block w-14 h-14 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                                             <Image src={GirlAvatar1} width={400} height={400} className='rounded-full' />
@@ -197,7 +197,7 @@ const Welcome = () => {
                                             onChange={handleChange} checked={formData.avatar === 'boy2'}
                                         />
                                         <label htmlFor="boy2"
-                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
+                                            className="block w-13 h-13 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                                             <Image src={BoyAvatar2} width={400} height={400} className='rounded-full' />
@@ -208,7 +208,7 @@ const Welcome = () => {
                                             onChange={handleChange} checked={formData.avatar === 'girl2'}
                                         />
                                         <label htmlFor="girl2"
-                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
+                                            className="block w-13 h-13 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                                             <Image src={GirlAvatar2} width={400} height={400} className=' rounded-full' />
@@ -229,7 +229,7 @@ const Welcome = () => {
                                 </div>
                                 <input
                                     className='rounded-xl bg-[#e6e9e7] dark:bg-gray-700 dark:border-gray-600 block w-full 
-                                p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white
+                                            p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white
                                 focus:ring-blue-500 focus:border-blue-500'
                                     type="text"
                                     name="username"
