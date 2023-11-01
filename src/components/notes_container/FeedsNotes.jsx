@@ -52,7 +52,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user }) => {
                             className='rounded-full' />
                     </div>
                     <div className='truncate sm:text-xs text-sm w-[6.5rem] sm:w-[6rem]'>
-                        Jackline morisee
+                        {note.username}
                     </div>
                 </div>
                 <div className='truncate text-[1rem] sm:text-sm font-bold'>
