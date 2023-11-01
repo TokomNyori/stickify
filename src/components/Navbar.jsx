@@ -212,58 +212,58 @@ export default function Navbar() {
                                                     className={`${profilePopUp ? 'profilePopUp' : 'hidden'} dark:bg-gray-800/50
                                                     bg-[#f6f8f6] text-xl`}
                                                     ref={profilePopUpRef}>
-                                                    <div className="flex gap-3">
+                                                    <div className="flex gap-3 items-center">
                                                         <div className="sm:w-5 sm:h-5 w-6 h-6 rounded-full">
                                                             <Image src={`/assets/avatars/${userCookie.avatar}.jpeg`}
                                                                 width={100} height={100} alt="avatar" className=" rounded-full" />
                                                         </div>
-                                                        <div className="truncate">
+                                                        <div className="truncate profile-popup-text">
                                                             {userCookie.username}
                                                         </div>
                                                     </div>
                                                     {
                                                         theme === 'light' ?
-                                                            <div className="gap-3 cursor-pointer hover:scale-[1.03] 
+                                                            <div className="gap-3 items-center cursor-pointer hover:scale-[1.03] 
                                                                 transition-all duration-150 ease-in-out nightModeSmallScreen"
                                                                 onClick={() => toggleTheme('dark')}
                                                             >
-                                                                <div className="text-xl">
+                                                                <div className="text-2xl sm:text-xl">
                                                                     <MdOutlineDarkMode className="inline" />
                                                                 </div>
-                                                                <div className="">
+                                                                <div className="profile-popup-text">
                                                                     Dark Mode
                                                                 </div>
                                                             </div> :
-                                                            <div className="gap-3 cursor-pointer hover:scale-[1.03] 
+                                                            <div className="gap-3 items-center cursor-pointer hover:scale-[1.03] 
                                                                 transition-all duration-150 ease-in-out nightModeSmallScreen"
                                                                 onClick={() => toggleTheme('light')}
                                                             >
-                                                                <div className="text-xl">
+                                                                <div className="text-2xl sm:text-xl">
                                                                     <MdOutlineLightMode className="inline" />
                                                                 </div>
-                                                                <div className="">
+                                                                <div className="profile-popup-text">
                                                                     Light Mode
                                                                 </div>
                                                             </div>
                                                     }
                                                     <Link
                                                         href='/manage-profile'
-                                                        className="grid grid-cols-12 gap-0 cursor-pointer hover:scale-[1.03] 
+                                                        className="flex gap-3 items-center cursor-pointer hover:scale-[1.03] 
                                                         transition-all duration-150 ease-in-out">
-                                                        <div className="col-span-3 text-xl">
+                                                        <div className="text-2xl sm:text-xl">
                                                             <BiCog />
                                                         </div>
-                                                        <div className="col-span-9">
+                                                        <div className="profile-popup-text">
                                                             Manage Profile
                                                         </div>
                                                     </Link>
-                                                    <div className="grid grid-cols-12 gap-0 cursor-pointer hover:scale-[1.03] 
+                                                    <div className="flex gap-3 items-center cursor-pointer hover:scale-[1.03] 
                                                         transition-all duration-150 ease-in-out"
                                                         onClick={logoutFunction}>
-                                                        <div className="col-span-3 text-xl">
+                                                        <div className="text-2xl sm:text-xl">
                                                             <AiOutlineLogout />
                                                         </div>
-                                                        <div className="col-span-9">
+                                                        <div className="profile-popup-text">
                                                             Logout
                                                         </div>
                                                     </div>
