@@ -165,11 +165,11 @@
     flex-wrap: wrap;
   }
   .nightModeBigScreen{
-    display:none;
+    display:flex;
   }
 
   .nightModeSmallScreen{
-    display: grid;
+    display: flex;
   }
 
   .ai-rephrase-btn {

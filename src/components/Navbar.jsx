@@ -209,36 +209,36 @@ export default function Navbar() {
                                                     className={`${profilePopUp ? 'profilePopUp' : 'hidden'} dark:bg-gray-800/50
                                                     bg-[#f6f8f6] text-xl`}
                                                     ref={profilePopUpRef}>
-                                                    <div className="grid grid-cols-12 gap-0">
-                                                        <div className="w-5 h-5 rounded-full col-span-3">
+                                                    <div className="flex gap-3">
+                                                        <div className="sm:w-5 sm:h-5 w-6 h-6 rounded-full">
                                                             <Image src={`/assets/avatars/${userCookie.avatar}.jpeg`}
                                                                 width={100} height={100} alt="avatar" className=" rounded-full" />
                                                         </div>
-                                                        <div className="col-span-9 truncate">
+                                                        <div className="truncate">
                                                             {userCookie.username}
                                                         </div>
                                                     </div>
                                                     {
                                                         theme === 'light' ?
-                                                            <div className="grid-cols-12 gap-0 cursor-pointer hover:scale-[1.03] 
+                                                            <div className="gap-3 cursor-pointer hover:scale-[1.03] 
                                                                 transition-all duration-150 ease-in-out nightModeSmallScreen"
                                                                 onClick={() => toggleTheme('dark')}
                                                             >
-                                                                <div className="col-span-3 text-xl">
-                                                                    <MdOutlineDarkMode />
+                                                                <div className="text-xl">
+                                                                    <MdOutlineDarkMode className="inline" />
                                                                 </div>
-                                                                <div className="col-span-9">
+                                                                <div className="">
                                                                     Dark Mode
                                                                 </div>
                                                             </div> :
-                                                            <div className="grid-cols-12 gap-0 cursor-pointer hover:scale-[1.03] 
+                                                            <div className="gap-3 cursor-pointer hover:scale-[1.03] 
                                                                 transition-all duration-150 ease-in-out nightModeSmallScreen"
                                                                 onClick={() => toggleTheme('light')}
                                                             >
-                                                                <div className="col-span-3 text-xl">
-                                                                    <MdOutlineLightMode />
+                                                                <div className="text-xl">
+                                                                    <MdOutlineLightMode className="inline" />
                                                                 </div>
-                                                                <div className="col-span-9">
+                                                                <div className="">
                                                                     Light Mode
                                                                 </div>
                                                             </div>
