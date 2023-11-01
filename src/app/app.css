@@ -165,7 +165,7 @@
     flex-wrap: wrap;
   }
   .nightModeBigScreen{
-    display:flex;
+    display:none;
   }
 
   .nightModeSmallScreen{

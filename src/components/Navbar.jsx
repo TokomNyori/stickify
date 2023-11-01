@@ -178,18 +178,21 @@ export default function Navbar() {
                                                             <MdOutlineDarkMode
                                                                 className="home-link text-3xl font-light text-gray-500 
                                                                 hover:text-black cursor-pointer"
-                                                                onClick={() => toggleTheme('dark')} />
+                                                                onClick={() => toggleTheme('dark')}
+                                                            />
                                                             <div className="home-link-info hidden justify-center items-start absolute 
                                                             top-12 bg-gray-600 opacity-50 text-white text-sm px-2 py-1 rounded-md 
                                                             w-24 text-center">
                                                                 Switch to dark mode
                                                             </div>
-                                                        </> :
+                                                        </>
+                                                        :
                                                         <>
                                                             <MdOutlineLightMode
                                                                 className="text-3xl font-light hover:text-gray-400 cursor-pointer
                                                                 home-link"
-                                                                onClick={() => toggleTheme('light')} />
+                                                                onClick={() => toggleTheme('light')}
+                                                            />
                                                             <div className="home-link-info hidden justify-center items-start absolute 
                                                             top-12 bg-gray-600 opacity-50 text-white text-sm px-2 py-1 rounded-md 
                                                             w-24 text-center">
