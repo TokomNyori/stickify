@@ -17,7 +17,7 @@ import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalCo
 import { useEffect, useState } from 'react'
 
 const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user }) => {
-    
+
     const dispatch = useDispatch()
     const router = useRouter()
 
@@ -45,24 +45,24 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user }) => {
                             ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-md dark:brightness-[85%]`} key={note._id}
                 onClick={(e) => toTheNotePage(e, note._id)}
             >
-                <div className='flex justify-start items-center gap-1 mb-2'>
-                    <div className='w-4 h-4 rounded-full'>
+                <div className='flex justify-start items-center gap-1.5 mb-2'>
+                    <div className='sm:w-4 sm:h-4 w-6 h-6 rounded-full'>
                         <Image
                             src={`/assets/avatars/${note.user_avatar}.jpeg`} width={200} height={200}
                             className='rounded-full' />
                     </div>
-                    <div className='truncate text-xs w-[5.8rem] sm:w-[6rem]'>
+                    <div className='truncate sm:text-xs text-sm w-[5.8rem] sm:w-[6rem]'>
                         {note.username}
                     </div>
                 </div>
-                <div className='truncate text-sm font-bold'>
+                <div className='truncate text-[1rem] sm:text-sm font-bold'>
                     {note.title}
                 </div>
-                <div className='line-clamp-6 text-[0.8rem] mt-2 flex-grow' style={{ whiteSpace: 'pre-line' }}>
+                <div className='line-clamp-6 text-[0.9rem] sm:text-[0.8rem] mt-2 flex-grow' style={{ whiteSpace: 'pre-line' }}>
                     {note.content}
                 </div>
-                <div className='text-sm mt-4 flex justify-between items-center gap-2'>
-                    <div className='flex justify-start items-center gap-1 text-xs'>
+                <div className='text-sm mt-2.5 flex justify-between items-center gap-2'>
+                    <div className='flex justify-start items-center gap-1 sm:text-xs text-sm'>
                         {note.likes < 1 ? <span></span> :
                             note.likes === 1 ? <span>{note.likes} like</span> :
                                 <span>{note.likes} likes</span>}
@@ -73,18 +73,18 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user }) => {
                                 liked ?
                                     <AiFillHeart
                                         className='text-red-500 font-bold transition ease-in-out duration-300 hover:scale-125 
-                                        active:text-black text-lg'
+                                        active:text-black text-xl sm:text-lg'
                                         onClick={(e) => toggleLikes(e, note._id, 'unlike')} /> :
                                     <AiOutlineHeart
                                         className='text-gray-600/70 font-bold transition ease-in-out duration-300 hover:scale-125 
-                                        active:text-black text-lg'
+                                        active:text-black text-xl sm:text-lg'
                                         onClick={(e) => toggleLikes(e, note._id, 'like')} />
                             }
                         </div>
                         <div>
                             <AiOutlineFileAdd
                                 className='text-gray-600/70 font-bold transition ease-in-out duration-300 hover:scale-125 
-                                        active:text-black text-lg' />
+                                        active:text-black text-xl sm:text-lg' />
                         </div>
                     </div>
                 </div>

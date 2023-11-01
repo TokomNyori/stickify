@@ -54,7 +54,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
                                 Private
                             </div>
                             :
-                            <div className='flex justify-start items-center gap-1 text-xs'>
+                            <div className='flex justify-start items-center gap-1 sm:text-xs text-sm'>
                                 {note.likes < 1 ? <span></span> :
                                     note.likes === 1 ? <span>{note.likes} like</span> :
                                         <span>{note.likes} likes</span>}
