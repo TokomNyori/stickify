@@ -59,7 +59,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
                                         <span>{note.likes} likes</span>}
                             </div>
                     }
-                    <div className='text-sm flex items-center gap-2'>
+                    <div className='text-sm flex items-center gap-3 sm:gap-2'>
                         {
                             noteType === 'pinned' ?
                                 <div onClick={(e) => togglePinned(e, note._id, 'remove')} >
