@@ -33,12 +33,6 @@ export default function NotesContainer() {
         dispatch(addPage('home'))
     }, [])
 
-    // useEffect(() => {
-    //     if (users._id) {
-
-    //     }
-    // }, [users])
-
     useEffect(() => {
         if (notes) {
             const pinned = notes.filter(note => note.status === 'pinned')
