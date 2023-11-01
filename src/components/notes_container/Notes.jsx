@@ -43,7 +43,8 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
                 <div className='truncate text-[1rem] sm:text-sm font-bold'>
                     {note.title}
                 </div>
-                <div className='line-clamp-6 text-[0.9rem] sm:text-[0.8rem] mt-2 flex-grow' style={{ whiteSpace: 'pre-line' }}>
+                <div className='note-content-line-clamp text-[0.9rem] sm:text-[0.8rem] mt-2 flex-grow'
+                    style={{ whiteSpace: 'pre-line' }}>
                     {note.content}
                 </div>
                 <div className='text-sm sm:mt-4 mt-5 flex justify-between items-center gap-2'>
@@ -59,29 +60,29 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
                                         <span>{note.likes} likes</span>}
                             </div>
                     }
-                    <div className='text-sm flex items-center gap-3 sm:gap-2'>
+                    <div className='text-sm flex items-center gap-2 sm:gap-2'>
                         {
                             noteType === 'pinned' ?
                                 <div onClick={(e) => togglePinned(e, note._id, 'remove')} >
                                     <BsPinAngleFill
                                         className='text-gray-700 transition ease-in-out duration-300 hover:scale-125 
-                                            active:text-black text-lg sm:text-sm' />
+                                            active:text-black text-xl sm:text-sm' />
                                 </div> :
                                 <div onClick={(e) => togglePinned(e, note._id, 'add')}>
                                     <BsPinAngle
                                         className='text-gray-600/70 transition ease-in-out duration-300 hover:scale-125 
-                                            active:text-black text-lg sm:text-sm' />
+                                            active:text-black text-xl sm:text-sm' />
                                 </div>
                         }
                         <div onClick={(e) => deleteNotes(e, note._id)}>
                             <MdDeleteOutline
                                 className=' text-gray-700/70 font-light transition ease-in-out duration-300 hover:scale-125 
-                                    active:text-black text-lg sm:text-sm' />
+                                    active:text-black text-xl sm:text-sm' />
                         </div>
                         <div onClick={(e) => editNote(e, note._id)}>
                             <MdOutlineModeEditOutline
                                 className='text-gray-600/70 font-light transition ease-in-out duration-300 hover:scale-125 
-                                    active:text-black text-lg sm:text-sm' />
+                                    active:text-black text-xl sm:text-sm' />
                         </div>
                     </div>
                 </div>
