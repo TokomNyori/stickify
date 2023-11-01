@@ -164,7 +164,7 @@ const Welcome = () => {
             <div className="signup-form-container bg-[#f6f8f6] dark:bg-gray-800/50 sm:ml-12">
                 <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
                 <form onSubmit={handleSubmit}>
-                    <div className='input-group grid gap-4'>
+                    <div className='input-group grid gap-4 text-lg'>
                         {!isLogin && (
                             <div className='avatars'>
                                 <p className='text-sm'>Select an avatar</p>
