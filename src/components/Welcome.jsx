@@ -259,13 +259,13 @@ const Welcome = () => {
                             value={formData.password}
                             onChange={handleChange} required
                         />
-                        <button className='border border-blue-400 focus:outline-none font-medium rounded-lg text-md px-5 py-3.5 
+                        <button className='border border-blue-400 focus:outline-none font-medium rounded-lg text-md px-5 py-4 
                         sm:py-3 mb-2 bg-[#e6e9e7] dark:bg-gray-700 text-whiteborder-gray-600  hover:border-blue-500
                             focus:ring-gray-700 block w-full '
                             type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
                     </div>
                 </form>
-                <button className='border border-green-400 focus:outline-none font-medium rounded-lg text-md px-5 py-3.5 
+                <button className='border border-green-400 focus:outline-none font-medium rounded-lg text-md px-5 py-4 
                 sm:py-3 mb-2 bg-[#e6e9e7] dark:bg-gray-700 text-whiteborder-gray-600  hover:border-green-500
                             focus:ring-gray-700 block w-full'
                     onClick={() => setIsLogin(!isLogin)}>
