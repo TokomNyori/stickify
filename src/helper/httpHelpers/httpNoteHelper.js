@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server"
 
-export const getNoteHelper = async ({ method }) => {
+export const getNoteHelper = async ({ method, headers }) => {
     const res = await fetch(`api/notes/get-user-notes/`, {
         method: method,
+        headers: headers,
     })
 
     if (!res.ok) {

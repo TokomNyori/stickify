@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken"
 connectDB()
 
 export async function GET(request) {
-    const userCookie = await request.cookies.get('userJwtCookie')?.value
+    const userCookie = request.cookies.get('userJwtCookie')?.value
     if (!userCookie) {
         return NextResponse.json({
             message: 'User is not logged in'
