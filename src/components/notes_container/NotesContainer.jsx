@@ -27,11 +27,16 @@ export default function NotesContainer() {
     const [pinLoading, setPinLoading] = useState(false);
     const dispatch = useDispatch()
     useEffect(() => {
-        getNotes()
         getUserCookie()
-        scrollToTop()
         dispatch(addPage('home'))
     }, [])
+
+    useEffect(() => {
+        if (users._id) {
+            getNotes()
+            scrollToTop()
+        }
+    }, [users])
 
     useEffect(() => {
         if (notes) {
@@ -58,7 +63,7 @@ export default function NotesContainer() {
 
     async function getNotes() {
         try {
-            const res = await getNoteHelper({ method: 'GET', headers: { 'Content-Type': 'application/json' } })
+            const res = await getNoteHelper({ method: 'GET', userId: users._id, headers: { 'Content-Type': 'application/json' } })
             console.log('Get notes:')
             console.log(res.body)
             dispatch(addNote(res.body))
