@@ -46,13 +46,13 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user }) => {
                 onClick={(e) => toTheNotePage(e, note._id)}
             >
                 <div className='flex justify-start items-center gap-1.5 mb-2'>
-                    <div className='sm:w-4 sm:h-4 w-6 h-6 rounded-full'>
+                    <div className='sm:w-4 sm:h-4 w-5 h-5 rounded-full'>
                         <Image
                             src={`/assets/avatars/${note.user_avatar}.jpeg`} width={200} height={200}
                             className='rounded-full' />
                     </div>
-                    <div className='truncate sm:text-xs text-sm w-[5.8rem] sm:w-[6rem]'>
-                        {note.username}
+                    <div className='truncate sm:text-xs text-sm w-[6.5rem] sm:w-[6rem]'>
+                        Jackline morisee
                     </div>
                 </div>
                 <div className='truncate text-[1rem] sm:text-sm font-bold'>
