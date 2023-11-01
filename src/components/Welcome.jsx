@@ -175,7 +175,7 @@ const Welcome = () => {
                                             onChange={handleChange} checked={formData.avatar === 'boy1'}
                                         />
                                         <label htmlFor="boy1"
-                                            className="block w-14 h-14 rounded-full border border-gray-700 dark:border-gray-500 
+                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                                             <Image src={BoyAvatar1} width={400} height={400} className='rounded-full' />
@@ -186,7 +186,7 @@ const Welcome = () => {
                                             onChange={handleChange} checked={formData.avatar === 'girl1'}
                                         />
                                         <label htmlFor="girl1"
-                                            className="block w-14 h-14 rounded-full border border-gray-700 dark:border-gray-500 
+                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                                             <Image src={GirlAvatar1} width={400} height={400} className='rounded-full' />
@@ -197,7 +197,7 @@ const Welcome = () => {
                                             onChange={handleChange} checked={formData.avatar === 'boy2'}
                                         />
                                         <label htmlFor="boy2"
-                                            className="block w-14 h-14 rounded-full border border-gray-700 dark:border-gray-500 
+                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                                             <Image src={BoyAvatar2} width={400} height={400} className='rounded-full' />
@@ -208,7 +208,7 @@ const Welcome = () => {
                                             onChange={handleChange} checked={formData.avatar === 'girl2'}
                                         />
                                         <label htmlFor="girl2"
-                                            className="block w-14 h-14 rounded-full border border-gray-700 dark:border-gray-500 
+                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                                             <Image src={GirlAvatar2} width={400} height={400} className=' rounded-full' />
@@ -220,7 +220,7 @@ const Welcome = () => {
                                             onChange={handleChange} checked={formData.avatar === 'anonymous'}
                                         />
                                         <label htmlFor="anonymous"
-                                            className="block w-14 h-14 rounded-full border border-gray-700 dark:border-gray-500 
+                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                                             <Image src={AnonymousAvatar} width={400} height={400} className=' rounded-full' />
