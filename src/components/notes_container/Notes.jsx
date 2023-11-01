@@ -40,10 +40,10 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
                             ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-md dark:brightness-[85%]`} key={note._id}
                 onClick={(e) => toTheNotePage(e, note._id)}
             >
-                <div className='truncate text-sm font-bold'>
+                <div className='truncate text-[1rem] font-bold'>
                     {note.title}
                 </div>
-                <div className='line-clamp-6 text-[0.8rem] mt-2 flex-grow' style={{ whiteSpace: 'pre-line' }}>
+                <div className='line-clamp-6 text-[0.9rem] mt-2 flex-grow' style={{ whiteSpace: 'pre-line' }}>
                     {note.content}
                 </div>
                 <div className='text-sm mt-4 flex justify-between items-center gap-2'>
