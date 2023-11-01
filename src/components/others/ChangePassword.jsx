@@ -100,15 +100,15 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
     console.log(formData)
 
     return (
-        <div className="mt-4 w-[80%] lg:w-[25%] sm:w-[60%]">
+        <div className="mt-4 w-[85%] lg:w-[30%] sm:w-[40%]">
             <form onSubmit={isOtpSent ? handleSubmit : handleOtp}>
-                <div className="input-section flex flex-col gap-2 mb-4">
+                <div className="input-section flex flex-col gap-3 mb-4">
                     {
                         !isOtpSent ?
                             <>
                                 <input
                                     className='rounded-xl block w-full 
-                                p-2.5 text-sm dark:placeholder-gray-400 dark:text-white dark:bg-gray-800
+                                    p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white dark:bg-gray-800
                                 focus:ring-blue-500 focus:border-blue-500'
                                     type="password"
                                     name="password"
@@ -117,7 +117,7 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                     onChange={handleChange} required
                                 />
                                 <button className='border hover:border-[1.4px] dark:border-[#e6e9e7] focus:outline-none font-medium 
-                                rounded-lg text-sm px-5 py-2.5 mb-2 focus:ring-gray-700 block w-full border-gray-800'
+                                rounded-lg text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-gray-800'
                                     type="submit"
                                 >
                                     <span className="dark:text-[#e6e9e7] text-gray-800 flex items-center justify-center gap-2">
@@ -130,8 +130,9 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                 <div>
                                     <label htmlFor="verifyOtp" className="block mb-2 text-sm font-medium">Enter OTP</label>
                                     <input
-                                        className='rounded-lg block w-full  p-2.5 text-sm dark:placeholder-gray-400 dark:text-white 
-                                        dark:bg-gray-800 focus:ring-blue-500 focus:border-blue-500' id="verifyOtp"
+                                        className='rounded-lg block w-full p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 
+                                        dark:text-white dark:bg-gray-800 focus:ring-blue-500 focus:border-blue-500'
+                                        id="verifyOtp"
                                         type="number"
                                         name="verifyOtp"
                                         placeholder="Enter 4-digit OTP"
@@ -140,7 +141,7 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                     />
                                 </div>
                                 <button className='border hover:border-[1.4px] dark:border-[#e6e9e7] focus:outline-none font-medium 
-                                rounded-lg text-sm px-5 py-2.5 mb-2 focus:ring-gray-700 block w-full border-gray-800'
+                                rounded-lg text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-gray-800'
                                     type="submit"
                                 >
                                     <span className="dark:text-[#e6e9e7] text-gray-800 flex items-center justify-center gap-2">
