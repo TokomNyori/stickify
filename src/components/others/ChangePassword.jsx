@@ -128,7 +128,12 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                             :
                             <div className="flex flex-col gap-2 mb-4">
                                 <div>
-                                    <label htmlFor="verifyOtp" className="block mb-2 text-sm font-medium">Enter OTP</label>
+                                    {
+                                        isOtpSent && 
+                                        <label htmlFor="verifyOtp" className="block mb-2 text-sm font-medium text-green-400">
+                                            OTP sent to {user.email}
+                                        </label>
+                                    }
                                     <input
                                         className='rounded-lg block w-full p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 
                                         dark:text-white dark:bg-gray-800 focus:ring-blue-500 focus:border-blue-500'
