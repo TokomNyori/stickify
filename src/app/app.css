@@ -180,6 +180,23 @@
     left: 57%;
     top: 31.8%;
   }
+
+  .profilePopUp {
+    width: 10rem;
+    display: flex;
+    justify-content: start;
+    font-size: 0.9rem;
+    position: absolute;
+    flex-direction: column;
+    row-gap: 0.3rem;
+    backdrop-filter: blur(0.225rem);
+    padding: 0.5rem;
+    border-radius: 10px;
+    left: -8rem;
+    top: 2.3rem;
+    border-top-right-radius: 0;
+  }
+
 }
 
 @media (max-width: 380px) {
