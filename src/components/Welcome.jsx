@@ -229,7 +229,7 @@ const Welcome = () => {
                                 </div>
                                 <input
                                     className='rounded-xl bg-[#e6e9e7] dark:bg-gray-700 dark:border-gray-600 block w-full 
-                                p-2.5 py-3.5 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white
+                                p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white
                                 focus:ring-blue-500 focus:border-blue-500'
                                     type="text"
                                     name="username"
@@ -241,7 +241,7 @@ const Welcome = () => {
                         )}
                         <input
                             className='rounded-lg bg-[#e6e9e7] dark:bg-gray-700 dark:border-gray-600 block w-full 
-                                p-2.5 py-3.5 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white 
+                                p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white 
                                 focus:ring-blue-500 focus:border-blue-500'
                             type="email"
                             name="email"
@@ -251,7 +251,7 @@ const Welcome = () => {
                         />
                         <input
                             className='rounded-lg bg-[#e6e9e7] dark:bg-gray-700 dark:border-gray-600 block w-full 
-                                p-2.5 py-3.5 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white 
+                                p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white 
                                 focus:ring-blue-500 focus:border-blue-500'
                             type="password"
                             name="password"
