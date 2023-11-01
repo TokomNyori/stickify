@@ -73,11 +73,11 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user }) => {
                                 liked ?
                                     <AiFillHeart
                                         className='text-red-500 font-bold transition ease-in-out duration-300 hover:scale-125 
-                                        active:text-black text-xl sm:text-lg'
+                                        active:text-black text-2xl sm:text-lg'
                                         onClick={(e) => toggleLikes(e, note._id, 'unlike')} /> :
                                     <AiOutlineHeart
                                         className='text-gray-600/70 font-bold transition ease-in-out duration-300 hover:scale-125 
-                                        active:text-black text-xl sm:text-lg'
+                                        active:text-black text-2xl sm:text-lg'
                                         onClick={(e) => toggleLikes(e, note._id, 'like')} />
                             }
                         </div>
