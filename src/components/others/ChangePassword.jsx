@@ -112,7 +112,7 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                 focus:ring-blue-500 focus:border-blue-500'
                                     type="password"
                                     name="password"
-                                    placeholder="Type a new password"
+                                    placeholder="Enter a new password"
                                     value={formData.username}
                                     onChange={handleChange} required
                                 />
