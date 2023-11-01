@@ -46,11 +46,13 @@ export const postNoteHelper = async ({ method, headers, body }) => {
     return res.json()
 }
 
-export const deleteNoteHelper = async ({ method, headers, noteid }) => {
-    const res = await fetch(`api/notes/${noteid}`, {
+export const editNoteHelper = async ({ method, headers, noteid, body }) => {
+    const res = await fetch(`api/notes/${noteid}/`, {
         method: method,
-        headers: headers
+        headers: headers,
+        body: JSON.stringify(body)
     })
+    console.log(res)
     if (!res.ok) {
         const errorData = await res.json();
         console.log(errorData)
@@ -60,13 +62,11 @@ export const deleteNoteHelper = async ({ method, headers, noteid }) => {
     return res.json()
 }
 
-export const editNoteHelper = async ({ method, headers, noteid, body }) => {
-    const res = await fetch(`api/notes/${noteid}/`, {
+export const deleteNoteHelper = async ({ method, headers, noteid }) => {
+    const res = await fetch(`api/notes/${noteid}`, {
         method: method,
-        headers: headers,
-        body: JSON.stringify(body)
+        headers: headers
     })
-    console.log(res)
     if (!res.ok) {
         const errorData = await res.json();
         console.log(errorData)

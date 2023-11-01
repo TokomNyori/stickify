@@ -22,8 +22,9 @@ import PopUp2 from '../popups/PopUp2';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice';
 
-const NoteModal = ({ userCookie }) => {
+const NoteModal = () => {
     //const userId = userCookie?._id
+    const users = useSelector(state => state.user.users)
     const noteModalConfig = useSelector(state => state.noteModalConfig.noteModalConfig)
     const [isEdit, setIsEdit] = useState(false)
     const [note, setNote] = useState({
@@ -32,6 +33,7 @@ const NoteModal = ({ userCookie }) => {
         color: '#FFFAD1',
         content: '',
         isPrivate: false,
+        userId: users._id
     })
 
     const [pin, setPin] = useState(false)
@@ -79,6 +81,7 @@ const NoteModal = ({ userCookie }) => {
                 color: noteModalConfig.noteObject.color,
                 content: noteModalConfig.noteObject.content,
                 isPrivate: noteModalConfig.noteObject.isPrivate,
+                userId: users._id
             })
             if (noteModalConfig.noteObject.status === 'pinned') {
                 setPin(true)
@@ -182,7 +185,11 @@ const NoteModal = ({ userCookie }) => {
                         body: isRephrasedNote ? rephrasedNote : note
                     }
                 )
-                const notesRes = await getNoteHelper({ method: 'GET' })
+                const notesRes = await getNoteHelper({
+                    method: 'GET',
+                    userId: users._id,
+                    headers: { 'Content-Type': 'application/json' }
+                })
                 console.log('notesRes.body')
                 console.log(notesRes.body)
                 dispatch(addNote(notesRes.body))
@@ -207,7 +214,11 @@ const NoteModal = ({ userCookie }) => {
                 await postNoteHelper({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: rephrasedNote })
                 :
                 await postNoteHelper({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: note })
-            const notesRes = await getNoteHelper({ method: 'GET' })
+            const notesRes = await getNoteHelper({
+                method: 'GET',
+                userId: users._id,
+                headers: { 'Content-Type': 'application/json' }
+            })
             dispatch(addNote(notesRes.body))
             setLoading(false)
             toast("Boom! Note's Ready!", {
@@ -230,6 +241,7 @@ const NoteModal = ({ userCookie }) => {
             color: '#FFFAD1',
             content: '',
             isPrivate: false,
+            userId: users._id
         })
         setNote({
             title: '',
@@ -237,6 +249,7 @@ const NoteModal = ({ userCookie }) => {
             color: '#FFFAD1',
             content: '',
             isPrivate: false,
+            userId: users._id
         })
         setPin(false)
         setIsRephrasedNote(false)
@@ -313,11 +326,11 @@ const NoteModal = ({ userCookie }) => {
     // console.log('NoteConfig')
     // console.log(noteModalConfig)
 
-    // console.log('Note Object')
-    // console.log(note)
+    console.log('Note Object')
+    console.log(note)
 
-    // console.log('Rephrased Object')
-    // console.log(rephrasedNote)
+    console.log('Rephrased Object')
+    console.log(rephrasedNote)
 
     return (
         <div

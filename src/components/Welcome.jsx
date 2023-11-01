@@ -64,7 +64,6 @@ const Welcome = () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: loginFormData
                 })
-                //localStorage.setItem('userData', JSON.stringify(res.body))
                 setLoading(false)
                 router.push('/')
                 toast(res.message, {

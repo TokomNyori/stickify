@@ -12,8 +12,8 @@ export async function POST(request) {
 
     //Fetch work data from request
     const { title, content, userId, status, color, isPrivate } = await request.json()
-    const userCookie = request.cookies.get('userJwtCookie')?.value
-    const tokenPayload = jwt.verify(userCookie, process.env.JWT_SECRET)
+    // const userCookie = request.cookies.get('userJwtCookie')?.value
+    // const tokenPayload = jwt.verify(userCookie, process.env.JWT_SECRET)
 
     // Create object for the collection
     const createdNote = new NoteModel({
@@ -23,7 +23,7 @@ export async function POST(request) {
         content,
         isPrivate,
         likes: 0,
-        userId: tokenPayload._id,
+        userId: userId,
         likedBy: [],
     })
 
