@@ -129,8 +129,8 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                             <div className="flex flex-col gap-2 mb-4">
                                 <div>
                                     {
-                                        isOtpSent && 
-                                        <label htmlFor="verifyOtp" className="block mb-2 text-sm font-medium text-green-400">
+                                        isOtpSent &&
+                                        <label htmlFor="verifyOtp" className="block mb-2 text-sm font-medium text-green-500">
                                             OTP sent to {user.email}
                                         </label>
                                     }
