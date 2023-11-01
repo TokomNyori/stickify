@@ -191,9 +191,9 @@
     flex-direction: column;
     row-gap: 0.3rem;
     backdrop-filter: blur(0.225rem);
-    padding: 0.5rem;
+    padding: 0.7rem 0.5rem;
     border-radius: 10px;
-    left: -11rem;
+    left: -10rem;
     top: 2.3rem;
     border-top-right-radius: 0;
   }
