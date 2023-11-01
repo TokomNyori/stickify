@@ -84,7 +84,8 @@ export default function Navbar() {
         if (mode === 'light') {
             setTheme('light')
             dispatch(addTheme('light'))
-        } else {
+        }
+        if (mode === 'dark') {
             setTheme('dark')
             dispatch(addTheme('dark'))
         }
