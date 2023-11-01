@@ -161,7 +161,7 @@ const Welcome = () => {
                     <span><PiStickerLight className='ml-1 inline text-xl' /></span>
                 </p>
             </div>
-            <div className="signup-form-container bg-[#f6f8f6] dark:bg-gray-800/50 sm:ml-12">
+            <div className="signup-form-container bg-[#f6f8f6] dark:bg-gray-800/50 sm:ml-12 shadow-lg">
                 <h1 className='text-lg'>{isLogin ? 'Login' : 'Sign Up'}</h1>
                 <form onSubmit={handleSubmit}>
                     <div className='input-group flex flex-col gap-3 w-full'>
