@@ -107,7 +107,8 @@ export const updateNoteLikesHelper = async ({ method, headers, noteid, body }) =
 }
 
 export const getFeedsNoteHelper = async ({ method }) => {
-    const res = await fetch(`api/admin/managetasks/`, {
+    const timestamp = new Date().getTime();
+    const res = await fetch(`api/admin/managetasks?_=${timestamp}`, {
         method: method,
         cache: 'no-store',
     })
