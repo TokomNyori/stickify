@@ -4,7 +4,8 @@ export const getNoteHelper = async ({ method, userId, headers }) => {
     const res = await fetch(`api/notes/get-user-notes/${userId}`, {
         method: method,
         headers: headers,
-    }, { cache: 'no-store' })
+        cache: 'no-store',
+    })
 
     if (!res.ok) {
         console.log(res.headers)
