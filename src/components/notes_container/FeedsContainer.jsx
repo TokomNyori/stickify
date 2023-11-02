@@ -77,6 +77,8 @@ export default function FeedsContainer() {
     async function getGlobalUsers() {
         try {
             const res = await getGlobalUsersHelper({ method: 'GET' })
+            console.log('res.body')
+            console.log(res.body)
             setGlobalUsers(res.body)
         } catch (error) {
             console.log('getGlobalUsersHelper error message:')

@@ -1,8 +1,6 @@
 import { connectDB } from "@/helper/db";
 import { UserModel } from "@/models/usermodel";
 import { getResponseMsg } from "@/helper/getResponseMsg";
-import bcrypt from 'bcryptjs'
-import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
 connectDB()

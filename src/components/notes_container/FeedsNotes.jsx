@@ -33,7 +33,6 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user }) => {
         let liked = false
         for (const like of note.likedBy) {
             if (like === user._id) {
-                console.log('Liked const called')
                 liked = true
                 break; // This will exit the loop when element is 3
             }
