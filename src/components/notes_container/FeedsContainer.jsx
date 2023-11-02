@@ -168,19 +168,21 @@ export default function FeedsContainer() {
     // console.log(deletedNotes)
 
     return (
-        <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6 mt-12'>
-            {initialLoading ?
-                <HomePageSkeleton number={30} /> :
-                <FeedsNotes
-                    notes={detailNotes} //array of note objects
-                    deletedNotes={deletedNotes}
-                    toggleLikes={toggleLikes}
-                    user={user}
-                />
-            }
+        <>
+            <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6 mt-12'>
+                {initialLoading ?
+                    <HomePageSkeleton number={30} /> :
+                    <FeedsNotes
+                        notes={detailNotes} //array of note objects
+                        deletedNotes={deletedNotes}
+                        toggleLikes={toggleLikes}
+                        user={user}
+                    />
+                }
+            </div>
             {isLiked &&
                 <div
-                    className={`loader-gpt absolute inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    className={`loader-gpt fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
                     <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
                         <Lottie className="text-sm" animationData={loveAni} loop={false} />
@@ -189,6 +191,6 @@ export default function FeedsContainer() {
 
             }
             <Toaster />
-        </div>
+        </>
     )
 }

@@ -4,7 +4,6 @@ export const getNoteHelper = async ({ method, userId, headers }) => {
     const res = await fetch(`api/notes/get-user-notes/${userId}`, {
         method: method,
         headers: headers,
-        cache: 'no-store',
     })
 
     if (!res.ok) {
@@ -110,6 +109,7 @@ export const updateNoteLikesHelper = async ({ method, headers, noteid, body }) =
 export const getFeedsNoteHelper = async ({ method }) => {
     const res = await fetch(`api/admin/managetasks/`, {
         method: method,
+        cache: 'no-store',
     })
     if (!res.ok) {
         const errorData = await res.json();
