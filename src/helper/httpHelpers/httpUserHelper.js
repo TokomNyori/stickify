@@ -80,8 +80,7 @@ export const deleteSelfHelper = async ({ method, headers, body, id }) => {
 }
 
 export const getGlobalUsersHelper = async ({ method }) => {
-    const timestamp = new Date().getTime();
-    const res = await fetch(`api/admin/manageusers?_=${timestamp}`, {
+    const res = await fetch(`api/admin/manageusers`, {
         method: method,
         cache: 'no-store',
     })
