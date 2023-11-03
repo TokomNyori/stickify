@@ -468,10 +468,11 @@ const NoteModal = () => {
                                 min-h-full note-textarea" rows={isMobile ? 13 : 12} placeholder="Type your content here..."
                             value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                             onChange={changeNote} required />
-                        <div className='absolute bottom-24 text-xs text-gray-100 border border-gray-100
-                            px-2 py-1 rounded-lg cursor-pointer ai-rephrase-btn z-20 dark:bg-gray-800/50 bg-gray-800/50'
+                        <div className='absolute bottom-24 text-sm sm:text-xs text-gray-100 border border-gray-100
+                            px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn z-20 dark:bg-gray-800/50 bg-gray-800/50
+                            flex gap-1 justify-center items-center'
                             onClick={toggleRephrasePopUp} >
-                            <span><RiMagicFill className='inline text-md' /></span> Rephrase
+                            <span><RiMagicFill className='inline text-lg sm:text-sm' /></span> Rephrase
                         </div>
                         <PopUp2
                             closeRephrasePopUp={closeRephrasePopUp}
