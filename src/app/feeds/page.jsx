@@ -1,12 +1,10 @@
 import FeedsContainer from "@/components/notes_container/FeedsContainer"
 
-export const revalidate = 3;
-
 export const metadata = {
     title: 'feeds',
 }
 
-//export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 
 export default function Feeds() {
     return (
