@@ -15,7 +15,6 @@ import loveAni from '@/assets/others/loveLottie.json'
 import copyAni from '@/assets/others/copyLottie.json'
 import loveAni2 from '@/assets/others/celebrateLottie.json'
 
-
 export default function FeedsContainer() {
     const [notes, setNotes] = useState([])
     const [globalUsers, setGlobalUsers] = useState([])
@@ -57,13 +56,15 @@ export default function FeedsContainer() {
                 }
             })
         })
-        console.log(looping)
+        //console.log(looping)
         setDetailNotes(looping)
     }, [globalUsers, notes])
 
     async function getFeedsNotes() {
         try {
             const res = await getFeedsNoteHelper({ method: 'GET' })
+            console.log('Global Notes----')
+            console.log(res.body)
             setNotes(res.body)
             setInitialLoading(false)
         } catch (error) {
@@ -79,7 +80,7 @@ export default function FeedsContainer() {
     async function getGlobalUsers() {
         try {
             const res = await getGlobalUsersHelper({ method: 'GET' })
-            console.log('res.body')
+            console.log('Global Users----')
             console.log(res.body)
             setGlobalUsers(res.body)
         } catch (error) {

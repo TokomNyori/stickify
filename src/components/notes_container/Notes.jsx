@@ -68,23 +68,23 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
                                 <div onClick={(e) => togglePinned(e, note._id, 'remove')} >
                                     <BsPinAngleFill
                                         className='text-gray-700 transition ease-in-out duration-300 hover:scale-125 
-                                            active:text-black text-xl sm:text-sm' />
+                                            active:text-black text-xl sm:text-lg' />
                                 </div> :
                                 <div onClick={(e) => togglePinned(e, note._id, 'add')}>
                                     <BsPinAngle
                                         className='text-gray-600/70 transition ease-in-out duration-300 hover:scale-125 
-                                            active:text-black text-xl sm:text-sm' />
+                                            active:text-black text-xl sm:text-lg' />
                                 </div>
                         }
                         <div onClick={(e) => deleteNotes(e, note._id)}>
                             <MdDeleteOutline
                                 className=' text-gray-700/70 font-light transition ease-in-out duration-300 hover:scale-125 
-                                    active:text-black text-xl sm:text-sm' />
+                                    active:text-black text-xl sm:text-lg' />
                         </div>
                         <div onClick={(e) => editNote(e, note._id)}>
                             <MdOutlineModeEditOutline
                                 className='text-gray-600/70 font-light transition ease-in-out duration-300 hover:scale-125 
-                                    active:text-black text-xl sm:text-sm' />
+                                    active:text-black text-xl sm:text-lg' />
                         </div>
                     </div>
                 </div>
