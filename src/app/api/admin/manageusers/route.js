@@ -4,7 +4,7 @@ import { getResponseMsg } from "@/helper/getResponseMsg";
 
 connectDB()
 
-export async function PUT(request) {
+export async function GET(request) {
     try {
         const users = await UserModel.find()
         return getResponseMsg(
