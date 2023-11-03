@@ -121,12 +121,12 @@ export default function NotesContainer() {
             const other = pinnedNotes.filter(pinNote => pinNote._id === id)
             const otherCopy = [...other][0]
             const otherChangeStatus = { ...otherCopy, status: 'others' }
+            setTimeout(() => {
+                setPinLoading(false)
+            }, 1000);
             try {
                 setPinnedNotes(pinned)
                 setOtherNotes(prev => ([otherChangeStatus, ...prev]))
-                setTimeout(() => {
-                    setPinLoading(false)
-                }, 1000);
                 toast.success('Unpinned')
                 const res = await editStatusNoteHelper({
                     noteid: id,
@@ -138,9 +138,7 @@ export default function NotesContainer() {
             } catch (error) {
                 setPinnedNotes(pinnedNotesBackup)
                 setOtherNotes(otherNotesBackup)
-                setTimeout(() => {
-                    setPinLoading(false)
-                }, 1000);
+                setPinLoading(false)
                 toast.error(error.message)
             }
         } else {
@@ -149,12 +147,12 @@ export default function NotesContainer() {
             const pinned = otherNotes.filter(otherNote => otherNote._id === id)
             const pinnedCopy = [...pinned][0]
             const pinnedChangeStatus = { ...pinnedCopy, status: 'pinned' }
+            setTimeout(() => {
+                setPinLoading(false)
+            }, 1000);
             try {
                 setOtherNotes(others)
                 setPinnedNotes(prev => ([pinnedChangeStatus, ...prev]))
-                setTimeout(() => {
-                    setPinLoading(false)
-                }, 1000);
                 toast.success('Pinned')
                 const res = await editStatusNoteHelper({
                     noteid: id,
@@ -166,9 +164,7 @@ export default function NotesContainer() {
             } catch (error) {
                 setPinnedNotes(pinnedNotesBackup)
                 setOtherNotes(otherNotesBackup)
-                setTimeout(() => {
-                    setPinLoading(false)
-                }, 1000);
+                setPinLoading(false)
                 toast.error(error.message)
             }
         }
