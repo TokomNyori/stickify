@@ -13,9 +13,11 @@ import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice'
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice'
+import ClipLoader from "react-spinners/PacmanLoader";
+import { useState } from 'react'
 
 const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => {
-
+    //const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
     const router = useRouter()
 

@@ -250,7 +250,8 @@ export default function Navbar() {
                                                     <Link
                                                         href='/manage-profile'
                                                         className="flex gap-3 items-center cursor-pointer hover:scale-[1.03] 
-                                                        transition-all duration-150 ease-in-out">
+                                                        transition-all duration-150 ease-in-out"
+                                                        onClick={() => setProfilePopUp(prev => !prev)}>
                                                         <div className="text-2xl sm:text-xl">
                                                             <BiCog />
                                                         </div>
