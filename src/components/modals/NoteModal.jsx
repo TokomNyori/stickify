@@ -358,8 +358,8 @@ const NoteModal = () => {
                                 placeholder="Title..." value={isRephrasedNote ? rephrasedNote.title : note.title}
                                 name="title" onChange={changeNote} required />
                         </div>
-                        <div className=' text-sm sm:text-xs border border-gray-700 hover:border-gray-950 rounded-lg py-2 px-2 
-                        cursor-pointer'
+                        <div className=' text-sm border border-gray-700 hover:border-gray-950 rounded-lg py-1 px-2 
+                             cursor-pointer mt-2 sm:mt-0'
                             onClick={changeGptRequirementModal}>
                             Generate <span><BiSolidSend className='inline' /></span>
                         </div>
@@ -440,7 +440,7 @@ const NoteModal = () => {
                     <div className="mb-2 notemodal-text-area realtive">
                         {/* <label htmlFor="note_content" className="block mb-2 text-sm font-medium">Content</label> */}
                         <textarea type="text" id="note_content" className="rounded-lg bg-transparent border-gray-600 block 
-                                p-2.5 w-full text-sm placeholder-gray-500 text-gray-700 focus:outline-none
+                                 py-4 sm:py-3 w-full text-sm placeholder-gray-500 text-gray-700 focus:outline-none
                                 min-h-full" rows={12} placeholder="Type your content here..."
                             value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                             onChange={changeNote} required />
