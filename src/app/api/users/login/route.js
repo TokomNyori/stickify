@@ -26,7 +26,7 @@ export async function POST(request) {
         const passwordTest = await bcrypt.compare(password, user.password)
 
         if (!passwordTest) {
-            throw new Error('Wrong password')
+            throw new Error('Oops! Incorrect password')
         }
 
         // Creating Jwt Token

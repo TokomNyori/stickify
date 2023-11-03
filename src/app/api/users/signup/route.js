@@ -35,8 +35,8 @@ export async function POST(request) {
             username: createdUser.username,
             email: createdUser.email,
         }, process.env.JWT_SECRET)
-        console.log('JWT TOKEN---')
-        console.log(jwtToken)
+        // console.log('JWT TOKEN---')
+        // console.log(jwtToken)
 
         // Set Cookies using NextResponse
         const maxage = 30 * 24 * 60 * 60
@@ -49,9 +49,9 @@ export async function POST(request) {
         return response
 
     } catch (error) {
-        if (error.message === 'E11000 duplicate key error collection: work_manager.users index: email_1 dup key: { email: "huhu8@huhu8" }') {
+        if (error.message.includes('E11000 duplicate key error')) {
             return getResponseMsg(
-                { message: `Oops! An account with this email already exists`, status: 500, success: false, body: error.message }
+                { message: `Oops! User already exists`, status: 500, success: false, body: error.message }
             )
         }
         return getResponseMsg(
