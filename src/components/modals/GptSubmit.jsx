@@ -17,7 +17,6 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         emojis: true,
     })
     const [loadingGpt, setLoadingGpt] = useState(false)
-    const [jsonText, setJsonText] = useState('');
 
     useEffect(() => {
         setGenerateRequirementGpt(prev => ({
