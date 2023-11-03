@@ -35,6 +35,7 @@ const NoteModal = () => {
         isPrivate: false,
         userId: users._id
     })
+    const [isMobile, setIsMobile] = useState();
 
     const [pin, setPin] = useState(false)
     const [gptSubmitModalState, setGptSubmitModalState] = useState(false)
@@ -134,6 +135,25 @@ const NoteModal = () => {
         }
         // setRephrasedNote(({ ...note, content: '' }))
     }, [rephrasedNote])
+
+    useEffect(() => {
+        const mediaQueryList = window.matchMedia('(max-width: 640px)');
+
+        const handleResize = (event) => {
+            setIsMobile(event.matches);
+        };
+
+        // Add a listener to the media query
+        mediaQueryList.addEventListener('change', handleResize)
+
+        // Initial check for the media query
+        setIsMobile(mediaQueryList.matches);
+
+        // Clean up the listener when the component unmounts
+        return () => {
+            mediaQueryList.removeEventListener('change', handleResize);
+        };
+    }, []);
 
     const router = useRouter()
 
@@ -444,8 +464,8 @@ const NoteModal = () => {
                     <div className="mb-2 notemodal-text-area realtive">
                         {/* <label htmlFor="note_content" className="block mb-2 text-sm font-medium">Content</label> */}
                         <textarea type="text" id="note_content" className="rounded-lg bg-transparent border-gray-600 block 
-                                 py-4 sm:py-3 w-full sm:text-sm placeholder-gray-500 text-gray-700 focus:outline-none
-                                min-h-full" rows={12} placeholder="Type your content here..."
+                                py-4 sm:py-3 w-full sm:text-sm placeholder-gray-500 text-gray-700 focus:outline-none
+                                min-h-full note-textarea" rows={isMobile ? 13 : 12} placeholder="Type your content here..."
                             value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                             onChange={changeNote} required />
                         <div className='absolute bottom-24 text-xs text-gray-100 border border-gray-100

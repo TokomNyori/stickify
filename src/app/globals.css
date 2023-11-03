@@ -97,6 +97,7 @@ nav{
   }
 }
 
+
 @media (max-width: 560px) {
   .note-box {
     width: 100%;
@@ -121,5 +122,6 @@ nav{
     width: 2.2rem;
     height: 2.2rem;
   }
+  
 }
 
