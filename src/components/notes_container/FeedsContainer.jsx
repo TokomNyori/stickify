@@ -185,7 +185,7 @@ export default function FeedsContainer() {
                     className={`loader-gpt fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
                     <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
-                        <Lottie className="text-sm" animationData={loveAni2} loop={false} />
+                        <Lottie className="text-sm" animationData={loveAni} loop={false} />
                     </div>
                 </div>
 
