@@ -485,7 +485,7 @@ const NoteModal = () => {
                         />
                     </div>
                     <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
-                        Content cannot be empty. Please enter content.
+                        Please enter content.
                     </div>
                     <div className='flex items-center justify-center mb-4 mr-2'>
                         <input id="isPrivate" type="checkbox" name="isPrivate"
