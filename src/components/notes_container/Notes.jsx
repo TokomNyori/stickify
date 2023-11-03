@@ -2,9 +2,6 @@
 import { MdDeleteOutline } from 'react-icons/md'
 import { MdOutlineModeEditOutline } from 'react-icons/md'
 import { HiMiniViewfinderCircle } from 'react-icons/hi2'
-import { AiOutlineHeart } from 'react-icons/ai'
-import { AiOutlineFileAdd } from 'react-icons/ai'
-import { IoAddOutline } from "react-icons/io5";
 import { BsPinAngle } from "react-icons/bs"
 import { BsPinAngleFill } from "react-icons/bs"
 import Image from 'next/image'

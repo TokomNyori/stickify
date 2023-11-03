@@ -2,7 +2,6 @@ import { NextResponse, NextRequest } from 'next/server'
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request) {
-    console.log('Hi! I am Middleware')
 
     // Getting cookies that has been stored
     const cookie = request.cookies.get('userJwtCookie')?.value
@@ -17,8 +16,7 @@ export function middleware(request) {
     const { pathname } = request.nextUrl
 
     // NO restrictions for these two APIs, the middleware will be closed.
-    if (pathname === '/api/users/login' || pathname === '/api/users/signup' || pathname === '/api/admin/managetasks'
-        || pathname === '/api/admin/manageusers') {
+    if (pathname === '/api/users/login' || pathname === '/api/users/signup') {
         return
     }
 
