@@ -350,11 +350,11 @@ const NoteModal = () => {
     // console.log('NoteConfig')
     // console.log(noteModalConfig)
 
-    console.log('Note Object')
-    console.log(note)
+    // console.log('Note Object')
+    // console.log(note)
 
-    console.log('Rephrased Object')
-    console.log(rephrasedNote)
+    // console.log('Rephrased Object')
+    // console.log(rephrasedNote)
 
     return (
         <div
