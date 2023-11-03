@@ -1,6 +1,6 @@
 import FeedsContainer from "@/components/notes_container/FeedsContainer"
 
-export const revalidate = 2;
+export const revalidate = 3;
 
 export const metadata = {
     title: 'feeds',
