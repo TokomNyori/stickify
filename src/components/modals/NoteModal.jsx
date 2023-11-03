@@ -472,7 +472,7 @@ const NoteModal = () => {
                     </div>
                     <div className="flex items-end justify-center">
                         <button
-                            className="border border-gray-800 focus:outline-none font-medium rounded-full sm:text-sm px-2
+                            className="border border-gray-800 focus:outline-none font-medium rounded-full text-lg sm:text-sm px-2
                                     py-2 mr-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-green-400/75
                                     focus:ring-gray-700"
                             type="submit"
@@ -480,7 +480,7 @@ const NoteModal = () => {
                             <AiOutlineCheck className='font-bold text-lg' />
                         </button>
                         <button
-                            className="border border-gray-800 focus:outline-none font-medium rounded-full sm:text-sm px-2 
+                            className="border border-gray-800 focus:outline-none font-medium rounded-full text-lg sm:text-sm px-2 
                                 py-2 mr-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-red-400/75
                                 focus:ring-gray-700 ms-2"
                             type='button'
