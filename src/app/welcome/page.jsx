@@ -1,7 +1,7 @@
 import Welcome from "@/components/Welcome"
 
 export const metadata = {
-  title: 'Welcome',
+  title: 'stickify',
 }
 
 const WelcomePage = () => {

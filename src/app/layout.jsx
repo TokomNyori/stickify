@@ -9,7 +9,7 @@ const nunito = Nunito({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'stickify',
-  description: 'Created using Next.js',
+  description: 'Your AI Sticker-notes',
 }
 
 export default function RootLayout({ children }) {
