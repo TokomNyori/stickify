@@ -4,6 +4,9 @@ export const metadata = {
     title: 'feeds',
 }
 
+//export const dynamic = "force-dynamic";
+export const revalidate = 3;
+
 export default function Feeds() {
     return (
         <main className="px-2 sm:px-20">

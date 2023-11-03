@@ -227,5 +227,3 @@ export default function FeedsContainer() {
         </>
     )
 }
-
-export const dynamic = "force-dynamic";
