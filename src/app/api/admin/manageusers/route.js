@@ -12,7 +12,7 @@ export async function GET(request) {
         )
     } catch (error) {
         return getResponseMsg(
-            { message: 'Failed to fetch user', status: 500, success: false, body: error.message }
+            { message: 'Failed to fetch users', status: 500, success: false, body: error.message }
         )
     }
 }
