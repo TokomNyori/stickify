@@ -482,6 +482,7 @@ const NoteModal = () => {
                             changeIsRepCnt={changeIsRepCnt}
                             isRephrasedNote={isRephrasedNote}
                             setLoadingRephraserFun={setLoadingRephraserFun}
+                            isMobile={isMobile}
                         />
                     </div>
                     <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>

@@ -6,7 +6,7 @@ import { AiOutlineRollback } from 'react-icons/ai'
 
 const PopUp2 =
     ({ closeRephrasePopUp, rephrasePopUp, content, changeRephrasedNote, rephrasedNote,
-        setLoadingRephraserFun, changeIsRepCnt, isRephrasedNote }) => {
+        setLoadingRephraserFun, changeIsRepCnt, isRephrasedNote, isMobile }) => {
 
         const [isDefault, setIsDefault] = useState(true)
         const rephrasePopUpRef = useRef(null);
@@ -78,7 +78,11 @@ const PopUp2 =
 
         let styling
         if (!isDefault) {
-            styling = { top: '30.8%' }
+            if (isMobile) {
+                styling = { top: '32.8%' }
+            } else {
+                styling = { top: '28.2%' }
+            }
         } else {
             styling = {}
         }
