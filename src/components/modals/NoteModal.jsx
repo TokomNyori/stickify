@@ -440,7 +440,7 @@ const NoteModal = () => {
                     <div className="mb-2 notemodal-text-area realtive">
                         {/* <label htmlFor="note_content" className="block mb-2 text-sm font-medium">Content</label> */}
                         <textarea type="text" id="note_content" className="rounded-lg bg-transparent border-gray-600 block 
-                                 py-4 sm:py-3 w-full text-sm placeholder-gray-500 text-gray-700 focus:outline-none
+                                 py-4 sm:py-3 w-full sm:text-sm placeholder-gray-500 text-gray-700 focus:outline-none
                                 min-h-full" rows={12} placeholder="Type your content here..."
                             value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                             onChange={changeNote} required />
