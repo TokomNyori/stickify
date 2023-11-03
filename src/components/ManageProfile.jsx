@@ -60,22 +60,22 @@ const ManageProfile = () => {
         <div className="flex flex-col justify-center items-center">
             <div className="mb-8">Manage profile</div>
             <div className="flex justify-center items-center gap-10 mb-5">
-                <div className={`text-green-500 flex justify-center items-center gap-1 cursor-pointer hover:brightness-125
+                <div className={`text-green-500 flex justify-center items-center gap-1 cursor-pointer text-lg
                 ${operation === 'edit-profile' ? 'border-b border-green-500' : ''}`}
                     onClick={() => changeOperation('edit-profile')}
                 >
                     {operation === 'edit-profile' ?
-                        <AiFillProfile className="inline text-lg" /> :
-                        <AiOutlineProfile className="inline text-lg" />
+                        <AiFillProfile className="inline" /> :
+                        <AiOutlineProfile className="inline" />
                     }
                     Profile
                 </div>
-                <div className={`text-blue-500 flex justify-center items-center gap-1 cursor-pointer hover:brightness-125
+                <div className={`text-blue-500 flex justify-center items-center gap-1 cursor-pointer text-lg
                 ${operation === 'edit-password' ? 'border-b border-blue-500' : ''}`}
                     onClick={() => changeOperation('edit-password')}
                 >
                     {operation === 'edit-password' ?
-                        <PiPasswordFill className="inline text-lg" /> :
+                        <PiPasswordFill className="inline text-xl" /> :
                         <PiPasswordDuotone className="inline text-xl" />
                     }
                     Password
