@@ -228,4 +228,4 @@ export default function FeedsContainer() {
     )
 }
 
-export const revalidate = 0;
+//export const revalidate = 0;

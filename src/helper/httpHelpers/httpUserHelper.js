@@ -82,6 +82,7 @@ export const deleteSelfHelper = async ({ method, headers, body, id }) => {
 export const getGlobalUsersHelper = async ({ method }) => {
     const res = await fetch(`api/admin/manageusers`, {
         method: method,
+        next: { revalidate: 0 }
     })
     if (!res.ok) {
         const errorData = await res.json();
