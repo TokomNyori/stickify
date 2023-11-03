@@ -124,7 +124,9 @@ export default function NotesContainer() {
             try {
                 setPinnedNotes(pinned)
                 setOtherNotes(prev => ([otherChangeStatus, ...prev]))
-                setPinLoading(false)
+                setTimeout(() => {
+                    setPinLoading(false)
+                }, 1000);
                 toast.success('Unpinned')
                 const res = await editStatusNoteHelper({
                     noteid: id,
@@ -136,7 +138,9 @@ export default function NotesContainer() {
             } catch (error) {
                 setPinnedNotes(pinnedNotesBackup)
                 setOtherNotes(otherNotesBackup)
-                setPinLoading(false)
+                setTimeout(() => {
+                    setPinLoading(false)
+                }, 1000);
                 toast.error(error.message)
             }
         } else {
@@ -148,7 +152,9 @@ export default function NotesContainer() {
             try {
                 setOtherNotes(others)
                 setPinnedNotes(prev => ([pinnedChangeStatus, ...prev]))
-                setPinLoading(false)
+                setTimeout(() => {
+                    setPinLoading(false)
+                }, 1000);
                 toast.success('Pinned')
                 const res = await editStatusNoteHelper({
                     noteid: id,
@@ -160,7 +166,9 @@ export default function NotesContainer() {
             } catch (error) {
                 setPinnedNotes(pinnedNotesBackup)
                 setOtherNotes(otherNotesBackup)
-                setPinLoading(false)
+                setTimeout(() => {
+                    setPinLoading(false)
+                }, 1000);
                 toast.error(error.message)
             }
         }
