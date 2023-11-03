@@ -304,10 +304,10 @@ const NotePage = ({ params }) => {
                         }
                     </div>
                 </div>
-                <div className='font-bold mb-2 text-lg'>{pageNoteData.title}</div>
+                <div className='font-bold mb-2 sm:text-lg text-xl'>{pageNoteData.title}</div>
                 {
                     !translatedContent ?
-                        <div className='' style={{ whiteSpace: 'pre-line' }}>
+                        <div className='sm:text-[1rem] text-[1.1rem]' style={{ whiteSpace: 'pre-line' }}>
                             {summarizedContent ? summarizedContent : pageNoteData.content}
                         </div>
                         :
