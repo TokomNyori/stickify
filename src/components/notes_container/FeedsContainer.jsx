@@ -15,6 +15,7 @@ import loveAni from '@/assets/others/loveLottie.json'
 import copyAni from '@/assets/others/copyLottie.json'
 import loveAni2 from '@/assets/others/celebrateLottie.json'
 
+
 export default function FeedsContainer() {
     const [notes, setNotes] = useState([])
     const [globalUsers, setGlobalUsers] = useState([])
