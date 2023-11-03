@@ -6,7 +6,7 @@ connectDB()
 
 export async function GET(request) {
     try {
-        const users = await UserModel.find().sort({ created: -1 })
+        const users = await UserModel.find()
         return getResponseMsg(
             { message: 'Fetched Users', status: 200, success: true, body: users }
         )
