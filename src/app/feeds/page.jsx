@@ -5,7 +5,7 @@ export const metadata = {
 }
 
 //export const dynamic = "force-dynamic";
-export const revalidate = 3;
+export const revalidate = 2;
 
 export default function Feeds() {
     return (
