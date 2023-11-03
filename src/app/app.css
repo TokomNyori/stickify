@@ -247,9 +247,9 @@
   }
 }
 
-@media (max-width: 348px) {
+@media (max-width: 360px) {
   .ai-rephrase-options {
-    left: 52.5%;
+    left: 52%;
     top: 37%;
   }
 }
