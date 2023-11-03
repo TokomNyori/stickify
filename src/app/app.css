@@ -182,7 +182,7 @@
   }
 
   .ai-rephrase-btn {
-    left: 69.5%;
+    left: 70%;
     bottom: 20.5%;
   }
 
@@ -228,7 +228,7 @@
 
 @media (max-width: 380px) {
   .ai-rephrase-btn {
-    left: 68%;
+    left: 68.5%;
     bottom: 20%;
   }
 
