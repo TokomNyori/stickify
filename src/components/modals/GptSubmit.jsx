@@ -129,7 +129,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                         </div>
                         <button
                             className="border border-gray-400 focus:outline-none font-medium rounded-full text-sm px-2
-                                    py-2 mr-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-green-300
+                                    py-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-green-300
                                     focus:ring-gray-700"
                             type="submit"
                         >
