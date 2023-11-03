@@ -123,7 +123,7 @@ export default function NotesContainer() {
             const otherChangeStatus = { ...otherCopy, status: 'others' }
             setTimeout(() => {
                 setPinLoading(false)
-            }, 1000);
+            }, 600);
             try {
                 setPinnedNotes(pinned)
                 setOtherNotes(prev => ([otherChangeStatus, ...prev]))
@@ -149,7 +149,7 @@ export default function NotesContainer() {
             const pinnedChangeStatus = { ...pinnedCopy, status: 'pinned' }
             setTimeout(() => {
                 setPinLoading(false)
-            }, 1000);
+            }, 600);
             try {
                 setOtherNotes(others)
                 setPinnedNotes(prev => ([pinnedChangeStatus, ...prev]))
