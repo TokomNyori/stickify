@@ -15,8 +15,9 @@ import { useDispatch } from 'react-redux'
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice'
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice'
 import { useEffect, useState } from 'react'
+import { postNoteHelper } from '@/helper/httpHelpers/httpNoteHelper'
 
-const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user }) => {
+const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
 
     const dispatch = useDispatch()
     const router = useRouter()
@@ -83,7 +84,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user }) => {
                         <div>
                             <AiOutlineFileAdd
                                 className='text-gray-600/70 font-bold transition ease-in-out duration-300 hover:scale-125 
-                                        active:text-black text-xl sm:text-lg' />
+                                        active:text-black text-xl sm:text-lg' onClick={(e) => copyNote(e, note._id)} />
                         </div>
                     </div>
                 </div>

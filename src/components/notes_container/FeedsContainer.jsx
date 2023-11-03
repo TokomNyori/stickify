@@ -1,5 +1,5 @@
 'use client'
-import { getFeedsNoteHelper, updateNoteLikesHelper } from '@/helper/httpHelpers/httpNoteHelper'
+import { getFeedsNoteHelper, postNoteHelper, updateNoteLikesHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react'
 import HomePageSkeleton from '../skeleton_loaders/HomePageSkeleton';
@@ -12,6 +12,7 @@ import { addPage } from '@/redux_features/pages/pageSlice';
 import FeedsNotes from './FeedsNotes';
 import Lottie from 'lottie-react'
 import loveAni from '@/assets/others/loveLottie.json'
+import copyAni from '@/assets/others/copyLottie.json'
 import loveAni2 from '@/assets/others/celebrateLottie.json'
 
 
@@ -25,6 +26,7 @@ export default function FeedsContainer() {
     const user = useSelector(state => state.user.users)
     const dispatch = useDispatch()
     const [isLiked, setIsLiked] = useState(false)
+    const [isCopied, setIsCopied] = useState(false)
 
     useEffect(() => {
         getFeedsNotes()
@@ -163,6 +165,25 @@ export default function FeedsContainer() {
         }
     }
 
+    async function copyNote(e, id) {
+        e.stopPropagation()
+        setIsCopied(true)
+        const clickedNote = detailNotes.filter(note => note._id === id)
+        const copiedNote = { ...clickedNote[0], userId: user._id }
+        console.log('Copied Note:')
+        console.log(copiedNote)
+        try {
+            const res = await postNoteHelper({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: copiedNote })
+            //getFeedsNotes()
+            setIsCopied(false)
+            toast.success('Copied to your notes')
+        } catch (error) {
+            setIsCopied(false)
+            console.log(error)
+            toast.error('Failed to copy')
+        }
+    }
+
 
     // console.log('Detail Note:')
     // console.log(deletedNotes)
@@ -177,6 +198,7 @@ export default function FeedsContainer() {
                         deletedNotes={deletedNotes}
                         toggleLikes={toggleLikes}
                         user={user}
+                        copyNote={copyNote}
                     />
                 }
             </div>
@@ -186,6 +208,16 @@ export default function FeedsContainer() {
                                 items-center flex-wrap`}>
                     <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
                         <Lottie className="text-sm" animationData={loveAni} loop={false} />
+                    </div>
+                </div>
+
+            }
+            {isCopied &&
+                <div
+                    className={`loader-gpt fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                                items-center flex-wrap`}>
+                    <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
+                        <Lottie className="text-sm" animationData={copyAni} />
                     </div>
                 </div>
 
