@@ -1,11 +1,10 @@
 import { connectDB } from "@/helper/db";
 import { UserModel } from "@/models/usermodel";
 import { getResponseMsg } from "@/helper/getResponseMsg";
-import { NextResponse } from "next/server";
 
 connectDB()
 
-export async function GET() {
+export async function GET(request) {
     try {
         const users = await UserModel.find()
         return getResponseMsg(
@@ -13,7 +12,7 @@ export async function GET() {
         )
     } catch (error) {
         return getResponseMsg(
-            { message: 'Failed to fetch Users', status: 500, success: false, body: error.message }
+            { message: 'Failed to fetch users', status: 500, success: false, body: error.message }
         )
     }
 }
