@@ -88,7 +88,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                 <div className="modal-heading text-gray-300">
                     <div className="text-center ">Requirements</div>
                     <div className='close-btn cursor-pointer' onClick={changeGptRequirementModal}>
-                        <AiOutlineCloseCircle className={`text-2xl text-gray-300 hover:text-red-400`} />
+                        <AiOutlineCloseCircle className={`sm:text-2xl text-3xl text-gray-300 hover:text-red-400`} />
                     </div>
                 </div>
                 <form className="mt-4 text-gray-300" onSubmit={generateContent}>
