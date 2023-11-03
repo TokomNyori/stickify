@@ -63,7 +63,7 @@ export default function FeedsContainer() {
     async function getFeedsNotes() {
         try {
             const res = await getFeedsNoteHelper({ method: 'GET' })
-            console.log('Global Notes----')
+            console.log('Global Notes---')
             console.log(res.body)
             setNotes(res.body)
             setInitialLoading(false)
