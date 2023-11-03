@@ -78,11 +78,7 @@ const PopUp2 =
 
         let styling
         if (!isDefault) {
-            if (isMobile) {
-                styling = { top: '32.8%' }
-            } else {
-                styling = { top: '28.2%' }
-            }
+            styling = { top: '28.2%' }
         } else {
             styling = {}
         }
