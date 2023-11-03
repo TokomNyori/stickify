@@ -1,20 +1,20 @@
-import { connectDB } from "@/helper/db"
+import { UserModel } from "@/models/usermodel"
 import { getResponseMsg } from "@/helper/getResponseMsg"
-import { NoteModel } from "@/models/notemodel"
+import { connectDB } from "@/helper/db"
 
 connectDB()
 
-// Get Note by NoteId
+// Get user by id
 export async function GET(request, { params }) {
-    const { taskid } = params
+    const { userid } = params
     try {
-        const task = await NoteModel.findById({ _id: taskid })
+        const user = await UserModel.findById({ _id: userid })
         return getResponseMsg(
-            { message: 'Task fetched successfully', status: 200, success: true, body: task }
+            { message: `Dynamically Fetched User: ${userid}`, status: 200, success: true, body: user }
         )
     } catch (error) {
         return getResponseMsg(
-            { message: 'Failed to fetch task', status: 500, success: false, body: error.message }
+            { message: `Problem Fetching the User: ${userid}`, status: 500, success: false, body: error.message }
         )
     }
 }

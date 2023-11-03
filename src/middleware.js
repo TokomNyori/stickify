@@ -17,7 +17,8 @@ export function middleware(request) {
     const { pathname } = request.nextUrl
 
     // NO restrictions for these two APIs, the middleware will be closed.
-    if (pathname === '/api/users/login' || pathname === '/api/users/signup' || pathname === '/api/admin/managetasks') {
+    if (pathname === '/api/users/login' || pathname === '/api/users/signup' || pathname === '/api/admin/managetasks'
+        || pathname === '/api/admin/manageusers') {
         return
     }
 
