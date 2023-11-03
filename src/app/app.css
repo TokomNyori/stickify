@@ -91,18 +91,18 @@
 }
 
 .PopUps {
-  width: 8.7rem;
+  width: 9.5rem;
   max-width: 50rem;
   display: flex;
   justify-content: center;
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   position: absolute;
   flex-direction: column;
-  row-gap: 0.3rem;
+  row-gap: 0.4rem;
   backdrop-filter: blur(0.225rem);
   padding: 0.6rem;
   border-radius: 10px;
-  left: -7rem;
+  left: -8rem;
   top: 2rem;
   border-top-right-radius: 0;
 }
@@ -231,6 +231,17 @@
     font-size: 1rem;
     row-gap: 0.3rem;
     padding: 0.6rem;
+  }
+
+  .PopUps {
+    width: 10.8rem;
+    max-width: 50rem;
+    font-size: 1.05rem;
+    row-gap: 0.3rem;
+    padding: 0.6rem;
+    left: -9.2rem;
+    top: 2rem;
+    row-gap: 0.4rem;
   }
 
 }

@@ -273,6 +273,11 @@ const NotePage = ({ params }) => {
                                 >
                                     中国人 (Chinese)
                                 </div>
+                                <div className="col-span-8 cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out"
+                                    onClick={() => translateContent('Spanish')}
+                                >
+                                    Español (Spanish)
+                                </div>
                             </div>
                         </div>
                         {
