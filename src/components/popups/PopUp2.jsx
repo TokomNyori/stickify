@@ -78,7 +78,7 @@ const PopUp2 =
 
         let styling
         if (!isDefault) {
-            styling = { top: '25.8%' }
+            styling = { top: '30.8%' }
         } else {
             styling = {}
         }
