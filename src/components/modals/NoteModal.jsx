@@ -253,6 +253,10 @@ const NoteModal = () => {
         })
         setPin(false)
         setIsRephrasedNote(false)
+        setIsTitle(true)
+        setIsContent(true)
+        setIsRephrasedTitle(true)
+        setIsRephrasedContent(true)
     }
 
     function changeGptRequirementModal() {
@@ -462,7 +466,7 @@ const NoteModal = () => {
                     <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                         Content cannot be empty. Please enter content.
                     </div>
-                    <div className='flex items-center justify-center mb-3 mr-2'>
+                    <div className='flex items-center justify-center mb-4 mr-2'>
                         <input id="isPrivate" type="checkbox" name="isPrivate"
                             checked={isRephrasedNote ? rephrasedNote.isPrivate : note.isPrivate}
                             onChange={changeNote}
@@ -472,21 +476,21 @@ const NoteModal = () => {
                     </div>
                     <div className="flex items-end justify-center">
                         <button
-                            className="border border-gray-800 focus:outline-none font-medium rounded-full text-lg sm:text-sm px-2
+                            className="border border-gray-800 focus:outline-none font-medium rounded-full sm:text-sm px-2
                                     py-2 mr-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-green-400/75
                                     focus:ring-gray-700"
                             type="submit"
                         >
-                            <AiOutlineCheck className='font-bold text-lg' />
+                            <AiOutlineCheck className='font-bold sm:text-lg text-xl' />
                         </button>
                         <button
-                            className="border border-gray-800 focus:outline-none font-medium rounded-full text-lg sm:text-sm px-2 
+                            className="border border-gray-800 focus:outline-none font-medium rounded-full sm:text-sm px-2 
                                 py-2 mr-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-red-400/75
                                 focus:ring-gray-700 ms-2"
                             type='button'
                             onClick={closeModal}
                         >
-                            <AiOutlineClose className='font-bold text-lg' />
+                            <AiOutlineClose className='font-bold sm:text-lg text-xl' />
                         </button>
                     </div>
                 </form>
