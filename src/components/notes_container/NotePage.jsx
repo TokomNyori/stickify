@@ -13,6 +13,8 @@ import { BsTranslate } from 'react-icons/bs'
 import { IoBanSharp } from 'react-icons/io5'
 import { AiOutlineSound } from 'react-icons/ai'
 import { MdOutlineModeEditOutline } from 'react-icons/md'
+import { BsPencil } from 'react-icons/bs'
+import { GoPencil } from 'react-icons/go'
 import { useTheme } from 'next-themes';
 import { getSingleNoteHelper, openAiPostHelper, voiceRssApiHelper } from '@/helper/httpHelpers/httpNoteHelper';
 import ClipLoader from "react-spinners/GridLoader";
@@ -276,7 +278,7 @@ const NotePage = ({ params }) => {
                         {
                             pageNoteData.userId === users._id ?
                                 <div className='relative flex flex-col items-center'>
-                                    <MdOutlineModeEditOutline className='text-3xl cursor-pointer home-link'
+                                    <GoPencil className='text-2xl cursor-pointer home-link'
                                         onClick={(e) => editNote(e)} />
                                     <div className="home-link-info hidden justify-center items-start absolute top-10 bg-gray-700 
                                     opacity-50 text-white text-sm px-2 py-1 rounded-md w-28">
