@@ -53,7 +53,6 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
             })
             togglePasswordLoading(false)
             setIsOtpSent(true)
-            console.log(res)
             toast.success(`OTP sent to ${user.email}`, {
                 duration: 4000,
             })
@@ -96,8 +95,6 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
     function generateOTP() {
         return Math.floor(1000 + Math.random() * 9000);
     }
-
-    console.log(formData)
 
     return (
         <div className="mt-4 w-[85%] lg:w-[30%] sm:w-[40%]">

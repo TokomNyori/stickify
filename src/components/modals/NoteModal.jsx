@@ -337,7 +337,7 @@ const NoteModal = () => {
             className={`modal-blur inset-0 bg-black bg-opacity-30 backdrop-blur-[1px] flex justify-center items-center
                         ${noteModalConfig.noteModalState ? "fix-modal" : "hidden"} flex-wrap`}>
             <div
-                className={`modal-main rounded-lg shadow-lg 
+                className={`modal-main rounded-xl shadow-lg 
                 ${isRephrasedNote ? `bg-[${rephrasedNote.color}]` : `bg-[${note.color}]`} text-gray-700`}
                 ref={noteModalRef} >
                 <div className="modal-heading">
@@ -354,11 +354,12 @@ const NoteModal = () => {
                         <div className="mb-4 flex-grow">
                             {/* <label htmlFor="note_title" className="block mb-2 text-sm font-medium">Title</label> */}
                             <input type="text" id="note_title" className="bg-gray-700 border-b border-gray-800/75 block w-full 
-                                p-2.5 text-sm font-bold placeholder-gray-500 text-gray-700 focus:outline-none bg-transparent"
+                                py-4 sm:py-3 font-bold placeholder-gray-500 text-gray-700 focus:outline-none bg-transparent"
                                 placeholder="Title..." value={isRephrasedNote ? rephrasedNote.title : note.title}
                                 name="title" onChange={changeNote} required />
                         </div>
-                        <div className='text-xs border border-gray-700 hover:border-gray-950 rounded-lg py-1 px-2 cursor-pointer'
+                        <div className=' text-sm sm:text-xs border border-gray-700 hover:border-gray-950 rounded-lg py-2 px-2 
+                        cursor-pointer'
                             onClick={changeGptRequirementModal}>
                             Generate <span><BiSolidSend className='inline' /></span>
                         </div>
