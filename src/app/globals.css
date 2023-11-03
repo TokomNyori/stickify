@@ -64,7 +64,7 @@ nav{
 
 .note-radio-btn[type="radio"]:checked + label {
   border: 1.5px solid rgb(71, 71, 71);
-  transform: scale(1.08);
+  transform: scale(1.1);
 }
 
 .color-input-label {

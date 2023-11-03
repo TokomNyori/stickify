@@ -339,7 +339,7 @@ const NoteModal = () => {
     return (
         <div
             className={`modal-blur inset-0 bg-black bg-opacity-30 backdrop-blur-[1px] flex justify-center items-center
-                        ${noteModalConfig.noteModalState ? "fix-modal" : "hidden"} flex-wrap`}>
+                        ${noteModalConfig.noteModalState ? "fix-modal" : "hidden"} flex-wrap dark:brightness-[85%]`}>
             <div
                 className={`modal-main rounded-xl shadow-lg 
                 ${isRephrasedNote ? `bg-[${rephrasedNote.color}]` : `bg-[${note.color}]`} text-gray-700`}
@@ -375,7 +375,7 @@ const NoteModal = () => {
                                 onChange={changeNote}
                                 checked={isRephrasedNote ? rephrasedNote.color === '#FFFAD1' : note.color === '#FFFAD1'} />
                             <label htmlFor="color1"
-                                className="block color-input-label rounded-full bg-[#FFFAD1] border border-gray-200
+                                className="block color-input-label rounded-full bg-[#FFFAD1] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
                             ></label>
                         </div>
@@ -385,7 +385,7 @@ const NoteModal = () => {
                                 onChange={changeNote}
                                 checked={isRephrasedNote ? rephrasedNote.color === '#f4bee1' : note.color === '#f4bee1'} />
                             <label htmlFor="color2"
-                                className="block color-input-label rounded-full bg-[#f4bee1] border border-gray-200
+                                className="block color-input-label rounded-full bg-[#f4bee1] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
                             ></label>
                         </div>
@@ -395,7 +395,7 @@ const NoteModal = () => {
                                 onChange={changeNote}
                                 checked={isRephrasedNote ? rephrasedNote.color === '#F1DED0' : note.color === '#F1DED0'} />
                             <label htmlFor="color3"
-                                className="block color-input-label rounded-full bg-[#F1DED0] border border-gray-200
+                                className="block color-input-label rounded-full bg-[#F1DED0] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
                             ></label>
                         </div>
@@ -405,7 +405,7 @@ const NoteModal = () => {
                                 onChange={changeNote}
                                 checked={isRephrasedNote ? rephrasedNote.color === '#B4C9F9' : note.color === '#B4C9F9'} />
                             <label htmlFor="color4"
-                                className="block color-input-label rounded-full bg-[#B4C9F9] border border-gray-200
+                                className="block color-input-label rounded-full bg-[#B4C9F9] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
                             ></label>
                         </div>
@@ -415,7 +415,7 @@ const NoteModal = () => {
                                 onChange={changeNote}
                                 checked={isRephrasedNote ? rephrasedNote.color === '#A9D1B5' : note.color === '#A9D1B5'} />
                             <label htmlFor="color5"
-                                className="block color-input-label rounded-full bg-[#A9D1B5] border border-gray-200
+                                className="block color-input-label rounded-full bg-[#A9D1B5] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
                             ></label>
                         </div>
@@ -425,7 +425,7 @@ const NoteModal = () => {
                                 onChange={changeNote}
                                 checked={isRephrasedNote ? rephrasedNote.color === '#f8f9fa' : note.color === '#f8f9fa'} />
                             <label htmlFor="color6"
-                                className="block color-input-label rounded-full bg-[#f8f9fa] border border-gray-200
+                                className="block color-input-label rounded-full bg-[#f8f9fa] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
                             ></label>
                         </div>
@@ -435,7 +435,7 @@ const NoteModal = () => {
                                 onChange={changeNote}
                                 checked={isRephrasedNote ? rephrasedNote.color === '#c8b6ff' : note.color === '#c8b6ff'} />
                             <label htmlFor="color7"
-                                className="block color-input-label rounded-full bg-[#c8b6ff] border border-gray-200
+                                className="block color-input-label rounded-full bg-[#c8b6ff] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
                             ></label>
                         </div>
