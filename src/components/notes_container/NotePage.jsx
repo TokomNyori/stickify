@@ -204,7 +204,7 @@ const NotePage = ({ params }) => {
     return (
         <>
             <div className={`
-                ${readingMode ? ` bg-gray-800/75 text-gray-200 brightness-[80%]` :
+                ${readingMode ? ` bg-gray-800/75 text-gray-100 brightness-[80%]` :
                     `bg-[${pageNoteData.color}] text-gray-700 dark:brightness-[85%] border-4 border-white shadow-md`} px-4 
                     sm:px-8 py-4 sm:py-8 pb-20 rounded-lg min-h-screen`}>
                 <div className='controls flex gap-4 mb-4 justify-between'>
