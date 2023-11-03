@@ -474,23 +474,23 @@ const NoteModal = () => {
                                 border-gray-600 rounded-full" />
                         <label for="isPrivate" class="ml-2 sm:text-sm font-medium">keep it private?</label>
                     </div>
-                    <div className="flex items-end justify-center">
+                    <div className="flex items-end justify-center gap-5">
                         <button
                             className="border border-gray-800 focus:outline-none font-medium rounded-full sm:text-sm px-2
-                                    py-2 mr-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-green-400/75
+                                    py-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-green-400/75
                                     focus:ring-gray-700"
                             type="submit"
                         >
-                            <AiOutlineCheck className='font-bold sm:text-lg text-xl' />
+                            <AiOutlineCheck className='font-bold sm:text-xl text-2xl' />
                         </button>
                         <button
                             className="border border-gray-800 focus:outline-none font-medium rounded-full sm:text-sm px-2 
                                 py-2 mr-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-red-400/75
-                                focus:ring-gray-700 ms-2"
+                                focus:ring-gray-700"
                             type='button'
                             onClick={closeModal}
                         >
-                            <AiOutlineClose className='font-bold sm:text-lg text-xl' />
+                            <AiOutlineClose className='font-bold sm:text-xl text-2xl' />
                         </button>
                     </div>
                 </form>
