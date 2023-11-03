@@ -347,7 +347,7 @@ const NoteModal = () => {
                     </div>
                 </div>
                 <form className="mt-6" onSubmit={submitForm}>
-                    <div className={`text-sm text-red-400 ${isTitleEmpty ? 'hidden' : 'block'}`}>
+                    <div className={`sm:text-sm text-red-400 ${isTitleEmpty ? 'hidden' : 'block'}`}>
                         Title cannot be empty. Please enter a title.
                     </div>
                     <div className="flex justify-between items-center gap-4">
@@ -459,20 +459,20 @@ const NoteModal = () => {
                             setLoadingRephraserFun={setLoadingRephraserFun}
                         />
                     </div>
-                    <div className={`text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
+                    <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                         Content cannot be empty. Please enter content.
                     </div>
-                    <div className='flex items-center justify-center mb-3'>
+                    <div className='flex items-center justify-center mb-3 mr-2'>
                         <input id="isPrivate" type="checkbox" name="isPrivate"
                             checked={isRephrasedNote ? rephrasedNote.isPrivate : note.isPrivate}
                             onChange={changeNote}
-                            class="w-4 h-4 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 
+                            class="sm:w-4 sm:h-4 w-5 h-5 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 
                                 border-gray-600 rounded-full" />
-                        <label for="isPrivate" class="ml-2 text-sm font-medium">keep it private?</label>
+                        <label for="isPrivate" class="ml-2 sm:text-sm font-medium">keep it private?</label>
                     </div>
                     <div className="flex items-end justify-center">
                         <button
-                            className="border border-gray-800 focus:outline-none font-medium rounded-full text-sm px-2
+                            className="border border-gray-800 focus:outline-none font-medium rounded-full sm:text-sm px-2
                                     py-2 mr-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-green-400/75
                                     focus:ring-gray-700"
                             type="submit"
@@ -480,7 +480,7 @@ const NoteModal = () => {
                             <AiOutlineCheck className='font-bold text-lg' />
                         </button>
                         <button
-                            className="border border-gray-800 focus:outline-none font-medium rounded-full text-sm px-2 
+                            className="border border-gray-800 focus:outline-none font-medium rounded-full sm:text-sm px-2 
                                 py-2 mr-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-red-400/75
                                 focus:ring-gray-700 ms-2"
                             type='button'
