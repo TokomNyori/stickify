@@ -28,9 +28,9 @@ export default function FeedsContainer() {
     const [isCopied, setIsCopied] = useState(false)
 
     useEffect(() => {
+        getUserCookie()
         getFeedsNotes()
         getGlobalUsers()
-        getUserCookie()
         scrollToTop()
         dispatch(addPage('feeds'))
     }, [])
