@@ -69,7 +69,7 @@ export default function Navbar() {
         setProfilePopUp(prev => !prev)
         router.push('/welcome')
         toast(res.message, {
-            icon: '😟',
+            icon: '🥺',
         });
     }
 
