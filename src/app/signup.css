@@ -43,7 +43,7 @@ h1 {
   transform: scale(1.12);
 }
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
   .signup-form-container {
     width: 95%;
     margin: auto;

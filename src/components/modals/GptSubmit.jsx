@@ -101,16 +101,16 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                     </div> */}
                     <div className="flex justify-between items-center gap-4 mb-4">
                         <div>
-                            <label htmlFor="" className="block mb-2 text-sm font-medium">Words:</label>
+                            <label htmlFor="" className="block mb-2 sm:text-sm font-medium">Words:</label>
                             <input type="number" name="words" id="" placeholder='100' min="0" max="1000"
-                                className='text-sm rounded-lg w-full p-2 bg-gray-600 border-gray-500 placeholder-gray-400 
+                                className='sm:text-sm rounded-lg w-full p-2 bg-gray-600 border-gray-500 placeholder-gray-400 
                                 text-gray-100 focus:ring-blue-500 focus:border-blue-500 shadow-sm-light'
                                 value={generateRequirementGpt.words} onChange={changeGenerateRequirementGpt} />
                         </div>
                         <div className='flex-grow'>
-                            <label htmlFor="" className="block mb-2 text-sm font-medium">Output type:</label>
+                            <label htmlFor="" className="block mb-2 sm:text-sm font-medium">Output type:</label>
                             <select name="output_type" id=""
-                                className='text-sm rounded-lg w-full p-2 bg-gray-600 border-gray-500 placeholder-gray-400 
+                                className='sm:text-sm rounded-lg w-full p-2 bg-gray-600 border-gray-500 placeholder-gray-400 
                                 text-gray-100 focus:ring-blue-500 focus:border-blue-500 shadow-sm-light'
                                 value={generateRequirementGpt.output_type} onChange={changeGenerateRequirementGpt} >
                                 <option value="easy to understand">Easy to understand</option>
@@ -123,8 +123,9 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                         <div className='flex items-center'>
                             <input id="emojis" type="checkbox" name="emojis" checked={generateRequirementGpt.emojis}
                                 onChange={changeGenerateRequirementGpt}
-                                class="w-4 h-4 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600" />
-                            <label for="emojis" class="ml-2 text-sm font-medium text-gray-300">Include emojis?</label>
+                                class="sm:w-4 sm:h-4 w-5 h-5 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 
+                                bg-gray-700 border-gray-600" />
+                            <label for="emojis" class="ml-2 sm:text-sm font-medium text-gray-300">Include emojis?</label>
                         </div>
                         <button
                             className="border border-gray-400 focus:outline-none font-medium rounded-full text-sm px-2
@@ -132,7 +133,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                                     focus:ring-gray-700"
                             type="submit"
                         >
-                            <BiSolidSend className='font-bold text-xl' />
+                            <BiSolidSend className='font-bold sm:text-xl text-2xl' />
                         </button>
                     </div>
                 </form>

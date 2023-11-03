@@ -157,7 +157,7 @@
 }
 
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
   .modal-main {
     width: 98%;
     height: auto;
@@ -208,6 +208,19 @@
 
   .profile-popup-text {
     font-size: 1.1rem;
+  }
+
+  .gpt-generate-modal{
+    width: 98%;
+    height: auto;
+    flex-wrap: wrap;
+    padding: 1rem 1rem;
+    /* @apply bg-gray-700; */
+    backdrop-filter: blur(0.625rem); 
+    /* border: 1px solid rgba(255, 255, 255, 0.2); */
+    border-radius: 10px;
+    overflow: auto;
+    box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.2);
   }
 
 }
