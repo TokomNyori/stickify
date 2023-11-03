@@ -1,7 +1,7 @@
 import NotesContainer from '@/components/notes_container/NotesContainer';
 
 export const metadata = {
-  title: 'Home: stickify',
+  title: 'stickify',
 }
 
 export default function Home() {

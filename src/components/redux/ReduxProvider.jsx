@@ -6,10 +6,10 @@ import { Provider } from "react-redux";
 
 const ReduxProvider = ({ children }) => {
     // const [mounted, setMounted] = useState(false)
-    // const { theme, setTheme } = useTheme()
-    // useEffect(() => {
-    //     setMounted(true)
-    // }, [])
+    const { theme, setTheme } = useTheme()
+    useEffect(() => {
+        setTheme('light')
+    }, [])
 
     // if (!mounted) {
     //     return (
