@@ -180,20 +180,23 @@ const NoteModal = () => {
 
     useEffect(() => {
         if (pin) {
-            toast('Pinned', {
+            toast('Pin note', {
                 icon: '📌',
+                duration: 1000,
             })
         }
         if (isRephrasedNote) {
             if (rephrasedNote.isPrivate) {
                 toast('Private note', {
                     icon: '🔒',
+                    duration: 1000,
                 })
             }
         } else {
             if (note.isPrivate) {
                 toast('Private note', {
                     icon: '🔒',
+                    duration: 1000,
                 })
             }
         }

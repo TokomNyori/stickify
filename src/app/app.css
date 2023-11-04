@@ -149,7 +149,7 @@
 
 .ai-rephrase-btn {
   left: 78.2%;
-  bottom: 21.5%;
+  bottom: 22.5%;
 }
 
 .ai-rephrase-options {
@@ -184,8 +184,8 @@
   }
 
   .ai-rephrase-btn {
-    left: 70%;
-    bottom: 19.5%;
+    left: 71%;
+    bottom: 18.8%;
   }
 
   .ai-rephrase-options {
@@ -248,10 +248,22 @@
 
 }
 
-@media (max-width: 380px) {
+@media (max-width: 391px) {
   .ai-rephrase-btn {
     left: 68.5%;
-    bottom: 19.5%;
+    bottom: 19%;
+  }
+
+  .ai-rephrase-options {
+    left: 52.5%;
+    top: 38%;
+  }
+}
+
+@media (max-width: 376px) {
+  .ai-rephrase-btn {
+    left: 68%;
+    bottom: 21.5%;
   }
 
   .ai-rephrase-options {
@@ -261,6 +273,10 @@
 }
 
 @media (max-width: 360px) {
+  .ai-rephrase-btn {
+    left: 66.8%;
+    bottom: 20%;
+  }
   .ai-rephrase-options {
     left: 52%;
     top: 37%;
