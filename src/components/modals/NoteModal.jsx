@@ -35,7 +35,6 @@ const NoteModal = () => {
         isPrivate: false,
         userId: users._id
     })
-    const [isMobile, setIsMobile] = useState();
 
     const [pin, setPin] = useState(false)
     const [gptSubmitModalState, setGptSubmitModalState] = useState(false)
@@ -54,6 +53,8 @@ const NoteModal = () => {
     const noteModalRef = useRef(null);
     const isTitleEmpty = isRephrasedNote ? isRephrasedTitle : isTitle
     const isContentEmpty = isRephrasedNote ? isRephrasedContent : isContent
+    const pageName = useSelector(state => state.page.page)
+    const router = useRouter()
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -202,46 +203,34 @@ const NoteModal = () => {
         }
     }, [note.isPrivate, rephrasedNote.isPrivate])
 
-
     useEffect(() => {
-        // Define a function to handle changes to the media query
-        const handleResize = (e) => {
-            setIsMobile(e.matches);
+        // Create the handlePopState function inside useEffect
+        const handlePopState = (event) => {
+            if (noteModalConfig.noteModalState === true) {
+                router.forward()
+                clearForm()
+                if (isEdit) {
+                    setIsEdit(false)
+                }
+                dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
+            } else {
+                clearForm()
+                if (isEdit) {
+                    setIsEdit(false)
+                }
+                dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
+            }
+
         };
 
-        // Add a listener for the media query
-        const mediaQuery = window.matchMedia('(max-width: 640px)');
-        mediaQuery.addEventListener('change', handleResize)
+        // Add the popstate event listener
+        window.addEventListener('popstate', handlePopState);
 
-        setIsMobile(mediaQuery.matches);
-
-        // Clean up the listener when the component unmounts
+        // Remove the event listener when the component unmounts
         return () => {
-            mediaQuery.removeEventListener('change', handleResize);
+            window.removeEventListener('popstate', handlePopState);
         };
-    }, []);
-
-    console.log('Is Mobile')
-    console.log(isMobile)
-
-    // useEffect(() => {
-    //     const handleHistoryChange = (e) => {
-    //         // Prevent the default behavior of the browser's back button
-    //         e.preventDefault();
-    //         router.refresh()
-    //         // Call your close function here
-    //         closeModal(e);
-    //     };
-
-    //     // Listen for changes in the browser's history
-    //     window.onpopstate = handleHistoryChange;
-
-    //     return () => {
-    //         window.onpopstate = null; // Clean up the event listener when the component unmounts
-    //     };
-    // }, []);
-
-    const router = useRouter()
+    }, [noteModalConfig]);
 
     function closeModal(event) {
         event.preventDefault()
@@ -437,11 +426,11 @@ const NoteModal = () => {
     // console.log('NoteConfig')
     // console.log(noteModalConfig)
 
-    console.log('Note Object')
-    console.log(note)
+    // console.log('Note Object')
+    // console.log(note)
 
-    console.log('Rephrased Object')
-    console.log(rephrasedNote)
+    // console.log('Rephrased Object')
+    // console.log(rephrasedNote)
 
     return (
         <div
@@ -524,7 +513,6 @@ const NoteModal = () => {
                                 changeIsRepCnt={changeIsRepCnt}
                                 isRephrasedNote={isRephrasedNote}
                                 setLoadingRephraserFun={setLoadingRephraserFun}
-                                isMobile={isMobile}
                             />
                         </div>
                         <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>

@@ -7,7 +7,7 @@ import { RiSpeakLine } from 'react-icons/ri'
 
 const PopUp2 =
     ({ closeRephrasePopUp, rephrasePopUp, content, changeRephrasedNote, rephrasedNote,
-        setLoadingRephraserFun, changeIsRepCnt, isRephrasedNote, isMobile }) => {
+        setLoadingRephraserFun, changeIsRepCnt, isRephrasedNote }) => {
 
         const [isDefault, setIsDefault] = useState(true)
         const rephrasePopUpRef = useRef(null);
@@ -76,17 +76,6 @@ const PopUp2 =
                 icon: '😀'
             })
         }
-
-        // let styling
-        // if (!isDefault) {
-        //     if (isMobile) {
-        //         styling = { top: '32.8%' }
-        //     } else {
-        //         styling = { top: '29.2%' }
-        //     }
-        // } else {
-        //     styling = {}
-        // }
 
         return (
             <div
