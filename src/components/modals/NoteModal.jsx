@@ -138,25 +138,17 @@ const NoteModal = () => {
     }, [rephrasedNote])
 
     useEffect(() => {
-        function handleResize() {
-            const height = window.innerHeight;
-            console.log('height screen:', height);
-            if (height > 700 && height < 800) {
-                setTextareaRows(18)
-            } else if (height > 799 && height < 900) {
-                setTextareaRows(22)
-            } else if (height > 899 && height < 1000) {
-                setTextareaRows(24)
-            } else {
-                setTextareaRows(15)
-            }
+        const height = window.innerHeight;
+        console.log('height screen:', height);
+        if (height > 700 && height < 800) {
+            setTextareaRows(18)
+        } else if (height > 799 && height < 900) {
+            setTextareaRows(22)
+        } else if (height > 899 && height < 1000) {
+            setTextareaRows(24)
+        } else {
+            setTextareaRows(15)
         }
-        // Add the event listener
-        window.addEventListener('resize', handleResize);
-        // Clean up the event listener when the component unmounts
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
     }, []);
 
     const router = useRouter()
