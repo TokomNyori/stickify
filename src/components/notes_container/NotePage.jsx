@@ -142,15 +142,21 @@ const NotePage = ({ params }) => {
     }
 
     async function translateContent(translateTo) {
-        const instruction = `Your job is to translate the given content to ${translateTo} language. Turn yourself into a great translating tool. While translating, preserve the original meaning. The content is inside of curly brackets. The content is: {${pageNoteData.content}}`
+        const instruction = `You are a translating assistant. Your role is to translate the given content to ${translateTo} language. While translating, preserve the original meaning. The content is inside curly brackets. The content is: {${pageNoteData.content}}`
         const gptData = {
             model: 'gpt-3.5-turbo',
             temperature: 0.5,
-            max_tokens: 3000,
-            messages: [{
-                'role': 'user',
-                'content': instruction,
-            }]
+            max_tokens: 2000,
+            messages: [
+                {
+                    'role': 'system',
+                    'content': 'You are a translating assistant.',
+                },
+                {
+                    'role': 'user',
+                    'content': instruction,
+                },
+            ]
         }
         const headers = {
             'Content-Type': 'application/json',

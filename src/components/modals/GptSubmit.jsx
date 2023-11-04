@@ -36,7 +36,16 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
     async function generateContent(event) {
         event.preventDefault()
         let temperature = 0.5
-        const words = `${generateRequirementGpt.words}`
+        let words = parseInt(generateRequirementGpt.words, 10)
+        if (words > 250 && words < 501) {
+            words = 1000
+        } else if (words > 500 && words < 751) {
+            words = 1500
+        } else if (words > 750 && words < 1001) {
+            words = 2000
+        } else {
+            words = 500
+        }
         let output_type = ''
         if (generateRequirementGpt.output_type === 'easy to understand') {
             output_type = `Explain in a way that makes the topic simple. Present the subject matter in a manner so simple and clear that it can be comprehended by an 8-year-old`
@@ -49,15 +58,21 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
             temperature = 0.5
         }
         const emojiOption = ' Generate 3 to 4 meaningful emojis interspersed throughout the content. The emojis should be relevant to the context.'
-        const instruction = `Your job is to create content for the given topic. Act as an expert in the topic and explain it like a good teacher. ${output_type}. Don't be verbose. Generate at least ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} End with an interesting fact about the topic. The topic is inside of curly brackets. The topic is: {${generateRequirementGpt.generate_title}}`
+        const instruction = `Your role is to generate content for a note-taking web app for the given topic. Act as an expert in the topic and explain it like a good teacher. ${output_type}. Don't be verbose. Generate at least ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} End with an interesting fact about the topic. The topic is inside curly brackets. The topic is: {${generateRequirementGpt.generate_title}}`
         const gptData = {
             model: 'gpt-3.5-turbo',
             temperature: temperature,
-            max_tokens: 3000,
-            messages: [{
-                'role': 'user',
-                'content': instruction,
-            }]
+            max_tokens: words,
+            messages: [
+                {
+                    'role': 'system',
+                    'content': 'You are generating content for a note-taking web app known as stickify.'
+                },
+                {
+                    'role': 'user',
+                    'content': instruction,
+                }
+            ]
         }
         const headers = {
             'Content-Type': 'application/json',
@@ -102,7 +117,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                     <div className="flex justify-between items-center gap-4 mb-4">
                         <div>
                             <label htmlFor="" className="block mb-2 sm:text-sm font-medium">Words:</label>
-                            <input type="number" name="words" id="" placeholder='100' min="0" max="1000"
+                            <input type="number" name="words" id="" placeholder='100' min="10" max="1000"
                                 className='sm:text-sm rounded-lg w-full p-2 bg-gray-600 border-gray-500 placeholder-gray-400 
                                 text-gray-100 focus:ring-blue-500 focus:border-blue-500 shadow-sm-light'
                                 value={generateRequirementGpt.words} onChange={changeGenerateRequirementGpt} />

@@ -33,15 +33,21 @@ const PopUp2 =
             event.stopPropagation()
             const ctx = isRephrasedNote ? rephrasedNote.content : content
 
-            const instruction = `Your job is to rephrase the given content to a different tone. Turn yourself into a powerful rephrasing tool. Rephrase the content in a ${tone} tone. The content is inside of curly brackets. The content is: {${ctx}}`
+            const instruction = `Your role is to rephrase the given content to a different tone. Turn yourself into a powerful rephrasing tool. Rephrase the content in a ${tone} tone. The content is inside curly brackets. The content is: {${ctx}}`
             const gptData = {
                 model: 'gpt-3.5-turbo',
                 temperature: 0.5,
-                max_tokens: 3000,
-                messages: [{
-                    'role': 'user',
-                    'content': instruction,
-                }]
+                max_tokens: 2000,
+                messages: [
+                    {
+                        'role': 'system',
+                        'content': 'You are a rephrasing assistant.',
+                    },
+                    {
+                        'role': 'user',
+                        'content': instruction,
+                    },
+                ]
             }
             const headers = {
                 'Content-Type': 'application/json',
