@@ -182,21 +182,18 @@ const NoteModal = () => {
         if (pin) {
             toast('Pinned', {
                 icon: '📌',
-                position: 'top-left',
             })
         }
         if (isRephrasedNote) {
             if (rephrasedNote.isPrivate) {
                 toast('Private note', {
                     icon: '🔒',
-                    position: 'top-left',
                 })
             }
         } else {
             if (note.isPrivate) {
                 toast('Private note', {
                     icon: '🔒',
-                    position: 'top-left',
                 })
             }
         }
