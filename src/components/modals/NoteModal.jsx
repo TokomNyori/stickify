@@ -115,6 +115,12 @@ const NoteModal = () => {
                     status: 'others'
                 }))
         }
+        if (pin) {
+            toast('Pin note', {
+                icon: '📌',
+                duration: 1000,
+            })
+        }
     }, [pin])
 
     useEffect(() => {
@@ -179,12 +185,6 @@ const NoteModal = () => {
     }, []);
 
     useEffect(() => {
-        if (pin) {
-            toast('Pin note', {
-                icon: '📌',
-                duration: 1000,
-            })
-        }
         if (isRephrasedNote) {
             if (rephrasedNote.isPrivate) {
                 toast('Private note', {
@@ -200,7 +200,7 @@ const NoteModal = () => {
                 })
             }
         }
-    }, [pin, note.isPrivate, rephrasedNote.isPrivate])
+    }, [note.isPrivate, rephrasedNote.isPrivate])
 
     // useEffect(() => {
     //     const handleHistoryChange = (e) => {
