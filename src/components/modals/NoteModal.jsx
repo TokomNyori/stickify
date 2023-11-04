@@ -182,7 +182,7 @@ const NoteModal = () => {
         const handleHistoryChange = (e) => {
             // Prevent the default behavior of the browser's back button
             e.preventDefault();
-
+            router.refresh()
             // Call your close function here
             closeModal(e);
         };
