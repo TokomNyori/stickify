@@ -203,7 +203,7 @@
 
   .ai-rephrase-options {
     left: 56.5%;
-    top: 48.1%;
+    top: 50.1%;
   }
 
   .profilePopUp {
@@ -259,6 +259,20 @@
     row-gap: 0.4rem;
   }
 
+}
+
+@media screen and (max-width: 640px) and (max-height: 896px) {
+  .ai-rephrase-options {
+    left: 56.5%;
+    top: 49.5%;
+  }
+}
+
+@media screen and (max-width: 640px) and (max-height: 876px) {
+  .ai-rephrase-options {
+    left: 56.5%;
+    top: 48.5%;
+  }
 }
 
 @media (max-width: 391px) {
