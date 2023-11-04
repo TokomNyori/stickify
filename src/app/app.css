@@ -268,10 +268,10 @@
   }
 }
 
-@media screen and (max-width: 640px) and (max-height: 876px) {
+@media screen and (max-width: 640px) and (max-height: 886px) {
   .ai-rephrase-options {
     left: 56.5%;
-    top: 48.5%;
+    top: 46.5%;
   }
 }
 
