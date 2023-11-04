@@ -408,9 +408,8 @@ const NoteModal = () => {
                 <form className="mt-2 min-h-full flex flex-col" onSubmit={submitForm}>
                     <div className='top-section'>
                         <div className="modal-heading">
-                            <div className="text-center flex items-center gap-2" onClick={closeModal}>
-                                <BiArrowBack className='text-3xl sm:text-4xl inline cursor-pointer home-link' />
-                                Back
+                            <div className="text-center" onClick={closeModal}>
+                                <BiArrowBack className='sm:text-3xl text-4xl cursor-pointer home-link' />
                             </div>
                             <div className='flex gap-3 items-center justify-center'>
                                 <div className=''>
@@ -419,7 +418,7 @@ const NoteModal = () => {
                                         onChange={changeNote}
                                         className="hidden" />
                                     <label for="isPrivate">
-                                        <HiOutlineLockClosed className={`text-3xl mb-[5px] cursor-pointer home-link
+                                        <HiOutlineLockClosed className={`text-3xl cursor-pointer home-link
                                     ${rephrasedNote.isPrivate || note.isPrivate ?
                                                 'text-gray-700' :
                                                 'text-gray-400'}
@@ -427,13 +426,13 @@ const NoteModal = () => {
                                     </label>
                                 </div>
                                 <div className='close-btn cursor-pointer' onClick={pinIt}>
-                                    <BsPinFill className={`text-[1.7rem] mt-0 ${pin ? 'text-gray-700' : 'text-gray-400'}`} />
+                                    <BsPinFill className={`text-[1.7rem] mt-1 ${pin ? 'text-gray-700' : 'text-gray-400'}`} />
                                 </div>
                                 <button
                                     className="bg-transparent"
                                     type="submit"
                                 >
-                                    <BsCheckCircle className='text-3xl sm:text-4xl cursor-pointer home-link' />
+                                    <BsCheckCircle className='sm:text-3xl text-4xl cursor-pointer home-link' />
                                 </button>
                             </div>
                         </div>
