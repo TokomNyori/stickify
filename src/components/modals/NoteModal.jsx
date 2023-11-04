@@ -50,8 +50,7 @@ const NoteModal = () => {
     const [isRephrasedContent, setIsRephrasedContent] = useState(true)
     const [isRephrasedNote, setIsRephrasedNote] = useState(false)
     const [loadingRephraser, setLoadingRephraser] = useState(false)
-    const [textareaRows, setTextareaRows] = useState(15);
-    const initialRows = 15; // Initial number of rows
+    const [textareaRows, setTextareaRows] = useState();
     const noteModalRef = useRef(null);
     const isTitleEmpty = isRephrasedNote ? isRephrasedTitle : isTitle
     const isContentEmpty = isRephrasedNote ? isRephrasedContent : isContent
