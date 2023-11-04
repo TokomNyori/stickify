@@ -261,7 +261,7 @@
 
 }
 
-@media (max-width: 391px) {
+/* @media (max-width: 391px) {
   .ai-rephrase-btn {
     left: 68.5%;
     bottom: 19%;
@@ -271,7 +271,7 @@
     left: 53.1%;
     top: 46.5%;
   }
-}
+} */
 
 @media (max-width: 376px) {
   .ai-rephrase-btn {
