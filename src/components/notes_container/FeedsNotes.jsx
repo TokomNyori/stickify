@@ -51,18 +51,18 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                             src={`/assets/avatars/${note.user_avatar}.jpeg`} width={200} height={200}
                             className='rounded-full' />
                     </div>
-                    <div className='truncate sm:text-xs text-sm w-[6.5rem] sm:w-[6rem]'>
+                    <div className='truncate sm:text-xs text-sm w-[6.8rem] sm:w-[7.2rem]'>
                         {note.username}
                     </div>
                 </div>
-                <div className='truncate text-[1rem] sm:text-sm font-bold'>
+                <div className='truncate text-[1rem] sm:text-[0.95rem] font-bold'>
                     {note.title}
                 </div>
-                <div className='line-clamp-6 text-[0.9rem] sm:text-[0.8rem] mt-2 flex-grow' style={{ whiteSpace: 'pre-line' }}>
+                <div className='line-clamp-6 text-[0.9rem] mt-2 flex-grow' style={{ whiteSpace: 'pre-line' }}>
                     {note.content}
                 </div>
                 <div className='text-sm mt-2.5 flex justify-between items-center gap-2'>
-                    <div className='flex justify-start items-center gap-1 sm:text-xs text-sm'>
+                    <div className='flex justify-start items-center gap-1 text-sm'>
                         {note.likes < 1 ? <span></span> :
                             note.likes === 1 ? <span>{note.likes} like</span> :
                                 <span>{note.likes} likes</span>}
@@ -73,18 +73,18 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                                 liked ?
                                     <AiFillHeart
                                         className='text-red-500 font-bold transition ease-in-out duration-300 hover:scale-125 
-                                        active:text-black text-2xl sm:text-lg'
+                                        active:text-black text-2xl'
                                         onClick={(e) => toggleLikes(e, note._id, 'unlike')} /> :
                                     <AiOutlineHeart
                                         className='text-gray-600/70 font-bold transition ease-in-out duration-300 hover:scale-125 
-                                        active:text-black text-2xl sm:text-lg'
+                                        active:text-black text-2xl'
                                         onClick={(e) => toggleLikes(e, note._id, 'like')} />
                             }
                         </div>
                         <div>
                             <AiOutlineFileAdd
                                 className='text-gray-600/70 font-bold transition ease-in-out duration-300 hover:scale-125 
-                                        active:text-black text-xl sm:text-lg' onClick={(e) => copyNote(e, note._id)} />
+                                        active:text-black text-xl' onClick={(e) => copyNote(e, note._id)} />
                         </div>
                     </div>
                 </div>

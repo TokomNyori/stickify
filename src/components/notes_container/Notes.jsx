@@ -39,49 +39,49 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
                             ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-md dark:brightness-[85%]`} key={note._id}
                 onClick={(e) => toTheNotePage(e, note._id)}
             >
-                <div className='truncate text-[1rem] sm:text-sm font-bold'>
+                <div className='truncate text-[1rem] sm:text-[0.95rem] font-bold'>
                     {note.title}
                 </div>
-                <div className='note-content-line-clamp text-[0.9rem] sm:text-[0.8rem] mt-2 flex-grow'
+                <div className='note-content-line-clamp text-[0.9rem] mt-2 flex-grow'
                     style={{ whiteSpace: 'pre-line' }}>
                     {note.content}
                 </div>
-                <div className='text-sm sm:mt-4 mt-5 flex justify-between items-center gap-2'>
+                <div className='text-sm mt-5 flex justify-between items-center gap-2'>
                     {
                         note.isPrivate ?
-                            <div className='flex justify-start items-center gap-1 sm:text-xs text-sm'>
+                            <div className='flex justify-start items-center gap-1 text-sm'>
                                 Private
                             </div>
                             :
-                            <div className='flex justify-start items-center gap-1 sm:text-xs text-sm'>
+                            <div className='flex justify-start items-center gap-1 text-sm'>
                                 {note.likes < 1 ? <span></span> :
                                     note.likes === 1 ? <span>{note.likes} like</span> :
                                         <span>{note.likes} likes</span>}
                             </div>
                     }
-                    <div className='text-sm flex items-center gap-2 sm:gap-2'>
+                    <div className='text-sm flex items-center gap-2 '>
                         {
                             noteType === 'pinned' ?
                                 <div onClick={(e) => togglePinned(e, note._id, 'remove')} >
                                     <BsPinAngleFill
                                         className='text-gray-700 transition ease-in-out duration-300 hover:scale-125 
-                                            active:text-black text-xl sm:text-lg' />
+                                            active:text-black text-xl' />
                                 </div> :
                                 <div onClick={(e) => togglePinned(e, note._id, 'add')}>
                                     <BsPinAngle
                                         className='text-gray-600/70 transition ease-in-out duration-300 hover:scale-125 
-                                            active:text-black text-xl sm:text-lg' />
+                                            active:text-black text-xl' />
                                 </div>
                         }
                         <div onClick={(e) => deleteNotes(e, note._id)}>
                             <MdDeleteOutline
                                 className=' text-gray-700/70 font-light transition ease-in-out duration-300 hover:scale-125 
-                                    active:text-black text-xl sm:text-lg' />
+                                    active:text-black text-xl' />
                         </div>
                         <div onClick={(e) => editNote(e, note._id)}>
                             <MdOutlineModeEditOutline
                                 className='text-gray-600/70 font-light transition ease-in-out duration-300 hover:scale-125 
-                                    active:text-black text-xl sm:text-lg' />
+                                    active:text-black text-xl' />
                         </div>
                     </div>
                 </div>

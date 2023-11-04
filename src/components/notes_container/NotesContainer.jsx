@@ -199,7 +199,7 @@ export default function NotesContainer() {
                         {pinnedNotes.length !== 0 ?
                             <>
                                 <div className='mt-12 mb-2'>Pinned</div>
-                                <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6'>
+                                <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6'>
                                     <Notes
                                         notes={pinnedNotes} //array of note objects
                                         noteType='pinned'
@@ -213,7 +213,7 @@ export default function NotesContainer() {
                         <div className={`${pinnedNotes.length !== 0 ? 'mt-6' : 'mt-12'} mb-2`}>
                             {pinnedNotes.length !== 0 ? 'Others' : ''}
                         </div>
-                        <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6'>
+                        <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6'>
                             <Notes
                                 notes={otherNotes} //array of note objects
                                 noteType='others'
