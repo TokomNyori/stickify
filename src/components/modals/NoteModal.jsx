@@ -146,6 +146,8 @@ const NoteModal = () => {
             setTextareaRows(22)
         } else if (height > 899 && height < 1000) {
             setTextareaRows(24)
+        } else if (height < 600) {
+            setTextareaRows(13)
         } else {
             setTextareaRows(15)
         }
@@ -154,6 +156,7 @@ const NoteModal = () => {
     useEffect(() => {
         function handleResize() {
             const height = window.innerHeight;
+
             console.log('height screen:', height);
             if (height > 700 && height < 800) {
                 setTextareaRows(18)
@@ -161,6 +164,8 @@ const NoteModal = () => {
                 setTextareaRows(22)
             } else if (height > 899 && height < 1000) {
                 setTextareaRows(24)
+            } else if (height < 600) {
+                setTextareaRows(13)
             } else {
                 setTextareaRows(15)
             }
@@ -174,15 +179,19 @@ const NoteModal = () => {
     }, []);
 
     useEffect(() => {
-        const handlePopstate = () => {
+        const handleHistoryChange = (e) => {
+            // Prevent the default behavior of the browser's back button
+            e.preventDefault();
+
             // Call your close function here
-            closeModal(e)
+            closeModal(e);
         };
 
-        window.addEventListener('popstate', handlePopstate);
+        // Listen for changes in the browser's history
+        window.onpopstate = handleHistoryChange;
 
         return () => {
-            window.removeEventListener('popstate', handlePopstate);
+            window.onpopstate = null; // Clean up the event listener when the component unmounts
         };
     }, []);
 
@@ -399,17 +408,18 @@ const NoteModal = () => {
                 <form className="mt-2 min-h-full flex flex-col" onSubmit={submitForm}>
                     <div className='top-section'>
                         <div className="modal-heading">
-                            <div className="text-center" onClick={closeModal}>
-                                <BiArrowBack className='text-3xl cursor-pointer home-link' />
+                            <div className="text-center flex items-center gap-2" onClick={closeModal}>
+                                <BiArrowBack className='text-3xl sm:text-4xl inline cursor-pointer home-link' />
+                                Back
                             </div>
-                            <div className='flex gap-3 items-start justify-center'>
+                            <div className='flex gap-3 items-center justify-center'>
                                 <div className=''>
                                     <input id="isPrivate" type="checkbox" name="isPrivate"
                                         checked={isRephrasedNote ? rephrasedNote.isPrivate : note.isPrivate}
                                         onChange={changeNote}
                                         className="hidden" />
                                     <label for="isPrivate">
-                                        <HiOutlineLockClosed className={`text-3xl mb-0.5 cursor-pointer home-link
+                                        <HiOutlineLockClosed className={`text-3xl mb-[5px] cursor-pointer home-link
                                     ${rephrasedNote.isPrivate || note.isPrivate ?
                                                 'text-gray-700' :
                                                 'text-gray-400'}
@@ -417,29 +427,30 @@ const NoteModal = () => {
                                     </label>
                                 </div>
                                 <div className='close-btn cursor-pointer' onClick={pinIt}>
-                                    <BsPinFill className={`text-3xl mt-0.5 ${pin ? 'text-gray-700' : 'text-gray-400'}`} />
+                                    <BsPinFill className={`text-[1.7rem] mt-0 ${pin ? 'text-gray-700' : 'text-gray-400'}`} />
                                 </div>
                                 <button
                                     className="bg-transparent"
                                     type="submit"
                                 >
-                                    <BsCheckCircle className='text-3xl cursor-pointer home-link' />
+                                    <BsCheckCircle className='text-3xl sm:text-4xl cursor-pointer home-link' />
                                 </button>
                             </div>
                         </div>
-                        <div className={`sm:text-sm text-red-400 ${isTitleEmpty ? 'hidden' : 'block'}`}>
+                        <div className={`sm:text-sm mt-2 text-red-400 ${isTitleEmpty ? 'hidden' : 'block'}`}>
                             Title cannot be empty. Please enter a title.
                         </div>
                         <div className="flex justify-between items-center gap-4 mt-4">
                             <div className="mb-4 flex-grow">
                                 {/* <label htmlFor="note_title" className="block mb-2 text-sm font-medium">Title</label> */}
                                 <input type="text" id="note_title" className="bg-gray-700 border-b border-gray-800/75 block w-full 
-                                py-4 sm:py-3 font-bold placeholder-gray-500 text-gray-700 focus:outline-none bg-transparent"
+                                py-2 font-bold placeholder-gray-500 text-gray-700 focus:outline-none bg-transparent
+                                sm:text-[1.05rem] text-[1.08rem]"
                                     placeholder="Title..." value={isRephrasedNote ? rephrasedNote.title : note.title}
                                     name="title" onChange={changeNote} required />
                             </div>
                             <div className=' text-sm border border-gray-700 hover:border-gray-950 rounded-lg py-1 px-2 
-                             cursor-pointer mt-2 sm:mt-0'
+                             cursor-pointer mt-0'
                                 onClick={changeGptRequirementModal}>
                                 Generate <span><BiSolidSend className='inline' /></span>
                             </div>
@@ -449,8 +460,8 @@ const NoteModal = () => {
                         <div className="mb-2 notemodal-text-area realtive">
                             {/* <label htmlFor="note_content" className="block mb-2 text-sm font-medium">Content</label> */}
                             <textarea type="text" id="note_content" className="rounded-lg bg-transparent border-gray-600 block 
-                                py-4 sm:py-3 w-full sm:text-sm placeholder-gray-500 text-gray-700 focus:outline-none
-                                min-h-full note-textarea" rows={textareaRows} placeholder="Type your content here..."
+                                py-2 w-full placeholder-gray-500 text-gray-700 focus:outline-none
+                                min-h-full note-textarea sm:text-[1rem] text-[1.05rem]" rows={textareaRows} placeholder="Type your content here..."
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
