@@ -173,6 +173,19 @@ const NoteModal = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const handlePopstate = () => {
+            // Call your close function here
+            closeModal(e)
+        };
+
+        window.addEventListener('popstate', handlePopstate);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopstate);
+        };
+    }, []);
+
     const router = useRouter()
 
     function closeModal(event) {
