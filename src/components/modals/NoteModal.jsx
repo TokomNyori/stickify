@@ -202,6 +202,28 @@ const NoteModal = () => {
         }
     }, [note.isPrivate, rephrasedNote.isPrivate])
 
+
+    useEffect(() => {
+        // Define a function to handle changes to the media query
+        const handleResize = (e) => {
+            setIsMobile(e.matches);
+        };
+
+        // Add a listener for the media query
+        const mediaQuery = window.matchMedia('(max-width: 640px)');
+        mediaQuery.addEventListener('change', handleResize)
+
+        setIsMobile(mediaQuery.matches);
+
+        // Clean up the listener when the component unmounts
+        return () => {
+            mediaQuery.removeEventListener('change', handleResize);
+        };
+    }, []);
+
+    console.log('Is Mobile')
+    console.log(isMobile)
+
     // useEffect(() => {
     //     const handleHistoryChange = (e) => {
     //         // Prevent the default behavior of the browser's back button
