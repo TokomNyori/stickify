@@ -178,6 +178,30 @@ const NoteModal = () => {
         };
     }, []);
 
+    useEffect(() => {
+        if (pin) {
+            toast('Pinned', {
+                icon: '📌',
+                position: 'top-left',
+            })
+        }
+        if (isRephrasedNote) {
+            if (rephrasedNote.isPrivate) {
+                toast('Private note', {
+                    icon: '🔒',
+                    position: 'top-left',
+                })
+            }
+        } else {
+            if (note.isPrivate) {
+                toast('Private note', {
+                    icon: '🔒',
+                    position: 'top-left',
+                })
+            }
+        }
+    }, [pin, note.isPrivate, rephrasedNote.isPrivate])
+
     // useEffect(() => {
     //     const handleHistoryChange = (e) => {
     //         // Prevent the default behavior of the browser's back button
@@ -391,11 +415,11 @@ const NoteModal = () => {
     // console.log('NoteConfig')
     // console.log(noteModalConfig)
 
-    // console.log('Note Object')
-    // console.log(note)
+    console.log('Note Object')
+    console.log(note)
 
-    // console.log('Rephrased Object')
-    // console.log(rephrasedNote)
+    console.log('Rephrased Object')
+    console.log(rephrasedNote)
 
     return (
         <div
@@ -458,7 +482,7 @@ const NoteModal = () => {
                     <div className='text-area-section mb-2'>
                         <div className="mb-2 notemodal-text-area realtive">
                             {/* <label htmlFor="note_content" className="block mb-2 text-sm font-medium">Content</label> */}
-                            <textarea type="text" id="note_content" className="rounded-lg bg-transparent border-gray-600 block 
+                            <textarea type="text" id="note_content" className="rounded-lg border-gray-600 block 
                                 py-2 w-full placeholder-gray-500 text-gray-700 focus:outline-none
                                 min-h-full note-textarea sm:text-[1rem] text-[1.05rem]" rows={textareaRows} placeholder="Type your content here..."
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
