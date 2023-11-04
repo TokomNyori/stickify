@@ -178,22 +178,22 @@ const NoteModal = () => {
         };
     }, []);
 
-    useEffect(() => {
-        const handleHistoryChange = (e) => {
-            // Prevent the default behavior of the browser's back button
-            e.preventDefault();
-            router.refresh()
-            // Call your close function here
-            closeModal(e);
-        };
+    // useEffect(() => {
+    //     const handleHistoryChange = (e) => {
+    //         // Prevent the default behavior of the browser's back button
+    //         e.preventDefault();
+    //         router.refresh()
+    //         // Call your close function here
+    //         closeModal(e);
+    //     };
 
-        // Listen for changes in the browser's history
-        window.onpopstate = handleHistoryChange;
+    //     // Listen for changes in the browser's history
+    //     window.onpopstate = handleHistoryChange;
 
-        return () => {
-            window.onpopstate = null; // Clean up the event listener when the component unmounts
-        };
-    }, []);
+    //     return () => {
+    //         window.onpopstate = null; // Clean up the event listener when the component unmounts
+    //     };
+    // }, []);
 
     const router = useRouter()
 
