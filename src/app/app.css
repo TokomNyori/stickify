@@ -15,8 +15,8 @@
 }
 
 .modal-main{
-  width: 38%;
-  height: auto;
+  width: 40%;
+  min-height: 96%;
   flex-wrap: wrap;
   padding: 1rem 1rem;
   /* @apply bg-gray-700; */

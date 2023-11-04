@@ -4,9 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { editNoteHelper, getNoteHelper, openAiPostHelper, postNoteHelper } from "@/helper/httpHelpers/httpNoteHelper";
 import { useRouter } from "next/navigation";
 import { Configuration, OpenAIApi } from "openai";
-import { AiOutlineCloseCircle } from 'react-icons/ai'
-import { AiOutlineCheck } from 'react-icons/ai'
-import { AiOutlineClose } from 'react-icons/ai'
 import { BsFillPinAngleFill } from 'react-icons/bs'
 import { BsPin } from 'react-icons/bs'
 import { BsPinFill } from 'react-icons/bs'
@@ -18,6 +15,9 @@ import ClipLoader from "react-spinners/PacmanLoader";
 import ClipLoader2 from "react-spinners/GridLoader";
 import { useDispatch, useSelector } from 'react-redux';
 import { addNote } from '@/redux_features/notes/noteSlice';
+import { BiArrowBack } from 'react-icons/bi'
+import { BsCheckCircle } from 'react-icons/bs'
+import { HiOutlineLockClosed } from 'react-icons/hi'
 import PopUp2 from '../popups/PopUp2';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice';
@@ -50,6 +50,8 @@ const NoteModal = () => {
     const [isRephrasedContent, setIsRephrasedContent] = useState(true)
     const [isRephrasedNote, setIsRephrasedNote] = useState(false)
     const [loadingRephraser, setLoadingRephraser] = useState(false)
+    const [textareaRows, setTextareaRows] = useState(15);
+    const initialRows = 15; // Initial number of rows
     const noteModalRef = useRef(null);
     const isTitleEmpty = isRephrasedNote ? isRephrasedTitle : isTitle
     const isContentEmpty = isRephrasedNote ? isRephrasedContent : isContent
@@ -137,21 +139,24 @@ const NoteModal = () => {
     }, [rephrasedNote])
 
     useEffect(() => {
-        const mediaQueryList = window.matchMedia('(max-width: 640px)');
-
-        const handleResize = (event) => {
-            setIsMobile(event.matches);
-        };
-
-        // Add a listener to the media query
-        mediaQueryList.addEventListener('change', handleResize)
-
-        // Initial check for the media query
-        setIsMobile(mediaQueryList.matches);
-
-        // Clean up the listener when the component unmounts
+        function handleResize() {
+            const height = window.innerHeight;
+            console.log('height screen:', height);
+            if (height > 700 && height < 800) {
+                setTextareaRows(18)
+            } else if (height > 799 && height < 900) {
+                setTextareaRows(22)
+            } else if (height > 899 && height < 1000) {
+                setTextareaRows(24)
+            } else {
+                setTextareaRows(15)
+            }
+        }
+        // Add the event listener
+        window.addEventListener('resize', handleResize);
+        // Clean up the event listener when the component unmounts
         return () => {
-            mediaQueryList.removeEventListener('change', handleResize);
+            window.removeEventListener('resize', handleResize);
         };
     }, []);
 
@@ -347,6 +352,7 @@ const NoteModal = () => {
         setLoadingRephraser(val)
     }
 
+
     // console.log('NoteConfig')
     // console.log(noteModalConfig)
 
@@ -364,31 +370,86 @@ const NoteModal = () => {
                 className={`modal-main rounded-xl shadow-lg 
                 ${isRephrasedNote ? `bg-[${rephrasedNote.color}]` : `bg-[${note.color}]`} text-gray-700`}
                 ref={noteModalRef} >
-                <div className="modal-heading">
-                    <div className="text-center">{isEdit ? 'Edit Note' : 'Add Note'}</div>
-                    <div className='close-btn cursor-pointer' onClick={pinIt}>
-                        <BsPinFill className={`text-2xl mr-2 ${pin ? 'text-gray-700' : 'text-gray-400'}`} />
-                    </div>
-                </div>
-                <form className="mt-6" onSubmit={submitForm}>
-                    <div className={`sm:text-sm text-red-400 ${isTitleEmpty ? 'hidden' : 'block'}`}>
-                        Title cannot be empty. Please enter a title.
-                    </div>
-                    <div className="flex justify-between items-center gap-4">
-                        <div className="mb-4 flex-grow">
-                            {/* <label htmlFor="note_title" className="block mb-2 text-sm font-medium">Title</label> */}
-                            <input type="text" id="note_title" className="bg-gray-700 border-b border-gray-800/75 block w-full 
+                <form className="mt-2 min-h-full flex flex-col" onSubmit={submitForm}>
+                    <div className='top-section'>
+                        <div className="modal-heading">
+                            <div className="text-center" onClick={closeModal}>
+                                <BiArrowBack className='text-3xl cursor-pointer home-link' />
+                            </div>
+                            <div className='flex gap-3 items-start justify-center'>
+                                <div className=''>
+                                    <input id="isPrivate" type="checkbox" name="isPrivate"
+                                        checked={isRephrasedNote ? rephrasedNote.isPrivate : note.isPrivate}
+                                        onChange={changeNote}
+                                        className="hidden" />
+                                    <label for="isPrivate">
+                                        <HiOutlineLockClosed className={`text-3xl mb-0.5 cursor-pointer home-link
+                                    ${rephrasedNote.isPrivate || note.isPrivate ?
+                                                'text-gray-700' :
+                                                'text-gray-400'}
+                                    `} />
+                                    </label>
+                                </div>
+                                <div className='close-btn cursor-pointer' onClick={pinIt}>
+                                    <BsPinFill className={`text-3xl mt-0.5 ${pin ? 'text-gray-700' : 'text-gray-400'}`} />
+                                </div>
+                                <button
+                                    className="bg-transparent"
+                                    type="submit"
+                                >
+                                    <BsCheckCircle className='text-3xl cursor-pointer home-link' />
+                                </button>
+                            </div>
+                        </div>
+                        <div className={`sm:text-sm text-red-400 ${isTitleEmpty ? 'hidden' : 'block'}`}>
+                            Title cannot be empty. Please enter a title.
+                        </div>
+                        <div className="flex justify-between items-center gap-4 mt-4">
+                            <div className="mb-4 flex-grow">
+                                {/* <label htmlFor="note_title" className="block mb-2 text-sm font-medium">Title</label> */}
+                                <input type="text" id="note_title" className="bg-gray-700 border-b border-gray-800/75 block w-full 
                                 py-4 sm:py-3 font-bold placeholder-gray-500 text-gray-700 focus:outline-none bg-transparent"
-                                placeholder="Title..." value={isRephrasedNote ? rephrasedNote.title : note.title}
-                                name="title" onChange={changeNote} required />
-                        </div>
-                        <div className=' text-sm border border-gray-700 hover:border-gray-950 rounded-lg py-1 px-2 
+                                    placeholder="Title..." value={isRephrasedNote ? rephrasedNote.title : note.title}
+                                    name="title" onChange={changeNote} required />
+                            </div>
+                            <div className=' text-sm border border-gray-700 hover:border-gray-950 rounded-lg py-1 px-2 
                              cursor-pointer mt-2 sm:mt-0'
-                            onClick={changeGptRequirementModal}>
-                            Generate <span><BiSolidSend className='inline' /></span>
+                                onClick={changeGptRequirementModal}>
+                                Generate <span><BiSolidSend className='inline' /></span>
+                            </div>
                         </div>
                     </div>
-                    <div className="radio-inputs mb-4 flex gap-3">
+                    <div className='text-area-section mb-3'>
+                        <div className="mb-2 notemodal-text-area realtive">
+                            {/* <label htmlFor="note_content" className="block mb-2 text-sm font-medium">Content</label> */}
+                            <textarea type="text" id="note_content" className="rounded-lg bg-transparent border-gray-600 block 
+                                py-4 sm:py-3 w-full sm:text-sm placeholder-gray-500 text-gray-700 focus:outline-none
+                                min-h-full note-textarea" rows={textareaRows} placeholder="Type your content here..."
+                                value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
+                                onChange={changeNote} required
+                            />
+                            <div className='absolute bottom-24 text-sm sm:text-xs text-gray-100 border border-gray-100
+                            px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn z-20 dark:bg-gray-800/50 bg-gray-800/50
+                            flex gap-1 justify-center items-center'
+                                onClick={toggleRephrasePopUp} >
+                                <span><RiMagicFill className='inline text-lg sm:text-sm' /></span> Rephrase
+                            </div>
+                            <PopUp2
+                                closeRephrasePopUp={closeRephrasePopUp}
+                                rephrasePopUp={rephrasePopUp} content={note.content}
+                                changeRephrasedNote={changeRephrasedNote}
+                                rephrasedNote={rephrasedNote}
+                                changeIsRepCnt={changeIsRepCnt}
+                                isRephrasedNote={isRephrasedNote}
+                                setLoadingRephraserFun={setLoadingRephraserFun}
+                                isMobile={isMobile}
+                            />
+                        </div>
+                        <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
+                            Please enter content.
+                        </div>
+                    </div>
+                    <div className="radio-inputs flex-1 mb-4 flex gap-3">
                         <div>
                             {/* checked={note.color === '#FFFAD1'} */}
                             <input type="radio" id="color1" name="color" className="hidden note-radio-btn" value="#FFFAD1"
@@ -459,61 +520,6 @@ const NoteModal = () => {
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
                             ></label>
                         </div>
-                    </div>
-
-                    <div className="mb-2 notemodal-text-area realtive">
-                        {/* <label htmlFor="note_content" className="block mb-2 text-sm font-medium">Content</label> */}
-                        <textarea type="text" id="note_content" className="rounded-lg bg-transparent border-gray-600 block 
-                                py-4 sm:py-3 w-full sm:text-sm placeholder-gray-500 text-gray-700 focus:outline-none
-                                min-h-full note-textarea" rows={isMobile ? 15 : 12} placeholder="Type your content here..."
-                            value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
-                            onChange={changeNote} required />
-                        <div className='absolute bottom-24 text-sm sm:text-xs text-gray-100 border border-gray-100
-                            px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn z-20 dark:bg-gray-800/50 bg-gray-800/50
-                            flex gap-1 justify-center items-center'
-                            onClick={toggleRephrasePopUp} >
-                            <span><RiMagicFill className='inline text-lg sm:text-sm' /></span> Rephrase
-                        </div>
-                        <PopUp2
-                            closeRephrasePopUp={closeRephrasePopUp}
-                            rephrasePopUp={rephrasePopUp} content={note.content}
-                            changeRephrasedNote={changeRephrasedNote}
-                            rephrasedNote={rephrasedNote}
-                            changeIsRepCnt={changeIsRepCnt}
-                            isRephrasedNote={isRephrasedNote}
-                            setLoadingRephraserFun={setLoadingRephraserFun}
-                            isMobile={isMobile}
-                        />
-                    </div>
-                    <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
-                        Please enter content.
-                    </div>
-                    <div className='flex items-center justify-center mb-4 mr-2'>
-                        <input id="isPrivate" type="checkbox" name="isPrivate"
-                            checked={isRephrasedNote ? rephrasedNote.isPrivate : note.isPrivate}
-                            onChange={changeNote}
-                            class="sm:w-4 sm:h-4 w-5 h-5 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 
-                                border-gray-600 rounded-full" />
-                        <label for="isPrivate" class="ml-2 sm:text-sm font-medium">keep it private?</label>
-                    </div>
-                    <div className="flex items-end justify-center gap-5">
-                        <button
-                            className="border border-gray-800 focus:outline-none font-medium rounded-full sm:text-sm px-2
-                                    py-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-green-400/75
-                                    focus:ring-gray-700"
-                            type="submit"
-                        >
-                            <AiOutlineCheck className='font-bold sm:text-xl text-2xl' />
-                        </button>
-                        <button
-                            className="border border-gray-800 focus:outline-none font-medium rounded-full sm:text-sm px-2 
-                                py-2 mr-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-red-400/75
-                                focus:ring-gray-700"
-                            type='button'
-                            onClick={closeModal}
-                        >
-                            <AiOutlineClose className='font-bold sm:text-xl text-2xl' />
-                        </button>
                     </div>
                 </form>
                 <GptSubmit
