@@ -465,7 +465,7 @@ const NoteModal = () => {
                         {/* <label htmlFor="note_content" className="block mb-2 text-sm font-medium">Content</label> */}
                         <textarea type="text" id="note_content" className="rounded-lg bg-transparent border-gray-600 block 
                                 py-4 sm:py-3 w-full sm:text-sm placeholder-gray-500 text-gray-700 focus:outline-none
-                                min-h-full note-textarea" rows={isMobile ? 13 : 12} placeholder="Type your content here..."
+                                min-h-full note-textarea" rows={isMobile ? 15 : 12} placeholder="Type your content here..."
                             value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                             onChange={changeNote} required />
                         <div className='absolute bottom-24 text-sm sm:text-xs text-gray-100 border border-gray-100

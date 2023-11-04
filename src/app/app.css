@@ -160,7 +160,7 @@
 @media (max-width: 640px) {
   .modal-main {
     width: 98%;
-    height: auto;
+    height: 98%;
     overflow: auto;
     padding: 1rem 1rem;
     flex-wrap: wrap;
