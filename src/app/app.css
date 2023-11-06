@@ -203,7 +203,7 @@
 
   .ai-rephrase-options {
     left: -60%;
-    top: -775%;
+    top: -777.5%;
   }
 
   .profilePopUp {
@@ -259,24 +259,6 @@
     row-gap: 0.4rem;
   }
 
-}
-
-@media screen and (max-width: 640px) and (max-height: 896px) {
-  /* .ai-rephrase-btn {
-    left: 71%;
-    bottom: 20.8%;
-  }
-  .ai-rephrase-options {
-    left: 56.5%;
-    top: 49.5%;
-  } */
-}
-
-@media screen and (max-width: 640px) and (max-height: 876px) {
-  /* .ai-rephrase-options {
-    left: 56.5%;
-    top: 47.5%;
-  } */
 }
 
 @media (max-width: 391px) {
