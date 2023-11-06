@@ -34,6 +34,7 @@ const PopUp2 =
             const ctx = isRephrasedNote ? rephrasedNote.content : content
 
             const instruction = `Your role is to rephrase the given content to a different tone. Turn yourself into a powerful rephrasing tool. Rephrase the content in a ${tone} tone. The content is inside curly brackets. The content is: {${ctx}}`
+            const enhanceInstruction = `You will be provided with content, and your task is to convert the content to standard english. The content is inside curly brackets. The content is: {${ctx}}`
             const gptData = {
                 model: 'gpt-3.5-turbo',
                 temperature: 0.5,
@@ -41,14 +42,15 @@ const PopUp2 =
                 messages: [
                     {
                         'role': 'system',
-                        'content': 'You are a rephrasing assistant.',
+                        'content': tone === 'enhance' ? 'You will be provided with content, and your task is to convert the content to standard english.' : 'You are a rephrasing assistant.',
                     },
                     {
                         'role': 'user',
-                        'content': instruction,
+                        'content': tone === 'enhance' ? enhanceInstruction : instruction,
                     },
                 ]
             }
+            console.log(gptData)
             const headers = {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`
@@ -107,6 +109,11 @@ const PopUp2 =
 
                 }
                 <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5"
+                    onClick={(event) => rephraseContentFun(event, 'enhance')}
+                >
+                    Enhance ✨
+                </div>
+                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5"
                     onClick={(event) => rephraseContentFun(event, 'professional')}
                 >
                     Professional 🤵
@@ -126,15 +133,10 @@ const PopUp2 =
                 >
                     Formal 📚
                 </div>
-                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5"
+                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out"
                     onClick={(event) => rephraseContentFun(event, 'friendly')}
                 >
                     Friendly 😊
-                </div>
-                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out"
-                    onClick={(event) => rephraseContentFun(event, 'technical')}
-                >
-                    Technical 💡
                 </div>
             </div>
         )

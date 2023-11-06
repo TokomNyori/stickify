@@ -146,7 +146,7 @@ const NoteModal = () => {
 
     useEffect(() => {
         const height = window.innerHeight;
-        console.log('height screen:', height);
+
         if (height > 700 && height < 800) {
             setTextareaRows(18)
         } else if (height > 799 && height < 900) {
@@ -163,8 +163,6 @@ const NoteModal = () => {
     useEffect(() => {
         function handleResize() {
             const height = window.innerHeight;
-
-            console.log('height screen:', height);
             if (height > 700 && height < 800) {
                 setTextareaRows(18)
             } else if (height > 799 && height < 900) {
@@ -493,31 +491,31 @@ const NoteModal = () => {
                     <div className='text-area-section mb-2'>
                         <div className="mb-2 notemodal-text-area realtive">
                             {/* <label htmlFor="note_content" className="block mb-2 text-sm font-medium">Content</label> */}
-                            <textarea type="text" id="note_content" className="rounded-lg bg-transparent border-gray-600 block 
+                            <textarea type="text" id="note_content" className="rounded-lg border-gray-600 block 
                                 py-2 w-full placeholder-gray-500 text-gray-700 focus:outline-none
                                 min-h-full note-textarea sm:text-[1rem] text-[1.05rem]" rows={textareaRows} placeholder="Type your content here..."
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
-                            <div className='absolute bottom-24 text-sm sm:text-xs text-gray-100 border border-gray-100
+                            <div className={`absolute bottom-24 text-sm sm:text-xs text-gray-100 border border-gray-100
                             px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn z-20 dark:bg-gray-800/50 bg-gray-800/50
-                            flex gap-1 justify-center items-center'
+                            flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
                                 onClick={toggleRephrasePopUp} >
-                                <span><RiMagicFill className='inline text-lg sm:text-sm' /></span> Rephrase
+                                <span><RiMagicFill className='inline text-lg sm:text-sm' /></span> Grammar
+                                <PopUp2
+                                    closeRephrasePopUp={closeRephrasePopUp}
+                                    rephrasePopUp={rephrasePopUp} content={note.content}
+                                    changeRephrasedNote={changeRephrasedNote}
+                                    rephrasedNote={rephrasedNote}
+                                    changeIsRepCnt={changeIsRepCnt}
+                                    isRephrasedNote={isRephrasedNote}
+                                    setLoadingRephraserFun={setLoadingRephraserFun}
+                                />
                             </div>
-                            <PopUp2
-                                closeRephrasePopUp={closeRephrasePopUp}
-                                rephrasePopUp={rephrasePopUp} content={note.content}
-                                changeRephrasedNote={changeRephrasedNote}
-                                rephrasedNote={rephrasedNote}
-                                changeIsRepCnt={changeIsRepCnt}
-                                isRephrasedNote={isRephrasedNote}
-                                setLoadingRephraserFun={setLoadingRephraserFun}
-                            />
                         </div>
-                        <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
+                        {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.
-                        </div>
+                        </div> */}
                     </div>
                     <div className="radio-inputs flex-1 mb-4 flex gap-3">
                         <div>

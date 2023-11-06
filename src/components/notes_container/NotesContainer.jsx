@@ -52,8 +52,6 @@ export default function NotesContainer() {
     async function getUserCookie() {
         try {
             const res = await CookieHelper()
-            console.log('Get Cookies:')
-            console.log(res.body)
             dispatch(addUser(res.body))
         } catch (error) {
             console.log('CookieHelper Error')
@@ -64,8 +62,6 @@ export default function NotesContainer() {
     async function getNotes() {
         try {
             const res = await getNoteHelper({ method: 'GET', userId: users._id, headers: { 'Content-Type': 'application/json' } })
-            console.log('Get notes:')
-            console.log(res.body)
             dispatch(addNote(res.body))
             setInitialLoading(false)
         } catch (error) {

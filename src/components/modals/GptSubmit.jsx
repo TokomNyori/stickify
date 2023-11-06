@@ -1,4 +1,4 @@
-import { openAiPostHelper } from '@/helper/httpHelpers/httpNoteHelper'
+import { openAiPostHelper, youtubeOneVideotHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import { useEffect, useState } from 'react'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { BiSolidSend } from 'react-icons/bi'
@@ -58,7 +58,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
             temperature = 0.5
         }
         const emojiOption = ' Generate 3 to 4 meaningful emojis interspersed throughout the content. The emojis should be relevant to the context.'
-        const instruction = `Your role is to generate content for a note-taking app for the given topic. Act as an expert in the topic and explain it like a good teacher. ${output_type}. Don't be verbose. Generate at least ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} End with an interesting fact about the topic. The topic is inside curly brackets. The topic is: {${generateRequirementGpt.generate_title}}`
+        const instruction = `Act as an expert in the topic and explain it like a good teacher. ${output_type}. Don't be verbose. Generate at least ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} End with an interesting fact about the topic. The topic is inside curly brackets. The topic is: {${generateRequirementGpt.generate_title}}`
         const gptData = {
             model: 'gpt-3.5-turbo',
             temperature: temperature,
@@ -66,7 +66,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
             messages: [
                 {
                     'role': 'system',
-                    'content': 'You are generating content for a note-taking app known as stickify (The Stickify introduction should be no longer than 12 words.).'
+                    'content': 'You are generating content for a note-taking app. Please do not indroduce the app'
                 },
                 {
                     'role': 'user',
@@ -87,6 +87,9 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
             toast('Generated!', {
                 icon: '😀'
             })
+            const ytRes = await youtubeOneVideotHelper({ method: 'GET', title: generateRequirementGpt.generate_title })
+            console.log('ytRes')
+            console.log(ytRes)
         } catch (error) {
             setLoadingGpt(false)
             toast(error.message, {
