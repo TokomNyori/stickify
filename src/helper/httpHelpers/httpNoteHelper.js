@@ -137,11 +137,11 @@ export async function openAiPostHelper({ method, headers, body }) {
     return res.json()
 }
 
-export async function youtubeOneVideotHelper({ method, title }) {
-    const youtube_api_key = process.env.NEXT_PUBLIC_YOUTUBE_API
+export async function youtubeOneVideotHelper({ method, title, youtube_api_key, headers }) {
     const res = await fetch(`https://www.googleapis.com/youtube/v3/search?type=video&q=${title}&maxResults=1&videoDuration=medium&relevanceLanguage=en&key=${youtube_api_key}`,
         {
-            method: method
+            method: method,
+            headers: headers
         })
 
     if (!res.ok) {

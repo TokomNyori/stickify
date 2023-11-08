@@ -88,9 +88,16 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
             const res = await openAiPostHelper({ method: 'POST', headers: headers, body: gptData })
             const gptGeneratedContent = res.choices[0].message.content
             const ytTitle = `Explain ${generateRequirementGpt.generate_title}`
-            const ytRes = await youtubeOneVideotHelper({ method: 'GET', title: ytTitle })
-            // console.log('ytRes--')
-            // console.log(ytRes)
+            const ytRes = await youtubeOneVideotHelper(
+                {
+                    method: 'GET',
+                    title: ytTitle,
+                    youtube_api_key: process.env.NEXT_PUBLIC_YOUTUBE_API,
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            )
+            console.log('ytRes--')
+            console.log(gptGeneratedContent)
             if (ytRes.items.length === 0) {
                 const youtubeVideoId = ''
                 const generatedData = {
@@ -119,7 +126,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         } catch (error) {
             setLoadingGpt(false)
             toast(error.message, {
-                icon: '😀'
+                icon: '🥺'
             })
         }
     }
