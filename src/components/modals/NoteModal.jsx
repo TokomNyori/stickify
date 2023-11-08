@@ -21,6 +21,9 @@ import { HiOutlineLockClosed } from 'react-icons/hi'
 import PopUp2 from '../popups/PopUp2';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice';
+import { AiFillYoutube } from 'react-icons/ai'
+import YouTube from 'react-youtube';
+import YoutubeModal from './YoutubeModal';
 
 const NoteModal = () => {
     //const userId = userCookie?._id
@@ -33,11 +36,12 @@ const NoteModal = () => {
         color: '#FFFAD1',
         content: '',
         isPrivate: false,
-        userId: users._id
+        userId: users._id,
+        ytVideoId: ''
     })
 
     const [pin, setPin] = useState(false)
-    const [gptSubmitModalState, setGptSubmitModalState] = useState(false)
+
     const [loading, setLoading] = useState(false)
     //const notes = useSelector(state => state.note.notes)
     const dispatch = useDispatch()
@@ -50,7 +54,10 @@ const NoteModal = () => {
     const [isRephrasedNote, setIsRephrasedNote] = useState(false)
     const [loadingRephraser, setLoadingRephraser] = useState(false)
     const [textareaRows, setTextareaRows] = useState();
+    const [gptSubmitModalState, setGptSubmitModalState] = useState(false)
+    const [youtubeVideoModalState, setYoutubeVideoModalState] = useState(false)
     const noteModalRef = useRef(null);
+    const youtubeVideoModLRef = useRef(null);
     const isTitleEmpty = isRephrasedNote ? isRephrasedTitle : isTitle
     const isContentEmpty = isRephrasedNote ? isRephrasedContent : isContent
     const pageName = useSelector(state => state.page.page)
@@ -84,7 +91,8 @@ const NoteModal = () => {
                 color: noteModalConfig.noteObject.color,
                 content: noteModalConfig.noteObject.content,
                 isPrivate: noteModalConfig.noteObject.isPrivate,
-                userId: users._id
+                userId: users._id,
+                ytVideoId: noteModalConfig.noteObject.ytVideoId
             })
             if (noteModalConfig.noteObject.status === 'pinned') {
                 setPin(true)
@@ -254,11 +262,20 @@ const NoteModal = () => {
         }
     }
 
-    function changeNoteContentByGpt(content) {
-        setNote(prev => ({
-            ...prev,
-            content: content
-        }))
+    function changeNoteContentByGpt(generatedData) {
+        if (isRephrasedNote) {
+            setRephrasedNote(prev => ({
+                ...prev,
+                content: generatedData.gptGeneratedContent,
+                ytVideoId: generatedData.youtubeVideoId,
+            }))
+        } else {
+            setNote(prev => ({
+                ...prev,
+                content: generatedData.gptGeneratedContent,
+                ytVideoId: generatedData.youtubeVideoId,
+            }))
+        }
     }
 
     function pinIt() {
@@ -334,7 +351,8 @@ const NoteModal = () => {
             color: '#FFFAD1',
             content: '',
             isPrivate: false,
-            userId: users._id
+            userId: users._id,
+            ytVideoId: ''
         })
         setNote({
             title: '',
@@ -342,7 +360,8 @@ const NoteModal = () => {
             color: '#FFFAD1',
             content: '',
             isPrivate: false,
-            userId: users._id
+            userId: users._id,
+            ytVideoId: ''
         })
         setPin(false)
         setIsRephrasedNote(false)
@@ -368,6 +387,35 @@ const NoteModal = () => {
             return
         }
         setGptSubmitModalState(prev => !prev)
+    }
+
+    function changeYoutubeVideoModal() {
+        setYoutubeVideoModalState(prev => !prev)
+        if (youtubeVideoModLRef.current) {
+            youtubeVideoModLRef.current.getInternalPlayer().pauseVideo();
+        }
+    }
+
+    function deleteYoutubeVideoFromModal() {
+        if (isRephrasedNote) {
+            setRephrasedNote(prev => ({
+                ...prev,
+                ytVideoId: ''
+            }))
+            toast('Deleted', {
+                icon: '🗑️'
+            })
+            changeYoutubeVideoModal()
+        } else {
+            setNote(prev => ({
+                ...prev,
+                ytVideoId: ''
+            }))
+            toast('Deleted', {
+                icon: '🗑️'
+            })
+            changeYoutubeVideoModal()
+        }
     }
 
     function toggleRephrasePopUp() {
@@ -420,6 +468,12 @@ const NoteModal = () => {
         setLoadingRephraser(val)
     }
 
+    const opts = {
+        playerVars: {
+            // https://developers.google.com/youtube/player_parameters
+            autoplay: 0,
+        },
+    };
 
     // console.log('NoteConfig')
     // console.log(noteModalConfig)
@@ -438,7 +492,7 @@ const NoteModal = () => {
                 className={`modal-main rounded-xl shadow-lg 
                 ${isRephrasedNote ? `bg-[${rephrasedNote.color}]` : `bg-[${note.color}]`} text-gray-700`}
                 ref={noteModalRef} >
-                <form className="mt-2 min-h-full flex flex-col" onSubmit={submitForm}>
+                <form className="mt-2 min-h-full flex flex-col" onSubmit={submitForm} id='createNoteForm'>
                     <div className='top-section'>
                         <div className="modal-heading">
                             <div className="text-center" onClick={closeModal}>
@@ -497,11 +551,19 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
+                            {
+                                note.ytVideoId || rephrasedNote.ytVideoId ?
+                                    <div className='youtubeModalIcon' onClick={changeYoutubeVideoModal}>
+                                        <AiFillYoutube className='text-5xl opacity-[70%] text-[#ff0000] ' />
+                                    </div> : null
+                            }
                             <div className={`absolute bottom-24 text-sm sm:text-xs text-gray-100 border border-gray-100
-                            px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn z-20 dark:bg-gray-800/50 bg-gray-800/50
+                            px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn dark:bg-gray-800/70 bg-gray-800/50
                             flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
                                 onClick={toggleRephrasePopUp} >
-                                <span><RiMagicFill className='inline text-lg sm:text-sm' /></span> Grammar
+                                <span className='text-sm'>
+                                    <RiMagicFill className='inline text-lg' /> Grammar
+                                </span>
                                 <PopUp2
                                     closeRephrasePopUp={closeRephrasePopUp}
                                     rephrasePopUp={rephrasePopUp} content={note.content}
@@ -594,6 +656,13 @@ const NoteModal = () => {
                     gptSubmitModalState={gptSubmitModalState} noteFromNoteModal={note}
                     changeGptRequirementModal={changeGptRequirementModal} changeNoteContentByGpt={changeNoteContentByGpt}
                     isRephrasedNote={isRephrasedNote} rephrasedNote={rephrasedNote} />
+                <YoutubeModal
+                    youtubeVideoModalState={youtubeVideoModalState}
+                    changeYoutubeVideoModal={changeYoutubeVideoModal}
+                    ytVideoId={note.ytVideoId}
+                    youtubeVideoModLRef={youtubeVideoModLRef}
+                    deleteYoutubeVideoFromModal={deleteYoutubeVideoFromModal}
+                />
             </div>
             {loading &&
                 <div

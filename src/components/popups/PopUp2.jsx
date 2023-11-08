@@ -33,11 +33,11 @@ const PopUp2 =
             event.stopPropagation()
             const ctx = isRephrasedNote ? rephrasedNote.content : content
 
-            const instruction = `Your role is to rephrase the given content to a different tone. Rephrase the content in a ${tone} tone. If there are any emojis in the content, please retain them. The content is inside curly brackets. The content is: {${ctx}}`
-            const enhanceInstruction = `You will be provided with content, and your task is to convert the content to standard English. If there are any emojis in the content, please retain them. The content is inside curly brackets. The content is: {${ctx}}`
+            const instruction = `Your role is to rephrase the given content to a different tone. Rephrase the content in a ${tone} tone. The content is inside curly brackets. The content is: {${ctx}}`
+            const enhanceInstruction = `You will be provided with content, and your task is to convert the content to standard English. The content is inside curly brackets. The content is: {${ctx}}`
             const gptData = {
                 model: 'gpt-3.5-turbo',
-                temperature: 0.5,
+                temperature: 0.7,
                 max_tokens: 2000,
                 messages: [
                     {
@@ -93,8 +93,8 @@ const PopUp2 =
 
         return (
             <div
-                className={`${rephrasePopUp ? 'PopUps2' : 'hidden'} bg-gray-800/50 text-gray-100
-                        absolute ai-rephrase-options`}
+                className={`${rephrasePopUp ? 'PopUps2' : 'hidden w-0 h-0'} bg-gray-800/70 text-gray-100
+                        absolute ai-rephrase-options border border-gray-100`}
                 ref={rephrasePopUpRef}
             >
                 {

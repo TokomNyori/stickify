@@ -47,18 +47,22 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
             words = 500
         }
         let output_type = ''
+        let additionalInstructions = '';
         if (generateRequirementGpt.output_type === 'easy to understand') {
             output_type = `Explain in a way that makes the topic simple. Present the subject matter in a manner so simple and clear that it can be comprehended by an 8-year-old`
+            additionalInstructions = 'Simplify complex concepts and use plain language.'
             temperature = 0.7
         } else if (generateRequirementGpt.output_type === 'gamify') {
             output_type = `Think of yourself as a creative teacher. Explain the topic so it feels like a game. Gamify the learning process. Explain the topic by playing a game`
+            additionalInstructions = 'Use storytelling and gamification techniques to engage the audience.'
             temperature = 0.7
         } else {
             output_type = `Explain the topic with precision and accuracy. Explain the subject matter in a standard and clear manner`
+            additionalInstructions = 'Provide detailed and accurate information in a clear and concise way.'
             temperature = 0.5
         }
         const emojiOption = ' Generate 3 to 4 meaningful emojis interspersed throughout the content. The emojis should be relevant to the context.'
-        const instruction = `Act as an expert in the topic and explain it like a good teacher. ${output_type}. Don't be verbose. Generate at least ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} End with an interesting fact about the topic. The topic is inside curly brackets. The topic is: {${generateRequirementGpt.generate_title}}`
+        const instruction = `Act as an expert in the topic. ${output_type}. Don't be verbose. Generate at least ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} The topic is inside curly brackets. The topic is: {${generateRequirementGpt.generate_title}}. ${additionalInstructions} End with an interesting fact about the topic.`
         const gptData = {
             model: 'gpt-3.5-turbo',
             temperature: temperature,
@@ -74,6 +78,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                 }
             ]
         }
+        console.log(instruction)
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`
@@ -81,15 +86,36 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         try {
             setLoadingGpt(true)
             const res = await openAiPostHelper({ method: 'POST', headers: headers, body: gptData })
-            changeNoteContentByGpt(res.choices[0].message.content)
-            setLoadingGpt(false)
-            changeGptRequirementModal()
-            toast('Generated!', {
-                icon: '😀'
-            })
-            const ytRes = await youtubeOneVideotHelper({ method: 'GET', title: generateRequirementGpt.generate_title })
-            console.log('ytRes')
-            console.log(ytRes)
+            const gptGeneratedContent = res.choices[0].message.content
+            const ytTitle = `Explain ${generateRequirementGpt.generate_title}`
+            const ytRes = await youtubeOneVideotHelper({ method: 'GET', title: ytTitle })
+            // console.log('ytRes--')
+            // console.log(ytRes)
+            if (ytRes.items.length === 0) {
+                const youtubeVideoId = ''
+                const generatedData = {
+                    'gptGeneratedContent': gptGeneratedContent,
+                    'youtubeVideoId': youtubeVideoId,
+                }
+                changeNoteContentByGpt(generatedData)
+                setLoadingGpt(false)
+                changeGptRequirementModal()
+                toast('Generated!', {
+                    icon: '😀'
+                })
+            } else {
+                const youtubeVideoId = ytRes.items[0].id.videoId
+                const generatedData = {
+                    'gptGeneratedContent': gptGeneratedContent,
+                    'youtubeVideoId': youtubeVideoId,
+                }
+                changeNoteContentByGpt(generatedData)
+                setLoadingGpt(false)
+                changeGptRequirementModal()
+                toast('Generated!', {
+                    icon: '😀'
+                })
+            }
         } catch (error) {
             setLoadingGpt(false)
             toast(error.message, {
@@ -109,7 +135,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                         <AiOutlineCloseCircle className={`sm:text-2xl text-3xl text-gray-300 hover:text-red-400`} />
                     </div>
                 </div>
-                <form className="mt-4 text-gray-300" onSubmit={generateContent}>
+                <form className="mt-4 text-gray-300" onSubmit={generateContent} id='gptSubmitForm'>
                     {/* <div className="mb-4">
                         <label htmlFor="generate_title" className="block mb-2 text-sm font-medium">Title</label>
                         <input type="text" id="generate_title" className="bg-gray-700 border-b border-gray-400/75 block w-full 

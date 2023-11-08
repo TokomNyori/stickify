@@ -24,6 +24,7 @@ const NoteSchema = new Schema({
     likes: { type: Number },
     likedBy: [{ type: mongoose.ObjectId }],
     isPrivate: { type: Boolean, default: false, },
+    ytVideoId: { type: String },
 })
 
 export const NoteModel = mongoose.models.notes || mongoose.model('notes', NoteSchema)
