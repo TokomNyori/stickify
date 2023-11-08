@@ -89,8 +89,8 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
             const gptGeneratedContent = res.choices[0].message.content
             const ytTitle = `Explain ${generateRequirementGpt.generate_title}`
             const ytRes = await youtubeOneVideotHelper({ method: 'GET', title: ytTitle })
-            // console.log('ytRes--')
-            // console.log(ytRes)
+            console.log('ytRes--')
+            console.log(ytRes)
             if (ytRes.items.length === 0) {
                 const youtubeVideoId = ''
                 const generatedData = {
