@@ -547,7 +547,8 @@ const NoteModal = () => {
                             {/* <label htmlFor="note_content" className="block mb-2 text-sm font-medium">Content</label> */}
                             <textarea type="text" id="note_content" className="rounded-lg bg-transparent border-gray-600 block 
                                 py-2 w-full placeholder-gray-500 text-gray-700 focus:outline-none
-                                min-h-full note-textarea sm:text-[1rem] text-[1.05rem]" rows={textareaRows} placeholder="Type your content here..."
+                                min-h-full note-textarea sm:text-[1rem] text-[1.05rem]" rows={textareaRows} 
+                                placeholder="Type your content here..."
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
@@ -558,7 +559,7 @@ const NoteModal = () => {
                                     </div> : null
                             }
                             <div className={`absolute bottom-24 text-sm sm:text-xs text-gray-100 border border-gray-100
-                            px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn dark:bg-gray-800/70 bg-gray-800/50
+                            px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn dark:bg-gray-800/70 bg-gray-800/70
                             flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
                                 onClick={toggleRephrasePopUp} >
                                 <span className='text-sm'>
