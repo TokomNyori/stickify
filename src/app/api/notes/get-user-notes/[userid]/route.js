@@ -18,8 +18,6 @@ export async function GET(request, { params }) {
 
     try {
         const notes = await NoteModel.find({ userId: userid }).sort({ updated: -1 })
-        console.log('GET NOTES CALLED')
-        console.log(notes)
         return NextResponse.json({
             message: `Dynamically Fetched notes`,
             success: true,

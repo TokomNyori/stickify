@@ -27,7 +27,6 @@ const YoutubeModal = ({
     }, [youtubeVideoModalState]);
 
     const opts = {
-        borderRadius: '10px',
         playerVars: {
             autoplay: 0,
         },

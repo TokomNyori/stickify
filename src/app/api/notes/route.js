@@ -14,7 +14,6 @@ export async function POST(request) {
     const { title, content, userId, status, color, isPrivate, ytVideoId } = await request.json()
     // const userCookie = request.cookies.get('userJwtCookie')?.value
     // const tokenPayload = jwt.verify(userCookie, process.env.JWT_SECRET)
-
     // Create object for the collection
     const createdNote = new NoteModel({
         title,

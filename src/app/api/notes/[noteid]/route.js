@@ -11,8 +11,6 @@ export async function GET(request, { params }) {
     const { noteid } = params
     try {
         const note = await NoteModel.findById({ _id: noteid })
-        console.log('Getting Single Note')
-        console.log(note)
         return getResponseMsg(
             { message: 'Note fetched successfully', status: 200, success: true, body: note }
         )
@@ -42,9 +40,7 @@ export async function DELETE(request, { params }) {
 export async function PUT(request, { params }) {
     const { noteid } = params
     //Fetch work data from request
-    const { title, content, status, color, isPrivate } = await request.json()
-
-    console.log(title)
+    const { title, content, status, color, isPrivate, ytVideoId } = await request.json()
 
     try {
         const note = await NoteModel.findById({ _id: noteid })
@@ -53,11 +49,10 @@ export async function PUT(request, { params }) {
         note.status = status
         note.color = color
         note.isPrivate = isPrivate
+        note.ytVideoId = ytVideoId
         note.updated = new Date()
 
         const updatedNote = await note.save()
-        console.log('NOTE SAVED')
-        console.log(updatedNote)
 
         return getResponseMsg(
             { message: `Dynamically updated note: ${noteid}`, status: 200, success: true, body: updatedNote }

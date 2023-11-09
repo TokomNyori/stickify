@@ -21,12 +21,14 @@ import ClipLoader from "react-spinners/GridLoader";
 import toast, { Toaster } from 'react-hot-toast';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice';
+import YouTube from "react-youtube"
 
 const NotePage = ({ params }) => {
     const pageNoteData = useSelector(state => state.currentNotePage.currentNotePage)
     const users = useSelector(state => state.user.users)
     const [readingMode, setReadingMode] = useState(false)
     const [loadingGpt, setLoadingGpt] = useState(false)
+    const [pageNoteContent, setPageNoteContent] = useState(false)
     const dispatch = useDispatch()
     const { theme, setTheme } = useTheme()
     const themeRedux = useSelector(state => state.theme.theme)
@@ -43,8 +45,10 @@ const NotePage = ({ params }) => {
     }, [])
 
     useEffect(() => {
-
-    }, [notes])
+        if (pageNoteData.content) {
+            play()
+        }
+    }, [pageNoteData])
 
     useEffect(() => {
         if (readingMode) {
@@ -85,6 +89,98 @@ const NotePage = ({ params }) => {
             console.log('CookieHelper Error')
             console.log(error.message)
         }
+    }
+
+    function play() {
+        console.log(pageNoteData.content.length)
+        const opts = {
+            playerVars: {
+                autoplay: 0,
+            },
+        };
+
+        if (!pageNoteData.ytVideoId || pageNoteData.ytVideoId === undefined) {
+            setPageNoteContent(pageNoteData.content)
+            return
+        }
+
+        if (pageNoteData.content.length < 500) {
+            let textContent = (
+                <div className='mb-5'>
+                    {pageNoteData.content}
+                </div>
+            )
+
+            let ytVideoPlayer = (
+                <div className='youtubePlayer-NotePage'>
+                    <YouTube
+                        className='youtubeVideo-NotePage rounded-2xl'
+                        iframeClassName='youtubeVideo-NotePage rounded-2xl'
+                        videoId={pageNoteData.ytVideoId}
+                        opts={opts}
+                    />
+                </div>
+            )
+
+            const merge = <>
+                {textContent}
+                {ytVideoPlayer}
+            </>
+            setPageNoteContent(merge)
+            return
+        }
+
+        //For content more than 500 characters
+        let ctx1 = ''
+        let ctx2 = ''
+        let ctx1Count = 0
+
+        for (let i = 0; i < pageNoteData.content.length; i++) {
+            ctx1 += pageNoteData.content[i]
+            ctx1Count++
+            if (i > (pageNoteData.content.length / 100) * 15 && pageNoteData.content[i] === '\n') {
+                for (let j = ctx1Count; j < pageNoteData.content.length; j++) {
+                    ctx2 += pageNoteData.content[j]
+                }
+                break
+            }
+        }
+
+        let textContent1 = (
+            <div className='mb-5'>
+                {ctx1}
+            </div>
+        )
+
+        let textContent2 = (
+            <div className='mb-5'>
+                {ctx2}
+            </div>
+        )
+
+        let ytVideoPlayer = (
+            <div className='youtubePlayer-NotePage'>
+                <YouTube
+                    className='youtubeVideo-NotePage rounded-2xl'
+                    iframeClassName='youtubeVideo-NotePage rounded-2xl'
+                    videoId={pageNoteData.ytVideoId}
+                    opts={opts}
+                />
+            </div>
+        )
+
+        const merge = <>
+            {textContent1}
+            {ytVideoPlayer}
+            {textContent2}
+        </>
+        setPageNoteContent(merge)
+
+
+        console.log(ctx1)
+        console.log('Second CTX')
+        console.log(ctx2)
+        console.log(ctx1Count)
     }
 
     async function getSingleNote(id) {
@@ -221,6 +317,8 @@ const NotePage = ({ params }) => {
                             Go back
                         </div>
                     </div>
+
+                    {/* Tools */}
                     <div className="flex items-center justify-center gap-3">
                         <div className='relative flex flex-col items-center'>
                             {
@@ -297,6 +395,8 @@ const NotePage = ({ params }) => {
                                     </div>
                                 </div> : ''
                         }
+
+                        {/* Language popup */}
                         {
                             language !== 'English' ?
                                 <div
@@ -317,16 +417,22 @@ const NotePage = ({ params }) => {
                         }
                     </div>
                 </div>
+
+                {/* Title */}
                 <div className='font-bold mb-2 sm:text-lg text-xl'>{pageNoteData.title}</div>
+
+                {/* Content */}
                 {
                     !translatedContent ?
                         <div className='sm:text-[1rem] text-[1.1rem]' style={{ whiteSpace: 'pre-line' }}>
-                            {summarizedContent ? summarizedContent : pageNoteData.content}
+                            {summarizedContent ? summarizedContent : pageNoteContent}
                         </div>
                         :
                         <div className='' style={{ whiteSpace: 'pre-line' }}>{translatedContent}</div>
                 }
             </div>
+
+            {/* Loader */}
             {loadingGpt &&
                 <div
                     className={`modal-blur fixed -top-20 inset-0 bg-black bg-opacity-30 backdrop-blur-[2px] flex flex-col justify-center 

@@ -21,8 +21,6 @@ export async function PUT(request, { params }) {
             //const updatedLikedBy = note.likedBy.filter(likedUserId => likedUserId.toString() === userId.toString())
             //const userIds = [...note.likedBy]
             const updatedIds = note.likedBy.filter(ids => ids.toString() !== userId.toString())
-            console.log('res')
-            console.log(updatedIds)
             note.likes -= 1
             note.likedBy = [...updatedIds]
         }
