@@ -159,7 +159,7 @@ const NotePage = ({ params }) => {
         )
 
         let ytVideoPlayer = (
-            <div className='youtubePlayer-NotePage'>
+            <div className='youtubePlayer-NotePage mb-2'>
                 <YouTube
                     className='youtubeVideo-NotePage rounded-2xl'
                     iframeClassName='youtubeVideo-NotePage rounded-2xl'
