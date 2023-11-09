@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.youtubePlayer-NotePage {
+    height: 25rem;
+    width: 100%;
+}
+
+.youtubeVideo-NotePage {
+    height: 100%;
+    width: 100%;
+}
+
+
+@media (max-width: 640px) {
+    .youtubePlayer-NotePage {
+        height: 16rem;
+        width: 100%;
+    }
+}
