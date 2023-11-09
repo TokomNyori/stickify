@@ -11,7 +11,7 @@ connectDB()
 export async function POST(request) {
 
     //Fetch work data from request
-    const { title, content, userId, status, color, isPrivate } = await request.json()
+    const { title, content, userId, status, color, isPrivate, ytVideoId } = await request.json()
     // const userCookie = request.cookies.get('userJwtCookie')?.value
     // const tokenPayload = jwt.verify(userCookie, process.env.JWT_SECRET)
 
@@ -22,8 +22,9 @@ export async function POST(request) {
         color,
         content,
         isPrivate,
-        likes: 0,
         userId: userId,
+        ytVideoId,
+        likes: 0,
         likedBy: [],
     })
 

@@ -78,7 +78,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                 }
             ]
         }
-        console.log(instruction)
+        // console.log(instruction)
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`
@@ -96,8 +96,8 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                     headers: { 'Content-Type': 'application/json' }
                 }
             )
-            console.log('ytRes--')
-            console.log(gptGeneratedContent)
+            // console.log('ytRes--')
+            // console.log(gptGeneratedContent)
             if (ytRes.items.length === 0) {
                 const youtubeVideoId = ''
                 const generatedData = {
