@@ -5,6 +5,8 @@
 .youtubePlayer-NotePage {
     height: 25rem;
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .youtubeVideo-NotePage {
@@ -12,10 +14,68 @@
     width: 100%;
 }
 
+.note-page-main-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.note-page-main-nav {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    text-align: center;
+}
+
+.note-page-main-items {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 0.3rem;
+    padding: 0.3rem 0;
+    cursor: pointer;
+}
+
+
+/* Youtube Video List Modal */
+.youtube-popup-list-blur {
+    z-index: 40;
+    padding: 1rem 1rem;
+}
+
+.yt-video-list-popup {
+    display: flex;
+    flex-direction: column;
+    height: 85%;
+    width: 100%;
+    padding: 1.5rem 1rem;
+    overflow-y: auto;
+}
+
+.ytVideos-popup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 1rem;
+}
+
+.youtubePlayer1 {
+    height: 17rem;
+    width: 100%;
+}
+
+.youtubeVideo1 {
+    height: 100%;
+    width: 100%;
+}
+
+
 
 @media (max-width: 640px) {
     .youtubePlayer-NotePage {
         height: 16rem;
         width: 100%;
+    }
+
+    .youtube-popup-list-blur {
+        padding: 1rem 0.2rem;
     }
 }

@@ -11,10 +11,12 @@ connectDB()
 export async function POST(request) {
 
     //Fetch work data from request
-    const { title, content, userId, status, color, isPrivate, ytVideoId } = await request.json()
+    const { title, content, userId, status, color, isPrivate, ytVideo } = await request.json()
     // const userCookie = request.cookies.get('userJwtCookie')?.value
     // const tokenPayload = jwt.verify(userCookie, process.env.JWT_SECRET)
     // Create object for the collection
+    console.log('ytVideo............................')
+    console.log(ytVideo)
     const createdNote = new NoteModel({
         title,
         status,
@@ -22,7 +24,7 @@ export async function POST(request) {
         content,
         isPrivate,
         userId: userId,
-        ytVideoId,
+        ytVideo,
         likes: 0,
         likedBy: [],
     })

@@ -174,7 +174,7 @@ export default function NotesContainer() {
         <div className=''>
             {
                 initialLoading ?
-                    <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6 mt-12'>
+                    <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6 mt-12'>
                         <HomePageSkeleton number={18} />
                     </div>
                     :

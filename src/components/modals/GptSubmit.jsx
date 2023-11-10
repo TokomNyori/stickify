@@ -1,3 +1,4 @@
+'use client'
 import { openAiPostHelper, youtubeOneVideotHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import { useEffect, useState } from 'react'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
@@ -15,6 +16,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         words: '250',
         output_type: 'easy to understand',
         emojis: true,
+        videos: true,
     })
     const [loadingGpt, setLoadingGpt] = useState(false)
 
@@ -87,34 +89,59 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
             setLoadingGpt(true)
             const res = await openAiPostHelper({ method: 'POST', headers: headers, body: gptData })
             const gptGeneratedContent = res.choices[0].message.content
-            const ytTitle = `Explain ${generateRequirementGpt.generate_title}`
-            const ytRes = await youtubeOneVideotHelper(
-                {
-                    method: 'GET',
-                    title: ytTitle,
-                    youtube_api_key: process.env.NEXT_PUBLIC_YOUTUBE_API,
-                    headers: { 'Content-Type': 'application/json' }
+            // If Video included
+            if (generateRequirementGpt.videos) {
+                const ytTitle = `${generateRequirementGpt.generate_title}`
+                const ytRes = await youtubeOneVideotHelper(
+                    {
+                        method: 'GET',
+                        title: ytTitle,
+                        youtube_api_key: process.env.NEXT_PUBLIC_YOUTUBE_API,
+                        headers: { 'Content-Type': 'application/json' }
+                    }
+                )
+                // console.log('ytRes--')
+                // console.log(ytRes)
+                // If Videos not available
+                if (ytRes.items.length === 0) {
+                    const generatedData = {
+                        'gptGeneratedContent': gptGeneratedContent,
+                        'ytVideoData': [],
+                    }
+                    changeNoteContentByGpt(generatedData)
+                    setLoadingGpt(false)
+                    changeGptRequirementModal()
+                    toast('Generated!', {
+                        icon: '😀'
+                    })
+                } else {
+                    // If Videos available
+                    const datas = ytRes.items
+                    const ytVideoData = datas.map(data => {
+                        const modify = {
+                            ytVideoId: data.id.videoId,
+                            ytVideoTitle: data.snippet.title,
+                        }
+                        return modify
+                    })
+                    console.log('yt video data--')
+                    console.log(ytVideoData)
+                    const generatedData = {
+                        'gptGeneratedContent': gptGeneratedContent,
+                        'ytVideoData': ytVideoData,
+                    }
+                    changeNoteContentByGpt(generatedData)
+                    setLoadingGpt(false)
+                    changeGptRequirementModal()
+                    toast('Generated!', {
+                        icon: '😀'
+                    })
                 }
-            )
-            // console.log('ytRes--')
-            // console.log(gptGeneratedContent)
-            if (ytRes.items.length === 0) {
-                const youtubeVideoId = ''
-                const generatedData = {
-                    'gptGeneratedContent': gptGeneratedContent,
-                    'youtubeVideoId': youtubeVideoId,
-                }
-                changeNoteContentByGpt(generatedData)
-                setLoadingGpt(false)
-                changeGptRequirementModal()
-                toast('Generated!', {
-                    icon: '😀'
-                })
             } else {
-                const youtubeVideoId = ytRes.items[0].id.videoId
+                // If Videos not included
                 const generatedData = {
                     'gptGeneratedContent': gptGeneratedContent,
-                    'youtubeVideoId': youtubeVideoId,
+                    'ytVideoData': [],
                 }
                 changeNoteContentByGpt(generatedData)
                 setLoadingGpt(false)
@@ -124,12 +151,15 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                 })
             }
         } catch (error) {
+            // Catch errors
             setLoadingGpt(false)
             toast(error.message, {
                 icon: '🥺'
             })
         }
     }
+
+    // console.log(generateRequirementGpt)
 
     return (
         <div
@@ -171,12 +201,21 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                         </div>
                     </div>
                     <div className='flex items-center justify-between gap-4'>
-                        <div className='flex items-center'>
-                            <input id="emojis" type="checkbox" name="emojis" checked={generateRequirementGpt.emojis}
-                                onChange={changeGenerateRequirementGpt}
-                                class="sm:w-4 sm:h-4 w-5 h-5 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 
+                        <div className='flex justify-center items-center gap-5'>
+                            <div className='flex items-center'>
+                                <input id="emojis" type="checkbox" name="emojis" checked={generateRequirementGpt.emojis}
+                                    onChange={changeGenerateRequirementGpt}
+                                    class="sm:w-4 sm:h-4 w-5 h-5 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 
                                 bg-gray-700 border-gray-600" />
-                            <label for="emojis" class="ml-2 sm:text-sm font-medium text-gray-300">Include emojis?</label>
+                                <label for="emojis" class="ml-2 sm:text-sm font-medium text-gray-300">Add emojis</label>
+                            </div>
+                            <div className='flex items-center'>
+                                <input id="videos" type="checkbox" name="videos" checked={generateRequirementGpt.videos}
+                                    onChange={changeGenerateRequirementGpt}
+                                    class="sm:w-4 sm:h-4 w-5 h-5 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 
+                                bg-gray-700 border-gray-600" />
+                                <label for="videos" class="ml-2 sm:text-sm font-medium text-gray-300">Add videos</label>
+                            </div>
                         </div>
                         <button
                             className="border border-gray-400 focus:outline-none font-medium rounded-full text-sm px-2

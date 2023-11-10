@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect, useRef } from 'react'
 import { MdDelete } from 'react-icons/md'
 import { BiArrowBack } from 'react-icons/bi'
@@ -34,7 +35,7 @@ const YoutubeModal = ({
     return (
         <div
             className={`youtube-modal-blur inset-0 bg-black bg-opacity-30 backdrop-blur-[1px] flex justify-center items-center
-                    ${youtubeVideoModalState ? "gpt-fix-modal" : "hidden"} flex-wrap`}
+                    ${youtubeVideoModalState ? "yt-fix-modal" : "hidden"} flex-wrap`}
         >
             <div className='youtubePlayer flex flex-col items-end' ref={ytVideoModalRef}>
                 <div className='text-2xl text-white flex justify-center items-center gap-4 bg-gray-950 sm:w-[20%] w-[25%]

@@ -24,6 +24,7 @@ import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNote
 import { AiFillYoutube } from 'react-icons/ai'
 import YouTube from 'react-youtube';
 import YoutubeModal from './YoutubeModal';
+import YtVideoListPopup from '../popups/YtVideoListPopup';
 
 const NoteModal = () => {
     //const userId = userCookie?._id
@@ -37,7 +38,7 @@ const NoteModal = () => {
         content: '',
         isPrivate: false,
         userId: users._id,
-        ytVideoId: ''
+        ytVideo: []
     })
 
     const [pin, setPin] = useState(false)
@@ -55,9 +56,11 @@ const NoteModal = () => {
     const [loadingRephraser, setLoadingRephraser] = useState(false)
     const [textareaRows, setTextareaRows] = useState();
     const [gptSubmitModalState, setGptSubmitModalState] = useState(false)
-    const [youtubeVideoModalState, setYoutubeVideoModalState] = useState(false)
+    const [ytVideoListPopupState, setYtVideoListPopupState] = useState(false)
     const noteModalRef = useRef(null);
-    const youtubeVideoModLRef = useRef(null);
+    const ytListPopupVideosRefs0 = useRef(null)
+    const ytListPopupVideosRefs1 = useRef(null)
+    const ytListPopupVideosRefs2 = useRef(null)
     const isTitleEmpty = isRephrasedNote ? isRephrasedTitle : isTitle
     const isContentEmpty = isRephrasedNote ? isRephrasedContent : isContent
     const pageName = useSelector(state => state.page.page)
@@ -92,7 +95,7 @@ const NoteModal = () => {
                 content: noteModalConfig.noteObject.content,
                 isPrivate: noteModalConfig.noteObject.isPrivate,
                 userId: users._id,
-                ytVideoId: noteModalConfig.noteObject.ytVideoId
+                ytVideo: noteModalConfig.noteObject.ytVideo,
             })
             if (noteModalConfig.noteObject.status === 'pinned') {
                 setPin(true)
@@ -262,18 +265,19 @@ const NoteModal = () => {
         }
     }
 
+    //Important!!!!!!!!!!!!!
     function changeNoteContentByGpt(generatedData) {
         if (isRephrasedNote) {
             setRephrasedNote(prev => ({
                 ...prev,
                 content: generatedData.gptGeneratedContent,
-                ytVideoId: generatedData.youtubeVideoId,
+                ytVideo: generatedData.ytVideoData,
             }))
         } else {
             setNote(prev => ({
                 ...prev,
                 content: generatedData.gptGeneratedContent,
-                ytVideoId: generatedData.youtubeVideoId,
+                ytVideo: generatedData.ytVideoData,
             }))
         }
     }
@@ -352,7 +356,7 @@ const NoteModal = () => {
             content: '',
             isPrivate: false,
             userId: users._id,
-            ytVideoId: ''
+            ytVideo: []
         })
         setNote({
             title: '',
@@ -361,7 +365,7 @@ const NoteModal = () => {
             content: '',
             isPrivate: false,
             userId: users._id,
-            ytVideoId: ''
+            ytVideo: []
         })
         setPin(false)
         setIsRephrasedNote(false)
@@ -387,35 +391,6 @@ const NoteModal = () => {
             return
         }
         setGptSubmitModalState(prev => !prev)
-    }
-
-    function changeYoutubeVideoModal() {
-        setYoutubeVideoModalState(prev => !prev)
-        if (youtubeVideoModLRef.current) {
-            youtubeVideoModLRef.current.getInternalPlayer().pauseVideo();
-        }
-    }
-
-    function deleteYoutubeVideoFromModal() {
-        if (isRephrasedNote) {
-            setRephrasedNote(prev => ({
-                ...prev,
-                ytVideoId: ''
-            }))
-            toast('Deleted', {
-                icon: '🗑️'
-            })
-            changeYoutubeVideoModal()
-        } else {
-            setNote(prev => ({
-                ...prev,
-                ytVideoId: ''
-            }))
-            toast('Deleted', {
-                icon: '🗑️'
-            })
-            changeYoutubeVideoModal()
-        }
     }
 
     function toggleRephrasePopUp() {
@@ -468,12 +443,47 @@ const NoteModal = () => {
         setLoadingRephraser(val)
     }
 
-    const opts = {
-        playerVars: {
-            // https://developers.google.com/youtube/player_parameters
-            autoplay: 0,
-        },
-    };
+    function changeYtPopup() {
+        setYtVideoListPopupState(prev => !prev)
+        if (ytListPopupVideosRefs0.current) {
+            ytListPopupVideosRefs0.current.getInternalPlayer().pauseVideo();
+            ytListPopupVideosRefs1.current.getInternalPlayer().pauseVideo();
+            ytListPopupVideosRefs2.current.getInternalPlayer().pauseVideo();
+        }
+    }
+
+    // Continue !!!!!!!!!!!!!!!⚠️
+    function deleteYtVideoFromPopup(id) {
+        if (isRephrasedNote) {
+            const deleteYtVid = rephrasedNote.ytVideo.filter(vid => {
+                return vid.ytVideoId !== id
+            })
+            // console.log(deleteYtVid)
+            setRephrasedNote(prev => ({
+                ...prev,
+                ytVideo: deleteYtVid
+            }))
+            toast('Deleted', {
+                icon: '🗑️'
+            })
+            // changeYtPopup()
+        } else {
+            const deleteYtVid = note.ytVideo.filter(vid => {
+                return vid.ytVideoId !== id
+            })
+            // setNote(prev => ({
+            //     ...prev,
+            //     ytVideo: deleteYtVid
+            // }))
+            console.log(deleteYtVid)
+            toast('Deleted', {
+                icon: '🗑️'
+            })
+            // changeYtPopup()
+        }
+    }
+
+    console.log(note.ytVideo)
 
     // console.log('NoteConfig')
     // console.log(noteModalConfig)
@@ -536,7 +546,7 @@ const NoteModal = () => {
                                     name="title" onChange={changeNote} required />
                             </div>
                             <div className=' text-sm border border-gray-700 hover:border-gray-950 rounded-lg py-1 px-2 
-                             cursor-pointer mt-0'
+                                cursor-pointer mt-0'
                                 onClick={changeGptRequirementModal}>
                                 Generate <span><BiSolidSend className='inline' /></span>
                             </div>
@@ -552,8 +562,8 @@ const NoteModal = () => {
                                 onChange={changeNote} required
                             />
                             {
-                                note.ytVideoId || rephrasedNote.ytVideoId ?
-                                    <div className='youtubeModalIcon' onClick={changeYoutubeVideoModal}>
+                                note.ytVideo.length !== 0 || rephrasedNote.ytVideo.length !== 0 ?
+                                    <div className='youtubeModalIcon' onClick={changeYtPopup}>
                                         <AiFillYoutube className='text-5xl opacity-[70%] text-[#ff0000] ' />
                                     </div> : null
                             }
@@ -656,12 +666,15 @@ const NoteModal = () => {
                     gptSubmitModalState={gptSubmitModalState} noteFromNoteModal={note}
                     changeGptRequirementModal={changeGptRequirementModal} changeNoteContentByGpt={changeNoteContentByGpt}
                     isRephrasedNote={isRephrasedNote} rephrasedNote={rephrasedNote} />
-                <YoutubeModal
-                    youtubeVideoModalState={youtubeVideoModalState}
-                    changeYoutubeVideoModal={changeYoutubeVideoModal}
-                    ytVideoId={note.ytVideoId}
-                    youtubeVideoModLRef={youtubeVideoModLRef}
-                    deleteYoutubeVideoFromModal={deleteYoutubeVideoFromModal}
+                <YtVideoListPopup
+                    ytVideoListPopupState={ytVideoListPopupState}
+                    ytVideo={isRephrasedNote ? rephrasedNote.ytVideo : note.ytVideo}
+                    changeYtPopup={changeYtPopup}
+                    deleteYtVideoFromPopup={deleteYtVideoFromPopup}
+                    ytListPopupVideosRefs0={ytListPopupVideosRefs0}
+                    ytListPopupVideosRefs1={ytListPopupVideosRefs1}
+                    ytListPopupVideosRefs2={ytListPopupVideosRefs2}
+                // deletePopupYtVideos={deletePopupYtVideos}
                 />
             </div>
             {loading &&

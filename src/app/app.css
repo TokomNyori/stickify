@@ -65,6 +65,13 @@
   animation-duration: 1s;
 }
 
+.yt-fix-modal {
+  z-index: 70;
+  position: fixed;
+  animation-name: modalopen;
+  animation-duration: 1s;
+}
+
 @keyframes modalopen {
   from {
     opacity: 0;
