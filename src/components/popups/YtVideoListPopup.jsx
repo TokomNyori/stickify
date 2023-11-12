@@ -42,7 +42,7 @@ const YtVideoListPopup = (
         return (
             <div className='youtubePlayer1 flex flex-col items-end justify-center shadow-md shadow-white rounded-2xl'
                 key={items.ytVideoId} >
-                <div className='text-2xl text-white flex justify-start items-center gap-4 bg-gray-800
+                <div className='text-2xl text-white flex justify-start items-center gap-4 bg-gray-900
                     h-10 px-2.5 py-1 rounded-2xl rounded-b-none w-full'>
                     <div className="text-sm flex-grow truncate">
                         <span>{items.ytVideoTitle}</span>

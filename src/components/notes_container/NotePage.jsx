@@ -86,8 +86,8 @@ const NotePage = ({ params }) => {
                 return (
                     <div className='sm:mb-10 mb-8'>
                         <div className={`${readingMode ? 'text-gray-100' : 'text-gray-700'} 
-                            text-2xl mb-2 w-full flex`}>
-                            <span className='text-lg line-clamp-2 w-full'>{video.ytVideoTitle}</span>
+                            mb-2 ml-1 w-full flex`}>
+                            <span className='sm:text-[1rem] text-[1.1rem] line-clamp-2 w-full'>{video.ytVideoTitle}</span>
                         </div>
                         <div className='youtubePlayer-NotePage' >
                             <YouTube
