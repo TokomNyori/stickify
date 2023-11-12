@@ -42,7 +42,7 @@ const YtVideoListPopup = (
         return (
             <div className='youtubePlayer1 flex flex-col items-end justify-center shadow-md shadow-white rounded-2xl'
                 key={items.ytVideoId} >
-                <div className='text-2xl text-white flex justify-start items-center gap-4 bg-gray-900/50
+                <div className='text-2xl text-white flex justify-start items-center gap-4 bg-gray-800
                     h-10 px-2.5 py-1 rounded-2xl rounded-b-none w-full'>
                     <div className="text-sm flex-grow truncate">
                         <span>{items.ytVideoTitle}</span>
@@ -70,7 +70,7 @@ const YtVideoListPopup = (
             className={`youtube-popup-list-blur inset-0 flex justify-center items-center backdrop-blur-[1px]
                     ${ytVideoListPopupState ? "gpt-fix-modal" : "hidden"} flex-wrap`}
         >
-            <div className="yt-video-list-popup bg-gray-800/80 rounded-2xl text-gray-100" ref={ytVideoPopUpRef}>
+            <div className="yt-video-list-popup bg-gray-700 rounded-2xl text-gray-100" ref={ytVideoPopUpRef}>
                 <div className="flex justify-between items-center font-bold text-xl mb-3">
                     <div className="ml-2">Videos</div>
                     <div className="mr-2" onClick={changeYtPopup}>
