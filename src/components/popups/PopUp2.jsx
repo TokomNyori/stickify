@@ -33,8 +33,8 @@ const PopUp2 =
             event.stopPropagation()
             const ctx = isRephrasedNote ? rephrasedNote.content : content
 
-            const instruction = `Your role is to rephrase the given content to a different tone. Rephrase the content in a ${tone} tone. The content is inside curly brackets. The content is: {${ctx}}`
-            const enhanceInstruction = `You will be provided with content, and your task is to convert the content to standard English. The content is inside curly brackets. The content is: {${ctx}}`
+            const instruction = `Your role is to rephrase the given content to a different tone. Rephrase the content in a ${tone} tone. The content is: ${ctx}`
+            const enhanceInstruction = `You will be provided with content, and your task is to convert the content to standard English. The content is: ${ctx}`
             const gptData = {
                 model: 'gpt-3.5-turbo-1106',
                 temperature: 0.7,

@@ -50,7 +50,6 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
             tokens = 700
         }
         let output_type = ''
-        let additionalInstructions = '';
         if (generateRequirementGpt.output_type === 'easy to understand') {
             output_type = `Explain in a way that makes the topic simple. Present the subject matter in a manner so simple and clear that it can be comprehended by an 8-year-old. Simplify complex concepts and use plain language`
             temperature = 0.7
