@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .youtubePlayer-NotePage {
-    height: 25rem;
+    height: 27.25rem;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -46,7 +46,7 @@
     flex-direction: column;
     height: 85%;
     width: 100%;
-    padding: 1.5rem 1rem;
+    padding: 1rem 1rem 2rem 1rem;
     overflow-y: auto;
 }
 
@@ -54,7 +54,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    row-gap: 1rem;
+    row-gap: 1.5rem;
 }
 
 .youtubePlayer1 {
@@ -71,7 +71,7 @@
 
 @media (max-width: 640px) {
     .youtubePlayer-NotePage {
-        height: 16rem;
+        height: 14rem;
         width: 100%;
     }
 

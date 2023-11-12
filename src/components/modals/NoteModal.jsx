@@ -1,7 +1,7 @@
 'use client'
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect, useRef, useState } from "react";
-import { editNoteHelper, getNoteHelper, openAiPostHelper, postNoteHelper } from "@/helper/httpHelpers/httpNoteHelper";
+import { deleteNoteHelper, deleteVideoNoteHelper, editNoteHelper, getNoteHelper, openAiPostHelper, postNoteHelper } from "@/helper/httpHelpers/httpNoteHelper";
 import { useRouter } from "next/navigation";
 import { Configuration, OpenAIApi } from "openai";
 import { BsFillPinAngleFill } from 'react-icons/bs'
@@ -61,10 +61,13 @@ const NoteModal = () => {
     const ytListPopupVideosRefs0 = useRef(null)
     const ytListPopupVideosRefs1 = useRef(null)
     const ytListPopupVideosRefs2 = useRef(null)
+    const ytListPopupVideosRefs3 = useRef(null)
+    const ytListPopupVideosRefs4 = useRef(null)
     const isTitleEmpty = isRephrasedNote ? isRephrasedTitle : isTitle
     const isContentEmpty = isRephrasedNote ? isRephrasedContent : isContent
     const pageName = useSelector(state => state.page.page)
     const router = useRouter()
+    const ytRefs = [ytListPopupVideosRefs0, ytListPopupVideosRefs1, ytListPopupVideosRefs2, ytListPopupVideosRefs3, ytListPopupVideosRefs4]
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -445,54 +448,102 @@ const NoteModal = () => {
 
     function changeYtPopup() {
         setYtVideoListPopupState(prev => !prev)
-        if (ytListPopupVideosRefs0.current) {
-            ytListPopupVideosRefs0.current.getInternalPlayer().pauseVideo();
-            ytListPopupVideosRefs1.current.getInternalPlayer().pauseVideo();
-            ytListPopupVideosRefs2.current.getInternalPlayer().pauseVideo();
+        if (isRephrasedNote && rephrasedNote.ytVideo.length > 0) {
+            for (let i = 0; i < rephrasedNote.ytVideo.length; i++) {
+                if (ytRefs[i].current) {
+                    ytRefs[i].current.getInternalPlayer().pauseVideo();
+                }
+            }
+        } else if (note.ytVideo.length > 0) {
+            for (let i = 0; i < note.ytVideo.length; i++) {
+                if (ytRefs[i].current) {
+                    ytRefs[i].current.getInternalPlayer().pauseVideo();
+                }
+            }
         }
+
     }
 
     // Continue !!!!!!!!!!!!!!!⚠️
-    function deleteYtVideoFromPopup(id) {
+    async function deleteYtVideoFromPopup(id) {
         if (isRephrasedNote) {
             const deleteYtVid = rephrasedNote.ytVideo.filter(vid => {
                 return vid.ytVideoId !== id
             })
-            // console.log(deleteYtVid)
+            const backUp = { ...noteModalConfig }
             setRephrasedNote(prev => ({
                 ...prev,
                 ytVideo: deleteYtVid
             }))
+            dispatch(setNoteModalConfig(backUp))
             toast('Deleted', {
                 icon: '🗑️'
             })
-            // changeYtPopup()
+            if (isEdit) {
+                const jsonBody = {
+                    ytVideo: deleteYtVid,
+                }
+                try {
+                    const res = await deleteVideoNoteHelper(
+                        {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            noteid: noteModalConfig.noteObject._id,
+                            body: jsonBody
+                        }
+                    )
+                    console.log(res)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
         } else {
             const deleteYtVid = note.ytVideo.filter(vid => {
                 return vid.ytVideoId !== id
             })
-            // setNote(prev => ({
-            //     ...prev,
-            //     ytVideo: deleteYtVid
-            // }))
-            console.log(deleteYtVid)
+            const backUp = { ...noteModalConfig }
+            // console.log('deleteYtVid')
+            // console.log(deleteYtVid)
+            setNote(prev => ({
+                ...prev,
+                ytVideo: deleteYtVid
+            }))
+            dispatch(setNoteModalConfig(backUp))
+            //changeYtPopup()
             toast('Deleted', {
                 icon: '🗑️'
             })
-            // changeYtPopup()
+            if (isEdit) {
+                const jsonBody = {
+                    ytVideo: deleteYtVid,
+                }
+                try {
+                    const res = await deleteVideoNoteHelper(
+                        {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            noteid: noteModalConfig.noteObject._id,
+                            body: jsonBody
+                        }
+                    )
+                    console.log(res)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
         }
     }
 
-    console.log(note.ytVideo)
+    // console.log(note.ytVideo)
 
     // console.log('NoteConfig')
     // console.log(noteModalConfig)
 
-    // console.log('Note Object')
-    // console.log(note)
+    console.log('Note Object')
+    console.log(note)
 
-    // console.log('Rephrased Object')
-    // console.log(rephrasedNote)
+    console.log('Rephrased Object')
+    console.log(rephrasedNote)
 
     return (
         <div
@@ -663,17 +714,16 @@ const NoteModal = () => {
                     </div>
                 </form>
                 <GptSubmit
-                    gptSubmitModalState={gptSubmitModalState} noteFromNoteModal={note}
+                    gptSubmitModalState={gptSubmitModalState}
                     changeGptRequirementModal={changeGptRequirementModal} changeNoteContentByGpt={changeNoteContentByGpt}
-                    isRephrasedNote={isRephrasedNote} rephrasedNote={rephrasedNote} />
+                    isRephrasedNote={isRephrasedNote} rephrasedNote={rephrasedNote}
+                    noteFromNoteModal={isRephrasedNote ? rephrasedNote : note} />
                 <YtVideoListPopup
                     ytVideoListPopupState={ytVideoListPopupState}
                     ytVideo={isRephrasedNote ? rephrasedNote.ytVideo : note.ytVideo}
                     changeYtPopup={changeYtPopup}
                     deleteYtVideoFromPopup={deleteYtVideoFromPopup}
-                    ytListPopupVideosRefs0={ytListPopupVideosRefs0}
-                    ytListPopupVideosRefs1={ytListPopupVideosRefs1}
-                    ytListPopupVideosRefs2={ytListPopupVideosRefs2}
+                    ytRefs={ytRefs}
                 // deletePopupYtVideos={deletePopupYtVideos}
                 />
             </div>

@@ -51,7 +51,8 @@ export default function FeedsContainer() {
                         user_avatar: user.avatar,
                         created: note.created,
                         likes: note.likes,
-                        likedBy: note.likedBy
+                        likedBy: note.likedBy,
+                        ytVideo: note.ytVideo
                     });
                 }
             })

@@ -9,11 +9,12 @@ export async function PUT(request, { params }) {
     const { noteid } = params
     //Fetch work data from request
     const { ytVideo } = await request.json()
-
+    console.log('ytVideo')
+    console.log(noteid)
+    console.log(ytVideo)
     try {
         const note = await NoteModel.findById({ _id: noteid })
         note.ytVideo = ytVideo
-        note.updated = new Date()
 
         const updatedNote = await note.save()
 

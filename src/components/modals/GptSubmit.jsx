@@ -38,41 +38,39 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
     async function generateContent(event) {
         event.preventDefault()
         let temperature = 0.5
+        let tokens = 0
         let words = parseInt(generateRequirementGpt.words, 10)
         if (words > 250 && words < 501) {
-            words = 1000
+            tokens = 1200
         } else if (words > 500 && words < 751) {
-            words = 1500
+            tokens = 1700
         } else if (words > 750 && words < 1001) {
-            words = 2000
+            tokens = 2200
         } else {
-            words = 500
+            tokens = 700
         }
         let output_type = ''
         let additionalInstructions = '';
         if (generateRequirementGpt.output_type === 'easy to understand') {
-            output_type = `Explain in a way that makes the topic simple. Present the subject matter in a manner so simple and clear that it can be comprehended by an 8-year-old`
-            additionalInstructions = 'Simplify complex concepts and use plain language.'
+            output_type = `Explain in a way that makes the topic simple. Present the subject matter in a manner so simple and clear that it can be comprehended by an 8-year-old. Simplify complex concepts and use plain language`
             temperature = 0.7
         } else if (generateRequirementGpt.output_type === 'gamify') {
-            output_type = `Think of yourself as a creative teacher. Explain the topic so it feels like a game. Gamify the learning process. Explain the topic by playing a game`
-            additionalInstructions = 'Use storytelling and gamification techniques to engage the audience.'
+            output_type = `Explain the topic so it feels like a game. Gamify the learning process. Use gamification techniques to engage the audience. Explain the topic by playing a game`
             temperature = 0.7
         } else {
-            output_type = `Explain the topic with precision and accuracy. Explain the subject matter in a standard and clear manner`
-            additionalInstructions = 'Provide detailed and accurate information in a clear and concise way.'
+            output_type = `Explain the topic with precision and accuracy. Explain the subject matter in a standard and clear manner. Provide detailed and accurate information in a clear and concise way`
             temperature = 0.5
         }
-        const emojiOption = ' Generate 3 to 4 meaningful emojis interspersed throughout the content. The emojis should be relevant to the context.'
-        const instruction = `Act as an expert in the topic. ${output_type}. Don't be verbose. Generate at least ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} The topic is inside curly brackets. The topic is: {${generateRequirementGpt.generate_title}}. ${additionalInstructions} End with an interesting fact about the topic.`
+        const emojiOption = ' Generate 5 to 7 meaningful emojis interspersed throughout the content. The emojis should be relevant to the context.'
+        const instruction = `Act as an expert in the topic. ${output_type}. Don't be verbose. Generate around ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} End with an interesting fact about the topic. The topic is: ${generateRequirementGpt.generate_title}`
         const gptData = {
-            model: 'gpt-3.5-turbo',
+            model: 'gpt-3.5-turbo-1106',
             temperature: temperature,
-            max_tokens: words,
+            max_tokens: tokens,
             messages: [
                 {
                     'role': 'system',
-                    'content': 'You are generating content for a note-taking app. Please do not indroduce the app'
+                    'content': 'You are generating content for a note-taking app, Stickify.'
                 },
                 {
                     'role': 'user',
@@ -80,6 +78,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                 }
             ]
         }
+        // console.log(tokens)
         // console.log(instruction)
         const headers = {
             'Content-Type': 'application/json',
@@ -243,6 +242,9 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                     />
                     <div className="text-2xl mt-5 font-bold text-[#e2e8f0]">
                         Generating...
+                    </div>
+                    <div className="text-lg mt-2 font-bold text-[#f1f5f9] text-center">
+                        Optimizing Your Wait ⚙️🚀 <br />
                     </div>
                 </div>
 

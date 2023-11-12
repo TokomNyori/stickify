@@ -6,21 +6,19 @@ import { addPage } from '@/redux_features/pages/pageSlice';
 import { CookieHelper } from '@/helper/httpHelpers/httpCookieHelper';
 import { useRouter, useSearchParams } from 'next/navigation'
 import { BiArrowBack } from 'react-icons/bi'
-import { VscBook } from 'react-icons/vsc'
 import { AiOutlineRead } from 'react-icons/ai'
 import { AiFillRead } from 'react-icons/ai'
 import { BsTranslate } from 'react-icons/bs'
 import { IoBanSharp } from 'react-icons/io5'
 import { AiOutlineSound } from 'react-icons/ai'
 import { MdOutlineModeEditOutline } from 'react-icons/md'
-import { BsPencil } from 'react-icons/bs'
 import { GoPencil } from 'react-icons/go'
 import { FaNoteSticky } from 'react-icons/fa6'
 import { FaRegNoteSticky } from 'react-icons/fa6'
 import { AiOutlineYoutube } from 'react-icons/ai'
 import { AiFillYoutube } from 'react-icons/ai'
 import { useTheme } from 'next-themes';
-import { getSingleNoteHelper, openAiPostHelper, voiceRssApiHelper, youtubeVideoInfoHelper } from '@/helper/httpHelpers/httpNoteHelper';
+import { getSingleNoteHelper, openAiPostHelper, voiceRssApiHelper } from '@/helper/httpHelpers/httpNoteHelper';
 import ClipLoader from "react-spinners/GridLoader";
 import toast, { Toaster } from 'react-hot-toast';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
@@ -33,14 +31,13 @@ const NotePage = ({ params }) => {
     const [readingMode, setReadingMode] = useState(false)
     const [loadingGpt, setLoadingGpt] = useState(false)
     const [navigationSection, setNavigationSection] = useState('note-section')
-    const [videoSection, setVideoSection] = useState({})
+    const [videoSection, setVideoSection] = useState([])
     const dispatch = useDispatch()
     const { theme, setTheme } = useTheme()
     const themeRedux = useSelector(state => state.theme.theme)
     const [translatePopUp, setTranslatePopUp] = useState(false)
     const notes = useSelector(state => state.note.notes)
     const translatePopUpRef = useRef(null);
-    const youtubeNotePageRef = useRef(null)
 
     useEffect(() => {
         getUserCookie()
@@ -74,31 +71,39 @@ const NotePage = ({ params }) => {
         };
     }, [translatePopUp]);
 
+    const ytListNoteVideosRefs0 = useRef(null)
+    const ytListNoteVideosRefs1 = useRef(null)
+    const ytListNoteVideosRefs2 = useRef(null)
+    const ytListNoteVideosRefs3 = useRef(null)
+    const ytListNoteVideosRefs4 = useRef(null)
+    const ytRefs = [ytListNoteVideosRefs0, ytListNoteVideosRefs1, ytListNoteVideosRefs2, ytListNoteVideosRefs3, ytListNoteVideosRefs4]
+
     useEffect(() => {
         if (pageNoteData.ytVideo) {
+            let count = -1
             const ctx = pageNoteData.ytVideo.map(video => {
-                console.log(video?.ytVideoId)
+                count++
                 return (
-                    <div className='youtubePlayer-NotePage mb-8 rounded-2xl shadow-lg' >
-                        <div className='text-2xl text-white flex justify-start items-center gap-4 bg-gray-950
-                                h-10 px-2.5 py-1 rounded-2xl rounded-b-none w-full'>
-                            <span className='text-sm flex-grow truncate'>{video.ytVideoTitle}</span>
+                    <div className='sm:mb-10 mb-8'>
+                        <div className={`${readingMode ? 'text-gray-100' : 'text-gray-700'} 
+                            text-2xl mb-2 w-full flex`}>
+                            <span className='text-lg line-clamp-2 w-full'>{video.ytVideoTitle}</span>
                         </div>
-                        <YouTube
-                            ref={youtubeNotePageRef}
-                            className='youtubeVideo-NotePage rounded-2xl rounded-t-none bg-black'
-                            iframeClassName='youtubeVideo-NotePage rounded-2xl rounded-t-none bg-black'
-                            videoId={video.ytVideoId}
-                            opts={opts}
-                        />
+                        <div className='youtubePlayer-NotePage' >
+                            <YouTube
+                                ref={ytRefs[count]}
+                                className='youtubeVideo-NotePage rounded-2xl shadow-lg flex-grow'
+                                iframeClassName='youtubeVideo-NotePage rounded-2xl shadow-lg flex-grow'
+                                videoId={video.ytVideoId}
+                                opts={opts}
+                            />
+                        </div>
                     </div>
                 )
             })
             setVideoSection(ctx)
         }
-    }, [pageNoteData])
-
-    console.log(videoSection)
+    }, [pageNoteData, readingMode])
 
     const router = useRouter()
     const [translatedContent, setTranslatedContent] = useState('')
@@ -143,7 +148,7 @@ const NotePage = ({ params }) => {
         //const words = `${generateRequirementGpt.words}`
         const instruction = `Your job is to summarize the given content. Turn yourself into a great summarizer tool. Summarize the content in the best possible way. The content is inside of curly brackets. The content is: {${pageNoteData.content}}`
         const gptData = {
-            model: 'gpt-3.5-turbo',
+            model: 'gpt-3.5-turbo-1106',
             temperature: 0.5,
             max_tokens: 3000,
             messages: [{
@@ -174,7 +179,7 @@ const NotePage = ({ params }) => {
     async function translateContent(translateTo) {
         const instruction = `You are a translating assistant. Your role is to translate the given content to ${translateTo} language. While translating, preserve the original meaning. The content is inside curly brackets. The content is: {${pageNoteData.content}}`
         const gptData = {
-            model: 'gpt-3.5-turbo',
+            model: 'gpt-3.5-turbo-1106',
             temperature: 0.5,
             max_tokens: 2000,
             messages: [
@@ -246,6 +251,13 @@ const NotePage = ({ params }) => {
     async function navigateNav(navSection) {
         if (navSection === 'note-section') {
             setNavigationSection('note-section')
+            if (pageNoteData.ytVideo.length > 0) {
+                for (let i = 0; i < pageNoteData.ytVideo.length; i++) {
+                    if (ytRefs[i].current) {
+                        ytRefs[i].current.getInternalPlayer().pauseVideo();
+                    }
+                }
+            }
         } else if (navSection === 'videos-section') {
             setNavigationSection('videos-section')
         }
@@ -279,7 +291,7 @@ const NotePage = ({ params }) => {
                                 {readingMode ? 'Default mode' : 'Reading mode'}
                             </div>
                         </div>
-                        <div className='relative flex flex-col items-center'>
+                        <div className={`relative ${navigationSection === 'note-section' ? 'flex flex-col items-center' : 'hidden'}`}>
                             <BsTranslate className='text-2xl cursor-pointer home-link' onClick={() => setTranslatePopUp(prev => !prev)} />
                             <div className="home-link-info hidden justify-center items-start absolute top-10 bg-gray-700 
                                     opacity-50 text-white text-sm px-2 py-1 rounded-md w-20">
@@ -349,7 +361,8 @@ const NotePage = ({ params }) => {
                             language !== 'English' ?
                                 <div
                                     className={`${readingMode ? 'border-gray-300' : 'border-gray-700'} border-2 px-2 py-1 rounded-lg 
-                                    cursor-pointer hover:scale-[1.02] transition-all duration-150 ease-in-out`}
+                                    cursor-pointer hover:scale-[1.02] transition-all duration-150 ease-in-out
+                                    ${navigationSection === 'note-section' ? 'block' : 'hidden'}`}
                                     onClick={generateContent}
                                 >
                                     <IoBanSharp />
@@ -357,7 +370,8 @@ const NotePage = ({ params }) => {
                                 :
                                 <div
                                     className={`${readingMode ? 'border-gray-200' : 'border-gray-700'} border px-2 rounded-lg 
-                                    cursor-pointer hover:scale-[1.02] transition-all duration-150 ease-in-out`}
+                                    cursor-pointer hover:scale-[1.02] transition-all duration-150 ease-in-out
+                                    ${navigationSection === 'note-section' ? 'block' : 'hidden'}`}
                                     onClick={!summarizedContent ? generateContent : undoContent}
                                 >
                                     {summarizedContent ? 'Elaborate' : 'Summarize'}
@@ -371,7 +385,7 @@ const NotePage = ({ params }) => {
 
                 {/* Content */}
                 <div className='note-page-main-content'>
-                    <div className={`note-page-main-nav font-bold mb-6`}>
+                    <div className={`note-page-main-nav font-bold mb-8`}>
                         <div
                             className={`note-page-main-items sm:text-[1.05rem] text-[1.1rem] 
                             ${navigationSection === 'note-section' && readingMode ? 'border-b border-gray-100' : ''}
@@ -397,23 +411,19 @@ const NotePage = ({ params }) => {
                             } Videos
                         </div>
                     </div>
-                    {
-                        navigationSection === 'note-section' ?
-                            <>
-                                {
-                                    !translatedContent ?
-                                        <div className='sm:text-[1rem] text-[1.1rem]' style={{ whiteSpace: 'pre-line' }}>
-                                            {summarizedContent ? summarizedContent : pageNoteData.content}
-                                        </div>
-                                        :
-                                        <div className='' style={{ whiteSpace: 'pre-line' }}>{translatedContent}</div>
-                                }
-                            </>
-                            :
-                            <div className='flex flex-col mt-2'>
-                                {videoSection}
-                            </div>
-                    }
+                    <div className={`${navigationSection === 'note-section' ? 'flex' : 'hidden'}`}>
+                        {
+                            !translatedContent ?
+                                <div className='sm:text-[1rem] text-[1.1rem]' style={{ whiteSpace: 'pre-line' }}>
+                                    {summarizedContent ? summarizedContent : pageNoteData.content}
+                                </div>
+                                :
+                                <div className='' style={{ whiteSpace: 'pre-line' }}>{translatedContent}</div>
+                        }
+                    </div>
+                    <div className={`${navigationSection === 'videos-section' ? 'flex flex-col mt-2' : 'hidden'}`}>
+                        {videoSection}
+                    </div>
                 </div>
             </div >
 
