@@ -63,7 +63,7 @@ const YtVideoListPopup = (
         )
     })
 
-    console.log(videos)
+    // console.log(videos)
 
     return (
         <div

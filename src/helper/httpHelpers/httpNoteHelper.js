@@ -168,8 +168,8 @@ export async function youtubeOneVideotHelper({ method, title, youtube_api_key, h
     return res.json()
 }
 
-export async function youtubeVideoInfoHelper({ method, youtube_api_key, headers, id }) {
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/videos?id=${id}&part=snippet&&key=${youtube_api_key}`,
+export async function youtubeTenVideotHelper({ method, title, youtube_api_key, headers }) {
+    const res = await fetch(`https://www.googleapis.com/youtube/v3/search?type=video&q=${title}&maxResults=20&relevanceLanguage=en&part=snippet&key=${youtube_api_key}`,
         {
             method: method,
             headers: headers

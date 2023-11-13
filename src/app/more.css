@@ -38,7 +38,7 @@
 /* Youtube Video List Modal */
 .youtube-popup-list-blur {
     z-index: 40;
-    padding: 1rem 1rem;
+    padding: 0rem 1rem;
 }
 
 .yt-video-list-popup {
@@ -67,6 +67,27 @@
     width: 100%;
 }
 
+.yt-video-add-modal {
+    display: flex;
+    flex-direction: column;
+    height: 95%;
+    width: 100%;
+    padding: 1.5rem 1rem 4rem 1rem;
+    overflow-y: auto;
+}
+
+.youtubePlayer-YtAddModal {
+    height: 17.4rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+.youtubeVideo-NotePage {
+    height: 100%;
+    width: 100%;
+}
 
 
 @media (max-width: 640px) {
@@ -77,5 +98,12 @@
 
     .youtube-popup-list-blur {
         padding: 1rem 0.2rem;
+    }
+
+    .youtubePlayer-YtAddModal {
+        height: 15rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
     }
 }

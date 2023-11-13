@@ -18,13 +18,15 @@ import { addNote } from '@/redux_features/notes/noteSlice';
 import { BiArrowBack } from 'react-icons/bi'
 import { BsCheckCircle } from 'react-icons/bs'
 import { HiOutlineLockClosed } from 'react-icons/hi'
+import { BiSolidVideoPlus } from 'react-icons/bi'
 import PopUp2 from '../popups/PopUp2';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice';
 import { AiFillYoutube } from 'react-icons/ai'
 import YouTube from 'react-youtube';
-import YoutubeModal from './YoutubeModal';
+import YoutubeModal from './YtVideoAddModal';
 import YtVideoListPopup from '../popups/YtVideoListPopup';
+import YtVideoAddModal from './YtVideoAddModal';
 
 const NoteModal = () => {
     //const userId = userCookie?._id
@@ -57,6 +59,7 @@ const NoteModal = () => {
     const [textareaRows, setTextareaRows] = useState();
     const [gptSubmitModalState, setGptSubmitModalState] = useState(false)
     const [ytVideoListPopupState, setYtVideoListPopupState] = useState(false)
+    const [ytVideAddModalState, setYtVideAddModalState] = useState(false)
     const noteModalRef = useRef(null);
     const ytListPopupVideosRefs0 = useRef(null)
     const ytListPopupVideosRefs1 = useRef(null)
@@ -168,9 +171,9 @@ const NoteModal = () => {
         } else if (height > 899 && height < 1000) {
             setTextareaRows(24)
         } else if (height < 600) {
-            setTextareaRows(13)
+            setTextareaRows(14)
         } else {
-            setTextareaRows(15)
+            setTextareaRows(16)
         }
     }, [])
 
@@ -184,9 +187,9 @@ const NoteModal = () => {
             } else if (height > 899 && height < 1000) {
                 setTextareaRows(24)
             } else if (height < 600) {
-                setTextareaRows(13)
+                setTextareaRows(14)
             } else {
-                setTextareaRows(15)
+                setTextareaRows(16)
             }
         }
         // Add the event listener
@@ -534,20 +537,43 @@ const NoteModal = () => {
         }
     }
 
-    // console.log(note.ytVideo)
+    function changeYtAddModal() {
+        setYtVideAddModalState(prev => !prev)
+    }
+
+    function AddToYtVideosFromYtModal({ operation, id, title }) {
+        if (isRephrasedNote) {
+
+        } else {
+            setNote(prevNotes => {
+                const addObject = {
+                    ytVideoId: id,
+                    ytVideoTitle: title,
+                }
+                const addToYtVideo = [...prevNotes.ytVideo, { ...addObject }]
+                return {
+                    ...prevNotes,
+                    ytVideo: addToYtVideo
+                }
+            })
+        }
+
+    }
+
+    console.log(note.ytVideo)
 
     // console.log('NoteConfig')
     // console.log(noteModalConfig)
 
-    console.log('Note Object')
-    console.log(note)
+    // console.log('Note Object')
+    // console.log(note)
 
-    console.log('Rephrased Object')
-    console.log(rephrasedNote)
+    // console.log('Rephrased Object')
+    // console.log(rephrasedNote)
 
     return (
         <div
-            className={`modal-blur inset-0 bg-black bg-opacity-30 backdrop-blur-[1px] flex justify-center items-center
+            className={`modal-blur top-0 inset-0 bg-black bg-opacity-30 backdrop-blur-[1px] flex justify-center items-center
                         ${noteModalConfig.noteModalState ? "fix-modal" : "hidden"} flex-wrap dark:brightness-[85%]`}>
             <div
                 className={`modal-main rounded-xl shadow-lg 
@@ -557,30 +583,34 @@ const NoteModal = () => {
                     <div className='top-section'>
                         <div className="modal-heading">
                             <div className="text-center" onClick={closeModal}>
-                                <BiArrowBack className='sm:text-3xl text-4xl cursor-pointer home-link' />
+                                <BiArrowBack className='sm:text-3xl text-4xl cursor-pointer ' />
                             </div>
                             <div className='flex gap-3 items-center justify-center'>
+                                <div className='text-gray-500 cursor-pointer'
+                                    onClick={changeYtAddModal}>
+                                    <BiSolidVideoPlus className={`text-3xl inline`} />
+                                </div>
                                 <div className=''>
                                     <input id="isPrivate" type="checkbox" name="isPrivate"
                                         checked={isRephrasedNote ? rephrasedNote.isPrivate : note.isPrivate}
                                         onChange={changeNote}
                                         className="hidden" />
                                     <label for="isPrivate">
-                                        <HiOutlineLockClosed className={`text-3xl cursor-pointer home-link
+                                        <HiOutlineLockClosed className={`text-3xl cursor-pointer
                                     ${rephrasedNote.isPrivate || note.isPrivate ?
                                                 'text-gray-700' :
-                                                'text-gray-400'}
+                                                'text-gray-500'}
                                     `} />
                                     </label>
                                 </div>
-                                <div className='close-btn cursor-pointer' onClick={pinIt}>
-                                    <BsPinFill className={`text-[1.7rem] mt-1 ${pin ? 'text-gray-700' : 'text-gray-400'}`} />
+                                <div className='close-btn cursor-pointer mt-1' onClick={pinIt}>
+                                    <BsPinFill className={`text-[1.7rem] ${pin ? 'text-gray-700' : 'text-gray-500'}`} />
                                 </div>
                                 <button
                                     className="bg-transparent"
                                     type="submit"
                                 >
-                                    <BsCheckCircle className='sm:text-3xl text-4xl cursor-pointer home-link' />
+                                    <BsCheckCircle className='sm:text-3xl text-4xl cursor-pointer' />
                                 </button>
                             </div>
                         </div>
@@ -725,6 +755,12 @@ const NoteModal = () => {
                     deleteYtVideoFromPopup={deleteYtVideoFromPopup}
                     ytRefs={ytRefs}
                 // deletePopupYtVideos={deletePopupYtVideos}
+                />
+                <YtVideoAddModal
+                    ytVideAddModalState={ytVideAddModalState}
+                    changeYtAddModal={changeYtAddModal}
+                    ytVideoLengthFromNote={isRephrasedNote ? rephrasedNote.ytVideo.length : note.ytVideo.length}
+                    AddToYtVideosFromYtModal={AddToYtVideosFromYtModal}
                 />
             </div>
             {loading &&
