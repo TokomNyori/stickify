@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-:root, body, html {
+:root,
+body,
+html {
   height: 100%;
 }
 
@@ -10,7 +12,7 @@ body {
   @apply antialiased;
 }
 
-nav{
+nav {
   /* background-color: rgba(255, 255, 255, 0.1); */
   backdrop-filter: blur(0.225rem);
 }
@@ -30,7 +32,8 @@ nav{
 }
 
 .note-box:hover {
-  transform: scale(1.02) !important; /* Slightly zoom in */
+  transform: scale(1.02) !important;
+  /* Slightly zoom in */
 }
 
 .note-box-two {
@@ -41,7 +44,8 @@ nav{
 }
 
 .note-box-two:hover {
-  transform: scale(1.02) !important; /* Slightly zoom in */
+  transform: scale(1.02) !important;
+  /* Slightly zoom in */
 }
 
 .shrink {
@@ -54,6 +58,7 @@ nav{
     width: 100%;
     height: 200px;
   }
+
   100% {
     opacity: 0;
     width: 0;
@@ -62,7 +67,7 @@ nav{
   }
 }
 
-.note-radio-btn[type="radio"]:checked + label {
+.note-radio-btn[type="radio"]:checked+label {
   border: 1.5px solid rgb(71, 71, 71);
   transform: scale(1.1);
 }
@@ -97,6 +102,10 @@ nav{
   }
 }
 
+textarea {
+  resize: none;
+}
+
 
 @media (max-width: 640px) {
   .note-box {
@@ -122,6 +131,5 @@ nav{
     width: 2.2rem;
     height: 2.2rem;
   }
-  
-}
 
+}
