@@ -35,8 +35,9 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
 
         return (
             <div
-                className={`note-box flex flex-col px-3 py-3 rounded-xl border-2 border-white text-gray-700 bg-[${note.color}] 
-                            ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-md dark:brightness-[85%]`} key={note._id}
+                className={`note-box flex flex-col px-3 py-3 rounded-xl border-2 dark:border-zinc-100 border-zinc-500 
+                text-gray-700 bg-[${note.color}] 
+                ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-md dark:brightness-[85%]`} key={note._id}
                 onClick={(e) => toTheNotePage(e, note._id)}
             >
                 <div className='truncate text-[1rem] sm:text-[0.95rem] font-bold'>

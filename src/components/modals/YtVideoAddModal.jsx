@@ -19,7 +19,7 @@ const YtVideoAddModal = ({ ytVideAddModalState, changeYtAddModal, ytVideoLengthF
             let videos = ytVideos?.map(video => {
                 return (
                     <div key={video?.ytVideoId}>
-                        <div className='youtubePlayer-YtAddModal mb-2'>
+                        <div className='youtubePlayer-YtAddModal rounded-2xl mb-2'>
                             <YouTube
                                 className='youtubeVideo-NotePage rounded-2xl shadow-lg flex-grow w-full'
                                 iframeClassName='youtubeVideo-NotePage rounded-2xl shadow-lg flex-grow'
