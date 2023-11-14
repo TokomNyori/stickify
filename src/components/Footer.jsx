@@ -6,7 +6,7 @@ import { AiFillGithub } from 'react-icons/ai'
 
 const Footer = () => {
     return (
-        <div className='dark:bg-gray-800/50 bg-[#f6f8f6] flex flex-col justify-center items-center pt-5 pb-10 px-3 sm:px-6 w-full
+        <div className='dark:bg-zinc-950 bg-[#f6f8f6] flex flex-col justify-center items-center pt-5 pb-10 px-3 sm:px-6 w-full
         text-[1.1rem] sm:text-[1rem]'>
             <div><span className='italic'>stickify</span>&#169; 2023</div>
             <div className='flex gap-3 mt-2'>

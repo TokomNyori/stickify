@@ -210,7 +210,7 @@ export default function Navbar() {
                                                     className="rounded-full cursor-pointer hover:brightness-110" />
 
                                                 <div
-                                                    className={`${profilePopUp ? 'profilePopUp' : 'hidden'} dark:bg-gray-800/50
+                                                    className={`${profilePopUp ? 'profilePopUp' : 'hidden'} dark:bg-zinc-800
                                                     bg-[#f6f8f6] text-xl`}
                                                     ref={profilePopUpRef}>
                                                     <div className="flex gap-3 items-center">
