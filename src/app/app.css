@@ -181,12 +181,9 @@
 }
 
 .youtubeModalIcon {
-  position: absolute;
-  top: 45%;
-  right: 5.5%;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  animation: float 2s ease-in-out infinite;
+  animation: float 1.7s ease-in-out infinite;
 }
 
 .youtubeModalIcon:hover {
@@ -197,11 +194,11 @@
 
   0%,
   100% {
-    transform: translateY(0);
+    transform: translateY(-1px);
   }
 
   50% {
-    transform: translateY(-4px);
+    transform: translateY(1px);
   }
 }
 

@@ -449,26 +449,8 @@ const NoteModal = () => {
         setLoadingRephraser(val)
     }
 
-    function changeYtPopup() {
-        setYtVideoListPopupState(prev => !prev)
-        if (isRephrasedNote && rephrasedNote.ytVideo.length > 0) {
-            for (let i = 0; i < rephrasedNote.ytVideo.length; i++) {
-                if (ytRefs[i].current) {
-                    ytRefs[i].current.getInternalPlayer().pauseVideo();
-                }
-            }
-        } else if (note.ytVideo.length > 0) {
-            for (let i = 0; i < note.ytVideo.length; i++) {
-                if (ytRefs[i].current) {
-                    ytRefs[i].current.getInternalPlayer().pauseVideo();
-                }
-            }
-        }
-
-    }
-
     // Continue !!!!!!!!!!!!!!!⚠️
-    async function deleteYtVideoFromPopup(id) {
+    async function deleteYourYtVideo(id) {
         if (isRephrasedNote) {
             const deleteYtVid = rephrasedNote.ytVideo.filter(vid => {
                 return vid.ytVideoId !== id
@@ -539,6 +521,19 @@ const NoteModal = () => {
 
     function changeYtAddModal() {
         setYtVideAddModalState(prev => !prev)
+        if (isRephrasedNote && rephrasedNote.ytVideo.length > 0) {
+            for (let i = 0; i < rephrasedNote.ytVideo.length; i++) {
+                if (ytRefs[i].current) {
+                    ytRefs[i].current.getInternalPlayer().pauseVideo();
+                }
+            }
+        } else if (note.ytVideo.length > 0) {
+            for (let i = 0; i < note.ytVideo.length; i++) {
+                if (ytRefs[i].current) {
+                    ytRefs[i].current.getInternalPlayer().pauseVideo();
+                }
+            }
+        }
     }
 
     function AddToYtVideosFromYtModal({ operation, id, title }) {
@@ -551,9 +546,17 @@ const NoteModal = () => {
                     ytVideoTitle: title,
                 }
                 const addToYtVideo = [...prevNotes.ytVideo, { ...addObject }]
-                return {
-                    ...prevNotes,
-                    ytVideo: addToYtVideo
+                if (operation === 'add') {
+                    return {
+                        ...prevNotes,
+                        ytVideo: addToYtVideo
+                    }
+                } else {
+                    const removeTarget = prevNotes.ytVideo.filter(video => video.ytVideoId !== id)
+                    return {
+                        ...prevNotes,
+                        ytVideo: removeTarget
+                    }
                 }
             })
         }
@@ -586,10 +589,16 @@ const NoteModal = () => {
                                 <BiArrowBack className='sm:text-3xl text-4xl cursor-pointer ' />
                             </div>
                             <div className='flex gap-3 items-center justify-center'>
-                                <div className='text-gray-500 cursor-pointer'
-                                    onClick={changeYtAddModal}>
-                                    <BiSolidVideoPlus className={`text-3xl inline`} />
-                                </div>
+                                {
+                                    note.ytVideo.length !== 0 || rephrasedNote.ytVideo.length !== 0 ?
+                                        <div className='youtubeModalIcon' onClick={changeYtAddModal}>
+                                            <AiFillYoutube className='text-4xl text-red-500' />
+                                        </div>
+                                        :
+                                        <div className='cursor-pointer' onClick={changeYtAddModal}>
+                                            <AiFillYoutube className='text-4xl text-gray-500' />
+                                        </div>
+                                }
                                 <div className=''>
                                     <input id="isPrivate" type="checkbox" name="isPrivate"
                                         checked={isRephrasedNote ? rephrasedNote.isPrivate : note.isPrivate}
@@ -642,12 +651,6 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
-                            {
-                                note.ytVideo.length !== 0 || rephrasedNote.ytVideo.length !== 0 ?
-                                    <div className='youtubeModalIcon' onClick={changeYtPopup}>
-                                        <AiFillYoutube className='text-5xl opacity-[70%] text-[#ff0000] ' />
-                                    </div> : null
-                            }
                             <div className={`absolute bottom-24 text-sm sm:text-xs text-gray-100 border border-gray-100
                             px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn dark:bg-gray-800/70 bg-gray-800/70
                             flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
@@ -748,19 +751,13 @@ const NoteModal = () => {
                     changeGptRequirementModal={changeGptRequirementModal} changeNoteContentByGpt={changeNoteContentByGpt}
                     isRephrasedNote={isRephrasedNote} rephrasedNote={rephrasedNote}
                     noteFromNoteModal={isRephrasedNote ? rephrasedNote : note} />
-                <YtVideoListPopup
-                    ytVideoListPopupState={ytVideoListPopupState}
-                    ytVideo={isRephrasedNote ? rephrasedNote.ytVideo : note.ytVideo}
-                    changeYtPopup={changeYtPopup}
-                    deleteYtVideoFromPopup={deleteYtVideoFromPopup}
-                    ytRefs={ytRefs}
-                // deletePopupYtVideos={deletePopupYtVideos}
-                />
                 <YtVideoAddModal
                     ytVideAddModalState={ytVideAddModalState}
                     changeYtAddModal={changeYtAddModal}
-                    ytVideoLengthFromNote={isRephrasedNote ? rephrasedNote.ytVideo.length : note.ytVideo.length}
+                    ytVideoFromNote={isRephrasedNote ? rephrasedNote.ytVideo : note.ytVideo}
                     AddToYtVideosFromYtModal={AddToYtVideosFromYtModal}
+                    deleteYourYtVideo={deleteYourYtVideo}
+                    ytRefs={ytRefs}
                 />
             </div>
             {loading &&
