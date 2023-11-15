@@ -643,7 +643,7 @@ const NoteModal = () => {
                         </div>
                     </div>
                     <div className='text-area-section mb-2'>
-                        <div className="mb-2 notemodal-text-area realtive">
+                        <div className="mb-2 notemodal-text-area relative">
                             <textarea type="text" id="note_content" className="rounded-lg bg-transparent border-gray-600 block 
                                 py-2 w-full placeholder-gray-500 text-gray-700 focus:outline-none
                                 min-h-full note-textarea sm:text-[1rem] text-[1.05rem]" rows={textareaRows}
