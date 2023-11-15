@@ -41,7 +41,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
 
         return (
             <div
-                className={`note-box-two flex flex-col px-3 py-3 rounded-xl border-2 border-white text-gray-700 bg-[${note.color}] 
+                className={`note-box-two flex flex-col px-3 py-3 rounded-xl text-gray-700 bg-[${note.color}] 
                             ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-md dark:brightness-[85%]`} key={note._id}
                 onClick={(e) => toTheNotePage(e, note._id)}
             >
