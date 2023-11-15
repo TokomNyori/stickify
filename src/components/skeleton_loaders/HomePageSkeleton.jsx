@@ -9,7 +9,7 @@ const HomePageSkeleton = ({ number }) => {
         const rotation = random > 0.6 ? (Math.random() * (1.5 - 1.2) + 1.2).toFixed(1) * sign : 0
         skeletonNotes.push(
             <div
-                className={`note-box flex flex-col px-3 py-3 rounded-lg skeleton`}
+                className={`note-box flex flex-col px-3 py-3 rounded-xl skeleton`}
                 >
                 <div className='text-sm font-bold'>
 
