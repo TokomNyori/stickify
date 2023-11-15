@@ -110,5 +110,6 @@
 
     .yt-video-add-modal {
         height: 96%;
+        margin-top: -1rem;
     }
 }
