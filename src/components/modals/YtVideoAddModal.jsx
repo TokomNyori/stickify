@@ -202,7 +202,6 @@ const YtVideoAddModal = (
                                         ytRefs={ytRefs}
                                         deleteYourYtVideo={deleteYourYtVideo}
                                     />
-
                             }
                         </div>
                 }

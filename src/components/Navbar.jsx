@@ -211,7 +211,7 @@ export default function Navbar() {
 
                                                 <div
                                                     className={`${profilePopUp ? 'profilePopUp' : 'hidden'} dark:bg-zinc-800
-                                                    bg-[#f6f8f6] text-xl`}
+                                                    bg-[#f6f8f6] text-xl sm:text-lg`}
                                                     ref={profilePopUpRef}>
                                                     <div className="flex gap-3 items-center">
                                                         <div className="sm:w-5 sm:h-5 w-6 h-6 rounded-full">

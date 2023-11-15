@@ -82,7 +82,7 @@
 }
 
 .profilePopUp {
-  width: 10rem;
+  width: 12rem;
   display: flex;
   justify-content: start;
   font-size: 0.9rem;
@@ -92,7 +92,7 @@
   backdrop-filter: blur(0.225rem);
   padding: 0.5rem;
   border-radius: 10px;
-  left: -8rem;
+  left: -10rem;
   top: 2.3rem;
   border-top-right-radius: 0;
 }
