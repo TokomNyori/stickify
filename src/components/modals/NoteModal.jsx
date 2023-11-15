@@ -616,10 +616,12 @@ const NoteModal = () => {
                                     <BsPinFill className={`text-[1.7rem] ${pin ? 'text-gray-700' : 'text-gray-500'}`} />
                                 </div>
                                 <button
-                                    className="bg-transparent"
+                                    className="bg-transparent cursor-pointer text-xl tracking-wide border border-gray-700
+                                    rounded-xl px-2 py-0.5"
                                     type="submit"
                                 >
-                                    <BsCheckCircle className='sm:text-3xl text-4xl cursor-pointer' />
+                                    {/* <BsCheckCircle className='sm:text-3xl text-4xl cursor-pointer' /> */}
+                                    {isEdit ? 'Save' : 'Done'}
                                 </button>
                             </div>
                         </div>
