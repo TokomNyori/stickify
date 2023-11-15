@@ -592,7 +592,10 @@ const NoteModal = () => {
                                 {
                                     note.ytVideo.length !== 0 || rephrasedNote.ytVideo.length !== 0 ?
                                         <div className='youtubeModalIcon' onClick={changeYtAddModal}>
-                                            <AiFillYoutube className='text-4xl text-red-500' />
+                                            <AiFillYoutube className='text-4xl text-red-500 inline' />
+                                            <sup className='text-gray-700 font-bold'>
+                                                {isRephrasedNote ? rephrasedNote.ytVideo.length : note.ytVideo.length}
+                                            </sup>
                                         </div>
                                         :
                                         <div className='cursor-pointer' onClick={changeYtAddModal}>

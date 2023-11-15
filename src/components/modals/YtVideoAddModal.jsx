@@ -192,7 +192,7 @@ const YtVideoAddModal = (
                         :
                         <div>
                             {
-                                ytVideos.length < 1 ?
+                                ytVideoFromNote.length < 1 ?
                                     <div className='flex justify-center items-center mt-20 text-2xl'>
                                         Empty
                                     </div>
