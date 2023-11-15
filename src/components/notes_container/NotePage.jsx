@@ -267,8 +267,8 @@ const NotePage = ({ params }) => {
         <>
             <div className={`
                 ${readingMode ? ` bg-gray-800/75 text-gray-100 brightness-[80%]` :
-                    `bg-[${pageNoteData.color}] text-gray-700 dark:brightness-[85%] border-4 border-white shadow-md`} 
-                    px-4 sm:px-8 py-4 sm:py-8 pb-20 rounded-lg min-h-screen`}>
+                    `bg-[${pageNoteData.color}] text-gray-700 dark:brightness-[85%] shadow-md`} 
+                    px-4 sm:px-8 py-4 sm:py-8 pb-20 rounded-2xl min-h-screen`}>
                 <div className='controls flex gap-4 mb-4 justify-between'>
                     <div className='relative flex flex-col items-start'>
                         <BiArrowBack className='text-3xl cursor-pointer home-link' onClick={goBack} />
