@@ -651,7 +651,7 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
-                            <div className={`absolute bottom-24 text-sm sm:text-xs text-gray-100 border border-gray-100
+                            <div className={`absolute text-sm sm:text-xs text-gray-100 border border-gray-100
                             px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn dark:bg-gray-800/70 bg-gray-800/70
                             flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
                                 onClick={toggleRephrasePopUp} >

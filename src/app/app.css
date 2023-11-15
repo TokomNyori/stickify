@@ -170,8 +170,8 @@
 }
 
 .ai-rephrase-btn {
-  right: 5.5%;
-  bottom: 22.5%;
+  right: 6%;
+  bottom: 18%;
 }
 
 .ai-rephrase-options {
@@ -241,7 +241,8 @@
   }
 
   .ai-rephrase-btn {
-    bottom: 18.8%;
+    right: 6%;
+    bottom: 17%;
   }
 
   .ai-rephrase-options {
@@ -317,7 +318,8 @@
 
 @media (max-width: 391px) {
   .ai-rephrase-btn {
-    bottom: 19%;
+    right: 6%;
+    bottom: 17%;
   }
 
   .ai-rephrase-options {
@@ -328,7 +330,7 @@
 
 @media (max-width: 376px) {
   .ai-rephrase-btn {
-    bottom: 21.5%;
+    bottom: 17%;
   }
 }
 
