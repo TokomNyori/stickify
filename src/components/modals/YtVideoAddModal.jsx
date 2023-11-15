@@ -191,15 +191,23 @@ const YtVideoAddModal = (
                         </div>
                         :
                         <div>
-                            <YtVideoListPopup
-                                ytVideoFromNote={ytVideoFromNote}
-                                ytRefs={ytRefs}
-                                deleteYourYtVideo={deleteYourYtVideo}
-                            />
+                            {
+                                ytVideos.length < 1 ?
+                                    <div className='flex justify-center items-center mt-20 text-2xl'>
+                                        Empty
+                                    </div>
+                                    :
+                                    <YtVideoListPopup
+                                        ytVideoFromNote={ytVideoFromNote}
+                                        ytRefs={ytRefs}
+                                        deleteYourYtVideo={deleteYourYtVideo}
+                                    />
+
+                            }
                         </div>
                 }
                 <div className="fixed sm:bottom-12 bottom-20 sm:right-12 right-6">
-                    <div className=' bg-blue-500 shadow-md shadow-white rounded-full w-14 h-14 flex 
+                    <div className=' bg-red-500 shadow-md shadow-white rounded-full w-14 h-14 flex 
                     items-center justify-center tracking-wide font-bold'
                         onClick={changeYtAddModal}>
                         <BiArrowBack className='text-4xl text-white font-bold' />
