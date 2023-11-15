@@ -579,7 +579,7 @@ const NoteModal = () => {
             className={`modal-blur top-0 inset-0 bg-black bg-opacity-30 backdrop-blur-[1px] flex justify-center items-center
                         ${noteModalConfig.noteModalState ? "fix-modal" : "hidden"} flex-wrap dark:brightness-[85%]`}>
             <div
-                className={`modal-main rounded-xl shadow-lg 
+                className={`modal-main rounded-3xl shadow-lg 
                 ${isRephrasedNote ? `bg-[${rephrasedNote.color}]` : `bg-[${note.color}]`} text-gray-700`}
                 ref={noteModalRef} >
                 <form className="mt-2 min-h-full flex flex-col" onSubmit={submitForm} id='createNoteForm'>

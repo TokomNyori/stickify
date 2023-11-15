@@ -147,7 +147,7 @@ const YtVideoAddModal = (
     return (
         <div
             className={`youtube-popup-list-blur inset-0 flex justify-center items-center backdrop-blur-[1px]
-                    ${ytVideAddModalState ? "gpt-fix-modal" : "hidden"} flex-wrap`}
+                    ${ytVideAddModalState ? "yt-fix-modal" : "hidden"} flex-wrap`}
         >
             <div className="yt-video-add-modal bg-zinc-900 rounded-3xl text-gray-100">
                 <div className='flex justify-around mb-3'>
