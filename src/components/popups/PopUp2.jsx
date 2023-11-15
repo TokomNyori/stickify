@@ -36,7 +36,8 @@ const PopUp2 =
             const instruction = `Your role is to rephrase the given content to a different tone. Rephrase the content in a ${tone} tone. The content is: ${ctx}`
             const enhanceInstruction = `You will be provided with content, and your task is to convert the content to standard English. The content is: ${ctx}`
             const gptData = {
-                model: 'gpt-3.5-turbo-1106',
+                //gpt-4-1106-preview  gpt-3.5-turbo-1106
+                model: 'gpt-4-1106-preview',
                 temperature: 0.7,
                 max_tokens: 2000,
                 messages: [
