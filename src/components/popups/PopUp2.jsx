@@ -38,7 +38,7 @@ const PopUp2 =
             const gptData = {
                 //gpt-4-1106-preview  
                 //gpt-3.5-turbo-1106
-                model: 'gpt-4-1106-preview',
+                model: 'gpt-3.5-turbo-1106',
                 temperature: 0.7,
                 max_tokens: 2000,
                 messages: [
