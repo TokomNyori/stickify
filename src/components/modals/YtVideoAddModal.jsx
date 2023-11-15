@@ -171,13 +171,14 @@ const YtVideoAddModal = (
                                 onSubmit={handleSearch}>
                                 <input
                                     className='rounded-3xl rounded-r-none block w-full bg-zinc-900 p-2.5 pl-3 h-[2.5rem] py-4 sm:py-3 
-                            text-md dark:placeholder-gray-400 dark:text-white border border-gray-600
-                            outline-none focus:ring-0 border-r-0'
+                                text-md dark:placeholder-gray-400 dark:text-white border border-gray-600
+                                outline-none focus:ring-0 border-r-0'
                                     type="text"
                                     name="title"
                                     placeholder="Search"
                                     value={formData.title}
                                     onChange={handleFormData}
+                                    required
                                 />
                                 <button className='rounded-3xl rounded-l-none px-2 bg-zinc-700 h-[2.5rem] border border-gray-600 border-l-0'
                                     type='submit'>
@@ -198,7 +199,7 @@ const YtVideoAddModal = (
                         </div>
                 }
                 <div className="fixed sm:bottom-12 bottom-20 sm:right-12 right-6">
-                    <div className=' bg-red-500 shadow-md shadow-white rounded-full w-16 h-16 flex 
+                    <div className=' bg-blue-500 shadow-md shadow-white rounded-full w-14 h-14 flex 
                     items-center justify-center tracking-wide font-bold'
                         onClick={changeYtAddModal}>
                         <BiArrowBack className='text-4xl text-white font-bold' />

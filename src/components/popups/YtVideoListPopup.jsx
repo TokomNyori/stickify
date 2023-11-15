@@ -50,9 +50,9 @@ const YtVideoListPopup = (
                     />
                 </div>
                 <div className="flex gap-2 items-center">
-                    <div className=' cursor-pointer text-zinc-900 bg-zinc-100 rounded-full p-1.5'
+                    <div className=' cursor-pointer text-zinc-900 bg-zinc-100 rounded-full p-1'
                         onClick={() => deleteYourYtVideo(items?.ytVideoId)}>
-                        <MdDelete className='text-4xl' />
+                        <MdDelete className='text-3xl' />
                     </div>
                     <div className='w-full line-clamp-2'>{items?.ytVideoTitle}</div>
                 </div>
