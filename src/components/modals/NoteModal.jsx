@@ -1,7 +1,7 @@
 'use client'
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { useEffect, useRef, useState } from "react";
-import { deleteNoteHelper, deleteVideoNoteHelper, editNoteHelper, getNoteHelper, openAiPostHelper, postNoteHelper } from "@/helper/httpHelpers/httpNoteHelper";
+import { deleteVideoNoteHelper, editNoteHelper, getNoteHelper, openAiPostHelper, postNoteHelper } from "@/helper/httpHelpers/httpNoteHelper";
 import { useRouter } from "next/navigation";
 import { Configuration, OpenAIApi } from "openai";
 import { BsFillPinAngleFill } from 'react-icons/bs'
@@ -11,22 +11,24 @@ import { BiSolidSend } from 'react-icons/bi'
 import { RiMagicFill } from 'react-icons/ri'
 import scrollToTop from "@/helper/scrollToTop";
 import GptSubmit from './GptSubmit';
-import ClipLoader from "react-spinners/PacmanLoader";
-import ClipLoader2 from "react-spinners/GridLoader";
 import { useDispatch, useSelector } from 'react-redux';
 import { addNote } from '@/redux_features/notes/noteSlice';
 import { BiArrowBack } from 'react-icons/bi'
-import { BsCheckCircle } from 'react-icons/bs'
 import { HiOutlineLockClosed } from 'react-icons/hi'
-import { BiSolidVideoPlus } from 'react-icons/bi'
 import PopUp2 from '../popups/PopUp2';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice';
 import { AiFillYoutube } from 'react-icons/ai'
-import YouTube from 'react-youtube';
-import YoutubeModal from './YtVideoAddModal';
-import YtVideoListPopup from '../popups/YtVideoListPopup';
+import { AiOutlineYoutube } from "react-icons/ai";
+import { IoLockOpenOutline } from "react-icons/io5";
+import { IoLockClosed } from "react-icons/io5";
 import YtVideoAddModal from './YtVideoAddModal';
+import ClipLoader from "react-spinners/PacmanLoader";
+import ClipLoader2 from "react-spinners/GridLoader";
+import ClipLoader3 from "react-spinners/HashLoader";
+import _ from 'lodash';
+import WarningModal from './WarningModal';
+
 
 const NoteModal = () => {
     //const userId = userCookie?._id
@@ -58,19 +60,26 @@ const NoteModal = () => {
     const [loadingRephraser, setLoadingRephraser] = useState(false)
     const [textareaRows, setTextareaRows] = useState();
     const [gptSubmitModalState, setGptSubmitModalState] = useState(false)
-    const [ytVideoListPopupState, setYtVideoListPopupState] = useState(false)
     const [ytVideAddModalState, setYtVideAddModalState] = useState(false)
+    const [ytVideoDeleteLoading, setYtVideoDeleteLoading] = useState(false)
+    const [isEditNoteCopy, setIsEditNoteCopy] = useState({})
+    const [noteCopy, setNoteCopy] = useState({})
+    const [rephradedNoteCopy, setRephradedNoteCopy] = useState({})
+    const [countSave, setCountSave] = useState(false)
     const noteModalRef = useRef(null);
     const ytListPopupVideosRefs0 = useRef(null)
     const ytListPopupVideosRefs1 = useRef(null)
     const ytListPopupVideosRefs2 = useRef(null)
     const ytListPopupVideosRefs3 = useRef(null)
     const ytListPopupVideosRefs4 = useRef(null)
+    const ytListPopupVideosRefs5 = useRef(null)
+    const ytListPopupVideosRefs6 = useRef(null)
     const isTitleEmpty = isRephrasedNote ? isRephrasedTitle : isTitle
     const isContentEmpty = isRephrasedNote ? isRephrasedContent : isContent
     const pageName = useSelector(state => state.page.page)
     const router = useRouter()
-    const ytRefs = [ytListPopupVideosRefs0, ytListPopupVideosRefs1, ytListPopupVideosRefs2, ytListPopupVideosRefs3, ytListPopupVideosRefs4]
+    const ytRefs = [ytListPopupVideosRefs0, ytListPopupVideosRefs1, ytListPopupVideosRefs2, ytListPopupVideosRefs3,
+        ytListPopupVideosRefs4, ytListPopupVideosRefs5, ytListPopupVideosRefs6]
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -95,6 +104,15 @@ const NoteModal = () => {
     useEffect(() => {
         if (isEdit) {
             setNote({
+                title: noteModalConfig.noteObject.title,
+                status: noteModalConfig.noteObject.status,
+                color: noteModalConfig.noteObject.color,
+                content: noteModalConfig.noteObject.content,
+                isPrivate: noteModalConfig.noteObject.isPrivate,
+                userId: users._id,
+                ytVideo: noteModalConfig.noteObject.ytVideo,
+            })
+            setIsEditNoteCopy({
                 title: noteModalConfig.noteObject.title,
                 status: noteModalConfig.noteObject.status,
                 color: noteModalConfig.noteObject.color,
@@ -132,12 +150,6 @@ const NoteModal = () => {
                     ...prev,
                     status: 'others'
                 }))
-        }
-        if (pin) {
-            toast('Pin note', {
-                icon: '📌',
-                duration: 1000,
-            })
         }
     }, [pin])
 
@@ -200,23 +212,23 @@ const NoteModal = () => {
         };
     }, []);
 
-    useEffect(() => {
-        if (isRephrasedNote) {
-            if (rephrasedNote.isPrivate) {
-                toast('Private note', {
-                    icon: '🔒',
-                    duration: 1000,
-                })
-            }
-        } else {
-            if (note.isPrivate) {
-                toast('Private note', {
-                    icon: '🔒',
-                    duration: 1000,
-                })
-            }
-        }
-    }, [note.isPrivate, rephrasedNote.isPrivate])
+    // useEffect(() => {
+    //     if (isRephrasedNote) {
+    //         if (rephrasedNote.isPrivate) {
+    //             toast('Private note', {
+    //                 icon: '🔒',
+    //                 duration: 1000,
+    //             })
+    //         }
+    //     } else {
+    //         if (note.isPrivate) {
+    //             toast('Private note', {
+    //                 icon: '🔒',
+    //                 duration: 1000,
+    //             })
+    //         }
+    //     }
+    // }, [note.isPrivate, rephrasedNote.isPrivate])
 
     useEffect(() => {
         // Create the handlePopState function inside useEffect
@@ -256,6 +268,22 @@ const NoteModal = () => {
         dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
     }
 
+    // function saveChanges(e, operation) {
+    //     e.stopPropagation()
+    //     if (operation === 'yes') {
+    //         setSaveWarningModalState(false)
+    //         submitForm(event)
+    //         // clearForm()
+    //         // setIsEdit(false)
+    //         // dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
+    //     } else {
+    //         setSaveWarningModalState(false)
+    //         clearForm()
+    //         setIsEdit(false)
+    //         dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
+    //     }
+    // }
+
     function changeNote(event) {
         const { name, value, type, checked } = event.target
         if (!isRephrasedNote) {
@@ -268,6 +296,35 @@ const NoteModal = () => {
                 ...prev,
                 [name]: type === "checkbox" ? checked : value
             }))
+        }
+
+        // Checking for private/public note
+        if (name === 'isPrivate') {
+            if (!isRephrasedNote) {
+                if (note.isPrivate) {
+                    toast('Private note', {
+                        icon: '🔒',
+                        duration: 1000,
+                    })
+                } else {
+                    toast('Public note', {
+                        icon: '📰',
+                        duration: 1000,
+                    })
+                }
+            } else {
+                if (rephrasedNote.isPrivate) {
+                    toast('Private note', {
+                        icon: '🔒',
+                        duration: 1000,
+                    })
+                } else {
+                    toast('Public note', {
+                        icon: '📰',
+                        duration: 1000,
+                    })
+                }
+            }
         }
     }
 
@@ -289,7 +346,20 @@ const NoteModal = () => {
     }
 
     function pinIt() {
-        setPin(prev => !prev)
+        setTimeout(() => {
+            setPin(prev => !prev)
+        }, 100);
+        if (pin) {
+            toast('Unpinned', {
+                icon: '🤏🏼',
+                duration: 1000,
+            })
+        } else {
+            toast('Pinned', {
+                icon: '📌',
+                duration: 1000,
+            })
+        }
     }
 
     async function submitForm(event) {
@@ -316,7 +386,7 @@ const NoteModal = () => {
                 dispatch(addCurrentNotePage(res.body))
                 setLoading(false)
                 toast("Boom! Note's Customized !", {
-                    icon: '🔥📔'
+                    icon: '🔥📝'
                 });
                 closeModal(event)
             } catch (error) {
@@ -342,7 +412,7 @@ const NoteModal = () => {
             dispatch(addNote(notesRes.body))
             setLoading(false)
             toast("Boom! Note's Ready!", {
-                icon: '🔥📔'
+                icon: '🔥📝'
             });
             closeModal(event)
         } catch (error) {
@@ -451,71 +521,93 @@ const NoteModal = () => {
 
     // Continue !!!!!!!!!!!!!!!⚠️
     async function deleteYourYtVideo(id) {
+        setYtVideoDeleteLoading(true)
+        const backUp = isRephrasedNote ? { ...rephrasedNote } : { ...note }
+        const removeTarget = isRephrasedNote ?
+            rephrasedNote.ytVideo.filter(video => video.ytVideoId !== id)
+            :
+            note.ytVideo.filter(video => video.ytVideoId !== id)
+
         if (isRephrasedNote) {
-            const deleteYtVid = rephrasedNote.ytVideo.filter(vid => {
-                return vid.ytVideoId !== id
-            })
-            const backUp = { ...noteModalConfig }
-            setRephrasedNote(prev => ({
-                ...prev,
-                ytVideo: deleteYtVid
-            }))
-            dispatch(setNoteModalConfig(backUp))
-            toast('Deleted', {
-                icon: '🗑️'
-            })
-            if (isEdit) {
-                const jsonBody = {
-                    ytVideo: deleteYtVid,
-                }
-                try {
-                    const res = await deleteVideoNoteHelper(
-                        {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            noteid: noteModalConfig.noteObject._id,
-                            body: jsonBody
-                        }
-                    )
-                    console.log(res)
-                } catch (error) {
-                    console.log(error)
-                }
-            }
+            setTimeout(() => {
+                setRephrasedNote(prevNotes => ({
+                    ...prevNotes,
+                    ytVideo: removeTarget
+                }))
+            }, 100);
         } else {
-            const deleteYtVid = note.ytVideo.filter(vid => {
-                return vid.ytVideoId !== id
-            })
-            const backUp = { ...noteModalConfig }
-            // console.log('deleteYtVid')
-            // console.log(deleteYtVid)
-            setNote(prev => ({
-                ...prev,
-                ytVideo: deleteYtVid
-            }))
-            dispatch(setNoteModalConfig(backUp))
-            //changeYtPopup()
-            toast('Deleted', {
-                icon: '🗑️'
-            })
-            if (isEdit) {
-                const jsonBody = {
-                    ytVideo: deleteYtVid,
+            setTimeout(() => {
+                setNote(prevNotes => ({
+                    ...prevNotes,
+                    ytVideo: removeTarget
+                }))
+            }, 100);
+        }
+        setYtVideoDeleteLoading(false)
+        toast('Deleted', {
+            icon: '🗑️'
+        })
+
+        // Making server request to delete from MongoDB database
+        const jsonBody = {
+            ytVideo: removeTarget,
+        }
+        try {
+            const res = await deleteVideoNoteHelper(
+                {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    noteid: noteModalConfig.noteObject._id,
+                    body: jsonBody
                 }
-                try {
-                    const res = await deleteVideoNoteHelper(
-                        {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            noteid: noteModalConfig.noteObject._id,
-                            body: jsonBody
-                        }
-                    )
-                    console.log(res)
-                } catch (error) {
-                    console.log(error)
+            )
+            console.log(res)
+        } catch (error) {
+            console.log(error)
+            isRephrasedNote ?
+                setRephrasedNote(backUp) :
+                setNote(backUp)
+        }
+    }
+
+
+    function AddToYtVideosFromYtModal({ operation, id, title }) {
+        const addObject = {
+            ytVideoId: id,
+            ytVideoTitle: title,
+        }
+        if (isRephrasedNote) {
+            setRephrasedNote(prevNotes => {
+                const addToYtVideo = [{ ...addObject }, ...prevNotes.ytVideo]
+                if (operation === 'add') {
+                    return {
+                        ...prevNotes,
+                        ytVideo: addToYtVideo
+                    }
+                } else {
+                    const removeTarget = prevNotes.ytVideo.filter(video => video.ytVideoId !== id)
+                    return {
+                        ...prevNotes,
+                        ytVideo: removeTarget
+                    }
                 }
-            }
+            })
+        } else {
+            setNote(prevNotes => {
+                const addToYtVideo = [{ ...addObject }, ...prevNotes.ytVideo]
+                if (operation === 'add') {
+                    return {
+                        ...prevNotes,
+                        ytVideo: addToYtVideo
+                    }
+                } else {
+                    const removeTarget = prevNotes.ytVideo.filter(video => video.ytVideoId !== id)
+                    return {
+                        ...prevNotes,
+                        ytVideo: removeTarget
+                    }
+                }
+            })
         }
     }
 
@@ -536,37 +628,10 @@ const NoteModal = () => {
         }
     }
 
-    function AddToYtVideosFromYtModal({ operation, id, title }) {
-        if (isRephrasedNote) {
-
-        } else {
-            setNote(prevNotes => {
-                const addObject = {
-                    ytVideoId: id,
-                    ytVideoTitle: title,
-                }
-                const addToYtVideo = [...prevNotes.ytVideo, { ...addObject }]
-                if (operation === 'add') {
-                    return {
-                        ...prevNotes,
-                        ytVideo: addToYtVideo
-                    }
-                } else {
-                    const removeTarget = prevNotes.ytVideo.filter(video => video.ytVideoId !== id)
-                    return {
-                        ...prevNotes,
-                        ytVideo: removeTarget
-                    }
-                }
-            })
-        }
-
-    }
-
-    console.log(note.ytVideo)
+    // console.log(note.ytVideo)
 
     // console.log('NoteConfig')
-    // console.log(noteModalConfig)
+    // console.log(isEditNoteCopy)
 
     // console.log('Note Object')
     // console.log(note)
@@ -582,13 +647,14 @@ const NoteModal = () => {
                 className={`modal-main rounded-3xl shadow-lg 
                 ${isRephrasedNote ? `bg-[${rephrasedNote.color}]` : `bg-[${note.color}]`} text-gray-700`}
                 ref={noteModalRef} >
-                <form className="mt-2 min-h-full flex flex-col" onSubmit={submitForm} id='createNoteForm'>
+                <form className="mt-2 min-h-full flex flex-col" onSubmit={submitForm}
+                    id='createNoteForm'>
                     <div className='top-section'>
                         <div className="modal-heading">
                             <div className="text-center" onClick={closeModal}>
                                 <BiArrowBack className='sm:text-3xl text-4xl cursor-pointer ' />
                             </div>
-                            <div className='flex gap-3 items-center justify-center'>
+                            <div className='flex gap-4 sm:gap-3 items-center justify-center'>
                                 {
                                     note.ytVideo.length !== 0 || rephrasedNote.ytVideo.length !== 0 ?
                                         <div className='youtubeModalIcon' onClick={changeYtAddModal}>
@@ -599,7 +665,7 @@ const NoteModal = () => {
                                         </div>
                                         :
                                         <div className='cursor-pointer' onClick={changeYtAddModal}>
-                                            <AiFillYoutube className='text-4xl text-gray-500' />
+                                            <AiOutlineYoutube className='text-4xl font-light text-gray-700' />
                                         </div>
                                 }
                                 <div className=''>
@@ -608,16 +674,23 @@ const NoteModal = () => {
                                         onChange={changeNote}
                                         className="hidden" />
                                     <label for="isPrivate">
-                                        <HiOutlineLockClosed className={`text-3xl cursor-pointer
-                                    ${rephrasedNote.isPrivate || note.isPrivate ?
-                                                'text-gray-700' :
-                                                'text-gray-500'}
-                                    `} />
+                                        {
+                                            rephrasedNote.isPrivate || note.isPrivate ?
+                                                <IoLockClosed className={`text-[1.75rem] cursor-pointer text-gray-700`} /> :
+                                                <IoLockOpenOutline className={`text-[1.75rem] cursor-pointer text-gray-700`} />
+                                        }
                                     </label>
                                 </div>
-                                <div className='close-btn cursor-pointer mt-1' onClick={pinIt}>
-                                    <BsPinFill className={`text-[1.7rem] ${pin ? 'text-gray-700' : 'text-gray-500'}`} />
-                                </div>
+                                {
+                                    pin ?
+                                        <div className='close-btn cursor-pointer mt-1' onClick={pinIt}>
+                                            <BsPinFill className={`text-[1.7rem] text-gray-700`} />
+                                        </div>
+                                        :
+                                        <div className='close-btn cursor-pointer mt-1' onClick={pinIt}>
+                                            <BsPin className={`text-[1.7rem] 'text-gray-700`} />
+                                        </div>
+                                }
                                 <button
                                     className="bg-transparent cursor-pointer text-xl tracking-wide border border-gray-700
                                     rounded-xl px-2 py-0.5"
@@ -764,6 +837,7 @@ const NoteModal = () => {
                     deleteYourYtVideo={deleteYourYtVideo}
                     ytRefs={ytRefs}
                 />
+                {/* <WarningModal WarningModalState={WarningModalState} action={saveChanges} /> */}
             </div>
             {loading &&
                 <div
@@ -806,6 +880,20 @@ const NoteModal = () => {
                     >
                         Cancel?
                     </div> */}
+                </div>
+            }
+            {ytVideoDeleteLoading &&
+                <div
+                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    items-center flex-wrap`}>
+                    <ClipLoader3
+                        color='#f86464'
+                        loading='Generating...'
+                        size={70}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
                 </div>
             }
         </div>

@@ -12,6 +12,7 @@
     "@reduxjs/toolkit": "^1.9.7",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
     "mongoose": "^7.6.3",
     "next": "^14.0.0",

@@ -9,7 +9,7 @@ import { AiFillYoutube } from 'react-icons/ai'
 import YouTube from "react-youtube"
 import { youtubeTenVideotHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import toast from 'react-hot-toast'
-import YtVideoListPopup from '../popups/YtVideoListPopup'
+import YourVideoPopup from '../popups/YourVideoPopup'
 
 const YtVideoAddModal = (
     { ytVideAddModalState, changeYtAddModal, ytVideoFromNote, AddToYtVideosFromYtModal, ytRefs, deleteYourYtVideo }
@@ -18,6 +18,23 @@ const YtVideoAddModal = (
     const [ytVideos, setYtVideos] = useState([])
     const [videos, setVideos] = useState()
     const [navSection, setNavSection] = useState()
+    const ytVideoModalUpRef = useRef(null);
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (ytVideoModalUpRef.current && !ytVideoModalUpRef.current.contains(event.target)) {
+                eraseVideosAndClose()
+            }
+        };
+
+        if (ytVideAddModalState) {
+            document.addEventListener('click', handleOutsideClick);
+        }
+
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, [ytVideAddModalState]);
 
     useEffect(() => {
         if (ytVideos.length > 0) {
@@ -68,12 +85,9 @@ const YtVideoAddModal = (
         },
     };
 
-    console.log('noteFromModal.ytVideo.length')
-    console.log(ytVideoFromNote.length)
-
     function handleAddVideo({ operation, id, title }) {
-        if (ytVideoFromNote.length >= 5 && operation === 'add') {
-            toast('Limit: 5 videos. Delete videos from note.',
+        if (ytVideoFromNote.length >= 7 && operation === 'add') {
+            toast('Limit: 7 videos. Delete videos from note.',
                 {
                     icon: '🥹',
                     duration: 4000
@@ -142,6 +156,16 @@ const YtVideoAddModal = (
         setNavSection(section)
     }
 
+    function eraseVideosAndClose() {
+        setYtVideos([])
+        setVideos([])
+        setFormData({ title: '' })
+        changeYtAddModal()
+    }
+
+    // console.log('noteFromModal.ytVideo.length')
+    // console.log(videos)
+
     // console.log(ytVideos)
 
     return (
@@ -149,7 +173,9 @@ const YtVideoAddModal = (
             className={`youtube-popup-list-blur inset-0 flex justify-center items-center backdrop-blur-[1px]
                     ${ytVideAddModalState ? "yt-fix-modal" : "hidden"} flex-wrap`}
         >
-            <div className="yt-video-add-modal bg-zinc-900 rounded-3xl text-gray-100">
+            <div className="yt-video-add-modal bg-zinc-900 rounded-3xl text-gray-100"
+                ref={ytVideoModalUpRef}
+            >
                 <div className='flex justify-around mb-3'>
                     <div className={`flex justify-center items-center gap-1 flex-1 py-2 cursor-pointer
                             ${navSection === 'add videos' ? 'border-b' : ''}`}
@@ -164,51 +190,49 @@ const YtVideoAddModal = (
                         Your videos
                     </div>
                 </div>
-                {
-                    navSection === 'add videos' ?
-                        <div className='flex flex-col'>
-                            <form className='flex items-center justify-center'
-                                onSubmit={handleSearch}>
-                                <input
-                                    className='rounded-3xl rounded-r-none block w-full bg-zinc-900 p-2.5 pl-3 h-[2.5rem] py-4 sm:py-3 
+                {/* Add Videos Section */}
+                <div className={`${navSection === 'add videos' ? 'flex flex-col' : 'hidden'}`}>
+                    <form className='flex items-center justify-center'
+                        onSubmit={handleSearch}>
+                        <input
+                            className='rounded-3xl rounded-r-none block w-full bg-zinc-900 p-2.5 pl-3 h-[2.5rem] py-4 sm:py-3 
                                 text-md dark:placeholder-gray-400 dark:text-white border border-gray-600
                                 outline-none focus:ring-0 border-r-0'
-                                    type="text"
-                                    name="title"
-                                    placeholder="Search"
-                                    value={formData.title}
-                                    onChange={handleFormData}
-                                    required
-                                />
-                                <button className='rounded-3xl rounded-l-none px-2 bg-zinc-700 h-[2.5rem] border border-gray-600 border-l-0'
-                                    type='submit'>
-                                    <AiOutlineSearch className='text-3xl' />
-                                </button>
-                            </form>
-                            <div className="flex flex-col gap-7 mt-6">
-                                {videos}
+                            type="text"
+                            name="title"
+                            placeholder="Search"
+                            value={formData.title}
+                            onChange={handleFormData}
+                            required
+                        />
+                        <button className='rounded-3xl rounded-l-none px-2 bg-zinc-700 h-[2.5rem] border border-gray-600 border-l-0'
+                            type='submit'>
+                            <AiOutlineSearch className='text-3xl' />
+                        </button>
+                    </form>
+                    <div className="flex flex-col gap-7 mt-6">
+                        {videos}
+                    </div>
+                </div>
+                {/* Your Videos Section */}
+                <div className={`${navSection === 'your videos' ? 'flex flex-col' : 'hidden'}`}>
+                    {
+                        ytVideoFromNote.length < 1 ?
+                            <div className='flex justify-center items-center mt-20 text-2xl'>
+                                Empty
                             </div>
-                        </div>
-                        :
-                        <div>
-                            {
-                                ytVideoFromNote.length < 1 ?
-                                    <div className='flex justify-center items-center mt-20 text-2xl'>
-                                        Empty
-                                    </div>
-                                    :
-                                    <YtVideoListPopup
-                                        ytVideoFromNote={ytVideoFromNote}
-                                        ytRefs={ytRefs}
-                                        deleteYourYtVideo={deleteYourYtVideo}
-                                    />
-                            }
-                        </div>
-                }
+                            :
+                            <YourVideoPopup
+                                ytVideoFromNote={ytVideoFromNote}
+                                ytRefs={ytRefs}
+                                deleteYourYtVideo={deleteYourYtVideo}
+                            />
+                    }
+                </div>
                 <div className="fixed sm:bottom-12 bottom-20 sm:right-12 right-6">
                     <div className=' bg-red-500 shadow-md shadow-white rounded-full w-14 h-14 flex 
                     items-center justify-center tracking-wide font-bold'
-                        onClick={changeYtAddModal}>
+                        onClick={eraseVideosAndClose}>
                         <BiArrowBack className='text-4xl text-white font-bold' />
                     </div>
                 </div>

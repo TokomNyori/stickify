@@ -14,6 +14,7 @@ import { useTheme } from 'next-themes';
 import { IoAddSharp } from "react-icons/io5";
 import { addPage } from '@/redux_features/pages/pageSlice';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
+import WarningModal from '../modals/WarningModal';
 
 export default function NotesContainer() {
     //const [notes, setNotes] = useState([])
@@ -25,6 +26,8 @@ export default function NotesContainer() {
     const [initialLoading, setInitialLoading] = useState(true);
     const [deleteLoading, setDeleteLoading] = useState(false);
     const [pinLoading, setPinLoading] = useState(false);
+    const [warningModalState, setWarningModalState] = useState(false)
+    const [currentNoteIdForDelete, setCurrentNoteIdForDelete] = useState('')
     const dispatch = useDispatch()
     useEffect(() => {
         getUserCookie()
@@ -40,7 +43,7 @@ export default function NotesContainer() {
 
     useEffect(() => {
         if (notes) {
-            const pinned = notes.filter(note => note.status === 'pinned')
+            const pinned = notes?.filter(note => note.status === 'pinned')
             setPinnedNotes(pinned)
             const others = notes.filter(note => note.status !== 'pinned')
             setOtherNotes(others)
@@ -74,33 +77,45 @@ export default function NotesContainer() {
         }
     }
 
-    async function deleteNotes(e, noteid) {
+    function deleteNotes(e, noteid) {
         e.stopPropagation()
-        const backupNotes = [...notes]
-        setDeleteLoading(true)
-        try {
-            const res = await deleteNoteHelper({ noteid: noteid, method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
-            setDeletedNotes({ ...deletedNotes, [noteid]: true });
-            setTimeout(() => {
-                const refreshedNotes = notes.filter(note => note._id !== noteid)
-                //setNotes(refreshedNotes)
-                dispatch(addNote(refreshedNotes))
-                const newDeletedNotes = { ...deletedNotes };
-                delete newDeletedNotes[noteid];
-                setDeletedNotes(newDeletedNotes);
+        setWarningModalState(true)
+        setCurrentNoteIdForDelete(noteid)
+    }
+
+    async function conifirmDelete(operation, noteid) {
+        if (operation === 'no') {
+            setWarningModalState(false)
+            setCurrentNoteIdForDelete('')
+            return
+        } else {
+            const backupNotes = [...notes]
+            setWarningModalState(false)
+            setDeleteLoading(true)
+            try {
+                const res = await deleteNoteHelper({ noteid: noteid, method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
+                setDeletedNotes({ ...deletedNotes, [noteid]: true });
+                setTimeout(() => {
+                    const refreshedNotes = notes.filter(note => note._id !== noteid)
+                    //setNotes(refreshedNotes)
+                    dispatch(addNote(refreshedNotes))
+                    const newDeletedNotes = { ...deletedNotes };
+                    delete newDeletedNotes[noteid];
+                    setDeletedNotes(newDeletedNotes);
+                    setDeleteLoading(false)
+                    toast('Destroyed successfully!', {
+                        icon: '🔥',
+                    });
+                    getNotes()
+                }, 500); // Match this with the CSS animation duration
+            } catch (error) {
                 setDeleteLoading(false)
-                toast('Destroyed successfully!', {
-                    icon: '🔥',
+                dispatch(addNote(backupNotes))
+                toast(`Sorry could not delete!`, {
+                    icon: '🥺',
+                    duration: 3000,
                 });
-                getNotes()
-            }, 500); // Match this with the CSS animation duration
-        } catch (error) {
-            setDeleteLoading(false)
-            dispatch(addNote(backupNotes))
-            toast(`Sorry could not delete!`, {
-                icon: '🥺',
-                duration: 3000,
-            });
+            }
         }
     }
 
@@ -258,6 +273,8 @@ export default function NotesContainer() {
                     }
                 </div>
             }
+            <WarningModal warningModalState={warningModalState} action={conifirmDelete} noteid={currentNoteIdForDelete}
+                modalType={'delete'} />
             <Toaster />
         </div>
     )

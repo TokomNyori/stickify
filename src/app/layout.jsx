@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
         // bg-[#e6e9e7]
-        className={`${nunito.className} flex flex-col min-h-screen bg-zinc-200 text-gray-700 dark:bg-zinc-900 dark:text-gray-100`}>
+        className={`${nunito.className} flex flex-col min-h-screen bg-zinc-100 text-gray-700 dark:bg-zinc-900 dark:text-gray-100`}>
         <ReduxProvider>
           <Navbar />
           <div className='mt-16 mb-16 flex-grow'>

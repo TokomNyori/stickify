@@ -87,7 +87,7 @@ const PopUp2 =
             changeIsRepCnt(false)
             setTimeout(() => {
                 setIsDefault(true)
-            }, 200);
+            }, 100);
             toast('Back to the original', {
                 icon: '😀'
             })

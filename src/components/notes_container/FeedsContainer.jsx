@@ -34,7 +34,7 @@ export default function FeedsContainer() {
         scrollToTop()
         dispatch(addPage('feeds'))
     }, [])
-
+    
     useEffect(() => {
         let looping = []
         notes.forEach(note => {

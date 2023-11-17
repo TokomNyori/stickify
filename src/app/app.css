@@ -64,6 +64,13 @@
   animation-duration: 1s;
 }
 
+.save-warning-fix-modal {
+  z-index: 80;
+  position: fixed;
+  animation-name: modalopen;
+  animation-duration: 1s;
+}
+
 .yt-fix-modal {
   z-index: 70;
   position: fixed;
@@ -182,7 +189,7 @@
 .youtubeModalIcon {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  animation: float 1.7s ease-in-out infinite;
+  animation: float 2s ease-in-out infinite;
 }
 
 .youtubeModalIcon:hover {
@@ -193,11 +200,11 @@
 
   0%,
   100% {
-    transform: translateY(-1px);
+    transform: translateY(-1.5px);
   }
 
   50% {
-    transform: translateY(1px);
+    transform: translateY(1.5px);
   }
 }
 

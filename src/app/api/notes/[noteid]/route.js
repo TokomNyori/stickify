@@ -40,7 +40,7 @@ export async function DELETE(request, { params }) {
 export async function PUT(request, { params }) {
     const { noteid } = params
     //Fetch work data from request
-    const { title, content, status, color, isPrivate, ytVideoId } = await request.json()
+    const { title, content, status, color, isPrivate, ytVideo } = await request.json()
 
     try {
         const note = await NoteModel.findById({ _id: noteid })
@@ -49,7 +49,7 @@ export async function PUT(request, { params }) {
         note.status = status
         note.color = color
         note.isPrivate = isPrivate
-        note.ytVideoId = ytVideoId
+        note.ytVideo = ytVideo
         note.updated = new Date()
 
         const updatedNote = await note.save()
