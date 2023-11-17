@@ -304,24 +304,24 @@ const NoteModal = () => {
                 if (note.isPrivate) {
                     toast('Public note', {
                         icon: '📰',
-                        duration: 1000,
+                        duration: 800,
                     })
                 } else {
                     toast('Private note', {
                         icon: '🔒',
-                        duration: 1000,
+                        duration: 800,
                     })
                 }
             } else {
                 if (rephrasedNote.isPrivate) {
                     toast('Public note', {
                         icon: '📰',
-                        duration: 1000,
+                        duration: 800,
                     })
                 } else {
                     toast('Private note', {
                         icon: '🔒',
-                        duration: 1000,
+                        duration: 800,
                     })
                 }
             }
@@ -352,12 +352,12 @@ const NoteModal = () => {
         if (pin) {
             toast('Unpinned', {
                 icon: '🤏🏼',
-                duration: 1000,
+                duration: 800,
             })
         } else {
             toast('Pinned', {
                 icon: '📌',
-                duration: 1000,
+                duration: 800,
             })
         }
     }
