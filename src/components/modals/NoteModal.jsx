@@ -302,25 +302,25 @@ const NoteModal = () => {
         if (name === 'isPrivate') {
             if (!isRephrasedNote) {
                 if (note.isPrivate) {
-                    toast('Private note', {
-                        icon: '🔒',
+                    toast('Public note', {
+                        icon: '📰',
                         duration: 1000,
                     })
                 } else {
-                    toast('Public note', {
-                        icon: '📰',
+                    toast('Private note', {
+                        icon: '🔒',
                         duration: 1000,
                     })
                 }
             } else {
                 if (rephrasedNote.isPrivate) {
-                    toast('Private note', {
-                        icon: '🔒',
+                    toast('Public note', {
+                        icon: '📰',
                         duration: 1000,
                     })
                 } else {
-                    toast('Public note', {
-                        icon: '📰',
+                    toast('Private note', {
+                        icon: '🔒',
                         duration: 1000,
                     })
                 }
