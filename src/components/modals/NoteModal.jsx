@@ -710,7 +710,7 @@ const NoteModal = () => {
                                 <input type="text" id="note_title" className="bg-gray-700 border-b border-gray-800/75 block w-full 
                                 py-2 font-bold placeholder-gray-500 text-gray-700 focus:outline-none bg-transparent
                                 sm:text-[1.05rem] text-[1.08rem]"
-                                    placeholder="Title..." value={isRephrasedNote ? rephrasedNote.title : note.title}
+                                    placeholder="Title" value={isRephrasedNote ? rephrasedNote.title : note.title}
                                     name="title" onChange={changeNote} required />
                             </div>
                             <div className=' text-sm border border-gray-700 hover:border-gray-950 rounded-lg py-1 px-2 
