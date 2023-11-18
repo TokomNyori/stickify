@@ -37,7 +37,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
 
         return (
             <motion.div
-                initial={{ y: -200 }}
+                initial={{ y: -600 }}
                 animate={{ y: 0 }}
                 transition={{ ease: 'easeInOut' }}
                 className={`note-box flex flex-col px-3 py-3 rounded-xl 
