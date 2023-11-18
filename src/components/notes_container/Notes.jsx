@@ -15,7 +15,7 @@ import { useState } from 'react'
 import { motion } from "framer-motion"
 
 const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => {
-    //const [loading, setLoading] = useState(false)
+    const [nextPage, setNextPage] = useState(false)
     const dispatch = useDispatch()
     const router = useRouter()
 
@@ -23,6 +23,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
         e.stopPropagation()
         const clickedNote = notes.filter(note => note._id === id)
         dispatch(addCurrentNotePage(clickedNote[0]))
+        setNextPage(true)
         router.push(`/${id}`)
     }
 
@@ -35,7 +36,10 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
     const taskBoxes = notes?.map(note => {
 
         return (
-            <div
+            <motion.div
+                initial={{ y: -200 }}
+                animate={{ y: 0 }}
+                transition={{ ease: 'easeInOut' }}
                 className={`note-box flex flex-col px-3 py-3 rounded-xl 
                 text-gray-700 bg-[${note.color}] 
                 ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-lg dark:brightness-[85%]`} key={note._id}
@@ -87,7 +91,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
                         </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         )
     })
 

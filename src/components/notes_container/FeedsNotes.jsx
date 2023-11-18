@@ -16,6 +16,7 @@ import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNote
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice'
 import { useEffect, useState } from 'react'
 import { postNoteHelper } from '@/helper/httpHelpers/httpNoteHelper'
+import { motion } from "framer-motion"
 
 const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
 
@@ -40,7 +41,10 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
         }
 
         return (
-            <div
+            <motion.div
+            initial={{ y: -200 }}
+            animate={{ y: 0 }}
+            transition={{ ease: 'easeInOut' }}
                 className={`note-box-two flex flex-col px-3 py-3 rounded-xl text-gray-700 bg-[${note.color}] 
                             ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-lg dark:brightness-[85%]`} key={note._id}
                 onClick={(e) => toTheNotePage(e, note._id)}
@@ -88,7 +92,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         )
     })
 
