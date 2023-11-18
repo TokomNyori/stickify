@@ -28,6 +28,7 @@ import ClipLoader2 from "react-spinners/GridLoader";
 import ClipLoader3 from "react-spinners/HashLoader";
 import _ from 'lodash';
 import WarningModal from './WarningModal';
+import { motion } from "framer-motion"
 
 
 const NoteModal = () => {
@@ -685,7 +686,8 @@ const NoteModal = () => {
                             <div className='flex gap-4 sm:gap-3 items-center justify-center'>
                                 {
                                     note.ytVideo.length !== 0 || rephrasedNote.ytVideo.length !== 0 ?
-                                        <div className='youtubeModalIcon' onClick={changeYtAddModal}>
+                                        <div className={`${isEdit ? 'youtubeModalIcon' : 'youtubeModalIconGPT'}`}
+                                            onClick={changeYtAddModal}>
                                             <AiFillYoutube className='text-4xl text-red-500 inline' />
                                             <sup className='text-gray-700 font-bold'>
                                                 {isRephrasedNote ? rephrasedNote.ytVideo.length : note.ytVideo.length}
@@ -704,8 +706,8 @@ const NoteModal = () => {
                                     <label for="isPrivate">
                                         {
                                             rephrasedNote.isPrivate || note.isPrivate ?
-                                                <IoLockClosed className={`text-[1.75rem] cursor-pointer text-gray-700`} /> :
-                                                <IoLockOpenOutline className={`text-[1.75rem] cursor-pointer text-gray-700`} />
+                                                <IoLockClosed className={`text-[1.7rem] cursor-pointer text-gray-700`} /> :
+                                                <IoLockOpenOutline className={`text-[1.7rem] cursor-pointer text-gray-700`} />
                                         }
                                     </label>
                                 </div>

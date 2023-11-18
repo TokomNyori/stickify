@@ -29,6 +29,9 @@
   /* border-radius: 10px; */
   overflow: hidden;
   box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.2);
+  animation-name: note-modalopen;
+  animation-timing-function: ease-in-out;
+  animation-duration: 1.5s;
 }
 
 .gpt-generate-modal {
@@ -61,7 +64,7 @@
   z-index: 60;
   position: fixed;
   animation-name: modalopen;
-  animation-duration: 1s;
+  animation-duration: 1.2s;
 }
 
 .save-warning-fix-modal {
@@ -85,6 +88,28 @@
 
   to {
     opacity: 1;
+  }
+}
+
+@keyframes note-modalopen {
+  from {
+    transform: translateY(-100%);
+  }
+
+  25% {
+    transform: translateY(10%);
+  }
+
+  50% {
+    transform: translateY(-3%);
+  }
+
+  75% {
+    transform: translateY(2%);
+  }
+
+  to {
+    transform: translateY(0);
   }
 }
 
@@ -189,10 +214,21 @@
 .youtubeModalIcon {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  animation: float 2s ease-in-out infinite;
+  animation: float 2s ease-in-out infinite, scaleEffect 1.5s ease-in-out;
+  animation-delay: 1.4s;
 }
 
 .youtubeModalIcon:hover {
+  scale: 1.05;
+}
+
+.youtubeModalIconGPT {
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  animation: float 2s ease-in-out infinite, scaleEffect 1.5s ease-in-out;
+}
+
+.youtubeModalIconGPT:hover {
   scale: 1.05;
 }
 
@@ -205,6 +241,21 @@
 
   50% {
     transform: translateY(1.5px);
+  }
+}
+
+@keyframes scaleEffect {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.15);
+    /* You can adjust the scale factor */
+  }
+
+  100% {
+    transform: scale(1);
   }
 }
 

@@ -163,14 +163,14 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         <div
             className={`gpt-modal-blur inset-0 bg-black bg-opacity-30 backdrop-blur-[1px] flex justify-center items-center
                         ${gptSubmitModalState ? "gpt-fix-modal" : "hidden"} flex-wrap`}>
-            <div className={`gpt-generate-modal rounded-lg shadow-lg bg-gray-700`} >
+            <div className={`gpt-generate-modal rounded-3xl shadow-lg bg-zinc-900`} >
                 <div className="modal-heading text-gray-300">
                     <div className="text-center ">Requirements</div>
                     <div className='close-btn cursor-pointer' onClick={changeGptRequirementModal}>
-                        <AiOutlineCloseCircle className={`sm:text-2xl text-3xl text-gray-300 hover:text-red-400`} />
+                        <AiOutlineCloseCircle className={`sm:text-3xl text-4xl text-gray-300 hover:text-red-400`} />
                     </div>
                 </div>
-                <form className="mt-4 text-gray-300" onSubmit={generateContent} id='gptSubmitForm'>
+                <form className="mt-4 text-zinc-200" onSubmit={generateContent} id='gptSubmitForm'>
                     {/* <div className="mb-4">
                         <label htmlFor="generate_title" className="block mb-2 text-sm font-medium">Title</label>
                         <input type="text" id="generate_title" className="bg-gray-700 border-b border-gray-400/75 block w-full 
@@ -180,17 +180,19 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                     </div> */}
                     <div className="flex justify-between items-center gap-4 mb-4">
                         <div>
-                            <label htmlFor="" className="block mb-2 sm:text-sm font-medium">Words:</label>
+                            <label htmlFor="" className="block mb-2 sm:text-[1rem] text-[1.1rem] font-medium">Words:</label>
                             <input type="number" name="words" id="" placeholder='100' min="10" max="1000"
-                                className='sm:text-sm rounded-lg w-full p-2 bg-gray-600 border-gray-500 placeholder-gray-400 
-                                text-gray-100 focus:ring-blue-500 focus:border-blue-500 shadow-sm-light'
+                                className='sm:text-[1rem] text-[1.1rem] rounded-lg w-full p-2 bg-zinc-700 border-zinc-700 
+                                placeholder-zinc-400 
+                                text-zinc-100 focus:ring-blue-500 focus:border-blue-500 shadow-sm-light'
                                 value={generateRequirementGpt.words} onChange={changeGenerateRequirementGpt} />
                         </div>
                         <div className='flex-grow'>
-                            <label htmlFor="" className="block mb-2 sm:text-sm font-medium">Output type:</label>
+                            <label htmlFor="" className="block mb-2 sm:text-[1rem] text-[1.1rem] font-medium">Output type:</label>
                             <select name="output_type" id=""
-                                className='sm:text-sm rounded-lg w-full p-2 bg-gray-600 border-gray-500 placeholder-gray-400 
-                                text-gray-100 focus:ring-blue-500 focus:border-blue-500 shadow-sm-light'
+                                className='sm:text-[1rem] text-[1.1rem] rounded-lg w-full p-2 bg-zinc-700 border-gray-500 
+                                placeholder-zinc-400 
+                                text-zinc-100 focus:ring-blue-500 focus:border-blue-500 shadow-sm-light'
                                 value={generateRequirementGpt.output_type} onChange={changeGenerateRequirementGpt} >
                                 <option value="easy to understand">Easy to understand</option>
                                 <option value="standard">Standard</option>
@@ -204,24 +206,28 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                                 <input id="emojis" type="checkbox" name="emojis" checked={generateRequirementGpt.emojis}
                                     onChange={changeGenerateRequirementGpt}
                                     class="sm:w-4 sm:h-4 w-5 h-5 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 
-                                bg-gray-700 border-gray-600" />
-                                <label for="emojis" class="ml-2 sm:text-sm font-medium text-gray-300">Add emojis</label>
+                                bg-zinc-700 border-zinc-600" />
+                                <label for="emojis" class="ml-2 sm:text-[1rem] text-[1.1rem] font-medium text-zinc-300">
+                                    Add emojis
+                                </label>
                             </div>
                             <div className='flex items-center'>
                                 <input id="videos" type="checkbox" name="videos" checked={generateRequirementGpt.videos}
                                     onChange={changeGenerateRequirementGpt}
                                     class="sm:w-4 sm:h-4 w-5 h-5 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 
-                                bg-gray-700 border-gray-600" />
-                                <label for="videos" class="ml-2 sm:text-sm font-medium text-gray-300">Add videos</label>
+                                    bg-zinc-700 border-zinc-600" />
+                                <label for="videos" class="ml-2 sm:text-[1rem] text-[1.1rem] font-medium text-zinc-300">
+                                    Add videos
+                                </label>
                             </div>
                         </div>
                         <button
-                            className="border border-gray-400 focus:outline-none font-medium rounded-full text-sm px-2
-                                    py-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-green-300
+                            className="border border-gray-400 focus:outline-none font-medium rounded-full text-[1.1rem] px-2
+                                    py-2 mb-2 bg-transparent text-whiteborder-gray-600  hover:bg-green-500
                                     focus:ring-gray-700"
                             type="submit"
                         >
-                            <BiSolidSend className='font-bold sm:text-xl text-2xl' />
+                            <BiSolidSend className='font-bold sm:text-2xl text-3xl' />
                         </button>
                     </div>
                 </form>
