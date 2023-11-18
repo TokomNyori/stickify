@@ -24,6 +24,7 @@ export default function NotesContainer() {
     const [otherNotes, setOtherNotes] = useState([])
     const [deletedNotes, setDeletedNotes] = useState({});
     const [initialLoading, setInitialLoading] = useState(true);
+    const [initialRender, setInitialRender] = useState(true);
     const [deleteLoading, setDeleteLoading] = useState(false);
     const [pinLoading, setPinLoading] = useState(false);
     const [warningModalState, setWarningModalState] = useState(false)
@@ -49,6 +50,19 @@ export default function NotesContainer() {
             setOtherNotes(others)
         }
     }, [notes])
+
+    useEffect(() => {
+        let timeoutId;
+        if (pinnedNotes.length > 0 || otherNotes.length > 0) {
+            timeoutId = setTimeout(() => {
+                setInitialRender(false)
+            }, 15000);
+        }
+        return () => {
+            // Clear the timeout when the component unmounts or when dependencies change
+            clearTimeout(timeoutId);
+        };
+    }, [pinnedNotes, otherNotes])
 
     const { theme, setTheme } = useTheme()
 
@@ -212,6 +226,7 @@ export default function NotesContainer() {
                                 <div className='mt-12 mb-2'>Pinned</div>
                                 <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6'>
                                     <Notes
+                                        initialRender={initialRender}
                                         notes={pinnedNotes} //array of note objects
                                         noteType='pinned'
                                         deleteNotes={deleteNotes} //function
@@ -226,6 +241,7 @@ export default function NotesContainer() {
                         </div>
                         <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6'>
                             <Notes
+                                initialRender={initialRender}
                                 notes={otherNotes} //array of note objects
                                 noteType='others'
                                 deleteNotes={deleteNotes} //function

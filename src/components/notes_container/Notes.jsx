@@ -13,8 +13,9 @@ import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalCo
 import ClipLoader from "react-spinners/PacmanLoader";
 import { useState } from 'react'
 import { motion } from "framer-motion"
+import Typewriter from 'typewriter-effect'
 
-const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => {
+const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initialRender }) => {
     const [nextPage, setNextPage] = useState(false)
     const dispatch = useDispatch()
     const router = useRouter()
@@ -37,15 +38,6 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
 
         return (
             <motion.div
-                initial={{ y: -600 }}
-                animate={{ y: 0 }}
-                transition={{
-                    type: "spring",
-                    stiffness: 400, // Adjusted stiffness for a faster animation
-                    damping: 11,   // Adjusted damping for a faster animation
-                    mass: 0.5,
-                    duration: 0.15,
-                }}
                 className={`note-box flex flex-col px-3 py-3 rounded-xl 
                 text-gray-800 bg-[${note.color}] 
                 ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-lg dark:brightness-[85%]`} key={note._id}
@@ -56,7 +48,19 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
                 </div>
                 <div className='note-content-line-clamp text-[0.9rem] mt-2 flex-grow'
                     style={{ whiteSpace: 'pre-line' }}>
-                    {note.content}
+                    {
+                        initialRender ?
+                            <Typewriter
+                                onInit={(typewritter) => {
+                                    typewritter.typeString(note.content).start()
+                                }}
+                                options={{
+                                    delay: 50,
+                                }}
+                            />
+                            :
+                            note.content
+                    }
                 </div>
                 <div className='text-sm mt-5 flex justify-between items-center gap-2'>
                     {

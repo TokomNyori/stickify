@@ -17,6 +17,7 @@ import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalCo
 import { useEffect, useState } from 'react'
 import { postNoteHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import { motion } from "framer-motion"
+import Typewriter from 'typewriter-effect'
 
 const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
 
@@ -42,15 +43,6 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
 
         return (
             <motion.div
-                initial={{ y: -600 }}
-                animate={{ y: 0 }}
-                transition={{
-                    type: "spring",
-                    stiffness: 400, // Adjusted stiffness for a faster animation
-                    damping: 11,   // Adjusted damping for a faster animation
-                    mass: 0.5,
-                    duration: 0.15,
-                }}
                 className={`note-box-two flex flex-col px-3 py-3 rounded-xl text-gray-800 bg-[${note.color}] 
                             ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-lg dark:brightness-[85%]`} key={note._id}
                 onClick={(e) => toTheNotePage(e, note._id)}
@@ -69,7 +61,15 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                     {note.title}
                 </div>
                 <div className='line-clamp-6 text-[0.9rem] mt-2 flex-grow' style={{ whiteSpace: 'pre-line' }}>
-                    {note.content}
+                    <Typewriter
+                        onInit={(typewritter) => {
+                            typewritter.typeString(note.content).start()
+                        }}
+                        options={{
+                            delay: 50,
+                        }}
+                    />
+                    {/* {note.content} */}
                 </div>
                 <div className='text-sm mt-2.5 flex justify-between items-center gap-2'>
                     <div className='flex justify-start items-center gap-1 text-sm'>
