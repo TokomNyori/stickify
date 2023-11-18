@@ -42,9 +42,15 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
 
         return (
             <motion.div
-            initial={{ y: -600 }}
-            animate={{ y: 0 }}
-            transition={{ ease: 'easeInOut' }}
+                initial={{ y: -500 }}
+                animate={{ y: 0 }}
+                transition={{
+                    type: "spring",
+                    stiffness: 200, // Adjusted stiffness for a faster animation
+                    damping: 10,   // Adjusted damping for a faster animation
+                    mass: 0.5,
+                    duration: 0.1,
+                }}
                 className={`note-box-two flex flex-col px-3 py-3 rounded-xl text-gray-700 bg-[${note.color}] 
                             ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-lg dark:brightness-[85%]`} key={note._id}
                 onClick={(e) => toTheNotePage(e, note._id)}
