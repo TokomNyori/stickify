@@ -28,7 +28,7 @@ import ClipLoader2 from "react-spinners/GridLoader";
 import ClipLoader3 from "react-spinners/HashLoader";
 import _ from 'lodash';
 import WarningModal from './WarningModal';
-import { motion } from "framer-motion"
+import { motion, useDragControls } from "framer-motion"
 
 
 const NoteModal = () => {
@@ -63,10 +63,6 @@ const NoteModal = () => {
     const [gptSubmitModalState, setGptSubmitModalState] = useState(false)
     const [ytVideAddModalState, setYtVideAddModalState] = useState(false)
     const [ytVideoDeleteLoading, setYtVideoDeleteLoading] = useState(false)
-    const [isEditNoteCopy, setIsEditNoteCopy] = useState({})
-    const [noteCopy, setNoteCopy] = useState({})
-    const [rephradedNoteCopy, setRephradedNoteCopy] = useState({})
-    const [countSave, setCountSave] = useState(true)
     const [warningModalState, setWarningModalState] = useState(false)
     const [isDefault, setIsDefault] = useState(true)
     const noteModalRef = useRef(null);
@@ -87,7 +83,7 @@ const NoteModal = () => {
     useEffect(() => {
         const handleOutsideClick = (event) => {
             if (noteModalRef.current && !noteModalRef.current.contains(event.target)) {
-                closeModal(event, 'back')
+                closeModal(event)
             }
         };
 
@@ -107,15 +103,6 @@ const NoteModal = () => {
     useEffect(() => {
         if (isEdit) {
             setNote({
-                title: noteModalConfig.noteObject.title,
-                status: noteModalConfig.noteObject.status,
-                color: noteModalConfig.noteObject.color,
-                content: noteModalConfig.noteObject.content,
-                isPrivate: noteModalConfig.noteObject.isPrivate,
-                userId: users._id,
-                ytVideo: noteModalConfig.noteObject.ytVideo,
-            })
-            setIsEditNoteCopy({
                 title: noteModalConfig.noteObject.title,
                 status: noteModalConfig.noteObject.status,
                 color: noteModalConfig.noteObject.color,
@@ -244,59 +231,13 @@ const NoteModal = () => {
         };
     }, [noteModalConfig]);
 
-    function closeModal(event, source) {
+    function closeModal(event) {
         event.preventDefault()
-        if (source === 'back') {
-            if (isEdit) {
-                if (isRephrasedNote && countSave) {
-                    if (!_.isEqual(rephradedNoteCopy, isEditNoteCopy)) {
-                        setWarningModalState(true)
-                        setCountSave(false)
-                        //setIsEditNoteCopy({})
-                        //setRephradedNoteCopy({})
-                    }
-                } else if (!_.isEqual(note, isEditNoteCopy) && countSave) {
-                    setWarningModalState(true)
-                    setCountSave(false)
-                } else {
-                    setWarningModalState(false)
-                    clearForm()
-                    setIsEdit(false)
-                    setCountSave(true)
-                    setIsEditNoteCopy({})
-                    setRephradedNoteCopy({})
-                    dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
-                }
-            } else {
-                clearForm()
-                if (isEdit) {
-                    setIsEdit(false)
-                }
-                dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
-            }
-        } else {
-            clearForm()
-            if (isEdit) {
-                setIsEdit(false)
-            }
-            dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
-        }
-    }
-
-    function saveChanges(e, operation) {
-        e.stopPropagation()
-        if (operation === 'yes') {
-            setWarningModalState(false)
-            submitForm(event)
-        } else {
-            setWarningModalState(false)
-            clearForm()
+        clearForm()
+        if (isEdit) {
             setIsEdit(false)
-            setCountSave(true)
-            setIsEditNoteCopy({})
-            setRephradedNoteCopy({})
-            dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
         }
+        dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
     }
 
     function changeNote(event) {
@@ -412,7 +353,7 @@ const NoteModal = () => {
                 toast("Boom! Note's Customized!", {
                     icon: '🔥📝'
                 });
-                closeModal(event, 'form')
+                closeModal(event)
             } catch (error) {
                 console.log(error)
                 setLoading(false)
@@ -439,7 +380,7 @@ const NoteModal = () => {
             toast("Boom! Note's Ready!", {
                 icon: '🔥📝'
             });
-            closeModal(event, 'form')
+            closeModal(event)
         } catch (error) {
             console.log(error)
             setLoading(false)
@@ -515,10 +456,6 @@ const NoteModal = () => {
 
     function changeIsRepCnt(val) {
         setIsRephrasedNote(val)
-        if (val === true) {
-            const copy = { ...rephrasedNote }
-            setRephradedNoteCopy(copy)
-        }
     }
 
     function changeRephrasedNote(type, putContent) {
@@ -578,24 +515,26 @@ const NoteModal = () => {
         })
 
         // Making server request to delete from MongoDB database
-        const jsonBody = {
-            ytVideo: removeTarget,
-        }
-        try {
-            const res = await deleteVideoNoteHelper(
-                {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    noteid: noteModalConfig.noteObject._id,
-                    body: jsonBody
-                }
-            )
-            console.log(res)
-        } catch (error) {
-            console.log(error)
-            isRephrasedNote ?
-                setRephrasedNote(backUp) :
-                setNote(backUp)
+        if (isEdit) {
+            const jsonBody = {
+                ytVideo: removeTarget,
+            }
+            try {
+                const res = await deleteVideoNoteHelper(
+                    {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        noteid: noteModalConfig.noteObject._id,
+                        body: jsonBody
+                    }
+                )
+                console.log(res)
+            } catch (error) {
+                console.log(error)
+                isRephrasedNote ?
+                    setRephrasedNote(backUp) :
+                    setNote(backUp)
+            }
         }
     }
 
@@ -658,9 +597,6 @@ const NoteModal = () => {
     }
 
     // console.log(note.ytVideo)
-
-    console.log('NoteConfig')
-    console.log(rephradedNoteCopy)
 
     // console.log('Note Object')
     // console.log(note)
@@ -759,9 +695,15 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
-                            <div className={`absolute text-sm sm:text-xs text-gray-100 border border-gray-100
-                            px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn dark:bg-gray-800/70 bg-gray-800/70
-                            flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
+                            <motion.div
+                                drag
+                                animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
+                                whileDrag={{ scale: 1.05 }}
+                                dragConstraints={{ top: -355, bottom: 0, left: -235, right: 0 }}
+                                dragElastic={0.2}
+                                className={`absolute text-sm sm:text-xs text-gray-100 border border-gray-100
+                                px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn dark:bg-gray-800/70 bg-gray-800/70
+                                flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
                                 onClick={toggleRephrasePopUp} >
                                 <span className='text-sm'>
                                     <RiMagicFill className='inline text-lg' /> Grammar
@@ -778,7 +720,7 @@ const NoteModal = () => {
                                     rephraseDefaultFalse={rephraseDefaultFalse}
                                     rephraseDefaultTrue={rephraseDefaultTrue}
                                 />
-                            </div>
+                            </motion.div>
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.
@@ -869,8 +811,6 @@ const NoteModal = () => {
                     AddToYtVideosFromYtModal={AddToYtVideosFromYtModal}
                     deleteYourYtVideo={deleteYourYtVideo}
                     ytRefs={ytRefs}
-                />
-                <WarningModal warningModalState={warningModalState} action={saveChanges} modalType={'saveChanges'}
                 />
             </div>
             {loading &&

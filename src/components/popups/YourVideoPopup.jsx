@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import YouTube from "react-youtube"
 import { MdDelete } from 'react-icons/md'
 import { BiArrowBack } from 'react-icons/bi'
+import { nanoid } from "nanoid";
 
 const YourVideoPopup = (
     {
