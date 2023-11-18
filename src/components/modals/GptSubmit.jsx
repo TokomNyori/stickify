@@ -131,9 +131,9 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                     changeNoteContentByGpt(generatedData)
                     setLoadingGpt(false)
                     changeGptRequirementModal()
-                    toast('Generated!', {
-                        icon: '😀'
-                    })
+                    // toast('Generated!', {
+                    //     icon: '😀'
+                    // })
                 }
             } else {
                 // If Videos not included
