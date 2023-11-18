@@ -46,10 +46,10 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                 animate={{ y: 0 }}
                 transition={{
                     type: "spring",
-                    stiffness: 200, // Adjusted stiffness for a faster animation
-                    damping: 10,   // Adjusted damping for a faster animation
+                    stiffness: 400, // Adjusted stiffness for a faster animation
+                    damping: 11,   // Adjusted damping for a faster animation
                     mass: 0.5,
-                    duration: 0.3,
+                    duration: 0.15,
                 }}
                 className={`note-box-two flex flex-col px-3 py-3 rounded-xl text-gray-700 bg-[${note.color}] 
                             ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-lg dark:brightness-[85%]`} key={note._id}

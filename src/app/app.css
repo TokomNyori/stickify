@@ -31,7 +31,7 @@
   box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.2);
   animation-name: note-modalopen;
   animation-timing-function: ease-in-out;
-  animation-duration: 1.5s;
+  animation-duration: 0.5s;
 }
 
 .gpt-generate-modal {
@@ -57,7 +57,7 @@
   z-index: 50;
   position: fixed;
   animation-name: modalopen;
-  animation-duration: 1s;
+  /* animation-duration: 1s; */
 }
 
 .gpt-fix-modal {
@@ -94,18 +94,6 @@
 @keyframes note-modalopen {
   from {
     transform: translateY(-100%);
-  }
-
-  25% {
-    transform: translateY(10%);
-  }
-
-  50% {
-    transform: translateY(-3%);
-  }
-
-  75% {
-    transform: translateY(2%);
   }
 
   to {
@@ -215,7 +203,7 @@
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   animation: float 2s ease-in-out infinite, scaleEffect 1.5s ease-in-out;
-  animation-delay: 1.4s;
+  animation-delay: 0.7s;
 }
 
 .youtubeModalIcon:hover {
