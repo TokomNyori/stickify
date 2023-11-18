@@ -12,6 +12,8 @@ import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNote
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice'
 import ClipLoader from "react-spinners/PacmanLoader";
 import { useState } from 'react'
+import { motion } from "framer-motion"
+import { nanoid } from 'nanoid'
 
 const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => {
     //const [loading, setLoading] = useState(false)
@@ -31,22 +33,53 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
         dispatch(setNoteModalConfig({ noteModalState: true, as: 'edit', noteObject: clickedNote }))
     }
 
-    const taskBoxes = notes?.map(note => {
+    const defaultAnimation = {
+        hidden: {
+            opacity: 0,
+        },
+        visible: {
+            opacity: 1,
+        }
+    }
 
+    const taskBoxes = notes?.map(note => {
+        const tt = 'Hello World'
         return (
             <div
+                key={note._id}
                 className={`note-box flex flex-col px-3 py-3 rounded-xl 
                 text-gray-700 bg-[${note.color}] 
-                ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-lg dark:brightness-[85%]`} key={note._id}
+                ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-lg dark:brightness-[85%]`}
                 onClick={(e) => toTheNotePage(e, note._id)}
             >
-                <div className='truncate text-[1rem] sm:text-[0.95rem] font-bold'>
-                    {note.title}
-                </div>
-                <div className='note-content-line-clamp text-[0.9rem] mt-2 flex-grow'
+                <motion.div
+                    initial="hidden" animate='visible' transition={{ staggerChildren: 0.1 }}
+                    className='truncate text-[1rem] sm:text-[0.95rem] font-bold' aria-hidden>
+                    {
+                        note.title.split("").map((char) => (
+                            <motion.span
+                                variants={defaultAnimation}
+                            >
+                                {char}
+                            </motion.span>
+                        ))
+                    }
+                </motion.div>
+                <motion.div
+                    initial="hidden" animate='visible' transition={{ staggerChildren: 0.05 }}
+                    className='note-content-line-clamp text-[0.9rem] mt-2 flex-grow'
                     style={{ whiteSpace: 'pre-line' }}>
-                    {note.content}
-                </div>
+                    {/* {note.content} */}
+                    {
+                        note.content.split("").map((char) => (
+                            <motion.span
+                                variants={defaultAnimation}
+                            >
+                                {char}
+                            </motion.span>
+                        ))
+                    }
+                </motion.div>
                 <div className='text-sm mt-5 flex justify-between items-center gap-2'>
                     {
                         note.isPrivate ?

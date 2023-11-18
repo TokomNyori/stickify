@@ -122,8 +122,8 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                         }
                         return modify
                     })
-                    console.log('yt video data--')
-                    console.log(ytVideoData)
+                    // console.log('yt video data--')
+                    // console.log(ytVideoData)
                     const generatedData = {
                         'gptGeneratedContent': gptGeneratedContent,
                         'ytVideoData': ytVideoData,

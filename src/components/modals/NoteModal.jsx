@@ -65,7 +65,9 @@ const NoteModal = () => {
     const [isEditNoteCopy, setIsEditNoteCopy] = useState({})
     const [noteCopy, setNoteCopy] = useState({})
     const [rephradedNoteCopy, setRephradedNoteCopy] = useState({})
-    const [countSave, setCountSave] = useState(false)
+    const [countSave, setCountSave] = useState(true)
+    const [warningModalState, setWarningModalState] = useState(false)
+    const [isDefault, setIsDefault] = useState(true)
     const noteModalRef = useRef(null);
     const ytListPopupVideosRefs0 = useRef(null)
     const ytListPopupVideosRefs1 = useRef(null)
@@ -84,7 +86,7 @@ const NoteModal = () => {
     useEffect(() => {
         const handleOutsideClick = (event) => {
             if (noteModalRef.current && !noteModalRef.current.contains(event.target)) {
-                closeModal(event)
+                closeModal(event, 'back')
             }
         };
 
@@ -212,24 +214,6 @@ const NoteModal = () => {
         };
     }, []);
 
-    // useEffect(() => {
-    //     if (isRephrasedNote) {
-    //         if (rephrasedNote.isPrivate) {
-    //             toast('Private note', {
-    //                 icon: '🔒',
-    //                 duration: 1000,
-    //             })
-    //         }
-    //     } else {
-    //         if (note.isPrivate) {
-    //             toast('Private note', {
-    //                 icon: '🔒',
-    //                 duration: 1000,
-    //             })
-    //         }
-    //     }
-    // }, [note.isPrivate, rephrasedNote.isPrivate])
-
     useEffect(() => {
         // Create the handlePopState function inside useEffect
         const handlePopState = (event) => {
@@ -259,30 +243,60 @@ const NoteModal = () => {
         };
     }, [noteModalConfig]);
 
-    function closeModal(event) {
+    function closeModal(event, source) {
         event.preventDefault()
-        clearForm()
-        if (isEdit) {
-            setIsEdit(false)
+        if (source === 'back') {
+            if (isEdit) {
+                if (isRephrasedNote && countSave) {
+                    if (!_.isEqual(rephradedNoteCopy, isEditNoteCopy)) {
+                        setWarningModalState(true)
+                        setCountSave(false)
+                        //setIsEditNoteCopy({})
+                        //setRephradedNoteCopy({})
+                    }
+                } else if (!_.isEqual(note, isEditNoteCopy) && countSave) {
+                    setWarningModalState(true)
+                    setCountSave(false)
+                } else {
+                    setWarningModalState(false)
+                    clearForm()
+                    setIsEdit(false)
+                    setCountSave(true)
+                    setIsEditNoteCopy({})
+                    setRephradedNoteCopy({})
+                    dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
+                }
+            } else {
+                clearForm()
+                if (isEdit) {
+                    setIsEdit(false)
+                }
+                dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
+            }
+        } else {
+            clearForm()
+            if (isEdit) {
+                setIsEdit(false)
+            }
+            dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
         }
-        dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
     }
 
-    // function saveChanges(e, operation) {
-    //     e.stopPropagation()
-    //     if (operation === 'yes') {
-    //         setSaveWarningModalState(false)
-    //         submitForm(event)
-    //         // clearForm()
-    //         // setIsEdit(false)
-    //         // dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
-    //     } else {
-    //         setSaveWarningModalState(false)
-    //         clearForm()
-    //         setIsEdit(false)
-    //         dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
-    //     }
-    // }
+    function saveChanges(e, operation) {
+        e.stopPropagation()
+        if (operation === 'yes') {
+            setWarningModalState(false)
+            submitForm(event)
+        } else {
+            setWarningModalState(false)
+            clearForm()
+            setIsEdit(false)
+            setCountSave(true)
+            setIsEditNoteCopy({})
+            setRephradedNoteCopy({})
+            dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
+        }
+    }
 
     function changeNote(event) {
         const { name, value, type, checked } = event.target
@@ -362,6 +376,14 @@ const NoteModal = () => {
         }
     }
 
+    function rephraseDefaultTrue() {
+        setIsDefault(true)
+    }
+
+    function rephraseDefaultFalse() {
+        setIsDefault(false)
+    }
+
     async function submitForm(event) {
         event.preventDefault();
         if (isEdit) {
@@ -385,10 +407,11 @@ const NoteModal = () => {
                 dispatch(addNote(notesRes.body))
                 dispatch(addCurrentNotePage(res.body))
                 setLoading(false)
-                toast("Boom! Note's Customized !", {
+                rephraseDefaultTrue()
+                toast("Boom! Note's Customized!", {
                     icon: '🔥📝'
                 });
-                closeModal(event)
+                closeModal(event, 'form')
             } catch (error) {
                 console.log(error)
                 setLoading(false)
@@ -411,10 +434,11 @@ const NoteModal = () => {
             })
             dispatch(addNote(notesRes.body))
             setLoading(false)
+            rephraseDefaultTrue()
             toast("Boom! Note's Ready!", {
                 icon: '🔥📝'
             });
-            closeModal(event)
+            closeModal(event, 'form')
         } catch (error) {
             console.log(error)
             setLoading(false)
@@ -490,6 +514,10 @@ const NoteModal = () => {
 
     function changeIsRepCnt(val) {
         setIsRephrasedNote(val)
+        if (val === true) {
+            const copy = { ...rephrasedNote }
+            setRephradedNoteCopy(copy)
+        }
     }
 
     function changeRephrasedNote(type, putContent) {
@@ -630,8 +658,8 @@ const NoteModal = () => {
 
     // console.log(note.ytVideo)
 
-    // console.log('NoteConfig')
-    // console.log(isEditNoteCopy)
+    console.log('NoteConfig')
+    console.log(rephradedNoteCopy)
 
     // console.log('Note Object')
     // console.log(note)
@@ -651,7 +679,7 @@ const NoteModal = () => {
                     id='createNoteForm'>
                     <div className='top-section'>
                         <div className="modal-heading">
-                            <div className="text-center" onClick={closeModal}>
+                            <div className="text-center" onClick={(event) => closeModal(event, 'back')}>
                                 <BiArrowBack className='sm:text-3xl text-4xl cursor-pointer ' />
                             </div>
                             <div className='flex gap-4 sm:gap-3 items-center justify-center'>
@@ -744,6 +772,9 @@ const NoteModal = () => {
                                     changeIsRepCnt={changeIsRepCnt}
                                     isRephrasedNote={isRephrasedNote}
                                     setLoadingRephraserFun={setLoadingRephraserFun}
+                                    isDefault={isDefault}
+                                    rephraseDefaultFalse={rephraseDefaultFalse}
+                                    rephraseDefaultTrue={rephraseDefaultTrue}
                                 />
                             </div>
                         </div>
@@ -837,7 +868,8 @@ const NoteModal = () => {
                     deleteYourYtVideo={deleteYourYtVideo}
                     ytRefs={ytRefs}
                 />
-                {/* <WarningModal WarningModalState={WarningModalState} action={saveChanges} /> */}
+                <WarningModal warningModalState={warningModalState} action={saveChanges} modalType={'saveChanges'}
+                />
             </div>
             {loading &&
                 <div

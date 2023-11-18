@@ -7,9 +7,8 @@ import { RiSpeakLine } from 'react-icons/ri'
 
 const PopUp2 =
     ({ closeRephrasePopUp, rephrasePopUp, content, changeRephrasedNote, rephrasedNote,
-        setLoadingRephraserFun, changeIsRepCnt, isRephrasedNote }) => {
+        setLoadingRephraserFun, changeIsRepCnt, isRephrasedNote, isDefault, rephraseDefaultTrue, rephraseDefaultFalse }) => {
 
-        const [isDefault, setIsDefault] = useState(true)
         const rephrasePopUpRef = useRef(null);
 
         useEffect(() => {
@@ -72,7 +71,7 @@ const PopUp2 =
                         icon: '🪄'
                     })
                 }
-                setIsDefault(false)
+                rephraseDefaultFalse()
             } catch (error) {
                 setLoadingRephraserFun(false)
                 toast(error.message, {
@@ -86,7 +85,7 @@ const PopUp2 =
             changeRephrasedNote('default', content)
             changeIsRepCnt(false)
             setTimeout(() => {
-                setIsDefault(true)
+                rephraseDefaultTrue()
             }, 100);
             toast('Back to the original', {
                 icon: '😀'
