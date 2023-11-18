@@ -51,7 +51,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                     mass: 0.5,
                     duration: 0.15,
                 }}
-                className={`note-box-two flex flex-col px-3 py-3 rounded-xl text-gray-700 bg-[${note.color}] 
+                className={`note-box-two flex flex-col px-3 py-3 rounded-xl text-gray-800 bg-[${note.color}] 
                             ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-lg dark:brightness-[85%]`} key={note._id}
                 onClick={(e) => toTheNotePage(e, note._id)}
             >
@@ -86,14 +86,14 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                                         active:text-black text-2xl'
                                         onClick={(e) => toggleLikes(e, note._id, 'unlike')} /> :
                                     <AiOutlineHeart
-                                        className='text-gray-600/70 font-bold transition ease-in-out duration-300 hover:scale-125 
+                                        className='text-gray-600/80 font-bold transition ease-in-out duration-300 hover:scale-125 
                                         active:text-black text-2xl'
                                         onClick={(e) => toggleLikes(e, note._id, 'like')} />
                             }
                         </div>
                         <div>
                             <AiOutlineFileAdd
-                                className='text-gray-600/70 font-bold transition ease-in-out duration-300 hover:scale-125 
+                                className='text-gray-600/80 font-bold transition ease-in-out duration-300 hover:scale-125 
                                         active:text-black text-xl' onClick={(e) => copyNote(e, note._id)} />
                         </div>
                     </div>

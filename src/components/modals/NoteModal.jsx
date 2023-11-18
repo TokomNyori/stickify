@@ -674,7 +674,7 @@ const NoteModal = () => {
                         ${noteModalConfig.noteModalState ? "fix-modal" : "hidden"} flex-wrap dark:brightness-[85%]`}>
             <div
                 className={`modal-main rounded-3xl shadow-lg 
-                ${isRephrasedNote ? `bg-[${rephrasedNote.color}]` : `bg-[${note.color}]`} text-gray-700`}
+                ${isRephrasedNote ? `bg-[${rephrasedNote.color}]` : `bg-[${note.color}]`} text-gray-800`}
                 ref={noteModalRef} >
                 <form className="mt-2 min-h-full flex flex-col" onSubmit={submitForm}
                     id='createNoteForm'>
@@ -689,7 +689,7 @@ const NoteModal = () => {
                                         <div className={`${isEdit ? 'youtubeModalIcon' : 'youtubeModalIconGPT'}`}
                                             onClick={changeYtAddModal}>
                                             <AiFillYoutube className='text-4xl text-red-500 inline' />
-                                            <sup className='text-gray-700 font-bold'>
+                                            <sup className='text-gray-800 font-bold'>
                                                 {isRephrasedNote ? rephrasedNote.ytVideo.length : note.ytVideo.length}
                                             </sup>
                                         </div>
@@ -706,23 +706,23 @@ const NoteModal = () => {
                                     <label for="isPrivate">
                                         {
                                             rephrasedNote.isPrivate || note.isPrivate ?
-                                                <IoLockClosed className={`text-[1.7rem] cursor-pointer text-gray-700`} /> :
-                                                <IoLockOpenOutline className={`text-[1.7rem] cursor-pointer text-gray-700`} />
+                                                <IoLockClosed className={`text-[1.7rem] cursor-pointer text-gray-800`} /> :
+                                                <IoLockOpenOutline className={`text-[1.7rem] cursor-pointer text-gray-800`} />
                                         }
                                     </label>
                                 </div>
                                 {
                                     pin ?
                                         <div className='close-btn cursor-pointer mt-1' onClick={pinIt}>
-                                            <BsPinFill className={`text-[1.7rem] text-gray-700`} />
+                                            <BsPinFill className={`text-[1.7rem] text-gray-800`} />
                                         </div>
                                         :
                                         <div className='close-btn cursor-pointer mt-1' onClick={pinIt}>
-                                            <BsPin className={`text-[1.7rem] 'text-gray-700`} />
+                                            <BsPin className={`text-[1.7rem] text-gray-800`} />
                                         </div>
                                 }
                                 <button
-                                    className="bg-transparent cursor-pointer text-xl tracking-wide border border-gray-700
+                                    className="bg-transparent cursor-pointer text-xl tracking-wide border border-gray-800
                                     rounded-xl px-2 py-0.5"
                                     type="submit"
                                 >
@@ -737,13 +737,13 @@ const NoteModal = () => {
                         <div className="flex justify-between items-center gap-4 mt-4">
                             <div className="mb-4 flex-grow">
                                 {/* <label htmlFor="note_title" className="block mb-2 text-sm font-medium">Title</label> */}
-                                <input type="text" id="note_title" className="bg-gray-700 border-b border-gray-800/75 block w-full 
-                                py-2 font-bold placeholder-gray-500 text-gray-700 focus:outline-none bg-transparent
+                                <input type="text" id="note_title" className="border-b border-gray-800/80 block w-full 
+                                py-2 font-bold placeholder-gray-500 text-gray-800 focus:outline-none bg-transparent
                                 sm:text-[1.05rem] text-[1.08rem]"
                                     placeholder="Title" value={isRephrasedNote ? rephrasedNote.title : note.title}
                                     name="title" onChange={changeNote} required />
                             </div>
-                            <div className=' text-sm border border-gray-700 hover:border-gray-950 rounded-lg py-1 px-2 
+                            <div className=' text-sm border border-gray-800 hover:border-gray-950 rounded-lg py-1 px-2 
                                 cursor-pointer mt-0'
                                 onClick={changeGptRequirementModal}>
                                 Generate <span><BiSolidSend className='inline' /></span>
@@ -752,8 +752,8 @@ const NoteModal = () => {
                     </div>
                     <div className='text-area-section mb-2'>
                         <div className="mb-2 notemodal-text-area relative">
-                            <textarea type="text" id="note_content" className="rounded-lg bg-transparent border-gray-600 block 
-                                py-2 w-full placeholder-gray-500 text-gray-700 focus:outline-none
+                            <textarea type="text" id="note_content" className="rounded-lg bg-transparent block 
+                                py-2 w-full placeholder-gray-500 text-gray-800 focus:outline-none
                                 min-h-full note-textarea sm:text-[1rem] text-[1.05rem]" rows={textareaRows}
                                 placeholder="Type your content here..."
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"

@@ -47,7 +47,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
                     duration: 0.15,
                 }}
                 className={`note-box flex flex-col px-3 py-3 rounded-xl 
-                text-gray-700 bg-[${note.color}] 
+                text-gray-800 bg-[${note.color}] 
                 ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-lg dark:brightness-[85%]`} key={note._id}
                 onClick={(e) => toTheNotePage(e, note._id)}
             >
@@ -81,18 +81,18 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
                                 </div> :
                                 <div onClick={(e) => togglePinned(e, note._id, 'add')}>
                                     <BsPinAngle
-                                        className='text-gray-600/70 transition ease-in-out duration-300 hover:scale-125 
+                                        className='text-gray-600/90 transition ease-in-out duration-300 hover:scale-125 
                                             active:text-black text-xl' />
                                 </div>
                         }
                         <div onClick={(e) => deleteNotes(e, note._id)}>
                             <MdDeleteOutline
-                                className=' text-gray-700/70 font-light transition ease-in-out duration-300 hover:scale-125 
+                                className=' text-gray-700/80 font-light transition ease-in-out duration-300 hover:scale-125 
                                     active:text-black text-xl' />
                         </div>
                         <div onClick={(e) => editNote(e, note._id)}>
                             <MdOutlineModeEditOutline
-                                className='text-gray-600/70 font-light transition ease-in-out duration-300 hover:scale-125 
+                                className='text-gray-600/80 font-light transition ease-in-out duration-300 hover:scale-125 
                                     active:text-black text-xl' />
                         </div>
                     </div>
