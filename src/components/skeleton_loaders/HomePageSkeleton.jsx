@@ -1,4 +1,5 @@
 import React from 'react'
+//import { motion } from "framer-motion"
 
 const HomePageSkeleton = ({ number }) => {
     let skeletonNotes = [];
@@ -10,7 +11,7 @@ const HomePageSkeleton = ({ number }) => {
         skeletonNotes.push(
             <div
                 className={`note-box flex flex-col px-3 py-3 rounded-xl skeleton`}
-                >
+            >
                 <div className='text-sm font-bold'>
 
                 </div>

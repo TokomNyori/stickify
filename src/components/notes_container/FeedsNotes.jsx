@@ -42,7 +42,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
 
         return (
             <motion.div
-                initial={{ y: -500 }}
+                initial={{ y: -600 }}
                 animate={{ y: 0 }}
                 transition={{
                     type: "spring",

@@ -37,7 +37,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned }) => 
 
         return (
             <motion.div
-                initial={{ y: -500 }}
+                initial={{ y: -600 }}
                 animate={{ y: 0 }}
                 transition={{
                     type: "spring",
