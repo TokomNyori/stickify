@@ -91,7 +91,7 @@
 }
 
 .ytModal-back-btn {
-    animation: blink 0.8s 3 ease-in-out;
+    animation: blink 1s 3 ease-in-out;
 }
 
 @keyframes blink {

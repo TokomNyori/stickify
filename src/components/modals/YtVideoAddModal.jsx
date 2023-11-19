@@ -229,7 +229,7 @@ const YtVideoAddModal = (
                             />
                     }
                 </div>
-                <div className="fixed sm:bottom-14 bottom-32 sm:right-20 right-6 ytModal-back-btn">
+                <div className="fixed sm:bottom-14 bottom-36 sm:right-20 right-6 ytModal-back-btn">
                     <div className=' bg-yellow-400 border-2 border-black shadow-md shadow-white rounded-full w-16 h-16 flex 
                     items-center justify-center tracking-wide font-bold'
                         onClick={eraseVideosAndClose}>
