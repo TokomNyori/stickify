@@ -44,7 +44,19 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
                 onClick={(e) => toTheNotePage(e, note._id)}
             >
                 <div className='truncate text-[1rem] sm:text-[0.95rem] font-bold'>
-                    {note.title}
+                    {
+                        initialRender ?
+                            <Typewriter
+                                onInit={(typewritter) => {
+                                    typewritter.typeString(note.title).start()
+                                }}
+                                options={{
+                                    delay: 50,
+                                }}
+                            />
+                            :
+                            note.title
+                    }
                 </div>
                 <div className='note-content-line-clamp text-[0.9rem] mt-2 flex-grow'
                     style={{ whiteSpace: 'pre-line' }}>
@@ -55,7 +67,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
                                     typewritter.typeString(note.content).start()
                                 }}
                                 options={{
-                                    delay: 50,
+                                    delay: 25,
                                 }}
                             />
                             :

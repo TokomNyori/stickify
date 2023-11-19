@@ -66,7 +66,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                             typewritter.typeString(note.content).start()
                         }}
                         options={{
-                            delay: 50,
+                            delay: 25,
                         }}
                     />
                     {/* {note.content} */}
