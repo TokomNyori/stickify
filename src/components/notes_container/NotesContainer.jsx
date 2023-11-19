@@ -53,16 +53,16 @@ export default function NotesContainer() {
 
     useEffect(() => {
         let timeoutId;
-        if (pinnedNotes.length > 0 || otherNotes.length > 0) {
+        if (initialLoading === false) {
             timeoutId = setTimeout(() => {
                 setInitialRender(false)
-            }, 15000);
+            }, 7000);
         }
         return () => {
             // Clear the timeout when the component unmounts or when dependencies change
             clearTimeout(timeoutId);
         };
-    }, [pinnedNotes, otherNotes])
+    }, [initialLoading])
 
     const { theme, setTheme } = useTheme()
 
