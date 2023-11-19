@@ -10,7 +10,7 @@ import YouTube from "react-youtube"
 import { youtubeTenVideotHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import toast from 'react-hot-toast'
 import YourVideoPopup from '../popups/YourVideoPopup'
-
+//videoThumbnail: item.snippet.thumbnails.default
 const YtVideoAddModal = (
     { ytVideAddModalState, changeYtAddModal, ytVideoFromNote, AddToYtVideosFromYtModal, ytRefs, deleteYourYtVideo }
 ) => {
@@ -19,6 +19,27 @@ const YtVideoAddModal = (
     const [videos, setVideos] = useState()
     const [navSection, setNavSection] = useState()
     const ytVideoModalUpRef = useRef(null);
+    // Local Yt video refs
+    const ytVideoAddModalRefs0 = useRef(null)
+    const ytVideoAddModalRefs1 = useRef(null)
+    const ytVideoAddModalRefs2 = useRef(null)
+    const ytVideoAddModalRefs3 = useRef(null)
+    const ytVideoAddModalRefs4 = useRef(null)
+    const ytVideoAddModalRefs5 = useRef(null)
+    const ytVideoAddModalRefs6 = useRef(null)
+    const ytVideoAddModalRefs7 = useRef(null)
+    const ytVideoAddModalRefs8 = useRef(null)
+    const ytVideoAddModalRefs9 = useRef(null)
+    const ytVideoAddModalRefs10 = useRef(null)
+    const ytVideoAddModalRefs11 = useRef(null)
+    const ytVideoAddModalRefs12 = useRef(null)
+    const ytVideoAddModalRefs13 = useRef(null)
+    const ytVideoAddModalRefs14 = useRef(null)
+    const ytVideoPlayerAddModalRefs = [ytVideoAddModalRefs0, ytVideoAddModalRefs1, ytVideoAddModalRefs2, ytVideoAddModalRefs3,
+        ytVideoAddModalRefs4, ytVideoAddModalRefs5, ytVideoAddModalRefs6, ytVideoAddModalRefs7, ytVideoAddModalRefs8,
+        ytVideoAddModalRefs9, ytVideoAddModalRefs10, ytVideoAddModalRefs11, ytVideoAddModalRefs12, ytVideoAddModalRefs13,
+        ytVideoAddModalRefs14]
+
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -37,12 +58,15 @@ const YtVideoAddModal = (
     }, [ytVideAddModalState]);
 
     useEffect(() => {
+        let count = -1
         if (ytVideos.length > 0) {
-            let videos = ytVideos?.map(video => {
+            let videos = ytVideos?.map((video, index) => {
+                count++
                 return (
-                    <div key={video?.ytVideoId}>
+                    <div key={`${index}ytVideos`}>
                         <div className='youtubePlayer-YtAddModal rounded-2xl mb-2'>
                             <YouTube
+                                ref={ytVideoPlayerAddModalRefs[count]}
                                 className='youtubeVideo-NotePage rounded-2xl shadow-lg flex-grow w-full'
                                 iframeClassName='youtubeVideo-NotePage rounded-2xl shadow-lg flex-grow'
                                 videoId={video?.ytVideoId}
@@ -53,7 +77,9 @@ const YtVideoAddModal = (
                             {
                                 video.added ?
                                     <div className=' cursor-pointer'
-                                        onClick={() => handleAddVideo({ operation: 'remove', id: video?.ytVideoId })}>
+                                        onClick={() => handleAddVideo(
+                                            { operation: 'remove', id: video?.ytVideoId }
+                                        )}>
                                         <AiFillCheckCircle className='text-5xl text-green-500' />
                                     </div>
                                     :
@@ -71,13 +97,29 @@ const YtVideoAddModal = (
             })
             setVideos(videos)
         }
-    }, [ytVideos])
+    }, [ytVideos, ytVideoFromNote])
 
     useEffect(() => {
         const nav = ytVideoFromNote.length > 0 ? 'your videos' : 'add videos'
-        console.log(nav)
+        // console.log(nav)
         setNavSection(nav)
     }, [ytVideAddModalState])
+
+    useEffect(() => {
+        if (navSection !== 'your videos') {
+            for (let i = 0; i < ytVideoFromNote.length; i++) {
+                if (ytRefs[i].current) {
+                    ytRefs[i].current.getInternalPlayer().pauseVideo();
+                }
+            }
+        } else if (navSection !== 'add videos') {
+            for (let i = 0; i < ytVideos.length; i++) {
+                if (ytVideoPlayerAddModalRefs[i].current) {
+                    ytVideoPlayerAddModalRefs[i].current.getInternalPlayer().pauseVideo();
+                }
+            }
+        }
+    }, [navSection])
 
     const opts = {
         playerVars: {
@@ -86,6 +128,8 @@ const YtVideoAddModal = (
     };
 
     function handleAddVideo({ operation, id, title }) {
+        // console.log('.ytVideo.length Inside')
+        // console.log(ytVideoLength)
         if (ytVideoFromNote.length >= 7 && operation === 'add') {
             toast('Limit: 7 videos. Delete videos from note.',
                 {
@@ -141,9 +185,8 @@ const YtVideoAddModal = (
             const itemsArray = items.map(item => {
                 return {
                     ytVideoId: item.id.videoId,
-                    videoThumbnail: item.snippet.thumbnails.default,
                     videoTitle: item.snippet.title,
-                    added: false,
+                    added: handleAddedValue(item.id.videoId),
                 }
             })
             setYtVideos(itemsArray)
@@ -152,21 +195,49 @@ const YtVideoAddModal = (
         }
     }
 
+    function handleAddedValue(id) {
+        let addedValue = false
+        ytVideoFromNote?.forEach(yts => {
+            if (yts.ytVideoId === id) {
+                addedValue = true
+            }
+        })
+        return addedValue
+    }
+
     function handleNav(section) {
         setNavSection(section)
     }
 
     function eraseVideosAndClose() {
-        setYtVideos([])
-        setVideos([])
-        setFormData({ title: '' })
+        //setFormData({ title: '' })
         changeYtAddModal()
+        for (let i = 0; i < ytVideos.length; i++) {
+            if (ytVideoPlayerAddModalRefs[i].current) {
+                ytVideoPlayerAddModalRefs[i].current.getInternalPlayer().pauseVideo();
+            }
+        }
     }
 
-    // console.log('noteFromModal.ytVideo.length')
-    // console.log(videos)
+    function changeYtVideoAdded(id) {
+        setYtVideos(prev => {
+            const objects = prev.map(objt => {
+                if (objt.ytVideoId === id) {
+                    return {
+                        ...objt,
+                        added: false
+                    }
+                } else {
+                    return {
+                        ...objt
+                    }
+                }
+            })
+            return objects
+        })
+    }
 
-    // console.log(ytVideos)
+    console.log(ytVideos)
 
     return (
         <div
@@ -226,6 +297,8 @@ const YtVideoAddModal = (
                                 ytVideoFromNote={ytVideoFromNote}
                                 ytRefs={ytRefs}
                                 deleteYourYtVideo={deleteYourYtVideo}
+                                ytVideos={ytVideos}
+                                changeYtVideoAdded={changeYtVideoAdded}
                             />
                     }
                 </div>

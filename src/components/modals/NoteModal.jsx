@@ -26,8 +26,6 @@ import YtVideoAddModal from './YtVideoAddModal';
 import ClipLoader from "react-spinners/PacmanLoader";
 import ClipLoader2 from "react-spinners/GridLoader";
 import ClipLoader3 from "react-spinners/HashLoader";
-import _ from 'lodash';
-import WarningModal from './WarningModal';
 import { motion, useDragControls } from "framer-motion"
 
 
@@ -63,7 +61,6 @@ const NoteModal = () => {
     const [gptSubmitModalState, setGptSubmitModalState] = useState(false)
     const [ytVideAddModalState, setYtVideAddModalState] = useState(false)
     const [ytVideoDeleteLoading, setYtVideoDeleteLoading] = useState(false)
-    const [warningModalState, setWarningModalState] = useState(false)
     const [isDefault, setIsDefault] = useState(true)
     const noteModalRef = useRef(null);
     const ytListPopupVideosRefs0 = useRef(null)
@@ -528,32 +525,50 @@ const NoteModal = () => {
                         body: jsonBody
                     }
                 )
-                console.log(res)
+                const notesRes = await getNoteHelper({
+                    method: 'GET',
+                    userId: users._id,
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                // console.log('notesRes.body')
+                // console.log(notesRes.body)
+                dispatch(addNote(notesRes.body))
+                dispatch(addCurrentNotePage(res.body))
+                return res
             } catch (error) {
                 console.log(error)
                 isRephrasedNote ?
                     setRephrasedNote(backUp) :
                     setNote(backUp)
+                return error
             }
+        }
+        return {
+            message: 'Deleted from Local state',
+            status: 200,
         }
     }
 
 
     function AddToYtVideosFromYtModal({ operation, id, title }) {
+        const targetNote = isRephrasedNote ? rephrasedNote : note
         const addObject = {
             ytVideoId: id,
             ytVideoTitle: title,
         }
+        const addToYtVideo = [addObject, ...targetNote.ytVideo]
+        const removeTarget = targetNote.ytVideo.filter(video => video.ytVideoId !== id)
+
         if (isRephrasedNote) {
             setRephrasedNote(prevNotes => {
-                const addToYtVideo = [{ ...addObject }, ...prevNotes.ytVideo]
+                //const addToYtVideo = [{ ...addObject }, ...prevNotes.ytVideo]
                 if (operation === 'add') {
                     return {
                         ...prevNotes,
                         ytVideo: addToYtVideo
                     }
                 } else {
-                    const removeTarget = prevNotes.ytVideo.filter(video => video.ytVideoId !== id)
+                    //const removeTarget = prevNotes.ytVideo.filter(video => video.ytVideoId !== id)
                     return {
                         ...prevNotes,
                         ytVideo: removeTarget
@@ -562,14 +577,14 @@ const NoteModal = () => {
             })
         } else {
             setNote(prevNotes => {
-                const addToYtVideo = [{ ...addObject }, ...prevNotes.ytVideo]
+                //const addToYtVideo = [{ ...addObject }, ...prevNotes.ytVideo]
                 if (operation === 'add') {
                     return {
                         ...prevNotes,
                         ytVideo: addToYtVideo
                     }
                 } else {
-                    const removeTarget = prevNotes.ytVideo.filter(video => video.ytVideoId !== id)
+                    //const removeTarget = prevNotes.ytVideo.filter(video => video.ytVideoId !== id)
                     return {
                         ...prevNotes,
                         ytVideo: removeTarget
@@ -658,7 +673,7 @@ const NoteModal = () => {
                                         </div>
                                 }
                                 <button
-                                    className="bg-transparent cursor-pointer text-xl tracking-wide border border-gray-800
+                                    className="bg-transparent cursor-pointer text-xl tracking-wide border-[1.4px] border-gray-800
                                     rounded-xl px-2 py-0.5"
                                     type="submit"
                                 >
@@ -695,7 +710,7 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
-                            {/* <motion.div
+                            <motion.div
                                 drag
                                 animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
                                 whileDrag={{ scale: 1.05 }}
@@ -720,7 +735,7 @@ const NoteModal = () => {
                                     rephraseDefaultFalse={rephraseDefaultFalse}
                                     rephraseDefaultTrue={rephraseDefaultTrue}
                                 />
-                            </motion.div> */}
+                            </motion.div>
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.
