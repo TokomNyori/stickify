@@ -15,6 +15,9 @@ import { IoAddSharp } from "react-icons/io5";
 import { addPage } from '@/redux_features/pages/pageSlice';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import WarningModal from '../modals/WarningModal';
+import Lottie from 'lottie-react'
+import studyAni from '@/assets/others/studyAni.json'
+import stickyNote from '@/assets/others/stickyNote.json'
 
 export default function NotesContainer() {
     //const [notes, setNotes] = useState([])
@@ -211,14 +214,19 @@ export default function NotesContainer() {
                         {
                             notes?.length === 0 &&
                             <div
-                                className=' mt-20 flex justify-center items-center gap-2 text-2xl opacity-50 
-                                max-w-fit m-auto cursor-pointer hover:opacity-100'
-                                onClick={() => dispatch(setNoteModalConfig({ noteModalState: true, as: 'create', noteObject: {} }))}
+                                className='mt-5 grid grid-cols-1 sm:grid-cols-2 text-3xl'
                             >
-                                <span className='inline'>Create note</span>
-                                <span className='inline'>
-                                    <IoAddSharp className='text-3xl' />
-                                </span>
+                                <div className='flex sm:flex-col justify-center items-center cursor-pointer'
+                                    onClick={() => dispatch(setNoteModalConfig({ noteModalState: true, as: 'create', noteObject: {} }))}
+                                >
+                                    <div>Create note</div>
+                                    <div>
+                                        <Lottie className=" w-44" animationData={stickyNote} />
+                                    </div>
+                                </div>
+                                <div className='mr-auto ml-auto'>
+                                    <Lottie className="sm:w-[90%] w-[100%]" animationData={studyAni} />
+                                </div>
                             </div>
                         }
                         {pinnedNotes.length !== 0 ?

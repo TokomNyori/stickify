@@ -91,8 +91,8 @@ export const editStatusNoteHelper = async ({ method, headers, noteid, body }) =>
     return res.json()
 }
 
-export const deleteVideoNoteHelper = async ({ method, headers, noteid, body }) => {
-    const res = await fetch(`api/notes/${noteid}/delete-yt-videos`, {
+export const ytVideoNoteHelper = async ({ method, headers, noteid, body }) => {
+    const res = await fetch(`api/notes/${noteid}/manage-yt-videos`, {
         method: method,
         headers: headers,
         body: JSON.stringify(body)

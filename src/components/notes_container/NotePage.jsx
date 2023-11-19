@@ -76,7 +76,10 @@ const NotePage = ({ params }) => {
     const ytListNoteVideosRefs2 = useRef(null)
     const ytListNoteVideosRefs3 = useRef(null)
     const ytListNoteVideosRefs4 = useRef(null)
-    const ytRefs = [ytListNoteVideosRefs0, ytListNoteVideosRefs1, ytListNoteVideosRefs2, ytListNoteVideosRefs3, ytListNoteVideosRefs4]
+    const ytListNoteVideosRefs5 = useRef(null)
+    const ytListNoteVideosRefs6 = useRef(null)
+    const ytRefs = [ytListNoteVideosRefs0, ytListNoteVideosRefs1, ytListNoteVideosRefs2, ytListNoteVideosRefs3, ytListNoteVideosRefs4,
+        ytListNoteVideosRefs5, ytListNoteVideosRefs6]
 
     useEffect(() => {
         if (pageNoteData.ytVideo) {
@@ -85,7 +88,7 @@ const NotePage = ({ params }) => {
                 count++
                 return (
                     <div className='sm:mb-10 mb-8'>
-                        <div className={`${readingMode ? 'text-gray-100' : 'text-gray-700'} 
+                        <div className={`${readingMode ? 'text-gray-100' : 'text-gray-800'} 
                             mb-2 ml-1 w-full flex`}>
                             <span className='sm:text-[1rem] text-[1.1rem] line-clamp-2 w-full'>{video.ytVideoTitle}</span>
                         </div>
@@ -266,14 +269,14 @@ const NotePage = ({ params }) => {
     return (
         <>
             <div className={`
-                ${readingMode ? ` bg-gray-800/75 text-gray-100 brightness-[80%]` :
-                    `bg-[${pageNoteData.color}] text-gray-700 dark:brightness-[85%] shadow-md`} 
+                ${readingMode ? ` bg-zinc-800 text-gray-100 brightness-[90%]` :
+                    `bg-[${pageNoteData.color}] text-gray-800 dark:brightness-[90%] shadow-md`} 
                     px-4 sm:px-8 py-4 sm:py-8 pb-20 rounded-2xl min-h-screen`}>
                 <div className='controls flex gap-4 mb-4 justify-between'>
                     <div className='relative flex flex-col items-start'>
                         <BiArrowBack className='text-3xl cursor-pointer home-link' onClick={goBack} />
-                        <div className="home-link-info hidden justify-center items-start absolute top-10 bg-gray-700 
-                                    opacity-50 text-white text-sm px-2 py-1 rounded-md w-20">
+                        <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900 
+                                    opacity-80 text-white text-sm px-2 py-1 rounded-md w-20">
                             Go back
                         </div>
                     </div>
@@ -286,20 +289,20 @@ const NotePage = ({ params }) => {
                                     <AiFillRead className='text-3xl cursor-pointer home-link' onClick={toggleReadingMode} /> :
                                     <AiOutlineRead className='text-3xl cursor-pointer home-link' onClick={toggleReadingMode} />
                             }
-                            <div className="home-link-info hidden justify-center items-start absolute top-10 bg-gray-700 
-                                    opacity-50 text-white text-sm px-2 py-1 rounded-md w-28">
+                            <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900
+                                    opacity-80 text-white text-sm px-2 py-1 rounded-md w-28">
                                 {readingMode ? 'Default mode' : 'Reading mode'}
                             </div>
                         </div>
                         <div className={`relative ${navigationSection === 'note-section' ? 'flex flex-col items-center' : 'hidden'}`}>
                             <BsTranslate className='text-2xl cursor-pointer home-link' onClick={() => setTranslatePopUp(prev => !prev)} />
-                            <div className="home-link-info hidden justify-center items-start absolute top-10 bg-gray-700 
-                                    opacity-50 text-white text-sm px-2 py-1 rounded-md w-20">
+                            <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900
+                                    opacity-80 text-white text-sm px-2 py-1 rounded-md w-20">
                                 Translate
                             </div>
                             <div
-                                className={`${translatePopUp ? 'PopUps' : 'hidden'} ${readingMode ? `bg-gray-800/90 text-gray-100/75` :
-                                    `dark:bg-gray-800/50 dark:text-gray-100 bg-[#f6f8f6]`}`}
+                                className={`${translatePopUp ? 'PopUps' : 'hidden'} ${readingMode ? `bg-zinc-900/90 text-gray-100` :
+                                    `dark:bg-zinc-900/90 dark:text-gray-100 bg-[#f6f8f6]`}`}
                                 ref={translatePopUpRef}
                             >
                                 <div className="col-span-8 cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out"
@@ -349,8 +352,8 @@ const NotePage = ({ params }) => {
                                 <div className='relative flex flex-col items-center'>
                                     <GoPencil className='text-2xl cursor-pointer home-link'
                                         onClick={(e) => editNote(e)} />
-                                    <div className="home-link-info hidden justify-center items-start absolute top-10 bg-gray-700 
-                                    opacity-50 text-white text-sm px-2 py-1 rounded-md w-28">
+                                    <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900 
+                                    opacity-80 text-white text-sm px-2 py-1 rounded-md w-16">
                                         Edit
                                     </div>
                                 </div> : ''
@@ -369,9 +372,9 @@ const NotePage = ({ params }) => {
                                 </div>
                                 :
                                 <div
-                                    className={`${readingMode ? 'border-gray-200' : 'border-gray-700'} border px-2 rounded-lg 
+                                    className={`${readingMode ? 'border-gray-100' : 'border-gray-800'} border-[1.4px] px-2 rounded-lg 
                                     cursor-pointer hover:scale-[1.02] transition-all duration-150 ease-in-out
-                                    ${navigationSection === 'note-section' ? 'block' : 'hidden'}`}
+                                    ${navigationSection === 'note-section' ? 'block' : 'hidden'} font-bold`}
                                     onClick={!summarizedContent ? generateContent : undoContent}
                                 >
                                     {summarizedContent ? 'Elaborate' : 'Summarize'}

@@ -161,7 +161,7 @@ const Welcome = () => {
                     <span><PiStickerLight className='ml-1 inline text-xl' /></span>
                 </p>
             </div>
-            <div className="signup-form-container bg-[#f6f8f6] dark:bg-gray-800/50 sm:ml-12 shadow-lg">
+            <div className="signup-form-container bg-zinc-100 dark:bg-zinc-800 sm:ml-12 shadow-lg">
                 <h1 className='text-lg'>{isLogin ? 'Login' : 'Sign Up'}</h1>
                 <form onSubmit={handleSubmit}>
                     <div className='input-group flex flex-col gap-3 w-full'>
@@ -228,8 +228,8 @@ const Welcome = () => {
                                     </div>
                                 </div>
                                 <input
-                                    className='rounded-xl bg-[#e6e9e7] dark:bg-gray-700 dark:border-gray-600 block w-full 
-                                            p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white
+                                    className='rounded-xl bg-[#e6e9e7] dark:bg-zinc-900 dark:border-zinc-600 block w-full 
+                                            p-2.5 py-4 sm:py-3 text-md dark:placeholder-zinc-500 dark:text-zinc-100
                                 focus:ring-blue-500 focus:border-blue-500'
                                     type="text"
                                     name="username"
@@ -240,8 +240,8 @@ const Welcome = () => {
                             </div>
                         )}
                         <input
-                            className='rounded-lg bg-[#e6e9e7] dark:bg-gray-700 dark:border-gray-600 block w-full 
-                                p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white 
+                            className='rounded-lg bg-[#e6e9e7] dark:bg-zinc-900 dark:border-gray-600 block w-full 
+                                p-2.5 py-4 sm:py-3 text-md dark:placeholder-zinc-500 dark:text-zinc-100 
                                 focus:ring-blue-500 focus:border-blue-500'
                             type="email"
                             name="email"
@@ -250,8 +250,8 @@ const Welcome = () => {
                             onChange={handleChange} required
                         />
                         <input
-                            className='rounded-lg bg-[#e6e9e7] dark:bg-gray-700 dark:border-gray-600 block w-full 
-                                p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white 
+                            className='rounded-lg bg-[#e6e9e7] dark:bg-zinc-900 dark:border-gray-600 block w-full 
+                                p-2.5 py-4 sm:py-3 text-md dark:placeholder-zinc-500 dark:text-zinc-100 
                                 focus:ring-blue-500 focus:border-blue-500'
                             type="password"
                             name="password"
@@ -260,13 +260,13 @@ const Welcome = () => {
                             onChange={handleChange} required
                         />
                         <button className='border border-blue-400 focus:outline-none font-medium rounded-lg text-md px-5 py-4 
-                        sm:py-3 mb-2 bg-[#e6e9e7] dark:bg-gray-700 text-whiteborder-gray-600  hover:border-blue-500
+                        sm:py-3 mb-2 bg-[#e6e9e7] dark:bg-zinc-900 text-whiteborder-gray-600  hover:border-blue-500
                             focus:ring-gray-700 block w-full '
                             type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
                     </div>
                 </form>
                 <button className='border border-green-400 focus:outline-none font-medium rounded-lg text-md px-5 py-4 
-                sm:py-3 mb-2 bg-[#e6e9e7] dark:bg-gray-700 text-whiteborder-gray-600  hover:border-green-500
+                sm:py-3 mb-2 bg-[#e6e9e7] dark:bg-zinc-900 text-whiteborder-gray-600  hover:border-green-500
                             focus:ring-gray-700 block w-full'
                     onClick={() => setIsLogin(!isLogin)}>
                     {isLogin ? 'Create an Account' : 'Already have an account?'}

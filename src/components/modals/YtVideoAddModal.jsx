@@ -303,11 +303,11 @@ const YtVideoAddModal = (
                     }
                 </div>
                 <div className="fixed sm:bottom-14 bottom-36 sm:right-20 right-6 ytModal-back-btn">
-                    <div className=' bg-yellow-400 border-2 border-black shadow-md shadow-white rounded-full w-16 h-16 flex 
-                    items-center justify-center tracking-wide font-bold'
+                    <div className=' bg-yellow-400 border-2 border-black shadow-lg rounded-full w-16 h-16 flex 
+                    items-center justify-center tracking-wide font-bold cursor-pointer brightness-110'
                         onClick={eraseVideosAndClose}>
-                        {/* <BiArrowBack className='text-4xl text-black font-bold' /> */}
-                        <span className='text-black text-xl font-bold cursor-pointer'>Back</span>
+                        <BiArrowBack className='text-4xl text-black font-bold' />
+                        {/* <span className='text-red-500 text-xl font-bold cursor-pointer'>Back</span> */}
                     </div>
                 </div>
             </div>

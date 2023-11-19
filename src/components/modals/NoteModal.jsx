@@ -1,7 +1,7 @@
 'use client'
 import toast from 'react-hot-toast';
 import { useEffect, useRef, useState } from "react";
-import { deleteVideoNoteHelper, editNoteHelper, getNoteHelper, openAiPostHelper, postNoteHelper } from "@/helper/httpHelpers/httpNoteHelper";
+import { editNoteHelper, getNoteHelper, postNoteHelper, ytVideoNoteHelper } from "@/helper/httpHelpers/httpNoteHelper";
 import { useRouter } from "next/navigation";
 import { Configuration, OpenAIApi } from "openai";
 import { BsFillPinAngleFill } from 'react-icons/bs'
@@ -9,7 +9,6 @@ import { BsPin } from 'react-icons/bs'
 import { BsPinFill } from 'react-icons/bs'
 import { BiSolidSend } from 'react-icons/bi'
 import { RiMagicFill } from 'react-icons/ri'
-import scrollToTop from "@/helper/scrollToTop";
 import GptSubmit from './GptSubmit';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNote } from '@/redux_features/notes/noteSlice';
@@ -26,7 +25,7 @@ import YtVideoAddModal from './YtVideoAddModal';
 import ClipLoader from "react-spinners/PacmanLoader";
 import ClipLoader2 from "react-spinners/GridLoader";
 import ClipLoader3 from "react-spinners/HashLoader";
-import { motion, useDragControls } from "framer-motion"
+import { motion } from "framer-motion"
 
 
 const NoteModal = () => {
@@ -70,6 +69,7 @@ const NoteModal = () => {
     const ytListPopupVideosRefs4 = useRef(null)
     const ytListPopupVideosRefs5 = useRef(null)
     const ytListPopupVideosRefs6 = useRef(null)
+    const parentRef = useRef()
     const isTitleEmpty = isRephrasedNote ? isRephrasedTitle : isTitle
     const isContentEmpty = isRephrasedNote ? isRephrasedContent : isContent
     const pageName = useSelector(state => state.page.page)
@@ -231,6 +231,7 @@ const NoteModal = () => {
     function closeModal(event) {
         event.preventDefault()
         clearForm()
+        rephraseDefaultTrue()
         if (isEdit) {
             setIsEdit(false)
         }
@@ -517,7 +518,7 @@ const NoteModal = () => {
                 ytVideo: removeTarget,
             }
             try {
-                const res = await deleteVideoNoteHelper(
+                const res = await ytVideoNoteHelper(
                     {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
@@ -550,7 +551,8 @@ const NoteModal = () => {
     }
 
 
-    function AddToYtVideosFromYtModal({ operation, id, title }) {
+    async function AddToYtVideosFromYtModal({ operation, id, title }) {
+        const backUp = isRephrasedNote ? { ...rephrasedNote } : { ...note }
         const targetNote = isRephrasedNote ? rephrasedNote : note
         const addObject = {
             ytVideoId: id,
@@ -591,6 +593,42 @@ const NoteModal = () => {
                     }
                 }
             })
+        }
+
+        // Making server request to delete from MongoDB database
+        if (isEdit) {
+            const deleteBody = {
+                ytVideo: removeTarget,
+            }
+
+            const addBody = {
+                ytVideo: addToYtVideo,
+            }
+
+            try {
+                const res = await ytVideoNoteHelper(
+                    {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        noteid: noteModalConfig.noteObject._id,
+                        body: operation === 'add' ? addBody : deleteBody
+                    }
+                )
+                const notesRes = await getNoteHelper({
+                    method: 'GET',
+                    userId: users._id,
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                console.log(res)
+                // console.log(notesRes.body)
+                dispatch(addNote(notesRes.body))
+                dispatch(addCurrentNotePage(res.body))
+            } catch (error) {
+                console.log(error)
+                isRephrasedNote ?
+                    setRephrasedNote(backUp) :
+                    setNote(backUp)
+            }
         }
     }
 
@@ -673,7 +711,7 @@ const NoteModal = () => {
                                         </div>
                                 }
                                 <button
-                                    className="bg-transparent cursor-pointer text-xl tracking-wide border-[1.4px] border-gray-800
+                                    className="bg-transparent cursor-pointer text-xl tracking-wide border-[1.3px] border-gray-800
                                     rounded-xl px-2 py-0.5"
                                     type="submit"
                                 >
@@ -702,7 +740,7 @@ const NoteModal = () => {
                         </div>
                     </div>
                     <div className='text-area-section mb-2'>
-                        <div className="mb-2 notemodal-text-area relative">
+                        <div className="mb-2 notemodal-text-area relative" ref={parentRef}>
                             <textarea type="text" id="note_content" className="rounded-lg bg-transparent block 
                                 py-2 w-full placeholder-gray-500 text-gray-800 focus:outline-none
                                 min-h-full note-textarea sm:text-[1rem] text-[1.05rem]" rows={textareaRows}
@@ -710,11 +748,11 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
-                            <motion.div
+                            {/* <motion.div
                                 drag
                                 animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
                                 whileDrag={{ scale: 1.05 }}
-                                dragConstraints={{ top: -355, bottom: 0, left: -235, right: 0 }}
+                                dragConstraints={parentRef}
                                 dragElastic={0.2}
                                 className={`absolute text-sm sm:text-xs text-gray-100 border border-gray-100
                                 px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn dark:bg-gray-800/70 bg-gray-800/70
@@ -735,7 +773,7 @@ const NoteModal = () => {
                                     rephraseDefaultFalse={rephraseDefaultFalse}
                                     rephraseDefaultTrue={rephraseDefaultTrue}
                                 />
-                            </motion.div>
+                            </motion.div> */}
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.

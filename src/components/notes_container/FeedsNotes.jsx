@@ -16,7 +16,7 @@ import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNote
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice'
 import { useEffect, useState } from 'react'
 import { postNoteHelper } from '@/helper/httpHelpers/httpNoteHelper'
-import { motion } from "framer-motion"
+// import { motion } from "framer-motion"
 import Typewriter from 'typewriter-effect'
 
 const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
@@ -42,7 +42,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
         }
 
         return (
-            <motion.div
+            <div
                 className={`note-box-two flex flex-col px-3 py-3 rounded-xl text-gray-800 bg-[${note.color}] 
                             ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-lg dark:brightness-[85%]`} key={note._id}
                 onClick={(e) => toTheNotePage(e, note._id)}
@@ -98,7 +98,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                         </div>
                     </div>
                 </div>
-            </motion.div>
+            </div>
         )
     })
 

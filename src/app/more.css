@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .youtubePlayer-NotePage {
-    height: 27.25rem;
+    height: 27.5rem;
     width: 100%;
     display: flex;
     flex-direction: column;
