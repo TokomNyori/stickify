@@ -748,12 +748,12 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
-                            {/* <motion.div
+                            <motion.div
                                 drag
                                 animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
                                 whileDrag={{ scale: 1.05 }}
                                 dragConstraints={parentRef}
-                                dragElastic={0.2}
+                                dragElastic={0.3}
                                 className={`absolute text-sm sm:text-xs text-gray-100 border border-gray-100
                                 px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn dark:bg-gray-800/70 bg-gray-800/70
                                 flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
@@ -773,7 +773,7 @@ const NoteModal = () => {
                                     rephraseDefaultFalse={rephraseDefaultFalse}
                                     rephraseDefaultTrue={rephraseDefaultTrue}
                                 />
-                            </motion.div> */}
+                            </motion.div>
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.
