@@ -10,6 +10,7 @@ import YouTube from "react-youtube"
 import { youtubeTenVideotHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import toast from 'react-hot-toast'
 import YourVideoPopup from '../popups/YourVideoPopup'
+import { nanoid } from 'nanoid'
 //videoThumbnail: item.snippet.thumbnails.default
 const YtVideoAddModal = (
     { ytVideAddModalState, changeYtAddModal, ytVideoFromNote, AddToYtVideosFromYtModal, ytRefs, deleteYourYtVideo }
@@ -85,7 +86,7 @@ const YtVideoAddModal = (
                                     :
                                     <div className=' cursor-pointer'
                                         onClick={() => handleAddVideo(
-                                            { operation: 'add', id: video?.ytVideoId, title: video?.videoTitle }
+                                            { operation: 'add', id: video?.ytVideoId, title: video?.videoTitle, uniqueId: video?.uniqueId }
                                         )}>
                                         <IoIosAddCircle className='text-5xl' />
                                     </div>
@@ -127,7 +128,7 @@ const YtVideoAddModal = (
         },
     };
 
-    function handleAddVideo({ operation, id, title }) {
+    function handleAddVideo({ operation, id, title, uniqueId }) {
         // console.log('.ytVideo.length Inside')
         // console.log(ytVideoLength)
         if (ytVideoFromNote.length >= 7 && operation === 'add') {
@@ -154,7 +155,7 @@ const YtVideoAddModal = (
             return objects
         })
         operation === 'add' ?
-            AddToYtVideosFromYtModal({ id: id, operation: 'add', title: title, })
+            AddToYtVideosFromYtModal({ id: id, operation: 'add', title: title, uniqueId: uniqueId })
             :
             AddToYtVideosFromYtModal({ id: id, operation: 'remove' })
         operation === 'add' ? toast.success('Added') : toast('Removed', { icon: '✂️' })
@@ -180,11 +181,12 @@ const YtVideoAddModal = (
                     headers: { 'Content-Type': 'application/json' }
                 }
             )
-            // console.log(res)
+            // console.log(nanoid())
             const items = res.items
-            const itemsArray = items.map(item => {
+            const itemsArray = items.map((item) => {
                 return {
                     ytVideoId: item.id.videoId,
+                    uniqueId: nanoid(),
                     videoTitle: item.snippet.title,
                     added: handleAddedValue(item.id.videoId),
                 }
@@ -237,7 +239,7 @@ const YtVideoAddModal = (
         })
     }
 
-    console.log(ytVideos)
+    //console.log(ytVideos)
 
     return (
         <div

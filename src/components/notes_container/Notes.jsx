@@ -15,7 +15,7 @@ import { useState } from 'react'
 import { motion } from "framer-motion"
 import Typewriter from 'typewriter-effect'
 
-const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initialRender }) => {
+const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initialRender, pinnedNoteAni }) => {
     const [nextPage, setNextPage] = useState(false)
     const dispatch = useDispatch()
     const router = useRouter()
@@ -35,11 +35,14 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
     }
 
     const taskBoxes = notes?.map(note => {
-
+        const pinned = pinnedNoteAni[note._id]
         return (
             <motion.div
+                initial={{ scale: pinned ? 1.15 : 1, y: pinned ? 200 : 0 }}
+                animate={{ scale: pinned ? 1 : 1, y: pinned ? 0 : 0 }}
+                transition={{ ease: 'easeInOut', duration: 0.5 }}
                 className={`note-box flex flex-col px-3 py-3 rounded-xl 
-                text-gray-800 bg-[${note.color}] 
+                text-gray-800 bg-[${note.color}] ${pinned ? ' z-20' : ''}
                 ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-lg dark:brightness-[85%]`} key={note._id}
                 onClick={(e) => toTheNotePage(e, note._id)}
             >

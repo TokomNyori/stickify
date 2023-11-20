@@ -5,6 +5,7 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { BiSolidSend } from 'react-icons/bi'
 import ClipLoader from "react-spinners/GridLoader";
 import toast, { Toaster } from 'react-hot-toast';
+import { nanoid } from 'nanoid'
 
 const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequirementModal, changeNoteContentByGpt }) => {
 
@@ -106,7 +107,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                         'gptGeneratedContent': gptGeneratedContent,
                         'ytVideoData': [],
                     }
-                    changeNoteContentByGpt(generatedData)
+                    changeNoteContentByGpt(generatedData, false)
                     setLoadingGpt(false)
                     changeGptRequirementModal()
                     // toast('Generated!', {
@@ -118,6 +119,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                     const ytVideoData = datas.map(data => {
                         const modify = {
                             ytVideoId: data.id.videoId,
+                            uniqueId: nanoid(),
                             ytVideoTitle: data.snippet.title,
                         }
                         return modify
@@ -128,7 +130,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                         'gptGeneratedContent': gptGeneratedContent,
                         'ytVideoData': ytVideoData,
                     }
-                    changeNoteContentByGpt(generatedData)
+                    changeNoteContentByGpt(generatedData, true)
                     setLoadingGpt(false)
                     changeGptRequirementModal()
                     // toast('Generated!', {
@@ -141,7 +143,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                     'gptGeneratedContent': gptGeneratedContent,
                     'ytVideoData': [],
                 }
-                changeNoteContentByGpt(generatedData)
+                changeNoteContentByGpt(generatedData, false)
                 setLoadingGpt(false)
                 changeGptRequirementModal()
                 toast('Generated!', {

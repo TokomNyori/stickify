@@ -19,6 +19,7 @@ import Lottie from 'lottie-react'
 import studyAni from '@/assets/others/studyAni.json'
 import stickyNote from '@/assets/others/stickyNote.json'
 
+
 export default function NotesContainer() {
     //const [notes, setNotes] = useState([])
     const users = useSelector(state => state.user.users)
@@ -26,11 +27,13 @@ export default function NotesContainer() {
     const [pinnedNotes, setPinnedNotes] = useState([])
     const [otherNotes, setOtherNotes] = useState([])
     const [deletedNotes, setDeletedNotes] = useState({});
+    const [pinnedNoteAni, setpinnedNoteAni] = useState({});
     const [initialLoading, setInitialLoading] = useState(true);
     const [initialRender, setInitialRender] = useState(true);
     const [deleteLoading, setDeleteLoading] = useState(false);
     const [pinLoading, setPinLoading] = useState(false);
     const [warningModalState, setWarningModalState] = useState(false)
+    const [isPinned, setIsPinned] = useState(false)
     const [currentNoteIdForDelete, setCurrentNoteIdForDelete] = useState('')
     const dispatch = useDispatch()
     useEffect(() => {
@@ -170,6 +173,11 @@ export default function NotesContainer() {
                 toast.error(error.message)
             }
         } else {
+
+            // For pinned animation
+            setpinnedNoteAni({ ...pinnedNoteAni, [id]: true });
+            //
+
             // Pinned or add to pinned
             const others = otherNotes.filter(otherNote => otherNote._id !== id)
             const pinned = otherNotes.filter(otherNote => otherNote._id === id)
@@ -177,6 +185,9 @@ export default function NotesContainer() {
             const pinnedChangeStatus = { ...pinnedCopy, status: 'pinned' }
             setTimeout(() => {
                 setPinLoading(false)
+                const newPinnedAni = { ...pinnedNoteAni };
+                delete newPinnedAni[id];
+                setpinnedNoteAni(newPinnedAni);
             }, 600);
             try {
                 setOtherNotes(others)
@@ -234,6 +245,7 @@ export default function NotesContainer() {
                                 <div className='mt-12 mb-2'>Pinned</div>
                                 <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6'>
                                     <Notes
+                                        pinnedNoteAni={pinnedNoteAni}
                                         initialRender={initialRender}
                                         notes={pinnedNotes} //array of note objects
                                         noteType='pinned'
@@ -249,6 +261,7 @@ export default function NotesContainer() {
                         </div>
                         <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6'>
                             <Notes
+                                pinnedNoteAni={pinnedNoteAni}
                                 initialRender={initialRender}
                                 notes={otherNotes} //array of note objects
                                 noteType='others'

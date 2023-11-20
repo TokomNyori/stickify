@@ -22,6 +22,7 @@ import { AiOutlineYoutube } from "react-icons/ai";
 import { IoLockOpenOutline } from "react-icons/io5";
 import { IoLockClosed } from "react-icons/io5";
 import YtVideoAddModal from './YtVideoAddModal';
+import { LuMove } from "react-icons/lu";
 import ClipLoader from "react-spinners/PacmanLoader";
 import ClipLoader2 from "react-spinners/GridLoader";
 import ClipLoader3 from "react-spinners/HashLoader";
@@ -283,19 +284,39 @@ const NoteModal = () => {
     }
 
     //Important!!!!!!!!!!!!!
-    function changeNoteContentByGpt(generatedData) {
-        if (isRephrasedNote) {
-            setRephrasedNote(prev => ({
-                ...prev,
-                content: generatedData.gptGeneratedContent,
-                ytVideo: generatedData.ytVideoData,
-            }))
+    function changeNoteContentByGpt(generatedData, addedVideo) {
+        const targetNote = isRephrasedNote ? rephrasedNote : note
+        // console.log('generatedData')
+        // console.log(generatedData)
+        if (addedVideo && targetNote.ytVideo.length <= 4) {
+            const recievedVideos = generatedData.ytVideoData
+            const addVideos = [...recievedVideos, ...targetNote.ytVideo]
+
+            if (isRephrasedNote) {
+                setRephrasedNote(prev => ({
+                    ...prev,
+                    content: generatedData.gptGeneratedContent,
+                    ytVideo: addVideos,
+                }))
+            } else {
+                setNote(prev => ({
+                    ...prev,
+                    content: generatedData.gptGeneratedContent,
+                    ytVideo: addVideos,
+                }))
+            }
         } else {
-            setNote(prev => ({
-                ...prev,
-                content: generatedData.gptGeneratedContent,
-                ytVideo: generatedData.ytVideoData,
-            }))
+            if (isRephrasedNote) {
+                setRephrasedNote(prev => ({
+                    ...prev,
+                    content: generatedData.gptGeneratedContent,
+                }))
+            } else {
+                setNote(prev => ({
+                    ...prev,
+                    content: generatedData.gptGeneratedContent,
+                }))
+            }
         }
     }
 
@@ -488,9 +509,9 @@ const NoteModal = () => {
         setYtVideoDeleteLoading(true)
         const backUp = isRephrasedNote ? { ...rephrasedNote } : { ...note }
         const removeTarget = isRephrasedNote ?
-            rephrasedNote.ytVideo.filter(video => video.ytVideoId !== id)
+            rephrasedNote.ytVideo.filter(video => video.uniqueId !== id)
             :
-            note.ytVideo.filter(video => video.ytVideoId !== id)
+            note.ytVideo.filter(video => video.uniqueId !== id)
 
         if (isRephrasedNote) {
             setTimeout(() => {
@@ -551,11 +572,12 @@ const NoteModal = () => {
     }
 
 
-    async function AddToYtVideosFromYtModal({ operation, id, title }) {
+    async function AddToYtVideosFromYtModal({ operation, id, title, uniqueId }) {
         const backUp = isRephrasedNote ? { ...rephrasedNote } : { ...note }
         const targetNote = isRephrasedNote ? rephrasedNote : note
         const addObject = {
             ytVideoId: id,
+            uniqueId: uniqueId,
             ytVideoTitle: title,
         }
         const addToYtVideo = [addObject, ...targetNote.ytVideo]
@@ -748,32 +770,41 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
-                            <motion.div
-                                drag
-                                animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
-                                whileDrag={{ scale: 1.05 }}
-                                dragConstraints={parentRef}
-                                dragElastic={0.3}
-                                className={`absolute text-sm sm:text-xs text-gray-100 border border-gray-100
-                                px-2 py-1 rounded-xl cursor-pointer ai-rephrase-btn dark:bg-gray-800/70 bg-gray-800/70
-                                flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
-                                onClick={toggleRephrasePopUp} >
-                                <span className='text-sm'>
-                                    <RiMagicFill className='inline text-lg' /> Grammar
-                                </span>
-                                <PopUp2
-                                    closeRephrasePopUp={closeRephrasePopUp}
-                                    rephrasePopUp={rephrasePopUp} content={note.content}
-                                    changeRephrasedNote={changeRephrasedNote}
-                                    rephrasedNote={rephrasedNote}
-                                    changeIsRepCnt={changeIsRepCnt}
-                                    isRephrasedNote={isRephrasedNote}
-                                    setLoadingRephraserFun={setLoadingRephraserFun}
-                                    isDefault={isDefault}
-                                    rephraseDefaultFalse={rephraseDefaultFalse}
-                                    rephraseDefaultTrue={rephraseDefaultTrue}
-                                />
-                            </motion.div>
+                            <div
+                                // drag
+                                // animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
+                                // whileDrag={{ scale: 1.05 }}
+                                // dragConstraints={parentRef}
+                                // dragElastic={0.3}
+                                className={`absolute ai-rephrase-btn flex flex-col gap-0 items-end`}
+                            >
+                                <div
+                                    className={`text-2xl backdrop-blur-[1px] mr-2 ${rephrasePopUp ? 'hidden' : 'inline'}
+                                    cursor-move`}>
+                                    <LuMove className=' text-gray-800' />
+                                </div>
+                                <div
+                                    className={`text-sm sm:text-xs text-gray-100 border border-gray-100 px-2 py-1 
+                                    rounded-xl cursor-pointer relative dark:bg-gray-800/70 bg-gray-800/70
+                                    flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
+                                    onClick={toggleRephrasePopUp}>
+                                    <span className='text-sm'>
+                                        <RiMagicFill className='inline text-lg' /> Grammar
+                                    </span>
+                                    <PopUp2
+                                        closeRephrasePopUp={closeRephrasePopUp}
+                                        rephrasePopUp={rephrasePopUp} content={note.content}
+                                        changeRephrasedNote={changeRephrasedNote}
+                                        rephrasedNote={rephrasedNote}
+                                        changeIsRepCnt={changeIsRepCnt}
+                                        isRephrasedNote={isRephrasedNote}
+                                        setLoadingRephraserFun={setLoadingRephraserFun}
+                                        isDefault={isDefault}
+                                        rephraseDefaultFalse={rephraseDefaultFalse}
+                                        rephraseDefaultTrue={rephraseDefaultTrue}
+                                    />
+                                </div>
+                            </div>
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.
