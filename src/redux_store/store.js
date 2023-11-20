@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
     user: userSliceReducer,
     note: noteSliceReducer,
     page: pageSliceReducer,
-    theme: themeSliceReducer,
+    currentTheme: themeSliceReducer,
     noteModalConfig: noteModalConfigSliceReducer,
     currentNotePage: currentNotePageSliceReducer,
 });

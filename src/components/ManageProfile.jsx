@@ -83,10 +83,10 @@ const ManageProfile = () => {
             </div>
             {
                 operation === 'edit-profile' ?
-                    <ChangeProfile user={user} getUserCookie={getUserCookie} toggleLoading={toggleLoading} />
+                    <ChangeProfile user={user} getUserCookie={getUserCookie} toggleLoading={toggleLoading} theme={theme} />
                     :
                     <ChangePassword user={user} getUserCookie={getUserCookie}
-                        togglePasswordLoading={togglePasswordLoading} toggleLoading={toggleLoading}
+                        togglePasswordLoading={togglePasswordLoading} toggleLoading={toggleLoading} theme={theme}
                     />
             }
 

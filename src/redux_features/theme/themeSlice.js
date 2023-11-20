@@ -2,7 +2,7 @@ import { CookieHelper } from "@/helper/httpHelpers/httpCookieHelper";
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState = {
-    theme: ''
+    currentTheme: ''
 }
 
 export const themeSlice = createSlice({
@@ -10,7 +10,7 @@ export const themeSlice = createSlice({
     initialState,
     reducers: {
         addTheme: (state, action) => {
-            state.theme = action.payload
+            state.currentTheme = action.payload
         }
     }
 })

@@ -116,7 +116,7 @@ const Welcome = () => {
         if (mode === 'light') {
             setTheme('light')
             dispatch(addTheme('light'))
-        } else {
+        } else if (mode === 'dark') {
             setTheme('dark')
             dispatch(addTheme('dark'))
         }
@@ -161,7 +161,8 @@ const Welcome = () => {
                     <span><PiStickerLight className='ml-1 inline text-xl' /></span>
                 </p>
             </div>
-            <div className="signup-form-container bg-zinc-100 dark:bg-zinc-800 sm:ml-12 shadow-lg">
+            <div className="signup-form-container bg-white dark:bg-zinc-800 sm:ml-12 shadow-xl rounded-2xl
+            text-gray-800 dark:text-gray-300">
                 <h1 className='text-lg'>{isLogin ? 'Login' : 'Sign Up'}</h1>
                 <form onSubmit={handleSubmit}>
                     <div className='input-group flex flex-col gap-3 w-full'>
@@ -171,7 +172,9 @@ const Welcome = () => {
                                 <p className={`text-sm font-light text-red-400 ${isAvatar && 'hidden'}`}>Please select an avatar</p>
                                 <div className="radio-inputs mb-4 flex gap-3 mt-2">
                                     <div>
-                                        <input type="radio" id="boy1" name="avatar" className="hidden signup-radio-btn" value="boy1"
+                                        <input type="radio" id="boy1" name="avatar"
+                                            className={`hidden signup-radio-btn ${theme}`}
+                                            value="boy1"
                                             onChange={handleChange} checked={formData.avatar === 'boy1'}
                                         />
                                         <label htmlFor="boy1"
@@ -182,7 +185,9 @@ const Welcome = () => {
                                         </label>
                                     </div>
                                     <div>
-                                        <input type="radio" id="girl1" name="avatar" className="hidden signup-radio-btn" value="girl1"
+                                        <input type="radio" id="girl1" name="avatar"
+                                            className={`hidden signup-radio-btn ${theme}`}
+                                            value="girl1"
                                             onChange={handleChange} checked={formData.avatar === 'girl1'}
                                         />
                                         <label htmlFor="girl1"
@@ -193,7 +198,9 @@ const Welcome = () => {
                                         </label>
                                     </div>
                                     <div>
-                                        <input type="radio" id="boy2" name="avatar" className="hidden signup-radio-btn" value="boy2"
+                                        <input type="radio" id="boy2" name="avatar"
+                                            className={`hidden signup-radio-btn ${theme}`}
+                                            value="boy2"
                                             onChange={handleChange} checked={formData.avatar === 'boy2'}
                                         />
                                         <label htmlFor="boy2"
@@ -204,7 +211,9 @@ const Welcome = () => {
                                         </label>
                                     </div>
                                     <div>
-                                        <input type="radio" id="girl2" name="avatar" className="hidden signup-radio-btn" value="girl2"
+                                        <input type="radio" id="girl2" name="avatar"
+                                            className={`hidden signup-radio-btn ${theme}`}
+                                            value="girl2"
                                             onChange={handleChange} checked={formData.avatar === 'girl2'}
                                         />
                                         <label htmlFor="girl2"
@@ -215,7 +224,8 @@ const Welcome = () => {
                                         </label>
                                     </div>
                                     <div>
-                                        <input type="radio" id="anonymous" name="avatar" className="hidden signup-radio-btn"
+                                        <input type="radio" id="anonymous" name="avatar"
+                                            className={`hidden signup-radio-btn ${theme}`}
                                             value="anonymous"
                                             onChange={handleChange} checked={formData.avatar === 'anonymous'}
                                         />
@@ -228,8 +238,8 @@ const Welcome = () => {
                                     </div>
                                 </div>
                                 <input
-                                    className='rounded-xl bg-[#e6e9e7] dark:bg-zinc-900 dark:border-zinc-600 block w-full 
-                                            p-2.5 py-4 sm:py-3 text-md dark:placeholder-zinc-500 dark:text-zinc-100
+                                    className='rounded-xl bg-zinc-200 dark:bg-zinc-900 dark:border-zinc-600 block w-full 
+                                            p-2.5 py-4 sm:py-3 text-md dark:placeholder-zinc-600 dark:text-zinc-100
                                 focus:ring-blue-500 focus:border-blue-500'
                                     type="text"
                                     name="username"
@@ -240,8 +250,8 @@ const Welcome = () => {
                             </div>
                         )}
                         <input
-                            className='rounded-lg bg-[#e6e9e7] dark:bg-zinc-900 dark:border-gray-600 block w-full 
-                                p-2.5 py-4 sm:py-3 text-md dark:placeholder-zinc-500 dark:text-zinc-100 
+                            className='rounded-lg bg-zinc-200 dark:bg-zinc-900 dark:border-gray-600 block w-full 
+                                p-2.5 py-4 sm:py-3 text-md dark:placeholder-zinc-600 dark:text-zinc-100 
                                 focus:ring-blue-500 focus:border-blue-500'
                             type="email"
                             name="email"
@@ -250,8 +260,8 @@ const Welcome = () => {
                             onChange={handleChange} required
                         />
                         <input
-                            className='rounded-lg bg-[#e6e9e7] dark:bg-zinc-900 dark:border-gray-600 block w-full 
-                                p-2.5 py-4 sm:py-3 text-md dark:placeholder-zinc-500 dark:text-zinc-100 
+                            className='rounded-lg bg-zinc-200 dark:bg-zinc-900 dark:border-gray-600 block w-full 
+                                p-2.5 py-4 sm:py-3 text-md dark:placeholder-zinc-600 dark:text-zinc-100 
                                 focus:ring-blue-500 focus:border-blue-500'
                             type="password"
                             name="password"
@@ -259,14 +269,14 @@ const Welcome = () => {
                             value={formData.password}
                             onChange={handleChange} required
                         />
-                        <button className='border border-blue-400 focus:outline-none font-medium rounded-lg text-md px-5 py-4 
-                        sm:py-3 mb-2 bg-[#e6e9e7] dark:bg-zinc-900 text-whiteborder-gray-600  hover:border-blue-500
+                        <button className='border border-blue-500 focus:outline-none font-medium rounded-lg text-md px-5 py-4 
+                        sm:py-3 mb-2 bg-zinc-200 dark:bg-zinc-900 text-whiteborder-gray-600  hover:border-blue-700
                             focus:ring-gray-700 block w-full '
                             type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
                     </div>
                 </form>
-                <button className='border border-green-400 focus:outline-none font-medium rounded-lg text-md px-5 py-4 
-                sm:py-3 mb-2 bg-[#e6e9e7] dark:bg-zinc-900 text-whiteborder-gray-600  hover:border-green-500
+                <button className='border border-green-500 focus:outline-none font-medium rounded-lg text-md px-5 py-4 
+                sm:py-3 mb-2 bg-zinc-200 dark:bg-zinc-900 text-whiteborder-gray-600  hover:border-green-700
                             focus:ring-gray-700 block w-full'
                     onClick={() => setIsLogin(!isLogin)}>
                     {isLogin ? 'Create an Account' : 'Already have an account?'}

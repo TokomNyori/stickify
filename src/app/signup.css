@@ -7,7 +7,6 @@
   margin: auto;
   padding: 1.25rem 1.25rem 2.5rem 1.25rem;
   /* box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1); */
-  border-radius: 0.5rem;
 }
 
 h1 {
@@ -38,8 +37,14 @@ h1 {
   background-color: #0056b3;
 }
 
-.signup-radio-btn[type="radio"]:checked + label {
-  border: 1.6px solid rgb(22, 188, 108);
+.light .signup-radio-btn[type="radio"]:checked+label {
+  border: 1.8px solid rgb(31 41 55);
+  transform: scale(1.12);
+}
+
+.dark .signup-radio-btn[type="radio"]:checked+label {
+  border: 1.8px solid rgb(243 244 246);
+  ;
   transform: scale(1.12);
 }
 

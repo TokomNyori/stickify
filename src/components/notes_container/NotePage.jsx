@@ -34,7 +34,7 @@ const NotePage = ({ params }) => {
     const [videoSection, setVideoSection] = useState([])
     const dispatch = useDispatch()
     const { theme, setTheme } = useTheme()
-    const themeRedux = useSelector(state => state.theme.theme)
+    const themeRedux = useSelector(state => state.currentTheme.currentTheme)
     const [translatePopUp, setTranslatePopUp] = useState(false)
     const notes = useSelector(state => state.note.notes)
     const translatePopUpRef = useRef(null);

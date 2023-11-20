@@ -84,8 +84,7 @@ export default function Navbar() {
         if (mode === 'light') {
             setTheme('light')
             dispatch(addTheme('light'))
-        }
-        if (mode === 'dark') {
+        } else if (mode === 'dark') {
             setTheme('dark')
             dispatch(addTheme('dark'))
         }
@@ -234,7 +233,8 @@ export default function Navbar() {
                                                                 <div className="profile-popup-text">
                                                                     Dark Mode
                                                                 </div>
-                                                            </div> :
+                                                            </div> 
+                                                            :
                                                             <div className="gap-3 items-center cursor-pointer hover:scale-[1.03] 
                                                                 transition-all duration-150 ease-in-out nightModeSmallScreen"
                                                                 onClick={() => toggleTheme('light')}

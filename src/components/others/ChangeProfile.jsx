@@ -9,7 +9,7 @@ import { editSelfHelper } from "@/helper/httpHelpers/httpUserHelper"
 import toast, { Toaster } from 'react-hot-toast';
 
 
-const ChangeProfile = ({ user, getUserCookie, toggleLoading }) => {
+const ChangeProfile = ({ user, getUserCookie, toggleLoading, theme }) => {
     const [formData, setFormData] = useState({
         avatar: '',
         username: '',
@@ -67,7 +67,7 @@ const ChangeProfile = ({ user, getUserCookie, toggleLoading }) => {
                 <div className='avatars'>
                     <div className="radio-inputs mb-4 flex justify-center gap-3 mt-2">
                         <div>
-                            <input type="radio" id="boyOne" name="avatar" className="hidden manage-radio-btn"
+                            <input type="radio" id="boyOne" name="avatar" className={`hidden manage-radio-btn ${theme}`}
                                 value="boy1" onChange={handleChange} checked={formData.avatar === 'boy1'}
                             />
                             <label htmlFor="boyOne"
@@ -77,7 +77,8 @@ const ChangeProfile = ({ user, getUserCookie, toggleLoading }) => {
                             </label>
                         </div>
                         <div>
-                            <input type="radio" id="girlOne" name="avatar" className="hidden manage-radio-btn" value="girl1"
+                            <input type="radio" id="girlOne" name="avatar" className={`hidden manage-radio-btn ${theme}`}
+                                value="girl1"
                                 onChange={handleChange} checked={formData.avatar === 'girl1'}
                             />
                             <label htmlFor="girlOne"
@@ -87,7 +88,8 @@ const ChangeProfile = ({ user, getUserCookie, toggleLoading }) => {
                             </label>
                         </div>
                         <div>
-                            <input type="radio" id="boyTwo" name="avatar" className="hidden manage-radio-btn" value="boy2"
+                            <input type="radio" id="boyTwo" name="avatar" className={`hidden manage-radio-btn ${theme}`}
+                                value="boy2"
                                 onChange={handleChange} checked={formData.avatar === 'boy2'}
                             />
                             <label htmlFor="boyTwo"
@@ -97,7 +99,8 @@ const ChangeProfile = ({ user, getUserCookie, toggleLoading }) => {
                             </label>
                         </div>
                         <div>
-                            <input type="radio" id="girlTwo" name="avatar" className="hidden manage-radio-btn" value="girl2"
+                            <input type="radio" id="girlTwo" name="avatar" className={`hidden manage-radio-btn ${theme}`}
+                                value="girl2"
                                 onChange={handleChange} checked={formData.avatar === 'girl2'}
                             />
                             <label htmlFor="girlTwo"
@@ -107,7 +110,8 @@ const ChangeProfile = ({ user, getUserCookie, toggleLoading }) => {
                             </label>
                         </div>
                         <div>
-                            <input type="radio" id="anonymousOne" name="avatar" className="hidden manage-radio-btn" value="anonymous"
+                            <input type="radio" id="anonymousOne" name="avatar" className={`hidden manage-radio-btn ${theme}`}
+                                value="anonymous"
                                 onChange={handleChange} checked={formData.avatar === 'anonymous'}
                             />
                             <label htmlFor="anonymousOne"
@@ -121,8 +125,8 @@ const ChangeProfile = ({ user, getUserCookie, toggleLoading }) => {
                 <div className="input-section flex flex-col gap-2 mb-4">
                     <input
                         className='rounded-lg block w-full 
-                        p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white dark:bg-gray-800
-                                focus:ring-blue-500 focus:border-blue-500'
+                        p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-gray-100 
+                        dark:bg-zinc-800 bg-white shadow-sm focus:ring-blue-500 focus:border-blue-500'
                         type="text"
                         name="username"
                         placeholder="Username"
@@ -131,8 +135,8 @@ const ChangeProfile = ({ user, getUserCookie, toggleLoading }) => {
                     />
                     <input
                         className='rounded-lg block w-full 
-                        p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white dark:bg-gray-800
-                                focus:ring-blue-500 focus:border-blue-500'
+                        p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-gray-100 
+                        dark:bg-zinc-800 bg-white shadow-sm focus:ring-blue-500 focus:border-blue-500'
                         type="email"
                         name="email"
                         placeholder="Email"
@@ -140,11 +144,11 @@ const ChangeProfile = ({ user, getUserCookie, toggleLoading }) => {
                         onChange={handleChange} required
                     />
                 </div>
-                <button className='border hover:border-[1.4px] dark:border-[#e6e9e7] focus:outline-none 
-                    font-medium rounded-lg text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-gray-800'
+                <button className='border hover:border-[1.4px] dark:border-gray-100 focus:outline-none 
+                    font-medium rounded-lg text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-zinc-800'
                     type="submit"
                 >
-                    <span className="dark:text-[#e6e9e7] text-gray-800">Save</span>
+                    <span className="dark:text-gray-100 text-gray-800">Save</span>
                 </button>
             </form>
         </div>

@@ -149,8 +149,13 @@
   z-index: 40;
 }
 
-.manage-radio-btn[type="radio"]:checked+label {
-  border: 1.6px solid rgb(0, 0, 0);
+.light .manage-radio-btn[type="radio"]:checked+label {
+  border: 1.8px solid rgb(31 41 55);
+  transform: scale(1.14);
+}
+
+.dark .manage-radio-btn[type="radio"]:checked+label {
+  border: 1.8px solid rgb(243 244 246);
   transform: scale(1.14);
 }
 

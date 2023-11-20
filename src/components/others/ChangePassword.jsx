@@ -7,7 +7,7 @@ import { editSelfHelper } from "@/helper/httpHelpers/httpUserHelper";
 import { useRouter } from "next/navigation";
 
 
-const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoading }) => {
+const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoading, theme }) => {
     const [formData, setFormData] = useState({
         password: '',
         otp: '',
@@ -105,7 +105,8 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                             <>
                                 <input
                                     className='rounded-xl block w-full 
-                                    p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-white dark:bg-gray-800
+                                    p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-gray-100 
+                                    dark:bg-zinc-800 bg-white shadow-sm 
                                 focus:ring-blue-500 focus:border-blue-500'
                                     type="password"
                                     name="password"
@@ -113,11 +114,12 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                     value={formData.username}
                                     onChange={handleChange} required
                                 />
-                                <button className='border hover:border-[1.4px] dark:border-[#e6e9e7] focus:outline-none font-medium 
-                                rounded-lg text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-gray-800'
+                                <button className='border hover:border-[1.4px] dark:border-gray-100 
+                                focus:outline-none font-medium 
+                                rounded-lg text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-zinc-800'
                                     type="submit"
                                 >
-                                    <span className="dark:text-[#e6e9e7] text-gray-800 flex items-center justify-center gap-2">
+                                    <span className="dark:text-gray-100 text-gray-800 flex items-center justify-center gap-2">
                                         Send OTP <BiSolidSend className="inline text-lg" />
                                     </span>
                                 </button>
@@ -133,7 +135,8 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                     }
                                     <input
                                         className='rounded-lg block w-full p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 
-                                        dark:text-white dark:bg-gray-800 focus:ring-blue-500 focus:border-blue-500'
+                                        dark:text-gray-100 dark:bg-zinc-800 bg-white shadow-sm 
+                                        focus:ring-blue-500 focus:border-blue-500'
                                         id="verifyOtp"
                                         type="number"
                                         name="verifyOtp"
@@ -142,11 +145,12 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                         onChange={handleChange} required
                                     />
                                 </div>
-                                <button className='border hover:border-[1.4px] dark:border-[#e6e9e7] focus:outline-none font-medium 
-                                rounded-lg text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-gray-800'
+                                <button className='border hover:border-[1.4px] dark:border-gray-100
+                                focus:outline-none font-medium 
+                                rounded-lg text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-zinc-800'
                                     type="submit"
                                 >
-                                    <span className="dark:text-[#e6e9e7] text-gray-800 flex items-center justify-center gap-2">
+                                    <span className="dark:text-gray-100 text-gray-800 flex items-center justify-center gap-2">
                                         Verify <AiOutlineSecurityScan className="inline text-lg" />
                                     </span>
                                 </button>
