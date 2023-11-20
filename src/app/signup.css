@@ -53,6 +53,6 @@ h1 {
     width: 95%;
     margin: auto;
     padding: 1.25rem 1.25rem 2.5rem 1.25rem;
-    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1); */
   }
 }
