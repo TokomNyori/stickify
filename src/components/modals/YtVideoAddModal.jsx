@@ -11,6 +11,7 @@ import { youtubeTenVideotHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import toast from 'react-hot-toast'
 import YourVideoPopup from '../popups/YourVideoPopup'
 import { nanoid } from 'nanoid'
+import ClipLoader from "react-spinners/BounceLoader";
 //videoThumbnail: item.snippet.thumbnails.default
 const YtVideoAddModal = (
     { ytVideAddModalState, changeYtAddModal, ytVideoFromNote, AddToYtVideosFromYtModal, ytRefs, deleteYourYtVideo }
@@ -19,6 +20,7 @@ const YtVideoAddModal = (
     const [ytVideos, setYtVideos] = useState([])
     const [videos, setVideos] = useState()
     const [navSection, setNavSection] = useState()
+    const [ytLoading, setYtLoading] = useState(false)
     const ytVideoModalUpRef = useRef(null);
     // Local Yt video refs
     const ytVideoAddModalRefs0 = useRef(null)
@@ -65,7 +67,7 @@ const YtVideoAddModal = (
                 count++
                 return (
                     <div key={`${index}ytVideos`}>
-                        <div className='youtubePlayer-YtAddModal rounded-2xl mb-2'>
+                        <div className='youtubePlayer-YtAddModal rounded-2xl mb-2 skeleton2'>
                             <YouTube
                                 ref={ytVideoPlayerAddModalRefs[count]}
                                 className='youtubeVideo-NotePage rounded-2xl shadow-lg flex-grow w-full'
@@ -172,6 +174,7 @@ const YtVideoAddModal = (
     async function handleSearch(e) {
         e.preventDefault()
         const ytTitle = `${formData.title}`
+        setYtLoading(true)
         try {
             const res = await youtubeTenVideotHelper(
                 {
@@ -192,7 +195,9 @@ const YtVideoAddModal = (
                 }
             })
             setYtVideos(itemsArray)
+            setYtLoading(false)
         } catch (error) {
+            setYtLoading(false)
             console.log(error)
         }
     }
@@ -239,7 +244,7 @@ const YtVideoAddModal = (
         })
     }
 
-    //console.log(ytVideos)
+    //console.log(videos)
 
     return (
         <div
@@ -284,7 +289,23 @@ const YtVideoAddModal = (
                         </button>
                     </form>
                     <div className="flex flex-col gap-7 mt-6">
-                        {videos}
+                        {
+                            ytLoading ?
+                                <div
+                                    className={`flex justify-center items-center mt-14`}>
+                                    <ClipLoader
+                                        color='#f1f5f9'
+                                        loading='Generating...'
+                                        //cssOverride={override}
+                                        size={150}
+                                        aria-label="Loading Spinner"
+                                        data-testid="loader"
+                                        speedMultiplier={1}
+                                    />
+                                </div>
+                                :
+                                videos
+                        }
                     </div>
                 </div>
                 {/* Your Videos Section */}

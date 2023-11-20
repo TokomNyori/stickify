@@ -37,7 +37,7 @@ const YourVideoPopup = (
         count++
         return (
             <div key={`${index}yourVideos`}>
-                <div className='youtubePlayer-YtAddModal rounded-2xl mb-2'>
+                <div className='youtubePlayer-YtAddModal rounded-2xl mb-2 skeleton2'>
                     <YouTube
                         ref={ytRefs[count]}
                         className='youtubeVideo-NotePage rounded-2xl shadow-lg flex-grow w-full'

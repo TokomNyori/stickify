@@ -88,6 +88,17 @@ nav {
   animation: skeleton-loading 1s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
 }
 
+.skeleton2 {
+  opacity: 0.9;
+  background: linear-gradient(to right,
+      rgba(54, 54, 54, 0.9),
+      rgba(106, 106, 106, 1),
+      rgba(54, 54, 54, 0.9));
+  background-size: 200% 100%;
+  background-position: -100% 0;
+  animation: skeleton-loading 1s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+}
+
 @keyframes skeleton-loading {
   0% {
     background-position: 100% 0;

@@ -33,7 +33,7 @@ export default function NotesContainer() {
     const [deleteLoading, setDeleteLoading] = useState(false);
     const [pinLoading, setPinLoading] = useState(false);
     const [warningModalState, setWarningModalState] = useState(false)
-    const [isPinned, setIsPinned] = useState(false)
+    const [pinState, setPinState] = useState('')
     const [currentNoteIdForDelete, setCurrentNoteIdForDelete] = useState('')
     const dispatch = useDispatch()
     useEffect(() => {
@@ -146,14 +146,20 @@ export default function NotesContainer() {
         //Backup 
         const pinnedNotesBackup = [...pinnedNotes]
         const otherNotesBackup = [...otherNotes]
+        setpinnedNoteAni({ ...pinnedNoteAni, [id]: true });
 
         if (func === 'remove') {
+            setPinState('remove')
             const pinned = pinnedNotes.filter(pinNote => pinNote._id !== id)
             const other = pinnedNotes.filter(pinNote => pinNote._id === id)
             const otherCopy = [...other][0]
             const otherChangeStatus = { ...otherCopy, status: 'others' }
             setTimeout(() => {
                 setPinLoading(false)
+                const newPinnedAni = { ...pinnedNoteAni };
+                delete newPinnedAni[id];
+                setpinnedNoteAni(newPinnedAni);
+                setPinState('')
             }, 600);
             try {
                 setPinnedNotes(pinned)
@@ -173,12 +179,8 @@ export default function NotesContainer() {
                 toast.error(error.message)
             }
         } else {
-
-            // For pinned animation
-            setpinnedNoteAni({ ...pinnedNoteAni, [id]: true });
-            //
-
             // Pinned or add to pinned
+            setPinState('add')
             const others = otherNotes.filter(otherNote => otherNote._id !== id)
             const pinned = otherNotes.filter(otherNote => otherNote._id === id)
             const pinnedCopy = [...pinned][0]
@@ -188,6 +190,7 @@ export default function NotesContainer() {
                 const newPinnedAni = { ...pinnedNoteAni };
                 delete newPinnedAni[id];
                 setpinnedNoteAni(newPinnedAni);
+                setPinState('')
             }, 600);
             try {
                 setOtherNotes(others)
@@ -246,6 +249,7 @@ export default function NotesContainer() {
                                 <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6'>
                                     <Notes
                                         pinnedNoteAni={pinnedNoteAni}
+                                        pinState={pinState}
                                         initialRender={initialRender}
                                         notes={pinnedNotes} //array of note objects
                                         noteType='pinned'
@@ -262,6 +266,7 @@ export default function NotesContainer() {
                         <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 gap-y-4 sm:gap-4 sm:gap-y-6'>
                             <Notes
                                 pinnedNoteAni={pinnedNoteAni}
+                                pinState={pinState}
                                 initialRender={initialRender}
                                 notes={otherNotes} //array of note objects
                                 noteType='others'

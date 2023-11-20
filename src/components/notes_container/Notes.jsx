@@ -12,10 +12,10 @@ import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNote
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice'
 import ClipLoader from "react-spinners/PacmanLoader";
 import { useState } from 'react'
-import { motion } from "framer-motion"
+import { motion, useAnimation  } from "framer-motion"
 import Typewriter from 'typewriter-effect'
 
-const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initialRender, pinnedNoteAni }) => {
+const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initialRender, pinnedNoteAni, pinState }) => {
     const [nextPage, setNextPage] = useState(false)
     const dispatch = useDispatch()
     const router = useRouter()
@@ -36,10 +36,35 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
 
     const taskBoxes = notes?.map(note => {
         const pinned = pinnedNoteAni[note._id]
+        let initial = {};
+        let animate = {};
+        if (pinState === 'add') {
+            initial = {
+                scale: pinned ? 1.1 : 1,
+                y: pinned ? 280 : 0,
+            }
+            animate = {
+                scale: pinned ? 1 : 1,
+                y: pinned ? 0 : 0,
+            }
+        } else if (pinState === 'remove') {
+            initial = {
+                scale: pinned ? 1.1 : 1,
+                y: pinned ? -280 : 0,
+            }
+            animate = {
+                scale: pinned ? 1 : 1,
+                y: pinned ? 0 : 0,
+            }
+        } else {
+            animate = {}
+            initial = {}
+        }
+
         return (
             <motion.div
-                initial={{ scale: pinned ? 1.1 : 1, y: pinned ? 200 : 0 }}
-                animate={{ scale: pinned ? 1 : 1, y: pinned ? 0 : 0 }}
+                initial={initial}
+                animate={animate}
                 transition={{ ease: 'easeInOut', duration: 0.5 }}
                 className={`note-box flex flex-col px-3 py-3 rounded-xl 
                 text-gray-800 bg-[${note.color}] ${pinned ? ' z-20' : ''}

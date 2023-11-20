@@ -771,22 +771,14 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
-                            <motion.div
+                            {/* <motion.div
                                 drag
                                 animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
                                 whileDrag={{ scale: 1.05 }}
                                 dragConstraints={parentRef}
-                                dragControls={controls}
                                 dragElastic={0.3}
-                                dragListener={false}
                                 className={`absolute ai-rephrase-btn flex flex-col gap-0 items-end`}
                             >
-                                <div
-                                    onPointerDown={(e) => controls.start(e)}
-                                    className={`text-2xl backdrop-blur-[2px] rounded-full mr-2 ${rephrasePopUp ? 'hidden' : 'inline'}
-                                    cursor-pointer p-1`}>
-                                    <LuMove className=' text-gray-800' />
-                                </div>
                                 <PopUp2
                                     closeRephrasePopUp={closeRephrasePopUp}
                                     rephrasePopUp={rephrasePopUp} content={note.content}
@@ -808,7 +800,7 @@ const NoteModal = () => {
                                         <RiMagicFill className='inline text-lg' /> Grammar
                                     </span>
                                 </div>
-                            </motion.div>
+                            </motion.div> */}
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.
