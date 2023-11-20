@@ -19,6 +19,7 @@ import { MdOutlineLightMode } from 'react-icons/md'
 import { PiStickerLight } from 'react-icons/pi'
 import ClipLoader from "react-spinners/SquareLoader";
 import { addTheme } from '@/redux_features/theme/themeSlice';
+import Typewriter from 'typewriter-effect'
 
 const Welcome = () => {
     const [isLogin, setIsLogin] = useState(false);
@@ -148,20 +149,31 @@ const Welcome = () => {
                     {
                         theme === 'light' ?
                             <MdOutlineDarkMode
-                                className="text-3xl font-light text-gray-500 hover:text-black cursor-pointer"
+                                className="text-4xl font-light text-gray-500 hover:text-black cursor-pointer"
                                 onClick={() => toggleTheme('dark')} /> :
                             <MdOutlineLightMode
-                                className="text-3xl font-light hover:text-gray-400 cursor-pointer"
+                                className="text-4xl font-light hover:text-gray-400 cursor-pointer"
                                 onClick={() => toggleTheme('light')} />
                     }
                 </div>
-                <div className='text-3xl italic'>Stickify</div>
+                <div className='text-3xl italic'>
+                    <Typewriter
+                        onInit={(typewritter) => {
+                            typewritter
+                                .typeString('Stickify')
+                                .start()
+                        }}
+                        options={{
+                            delay: 200,
+                        }}
+                    />
+                </div>
                 <p
                     className='dark:text-gray-300'>Your AI sticker-notes
                     <span><PiStickerLight className='ml-1 inline text-xl' /></span>
                 </p>
             </div>
-            <div className="signup-form-container bg-white dark:bg-zinc-800 sm:ml-12 shadow-xl rounded-2xl
+            <div className="signup-form-container bg-white dark:bg-zinc-800 sm:ml-12 shadow-2xl rounded-3xl
             text-gray-800 dark:text-gray-300">
                 <h1 className='text-lg'>{isLogin ? 'Login' : 'Sign Up'}</h1>
                 <form onSubmit={handleSubmit}>
