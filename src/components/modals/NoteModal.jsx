@@ -26,7 +26,7 @@ import { LuMove } from "react-icons/lu";
 import ClipLoader from "react-spinners/PacmanLoader";
 import ClipLoader2 from "react-spinners/GridLoader";
 import ClipLoader3 from "react-spinners/HashLoader";
-import { motion } from "framer-motion"
+import { motion, useDragControls } from "framer-motion"
 
 
 const NoteModal = () => {
@@ -77,6 +77,7 @@ const NoteModal = () => {
     const router = useRouter()
     const ytRefs = [ytListPopupVideosRefs0, ytListPopupVideosRefs1, ytListPopupVideosRefs2, ytListPopupVideosRefs3,
         ytListPopupVideosRefs4, ytListPopupVideosRefs5, ytListPopupVideosRefs6]
+    const controls = useDragControls()
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -770,41 +771,44 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
-                            <div
-                                // drag
-                                // animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
-                                // whileDrag={{ scale: 1.05 }}
-                                // dragConstraints={parentRef}
-                                // dragElastic={0.3}
+                            <motion.div
+                                drag
+                                animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
+                                whileDrag={{ scale: 1.05 }}
+                                dragConstraints={parentRef}
+                                dragControls={controls}
+                                dragElastic={0.3}
+                                dragListener={false}
                                 className={`absolute ai-rephrase-btn flex flex-col gap-0 items-end`}
                             >
                                 <div
-                                    className={`text-2xl backdrop-blur-[1px] mr-2 ${rephrasePopUp ? 'hidden' : 'inline'}
+                                    onPointerDown={(e) => controls.start(e)}
+                                    className={`text-2xl backdrop-blur-[2px] rounded-full mr-2 ${rephrasePopUp ? 'hidden' : 'inline'}
                                     cursor-move`}>
                                     <LuMove className=' text-gray-800' />
                                 </div>
+                                <PopUp2
+                                    closeRephrasePopUp={closeRephrasePopUp}
+                                    rephrasePopUp={rephrasePopUp} content={note.content}
+                                    changeRephrasedNote={changeRephrasedNote}
+                                    rephrasedNote={rephrasedNote}
+                                    changeIsRepCnt={changeIsRepCnt}
+                                    isRephrasedNote={isRephrasedNote}
+                                    setLoadingRephraserFun={setLoadingRephraserFun}
+                                    isDefault={isDefault}
+                                    rephraseDefaultFalse={rephraseDefaultFalse}
+                                    rephraseDefaultTrue={rephraseDefaultTrue}
+                                />
                                 <div
                                     className={`text-sm sm:text-xs text-gray-100 border border-gray-100 px-2 py-1 
-                                    rounded-xl cursor-pointer relative dark:bg-gray-800/70 bg-gray-800/70
+                                    rounded-xl cursor-pointer dark:bg-gray-800/70 bg-gray-800/70
                                     flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
                                     onClick={toggleRephrasePopUp}>
                                     <span className='text-sm'>
                                         <RiMagicFill className='inline text-lg' /> Grammar
                                     </span>
-                                    <PopUp2
-                                        closeRephrasePopUp={closeRephrasePopUp}
-                                        rephrasePopUp={rephrasePopUp} content={note.content}
-                                        changeRephrasedNote={changeRephrasedNote}
-                                        rephrasedNote={rephrasedNote}
-                                        changeIsRepCnt={changeIsRepCnt}
-                                        isRephrasedNote={isRephrasedNote}
-                                        setLoadingRephraserFun={setLoadingRephraserFun}
-                                        isDefault={isDefault}
-                                        rephraseDefaultFalse={rephraseDefaultFalse}
-                                        rephraseDefaultTrue={rephraseDefaultTrue}
-                                    />
                                 </div>
-                            </div>
+                            </motion.div>
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.

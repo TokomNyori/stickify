@@ -38,7 +38,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
         const pinned = pinnedNoteAni[note._id]
         return (
             <motion.div
-                initial={{ scale: pinned ? 1.15 : 1, y: pinned ? 200 : 0 }}
+                initial={{ scale: pinned ? 1.1 : 1, y: pinned ? 200 : 0 }}
                 animate={{ scale: pinned ? 1 : 1, y: pinned ? 0 : 0 }}
                 transition={{ ease: 'easeInOut', duration: 0.5 }}
                 className={`note-box flex flex-col px-3 py-3 rounded-xl 
