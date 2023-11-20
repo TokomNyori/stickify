@@ -784,7 +784,7 @@ const NoteModal = () => {
                                 <div
                                     onPointerDown={(e) => controls.start(e)}
                                     className={`text-2xl backdrop-blur-[2px] rounded-full mr-2 ${rephrasePopUp ? 'hidden' : 'inline'}
-                                    cursor-move`}>
+                                    cursor-pointer p-1`}>
                                     <LuMove className=' text-gray-800' />
                                 </div>
                                 <PopUp2
