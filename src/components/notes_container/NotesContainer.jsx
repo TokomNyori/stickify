@@ -18,6 +18,7 @@ import WarningModal from '../modals/WarningModal';
 import Lottie from 'lottie-react'
 import studyAni from '@/assets/others/studyAni.json'
 import stickyNote from '@/assets/others/stickyNote.json'
+import Typewriter from 'typewriter-effect'
 
 
 export default function NotesContainer() {
@@ -228,12 +229,29 @@ export default function NotesContainer() {
                         {
                             notes?.length === 0 &&
                             <div
-                                className='mt-5 grid grid-cols-1 sm:grid-cols-2 text-3xl'
+                                className='mt-5 grid grid-cols-1 sm:grid-cols-2 text-3xl gap-6 sm:gap-0'
                             >
                                 <div className='flex sm:flex-col justify-center items-center cursor-pointer'
                                     onClick={() => dispatch(setNoteModalConfig({ noteModalState: true, as: 'create', noteObject: {} }))}
                                 >
-                                    <div>Create note</div>
+                                    <div>
+                                        <Typewriter
+                                            onInit={(typewritter) => {
+                                                typewritter
+                                                    .typeString('Create note')
+                                                    .pauseFor(1000)
+                                                    .deleteAll()
+                                                    .typeString('stickify')
+                                                    .pauseFor(1000)
+                                                    .start()
+
+                                            }}
+                                            options={{
+                                                delay: 100,
+                                                loop: true
+                                            }}
+                                        />
+                                    </div>
                                     <div>
                                         <Lottie className=" w-44" animationData={stickyNote} />
                                     </div>

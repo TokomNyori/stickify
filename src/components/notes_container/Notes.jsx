@@ -12,7 +12,7 @@ import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNote
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice'
 import ClipLoader from "react-spinners/PacmanLoader";
 import { useState } from 'react'
-import { motion, useAnimation  } from "framer-motion"
+import { motion } from "framer-motion"
 import Typewriter from 'typewriter-effect'
 
 const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initialRender, pinnedNoteAni, pinState }) => {
