@@ -1,10 +1,10 @@
 'use server'
 import OpenAI from "openai";
 
-//const OPENAI_API_KEY = process.env.OPENAI_API_KEY
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 
 export async function openAiGptTextGeneration({ gptData: gptData }) {
-    const openai = new OpenAI();
+    const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
     try {
         const res = await openai.chat.completions.create(gptData);
         console.log(res)
