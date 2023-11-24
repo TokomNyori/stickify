@@ -1,5 +1,5 @@
 'use client'
-const WarningModal = ({ warningModalState, action, modalType, noteid }) => {
+const WarningModal = ({ warningModalState, action, modalType, noteid, isItOriginal, currentOriginId }) => {
     let modalBody;
     if (modalType === 'delete') {
         modalBody = (
@@ -14,12 +14,17 @@ const WarningModal = ({ warningModalState, action, modalType, noteid }) => {
                     </div>
                     <div className="flex justify-center items-center gap-5">
                         <button className="bg-green-500/80 px-4 py-1 rounded-xl"
-                            onClick={(e) => action('yes', noteid)}
+                            onClick={(e) => action({
+                                operation: 'yes', noteid: noteid,
+                                isItOriginalNote: isItOriginal, originNoteId: currentOriginId
+                            })}
                         >
                             Yes
                         </button>
                         <button className="bg-red-500/80 px-4 py-1 rounded-xl"
-                            onClick={(e) => action('no', noteid)}>
+                            onClick={(e) => action({
+                                operation: 'no'
+                            })}>
                             No
                         </button>
                     </div>

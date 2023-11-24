@@ -771,7 +771,7 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
-                            <motion.div
+                            {/* <motion.div
                                 drag
                                 animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
                                 whileDrag={{ scale: 1.05 }}
@@ -800,7 +800,7 @@ const NoteModal = () => {
                                         <RiMagicFill className='inline text-lg' /> Grammar
                                     </span>
                                 </div>
-                            </motion.div>
+                            </motion.div> */}
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.

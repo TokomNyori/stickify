@@ -161,10 +161,23 @@ const Welcome = () => {
                         onInit={(typewritter) => {
                             typewritter
                                 .typeString('Stickify')
+                                .pauseFor(1000)
+                                .deleteAll()
+                                .typeString('Create')
+                                .pauseFor(1000)
+                                .deleteAll()
+                                .typeString('Generate')
+                                .pauseFor(1000)
+                                .deleteAll()
+                                .typeString('Share')
+                                .pauseFor(1000)
+                                .deleteAll()
                                 .start()
                         }}
                         options={{
-                            delay: 200,
+                            delay: 100,
+                            loop: true,
+
                         }}
                     />
                 </div>

@@ -1,13 +1,9 @@
 'use client'
-import { MdDeleteOutline } from 'react-icons/md'
-import { MdOutlineModeEditOutline } from 'react-icons/md'
-import { HiMiniViewfinderCircle } from 'react-icons/hi2'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { AiFillHeart } from 'react-icons/ai'
 import { AiOutlineFileAdd } from 'react-icons/ai'
-import { IoAddOutline } from "react-icons/io5";
-import { BsPinAngle } from "react-icons/bs"
-import { BsPinAngleFill } from "react-icons/bs"
+import { FaRegCopy } from "react-icons/fa6";
+import { FaCopy } from "react-icons/fa6";
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -24,6 +20,10 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
     const dispatch = useDispatch()
     const router = useRouter()
 
+    useEffect(() => {
+
+    }, [])
+
     function toTheNotePage(e, id) {
         e.stopPropagation()
         const clickedNote = notes.filter(note => note._id === id)
@@ -34,9 +34,23 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
     const taskBoxes = notes?.map(note => {
 
         let liked = false
+        let copied = false
         for (const like of note.likedBy) {
             if (like === user._id) {
                 liked = true
+                break;
+            } else {
+                liked = false
+                break; // This will exit the loop when element is 3
+            }
+        }
+
+        for (const copy of note.copiedBy) {
+            if (copy === user._id) {
+                copied = true
+                break;
+            } else {
+                copied = false
                 break; // This will exit the loop when element is 3
             }
         }
@@ -71,32 +85,69 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                     />
                     {/* {note.content} */}
                 </div>
-                <div className='text-sm mt-2.5 flex justify-between items-center gap-2'>
-                    <div className='flex justify-start items-center gap-1 text-sm'>
+                <div className='text-sm mt-2.5 flex justify-end items-center gap-3'>
+                    {/* <div className='flex justify-start items-center gap-1 text-sm'>
                         {note.likes < 1 ? <span></span> :
                             note.likes === 1 ? <span>{note.likes} like</span> :
                                 <span>{note.likes} likes</span>}
-                    </div>
-                    <div className='text-sm flex items-center gap-2'>
-                        <div>
-                            {
-                                liked ?
-                                    <AiFillHeart
-                                        className='text-red-500 font-bold transition ease-in-out duration-300 hover:scale-125 
+                    </div> */}
+                    {
+                        liked ?
+                            <div className='flex justify-center items-center gap-0.5'>
+                                <AiFillHeart
+                                    className='text-red-500 font-bold transition ease-in-out duration-300 hover:scale-125 
                                         active:text-black text-2xl'
-                                        onClick={(e) => toggleLikes(e, note._id, 'unlike')} /> :
-                                    <AiOutlineHeart
-                                        className='text-gray-600/80 font-bold transition ease-in-out duration-300 hover:scale-125 
+                                    onClick={(e) => toggleLikes(e, note._id, 'unlike', note.likes)}
+                                />
+                                {
+                                    note.likes < 1 ? <sub></sub> :
+                                        <sub className='text-sm text-gray-600/80'>
+                                            {note.likes}
+                                        </sub>
+                                }
+                            </div>
+
+                            :
+                            <div className='flex justify-center items-center gap-0.5'>
+                                <AiOutlineHeart
+                                    className='text-gray-600/80 font-bold transition ease-in-out duration-300 hover:scale-125 
                                         active:text-black text-2xl'
-                                        onClick={(e) => toggleLikes(e, note._id, 'like')} />
-                            }
-                        </div>
-                        <div>
-                            <AiOutlineFileAdd
-                                className='text-gray-600/80 font-bold transition ease-in-out duration-300 hover:scale-125 
-                                        active:text-black text-xl' onClick={(e) => copyNote(e, note._id)} />
-                        </div>
-                    </div>
+                                    onClick={(e) => toggleLikes(e, note._id, 'like', note.likes)}
+                                />
+                                {
+                                    note.likes < 1 ? <sub></sub> :
+                                        <sub className='text-sm text-gray-600/80'>
+                                            {note.likes}
+                                        </sub>
+                                }
+                            </div>
+                    }
+                    {
+                        copied ?
+                            <div className='flex justify-center items-center gap-0.5'>
+                                <FaCopy
+                                    className='text-gray-600 font-bold transition ease-in-out duration-300 hover:scale-125 
+                                        active:text-black text-[1.21rem]' onClick={(e) => copyNote(e, note._id, 'remove', note.copies)} />
+                                {
+                                    note.copies < 1 ? <sub></sub> :
+                                        <sub className='text-sm text-gray-600/80'>
+                                            {note.copies}
+                                        </sub>
+                                }
+                            </div>
+                            :
+                            <div className='flex justify-center items-center gap-0.5'>
+                                <FaRegCopy
+                                    className='text-gray-600/80 font-bold transition ease-in-out duration-300 hover:scale-125 
+                                        active:text-black text-[1.21rem]' onClick={(e) => copyNote(e, note._id, 'copy', note.copies)} />
+                                {
+                                    note.copies < 1 ? <sub></sub> :
+                                        <sub className='text-sm text-gray-600/80'>
+                                            {note.copies}
+                                        </sub>
+                                }
+                            </div>
+                    }
                 </div>
             </div>
         )

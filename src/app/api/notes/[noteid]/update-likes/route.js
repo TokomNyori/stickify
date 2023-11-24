@@ -8,22 +8,12 @@ connectDB()
 export async function PUT(request, { params }) {
     const { noteid } = params
     //Fetch work data from request
-    const { userId, operation } = await request.json()
+    const { likedBy, likes } = await request.json()
 
     try {
         const note = await NoteModel.findById({ _id: noteid })
-        if (operation === 'like') {
-            const updatedLikedBy = [...note.likedBy, userId];
-            note.likes += 1
-            note.likedBy = updatedLikedBy
-        }
-        if (operation === 'unlike') {
-            //const updatedLikedBy = note.likedBy.filter(likedUserId => likedUserId.toString() === userId.toString())
-            //const userIds = [...note.likedBy]
-            const updatedIds = note.likedBy.filter(ids => ids.toString() !== userId.toString())
-            note.likes -= 1
-            note.likedBy = [...updatedIds]
-        }
+        note.likes = likes
+        note.likedBy = likedBy
 
         const updatedNote = await note.save()
 
@@ -31,6 +21,7 @@ export async function PUT(request, { params }) {
             { message: `Dynamically updated likes: ${noteid}`, status: 200, success: true, body: updatedNote }
         )
     } catch (error) {
+        console.log(error)
         return getResponseMsg(
             { message: 'Failed to update likes', status: 500, success: false, body: error.message }
         )

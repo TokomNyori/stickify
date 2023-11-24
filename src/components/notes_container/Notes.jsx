@@ -4,6 +4,8 @@ import { MdOutlineModeEditOutline } from 'react-icons/md'
 import { HiMiniViewfinderCircle } from 'react-icons/hi2'
 import { BsPinAngle } from "react-icons/bs"
 import { BsPinAngleFill } from "react-icons/bs"
+import { AiFillHeart } from 'react-icons/ai'
+import { FaCopy } from "react-icons/fa6";
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -61,6 +63,15 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
             initial = {}
         }
 
+        let noteInfo = ''
+        if (!note.isOriginal) {
+            noteInfo = "Copy"
+        } else if (note.isPrivate) {
+            noteInfo = 'Private'
+        }
+        console.log(note.isOriginal)
+        console.log(note.originId)
+
         return (
             <motion.div
                 initial={initial}
@@ -92,15 +103,34 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
                 </div>
                 <div className='text-sm mt-5 flex justify-between items-center gap-2'>
                     {
-                        note.isPrivate ?
+                        note.isPrivate || !note.isOriginal ?
                             <div className='flex justify-start items-center gap-1 text-sm'>
-                                Private
+                                {noteInfo}
                             </div>
                             :
-                            <div className='flex justify-start items-center gap-1 text-sm'>
-                                {note.likes < 1 ? <span></span> :
-                                    note.likes === 1 ? <span>{note.likes} like</span> :
-                                        <span>{note.likes} likes</span>}
+                            <div className='flex justify-start items-center gap-2 text-sm opacity-60'>
+                                {
+                                    note.likes < 1 ? <span></span>
+                                        :
+                                        <span className='flex items-center'>
+                                            <AiFillHeart
+                                                className='font-bold text-red-600
+                                                active:text-black text-[1rem]'
+                                            />
+                                            {note.likes}
+                                        </span>
+                                }
+                                {
+                                    note.copies < 1 ? <span></span>
+                                        :
+                                        <span className='flex items-center'>
+                                            <FaCopy
+                                                className=' font-bold text-gray-700
+                                                active:text-black text-[0.9rem]'
+                                            />
+                                            {note.copies}
+                                        </span>
+                                }
                             </div>
                     }
                     <div className='text-sm flex items-center gap-2 '>
@@ -117,7 +147,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
                                             active:text-black text-xl' />
                                 </div>
                         }
-                        <div onClick={(e) => deleteNotes(e, note._id)}>
+                        <div onClick={(e) => deleteNotes(e, note._id, note.isOriginal, note.originId)}>
                             <MdDeleteOutline
                                 className=' text-gray-700/80 font-light transition ease-in-out duration-300 hover:scale-125 
                                     active:text-black text-xl' />

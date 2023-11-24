@@ -11,6 +11,9 @@ import { AiFillRead } from 'react-icons/ai'
 import { BsTranslate } from 'react-icons/bs'
 import { IoBanSharp } from 'react-icons/io5'
 import { AiOutlineSound } from 'react-icons/ai'
+import { GoPlay } from "react-icons/go";
+import { FaRegCirclePlay } from "react-icons/fa6";
+import { FaRegCircleStop } from "react-icons/fa6";
 import { MdOutlineModeEditOutline } from 'react-icons/md'
 import { GoPencil } from 'react-icons/go'
 import { FaNoteSticky } from 'react-icons/fa6'
@@ -23,7 +26,9 @@ import ClipLoader from "react-spinners/GridLoader";
 import toast, { Toaster } from 'react-hot-toast';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice';
-import YouTube from "react-youtube"
+import YouTube from "react-youtube";
+import OpenAI from "openai";
+import { handleTextToSpeech } from '@/helper/handleTextToSpeech';
 
 const NotePage = ({ params }) => {
     const pageNoteData = useSelector(state => state.currentNotePage.currentNotePage)
@@ -219,6 +224,10 @@ const NotePage = ({ params }) => {
         }
     }
 
+    async function textToSpeech() {
+        handleTextToSpeech({ text: pageNoteData.content })
+    }
+
     function editNote(e) {
         e.stopPropagation()
         //const clickedNote = notes.filter(note => note._id === noteid)[0]
@@ -270,8 +279,8 @@ const NotePage = ({ params }) => {
         <>
             <div className={`
                 ${readingMode ? ` bg-zinc-800 text-gray-100 brightness-[90%]` :
-                    `bg-[${pageNoteData.color}] text-gray-800 dark:brightness-[90%] shadow-md`} 
-                    px-4 sm:px-8 py-4 sm:py-8 pb-20 rounded-2xl min-h-screen`}>
+                    `bg-[${pageNoteData.color}] text-gray-800 dark:brightness-[90%] shadow-xl`} 
+                    px-4 sm:px-8 py-4 sm:py-8 pb-20 sm:pb-20 rounded-3xl min-h-screen`}>
                 <div className='controls flex gap-4 mb-4 justify-between'>
                     <div className='relative flex flex-col items-start'>
                         <BiArrowBack className='text-3xl cursor-pointer home-link' onClick={goBack} />

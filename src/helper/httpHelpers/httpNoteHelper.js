@@ -1,3 +1,4 @@
+
 import { NextResponse } from "next/server"
 
 export const getNoteHelper = async ({ method, userId, headers }) => {
@@ -136,22 +137,6 @@ export const getFeedsNoteHelper = async ({ method }) => {
 }
 
 
-export async function openAiPostHelper({ method, headers, body }) {
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: method,
-        headers: headers,
-        body: JSON.stringify(body)
-    })
-
-    if (!res.ok) {
-        const errorData = await res.json();
-        console.log(errorData)
-        throw new Error(errorData.message)
-    }
-
-    return res.json()
-}
-
 export async function youtubeOneVideotHelper({ method, title, youtube_api_key, headers }) {
     const res = await fetch(`https://www.googleapis.com/youtube/v3/search?type=video&q=${title}&maxResults=3&videoDuration=medium&relevanceLanguage=en&part=snippet&key=${youtube_api_key}`,
         {
@@ -174,6 +159,40 @@ export async function youtubeTenVideotHelper({ method, title, youtube_api_key, h
             method: method,
             headers: headers
         })
+
+    if (!res.ok) {
+        const errorData = await res.json();
+        console.log(errorData)
+        throw new Error(errorData.message)
+    }
+
+    return res.json()
+}
+
+
+//Handles Copy
+
+export const updateNoteCopiesHelper = async ({ method, headers, noteid, body }) => {
+    const res = await fetch(`api/notes/${noteid}/update-copies`, {
+        method: method,
+        headers: headers,
+        body: JSON.stringify(body)
+    })
+    if (!res.ok) {
+        const errorData = await res.json();
+        console.log(errorData)
+        throw new Error(errorData.message)
+    }
+
+    return res.json()
+}
+
+export const handleCopyHelper = async ({ method, headers, body, noteid }) => {
+    const res = await fetch(`api/notes/${noteid}/handle-copy`, {
+        method: method,
+        headers: headers,
+        body: JSON.stringify(body)
+    })
 
     if (!res.ok) {
         const errorData = await res.json();

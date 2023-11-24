@@ -21,13 +21,22 @@ const NoteSchema = new Schema({
     },
     created: { type: Date, default: Date.now },
     updated: { type: Date, default: Date.now },
-    likes: { type: Number },
-    likedBy: [{ type: mongoose.ObjectId }],
     isPrivate: { type: Boolean, default: false, },
+    likes: { type: Number, default: 0, min: 0 },
+    likedBy: [{ type: mongoose.ObjectId }],
+    copies: { type: Number, default: 0, min: 0 },
+    copiedBy: [{ type: mongoose.ObjectId }],
     ytVideo: [{
         ytVideoId: { type: String },
         ytVideoTitle: { type: String },
     }],
+    isOriginal: { type: Boolean, default: true, },
+    originId: {
+        type: mongoose.ObjectId,
+        default: function () {
+            return this._id;
+        },
+    },
 })
 
 export const NoteModel = mongoose.models.notes || mongoose.model('notes', NoteSchema)

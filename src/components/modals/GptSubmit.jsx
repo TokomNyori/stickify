@@ -6,6 +6,7 @@ import { BiSolidSend } from 'react-icons/bi'
 import ClipLoader from "react-spinners/GridLoader";
 import toast, { Toaster } from 'react-hot-toast';
 import { nanoid } from 'nanoid'
+import { openAiGptTextGeneration } from '@/helper/externalAPIHelpers/handleExternalAPIs'
 
 const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequirementModal, changeNoteContentByGpt }) => {
 
@@ -47,6 +48,8 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
             tokens = 1700
         } else if (words > 750 && words < 1001) {
             tokens = 2200
+        } if (words > 1000 && words < 2001) {
+            tokens = 4000
         } else {
             tokens = 700
         }
@@ -55,14 +58,14 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
             output_type = `Explain in a way that makes the topic simple. Present the subject matter in a manner so simple and clear that it can be comprehended by an 8-year-old. Simplify complex concepts and use plain language`
             temperature = 0.7
         } else if (generateRequirementGpt.output_type === 'gamify') {
-            output_type = `Explain the topic so it feels like a game. Gamify the learning process. Use gamification techniques to engage the audience. Explain the topic by playing a game`
+            output_type = `Explain the topic so it feels like a game. Gamify the learning process. Use gamification techniques to engage the audience. Explain the topic by playing a Game`
             temperature = 0.7
         } else {
             output_type = `Explain the topic with precision and accuracy. Explain the subject matter in a standard and clear manner. Provide detailed and accurate information in a clear and concise way`
             temperature = 0.5
         }
         const emojiOption = ' Generate 5 to 7 meaningful emojis interspersed throughout the content. The emojis should be relevant to the context.'
-        const instruction = `Act as an expert in the topic. ${output_type}. Don't be verbose. Generate around ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} End with an interesting fact about the topic. The topic is: ${generateRequirementGpt.generate_title}`
+        const instruction = `Act as an expert in the topic. ${output_type}. Don't be VERBOSE. Generate around ${words} WORDS.${generateRequirementGpt.emojis ? emojiOption : ''} End with an interesting fact about the topic. The topic is: ${generateRequirementGpt.generate_title}`
         const gptData = {
             model: 'gpt-3.5-turbo-1106',
             temperature: temperature,
@@ -70,24 +73,27 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
             messages: [
                 {
                     'role': 'system',
-                    'content': 'You are generating content for a note-taking app, Stickify.'
+                    'content': 'You are generating content for a Note-taking app, Stickify.'
                 },
                 {
                     'role': 'user',
                     'content': instruction,
                 }
-            ]
+            ],
         }
         // console.log(tokens)
         // console.log(instruction)
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`
-        }
+        // const headers = {
+        //     'Content-Type': 'application/json',
+        //     'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`
+        // }
         try {
             setLoadingGpt(true)
-            const res = await openAiPostHelper({ method: 'POST', headers: headers, body: gptData })
+            const res = await openAiGptTextGeneration({ gptData: gptData })
+            // console.log('openAiGptTextGeneration')
+            // console.log(res)
             const gptGeneratedContent = res.choices[0].message.content
+
             // If Video included
             if (generateRequirementGpt.videos) {
                 const ytTitle = `${generateRequirementGpt.generate_title}`
@@ -153,7 +159,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         } catch (error) {
             // Catch errors
             setLoadingGpt(false)
-            toast(error.message, {
+            toast('Sorry could not generate', {
                 icon: '🥺'
             })
         }
@@ -183,11 +189,12 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                     <div className="flex justify-between items-center gap-4 mb-4">
                         <div>
                             <label htmlFor="" className="block mb-2 sm:text-[1rem] text-[1.1rem] font-medium">Words:</label>
-                            <input type="number" name="words" id="" placeholder='100' min="10" max="1000"
+                            <input type="number" name="words" id="" placeholder='100' min="10" max="2000"
                                 className='sm:text-[1rem] text-[1.1rem] rounded-lg w-full p-2 bg-zinc-700 border-zinc-700 
-                                placeholder-zinc-400 
+                                placeholder-zinc-400
                                 text-zinc-100 focus:ring-blue-500 focus:border-blue-500 shadow-sm-light'
-                                value={generateRequirementGpt.words} onChange={changeGenerateRequirementGpt} />
+                                value={generateRequirementGpt.words} onChange={changeGenerateRequirementGpt}
+                                title='Enter a number between 10 and 2000' />
                         </div>
                         <div className='flex-grow'>
                             <label htmlFor="" className="block mb-2 sm:text-[1rem] text-[1.1rem] font-medium">Output type:</label>

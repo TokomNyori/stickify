@@ -1,5 +1,5 @@
 'use client'
-import { getFeedsNoteHelper, postNoteHelper, updateNoteLikesHelper } from '@/helper/httpHelpers/httpNoteHelper'
+import { getFeedsNoteHelper, handleCopyHelper, postNoteHelper, updateNoteCopiesHelper, updateNoteLikesHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react'
 import HomePageSkeleton from '../skeleton_loaders/HomePageSkeleton';
@@ -13,6 +13,8 @@ import FeedsNotes from './FeedsNotes';
 import Lottie from 'lottie-react'
 import loveAni from '@/assets/others/loveLottie.json'
 import copyAni from '@/assets/others/copyLottie.json'
+import ClipLoader from "react-spinners/HashLoader";
+import { useTheme } from 'next-themes';
 
 export default function FeedsContainer() {
     const [notes, setNotes] = useState([])
@@ -25,6 +27,8 @@ export default function FeedsContainer() {
     const dispatch = useDispatch()
     const [isLiked, setIsLiked] = useState(false)
     const [isCopied, setIsCopied] = useState(false)
+    const [isremoved, setIsremoved] = useState(false)
+    const { theme, setTheme } = useTheme()
 
     useEffect(() => {
         getUserCookie()
@@ -33,12 +37,12 @@ export default function FeedsContainer() {
         scrollToTop()
         dispatch(addPage('feeds'))
     }, [])
-    
+
     useEffect(() => {
         let looping = []
         notes.forEach(note => {
             globalUsers.forEach(user => {
-                if (note.userId === user._id && !note.isPrivate) {
+                if (note.userId === user._id && !note.isPrivate && note.isOriginal) {
                     looping.push({
                         _id: note._id,
                         title: note.title,
@@ -51,6 +55,10 @@ export default function FeedsContainer() {
                         created: note.created,
                         likes: note.likes,
                         likedBy: note.likedBy,
+                        copies: note.copies,
+                        copiedBy: note.copiedBy,
+                        isOriginal: note.isOriginal,
+                        originId: note.originId,
                         ytVideo: note.ytVideo
                     });
                 }
@@ -105,21 +113,28 @@ export default function FeedsContainer() {
         }
     }
 
-    async function toggleLikes(e, id, func) {
+    async function toggleLikes(e, id, func, likeNo) {
         e.stopPropagation()
         //Backup 
         const backupDetailNotes = [...detailNotes]
         if (func === 'like') {
             setIsLiked(true)
+            let like;
+            let likedByBluePrint
+            detailNotes.forEach(dNote => {
+                if (dNote._id === id) {
+                    like = dNote.likes + 1
+                    likedByBluePrint = [user._id, ...dNote.likedBy]
+                }
+            })
             setDetailNotes(prevNotes => {
-                return prevNotes.map(note => {
-                    if (note._id === id) {
-                        const updatedLikedBy = [...note.likedBy, user._id];
-                        return { ...note, likes: note.likes + 1, likedBy: updatedLikedBy };
+                return prevNotes.map(pNote => {
+                    if (pNote._id === id) {
+                        return { ...pNote, likes: like, likedBy: likedByBluePrint }
                     } else {
-                        return note; // Return the original object for other notes
+                        return pNote
                     }
-                });
+                })
             });
             setTimeout(() => {
                 setIsLiked(false)
@@ -129,7 +144,7 @@ export default function FeedsContainer() {
                     noteid: id,
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: { userId: user._id, operation: 'like' }
+                    body: { likes: like, likedBy: likedByBluePrint }
                 })
                 //getFeedsNotes()
                 //getGlobalUsers()
@@ -137,27 +152,33 @@ export default function FeedsContainer() {
                 setDetailNotes(backupDetailNotes)
                 toast.error(error.message)
             }
-        } else {
-            console.log('Unlike func')
+        } else if (func === 'unlike' && likeNo > 0) {
+            let unlike;
+            let unLikedByBluePrint
+            detailNotes.forEach(dNote => {
+                if (dNote._id === id) {
+                    unlike = dNote.likes - 1
+                    unLikedByBluePrint = dNote.likedBy.filter(likedId => likedId !== user._id)
+                }
+            })
             setDetailNotes(prevNotes => {
-                return prevNotes.map(note => {
-                    if (note._id === id) {
-                        const updatedUnlikedBy = note.likedBy.filter(likedUserId => likedUserId !== user._id);
-                        return { ...note, likes: note.likes - 1, likedBy: updatedUnlikedBy };
+                return prevNotes.map(pNote => {
+                    if (pNote._id === id) {
+                        return { ...pNote, likes: unlike, likedBy: unLikedByBluePrint }
                     } else {
-                        return note; // Return the original object for other notes
+                        return pNote
                     }
-                });
+                })
             });
             try {
                 const res = await updateNoteLikesHelper({
                     noteid: id,
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: { userId: user._id, operation: 'unlike' }
+                    body: { likes: unlike, likedBy: unLikedByBluePrint }
                 })
-                //getFeedsNotes()
-                //getGlobalUsers()
+                // getFeedsNotes()
+                // getGlobalUsers()
             } catch (error) {
                 console.log(error)
                 setDetailNotes(backupDetailNotes)
@@ -166,22 +187,124 @@ export default function FeedsContainer() {
         }
     }
 
-    async function copyNote(e, id) {
+    async function copyNote(e, id, func, copyNo) {
         e.stopPropagation()
-        setIsCopied(true)
-        const clickedNote = detailNotes.filter(note => note._id === id)
-        const copiedNote = { ...clickedNote[0], userId: user._id }
-        console.log('Copied Note:')
-        console.log(copiedNote)
-        try {
-            const res = await postNoteHelper({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: copiedNote })
-            //getFeedsNotes()
-            setIsCopied(false)
-            toast.success('Copied to your notes')
-        } catch (error) {
-            setIsCopied(false)
-            console.log(error)
-            toast.error('Failed to copy')
+        const backupDetailNotes = [...detailNotes]
+
+        if (func === 'copy') {
+            setIsCopied(true)
+            let copy
+            let copiedByBluePrint
+            detailNotes.forEach(dNote => {
+                if (dNote._id === id) {
+                    copy = dNote.copies + 1
+                    copiedByBluePrint = [user._id, ...dNote.copiedBy]
+                }
+            })
+
+            //Update copies locally
+            setDetailNotes(prevNotes => {
+                return prevNotes.map(pNote => {
+                    if (pNote._id === id) {
+                        return {
+                            ...pNote,
+                            copies: copy,
+                            copiedBy: copiedByBluePrint,
+                        }
+                    } else {
+                        return pNote
+                    }
+                })
+            });
+
+            //Create a copy with change in some properties like originId, etc.
+            const clickedNote = backupDetailNotes.filter(note => note._id === id)
+            //const idOfOriginalNote = id
+            const copiedANdModifiedNote = {
+                ...clickedNote[0],
+                userId: user._id,
+                isOriginal: false,
+                originId: id,
+            }
+
+            setTimeout(() => {
+                setIsCopied(false)
+                toast.success('Copied to your notes')
+            }, 1500);
+
+            try {
+                const res = await updateNoteCopiesHelper({
+                    noteid: id,
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: { copies: copy, copiedBy: copiedByBluePrint }
+                })
+
+                const copyNoteRes = await handleCopyHelper({
+                    noteid: id,
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: { ...copiedANdModifiedNote }
+                })
+                //getFeedsNotes()
+                //getGlobalUsers()
+            } catch (error) {
+                setDetailNotes(backupDetailNotes)
+                toast.error(error.message)
+            }
+        } else if (func === 'remove' && copyNo > 0) {
+            setIsremoved(true)
+            let copy
+            let copiedByBluePrint
+            detailNotes.forEach(dNote => {
+                if (dNote._id === id) {
+                    copy = dNote.copies - 1
+                    copiedByBluePrint = dNote.copiedBy.filter(copiedUserId => copiedUserId !== user._id)
+                }
+            })
+
+            //Update copies locally
+            setDetailNotes(prevNotes => {
+                return prevNotes.map(pNote => {
+                    if (pNote._id === id) {
+                        return {
+                            ...pNote,
+                            copies: copy,
+                            copiedBy: copiedByBluePrint,
+                        }
+                    } else {
+                        return pNote
+                    }
+                })
+            });
+
+            setTimeout(() => {
+                setIsremoved(false)
+                toast.success('Removed from your notes')
+            }, 700);
+
+            try {
+                const res = await updateNoteCopiesHelper({
+                    noteid: id,
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: { copies: copy, copiedBy: copiedByBluePrint }
+                })
+
+                const deleteNoteRes = await handleCopyHelper({
+                    noteid: id,
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: { userId: user._id }
+                })
+                //getFeedsNotes()
+                //getGlobalUsers()
+            } catch (error) {
+                setDetailNotes(backupDetailNotes)
+                toast.error(error.message)
+            }
+        } else {
+            toast.success(`Too low ${copyNo}`)
         }
     }
 
@@ -217,13 +340,31 @@ export default function FeedsContainer() {
                 <div
                     className={`loader-gpt fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
-                    <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
+                    <div className="text-2xl mt-5 font-bold text-[#f1f5f9] sm:w-[50%]">
                         <Lottie className="text-sm" animationData={copyAni} />
                     </div>
                 </div>
 
             }
             <Toaster />
+            {isremoved &&
+                <div
+                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    items-center flex-wrap`}>
+                    <ClipLoader
+                        color={`${theme === 'dark' ? '#f86464' : '#ac3232'}`}
+                        loading='Generating...'
+                        //cssOverride={override}
+                        size={70}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    {/* <div className="text-2xl mt-5 font-bold text-[#ac3232]">
+                        Deleting note...
+                    </div> */}
+                </div>
+            }
         </>
     )
 }

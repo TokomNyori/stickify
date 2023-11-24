@@ -27,6 +27,8 @@ export async function POST(request) {
         ytVideo,
         likes: 0,
         likedBy: [],
+        copies: 0,
+        copiedBy: [],
     })
 
     try {

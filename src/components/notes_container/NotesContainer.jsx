@@ -1,5 +1,5 @@
 'use client'
-import { deleteNoteHelper, editStatusNoteHelper, getNoteHelper } from '@/helper/httpHelpers/httpNoteHelper'
+import { deleteNoteHelper, editStatusNoteHelper, getNoteHelper, updateNoteCopiesHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react'
 import Notes from './Notes';
@@ -36,6 +36,8 @@ export default function NotesContainer() {
     const [warningModalState, setWarningModalState] = useState(false)
     const [pinState, setPinState] = useState('')
     const [currentNoteIdForDelete, setCurrentNoteIdForDelete] = useState('')
+    const [currentOriginId, setCurrentOriginId] = useState('')
+    const [isItOriginal, setIsItOriginal] = useState(true)
     const dispatch = useDispatch()
     useEffect(() => {
         getUserCookie()
@@ -98,13 +100,21 @@ export default function NotesContainer() {
         }
     }
 
-    function deleteNotes(e, noteid) {
+    function deleteNotes(e, noteid, isOriginal, originNoteId) {
         e.stopPropagation()
+        if (!isOriginal) {
+            setCurrentOriginId(originNoteId)
+            setIsItOriginal(false)
+        }
         setWarningModalState(true)
         setCurrentNoteIdForDelete(noteid)
     }
 
-    async function conifirmDelete(operation, noteid) {
+    async function conifirmDelete(
+        { operation, noteid, isItOriginalNote, originNoteId }
+    ) {
+        // console.log(isItOriginalNote)
+        // console.log(originNoteId)
         if (operation === 'no') {
             setWarningModalState(false)
             setCurrentNoteIdForDelete('')
@@ -113,22 +123,44 @@ export default function NotesContainer() {
             const backupNotes = [...notes]
             setWarningModalState(false)
             setDeleteLoading(true)
+
+            //Handles to remove the self from likedBy list from the original note
+            let copy
+            let copiedByBluePrint
+            if (!isItOriginalNote) {
+                notes.forEach(eachnote => {
+                    if (eachnote._id === originNoteId) {
+                        copy = eachnote.copies - 1
+                        copiedByBluePrint = eachnote.copiedBy.filter(copiedUserId => copiedUserId !== users._id)
+                    }
+                })
+            }
+
+            //Deletes local redux Note state with animation
+            setDeletedNotes({ ...deletedNotes, [noteid]: true });
+            setTimeout(() => {
+                const refreshedNotes = notes.filter(note => note._id !== noteid)
+                //setNotes(refreshedNotes)
+                dispatch(addNote(refreshedNotes))
+                const newDeletedNotes = { ...deletedNotes };
+                delete newDeletedNotes[noteid];
+                setDeletedNotes(newDeletedNotes);
+                setDeleteLoading(false)
+                toast('Destroyed successfully!', {
+                    icon: '🔥',
+                });
+            }, 500); // Match this with the CSS animation duration
+
+            // Making API requests to delete the note object and to remove self from likedBy list from the original note
             try {
                 const res = await deleteNoteHelper({ noteid: noteid, method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
-                setDeletedNotes({ ...deletedNotes, [noteid]: true });
-                setTimeout(() => {
-                    const refreshedNotes = notes.filter(note => note._id !== noteid)
-                    //setNotes(refreshedNotes)
-                    dispatch(addNote(refreshedNotes))
-                    const newDeletedNotes = { ...deletedNotes };
-                    delete newDeletedNotes[noteid];
-                    setDeletedNotes(newDeletedNotes);
-                    setDeleteLoading(false)
-                    toast('Destroyed successfully!', {
-                        icon: '🔥',
-                    });
-                    getNotes()
-                }, 500); // Match this with the CSS animation duration
+                const removeCopyRes = await updateNoteCopiesHelper({
+                    noteid: originNoteId,
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: { copies: copy, copiedBy: copiedByBluePrint }
+                })
+                getNotes()
             } catch (error) {
                 setDeleteLoading(false)
                 dispatch(addNote(backupNotes))
@@ -139,6 +171,8 @@ export default function NotesContainer() {
             }
         }
     }
+
+    console.log(notes)
 
     async function togglePinned(e, id, func) {
         // Unpinned or remove from pinned
@@ -161,11 +195,11 @@ export default function NotesContainer() {
                 delete newPinnedAni[id];
                 setpinnedNoteAni(newPinnedAni);
                 setPinState('')
+                toast.success('Unpinned')
             }, 600);
             try {
                 setPinnedNotes(pinned)
                 setOtherNotes(prev => ([otherChangeStatus, ...prev]))
-                toast.success('Unpinned')
                 const res = await editStatusNoteHelper({
                     noteid: id,
                     method: 'PUT',
@@ -192,11 +226,11 @@ export default function NotesContainer() {
                 delete newPinnedAni[id];
                 setpinnedNoteAni(newPinnedAni);
                 setPinState('')
+                toast.success('Pinned')
             }, 600);
             try {
                 setOtherNotes(others)
                 setPinnedNotes(prev => ([pinnedChangeStatus, ...prev]))
-                toast.success('Pinned')
                 const res = await editStatusNoteHelper({
                     noteid: id,
                     method: 'PUT',
@@ -229,35 +263,20 @@ export default function NotesContainer() {
                         {
                             notes?.length === 0 &&
                             <div
-                                className='mt-5 grid grid-cols-1 sm:grid-cols-2 text-3xl gap-6 sm:gap-0'
-                            >
-                                <div className='flex sm:flex-col justify-center items-center cursor-pointer'
+                                className="flex mt-12 sm:mt-0 min-h-screen flex-col sm:flex-row justify-start items-center gap-20
+                                sm:justify-around sm:items-center text-3xl">
+                                <div className='flex flex-col justify-center items-center cursor-pointer gap-1 sm:ml-12'
                                     onClick={() => dispatch(setNoteModalConfig({ noteModalState: true, as: 'create', noteObject: {} }))}
                                 >
                                     <div>
-                                        <Typewriter
-                                            onInit={(typewritter) => {
-                                                typewritter
-                                                    .typeString('Create note')
-                                                    .pauseFor(1000)
-                                                    .deleteAll()
-                                                    .typeString('stickify')
-                                                    .pauseFor(1000)
-                                                    .start()
-
-                                            }}
-                                            options={{
-                                                delay: 100,
-                                                loop: true
-                                            }}
-                                        />
+                                        Create note
                                     </div>
                                     <div>
-                                        <Lottie className=" w-44" animationData={stickyNote} />
+                                        <Lottie className="w-44 -mt-5" animationData={stickyNote} />
                                     </div>
                                 </div>
-                                <div className='mr-auto ml-auto'>
-                                    <Lottie className="sm:w-[90%] w-[100%]" animationData={studyAni} />
+                                <div className=''>
+                                    <Lottie className="w-[100%]" animationData={studyAni} />
                                 </div>
                             </div>
                         }
@@ -334,7 +353,7 @@ export default function NotesContainer() {
                 </div>
             }
             <WarningModal warningModalState={warningModalState} action={conifirmDelete} noteid={currentNoteIdForDelete}
-                modalType={'delete'} />
+                modalType={'delete'} isItOriginal={isItOriginal} currentOriginId={currentOriginId} />
             <Toaster />
         </div>
     )
