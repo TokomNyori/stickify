@@ -264,7 +264,7 @@ export default function NotesContainer() {
                             notes?.length === 0 &&
                             <div
                                 className="flex mt-12 sm:mt-0 min-h-screen flex-col sm:flex-row justify-start items-center gap-20
-                                sm:justify-around sm:items-center text-3xl">
+                                sm:justify-around sm:items-center text-3xl sm:4xl">
                                 <div className='flex flex-col justify-center items-center cursor-pointer gap-1 sm:ml-12'
                                     onClick={() => dispatch(setNoteModalConfig({ noteModalState: true, as: 'create', noteObject: {} }))}
                                 >

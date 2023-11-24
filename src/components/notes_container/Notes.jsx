@@ -133,7 +133,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
                                 }
                             </div>
                     }
-                    <div className='text-sm flex items-center gap-2 '>
+                    <div className='text-sm flex items-center gap-2.5'>
                         {
                             noteType === 'pinned' ?
                                 <div onClick={(e) => togglePinned(e, note._id, 'remove')} >
