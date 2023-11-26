@@ -83,7 +83,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                     />
                 </div>
                 <div className='text-sm mt-2.5 flex justify-between items-center gap-3'>
-                    <div className='flex justify-start items-center text-xs'>
+                    <div className='flex justify-start items-center text-sm'>
                         {dateTimeFormat}
                     </div>
                     <div className='flex justify-end items-center gap-3'>
