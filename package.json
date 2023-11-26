@@ -11,6 +11,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
     "bcryptjs": "^2.4.3",
+    "date-fns": "^2.30.0",
     "framer-motion": "^10.16.5",
     "jsonwebtoken": "^9.0.2",
     "lottie-react": "^2.4.0",

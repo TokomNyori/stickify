@@ -53,6 +53,7 @@ export default function FeedsContainer() {
                         username: user.username,
                         user_avatar: user.avatar,
                         created: note.created,
+                        updated: note.updated,
                         likes: note.likes,
                         likedBy: note.likedBy,
                         copies: note.copies,
@@ -88,8 +89,8 @@ export default function FeedsContainer() {
     async function getGlobalUsers() {
         try {
             const res = await getGlobalUsersHelper({ method: 'PUT' })
-            console.log('Global Users-----')
-            console.log(res.body)
+            // console.log('Global Users-----')
+            // console.log(res.body)
             setGlobalUsers(res.body)
         } catch (error) {
             console.log('getGlobalUsersHelper error message:')

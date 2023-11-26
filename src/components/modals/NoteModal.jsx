@@ -287,8 +287,8 @@ const NoteModal = () => {
     //Important!!!!!!!!!!!!!
     function changeNoteContentByGpt(generatedData, addedVideo) {
         const targetNote = isRephrasedNote ? rephrasedNote : note
-        console.log('generatedData')
-        console.log(generatedData)
+        // console.log('generatedData')
+        // console.log(generatedData)
         if (addedVideo && targetNote.ytVideo.length <= 4) {
             const recievedVideos = generatedData.ytVideoData
             const addVideos = [...recievedVideos, ...targetNote.ytVideo]

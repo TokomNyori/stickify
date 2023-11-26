@@ -89,8 +89,8 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         try {
             setLoadingGpt(true)
             const res = await openAiGptTextGeneration({ gptData: gptData })
-            // console.log('openAiGptTextGeneration')
-            // console.log(res)
+            console.log('openAiGptTextGeneration')
+            console.log(res)
             const gptGeneratedContent = res.choices[0].message.content
 
             // If Video included

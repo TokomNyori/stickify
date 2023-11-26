@@ -13,6 +13,7 @@ import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalCo
 import { useEffect, useState } from 'react'
 import { postNoteHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import Typewriter from 'typewriter-effect'
+import { formatDistanceToNowStrict, differenceInMinutes, differenceInHours, differenceInDays, differenceInWeeks, isValid } from 'date-fns';
 
 const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
 
@@ -26,10 +27,31 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
         router.push(`/${id}`)
     }
 
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        if (!isValid(date)) {
+            console.error('Invalid date:', dateString);
+            return '';
+        }
+        const diffInMinutes = differenceInMinutes(new Date(), date);
+        const diffInHours = differenceInHours(new Date(), date);
+        const diffInDays = differenceInDays(new Date(), date);
+
+        if (diffInMinutes < 1) return 'just now';
+        if (diffInMinutes < 60) return `${diffInMinutes} ${diffInMinutes === 1 ? 'min' : 'mins'} ago`;
+        if (diffInHours < 24) return `${diffInHours} ${diffInHours === 1 ? 'hr' : 'hrs'} ago`;
+        if (diffInDays < 7) return `${diffInDays} ${diffInDays === 1 ? 'day' : 'days'} ago`;
+        if (diffInDays === 7) return '1 week ago';
+
+        return format(date, 'dd/MM/yyyy'); // return the date in "dd/MM/yyyy" format
+    }
+
     const taskBoxes = notes?.map(note => {
 
         const liked = note.likedBy.some(like => like === user._id);
         const copied = note.copiedBy.some(copy => copy === user._id);
+        const ddd = formatDate(note.updated)
+        console.log(ddd)
 
         return (
             <div
@@ -60,69 +82,69 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                         }}
                     />
                 </div>
-                <div className='text-sm mt-2.5 flex justify-end items-center gap-3'>
-                    {/* <div className='flex justify-start items-center gap-1 text-sm'>
-                        {note.likes < 1 ? <span></span> :
-                            note.likes === 1 ? <span>{note.likes} like</span> :
-                                <span>{note.likes} likes</span>}
-                    </div> */}
-                    {
-                        liked ?
-                            <div className='flex justify-center items-center gap-0.5'>
-                                <AiFillHeart
-                                    className='text-red-500 font-bold transition ease-in-out duration-300 hover:scale-125 
+                <div className='text-sm mt-2.5 flex justify-between items-center gap-3'>
+                    <div className='flex justify-start items-center text-xs'>
+                        {ddd}
+                    </div>
+                    <div className='flex justify-end items-center gap-3'>
+                        {
+                            liked ?
+                                <div className='flex justify-center items-center gap-0.5'>
+                                    <AiFillHeart
+                                        className='text-red-500 font-bold transition ease-in-out duration-300 hover:scale-125 
                                         active:text-black text-2xl'
-                                    onClick={(e) => toggleLikes(e, note._id, 'unlike', note.likes)}
-                                />
-                                {
-                                    note.likes < 1 ? <sub></sub> :
-                                        <sub className='text-sm text-gray-600/80'>
-                                            {note.likes}
-                                        </sub>
-                                }
-                            </div>
+                                        onClick={(e) => toggleLikes(e, note._id, 'unlike', note.likes)}
+                                    />
+                                    {
+                                        note.likes < 1 ? <sub></sub> :
+                                            <sub className='text-sm text-gray-600/80'>
+                                                {note.likes}
+                                            </sub>
+                                    }
+                                </div>
 
-                            :
-                            <div className='flex justify-center items-center gap-0.5'>
-                                <AiOutlineHeart
-                                    className='text-gray-600/80 font-bold transition ease-in-out duration-300 hover:scale-125 
+                                :
+                                <div className='flex justify-center items-center gap-0.5'>
+                                    <AiOutlineHeart
+                                        className='text-gray-600/80 font-bold transition ease-in-out duration-300 hover:scale-125 
                                         active:text-black text-2xl'
-                                    onClick={(e) => toggleLikes(e, note._id, 'like', note.likes)}
-                                />
-                                {
-                                    note.likes < 1 ? <sub></sub> :
-                                        <sub className='text-sm text-gray-600/80'>
-                                            {note.likes}
-                                        </sub>
-                                }
-                            </div>
-                    }
-                    {
-                        copied ?
-                            <div className='flex justify-center items-center gap-0.5'>
-                                <FaCopy
-                                    className='text-gray-600 font-bold transition ease-in-out duration-300 hover:scale-125 
+                                        onClick={(e) => toggleLikes(e, note._id, 'like', note.likes)}
+                                    />
+                                    {
+                                        note.likes < 1 ? <sub></sub> :
+                                            <sub className='text-sm text-gray-600/80'>
+                                                {note.likes}
+                                            </sub>
+                                    }
+                                </div>
+                        }
+                        {
+                            copied ?
+                                <div className='flex justify-center items-center gap-0.5'>
+                                    <FaCopy
+                                        className='text-gray-600 font-bold transition ease-in-out duration-300 hover:scale-125 
                                         active:text-black text-[1.21rem]' onClick={(e) => copyNote(e, note._id, 'remove', note.copies)} />
-                                {
-                                    note.copies < 1 ? <sub></sub> :
-                                        <sub className='text-sm text-gray-600/80'>
-                                            {note.copies}
-                                        </sub>
-                                }
-                            </div>
-                            :
-                            <div className='flex justify-center items-center gap-0.5'>
-                                <FaRegCopy
-                                    className='text-gray-600/80 font-bold transition ease-in-out duration-300 hover:scale-125 
+                                    {
+                                        note.copies < 1 ? <sub></sub> :
+                                            <sub className='text-sm text-gray-600/80'>
+                                                {note.copies}
+                                            </sub>
+                                    }
+                                </div>
+                                :
+                                <div className='flex justify-center items-center gap-0.5'>
+                                    <FaRegCopy
+                                        className='text-gray-600/80 font-bold transition ease-in-out duration-300 hover:scale-125 
                                         active:text-black text-[1.21rem]' onClick={(e) => copyNote(e, note._id, 'copy', note.copies)} />
-                                {
-                                    note.copies < 1 ? <sub></sub> :
-                                        <sub className='text-sm text-gray-600/80'>
-                                            {note.copies}
-                                        </sub>
-                                }
-                            </div>
-                    }
+                                    {
+                                        note.copies < 1 ? <sub></sub> :
+                                            <sub className='text-sm text-gray-600/80'>
+                                                {note.copies}
+                                            </sub>
+                                    }
+                                </div>
+                        }
+                    </div>
                 </div>
             </div>
         )
