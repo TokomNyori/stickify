@@ -160,7 +160,7 @@
 }
 
 .rephrase-default-btn {
-  animation: blink 1s 3 ease-in-out;
+  animation: blink 1s 2 ease-in-out;
 }
 
 @keyframes blink {
