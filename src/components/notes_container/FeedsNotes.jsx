@@ -12,17 +12,12 @@ import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNote
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice'
 import { useEffect, useState } from 'react'
 import { postNoteHelper } from '@/helper/httpHelpers/httpNoteHelper'
-// import { motion } from "framer-motion"
 import Typewriter from 'typewriter-effect'
 
 const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
 
     const dispatch = useDispatch()
     const router = useRouter()
-
-    useEffect(() => {
-
-    }, [])
 
     function toTheNotePage(e, id) {
         e.stopPropagation()
@@ -33,27 +28,8 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
 
     const taskBoxes = notes?.map(note => {
 
-        let liked = false
-        let copied = false
-        for (const like of note.likedBy) {
-            if (like === user._id) {
-                liked = true
-                break;
-            } else {
-                liked = false
-                break; // This will exit the loop when element is 3
-            }
-        }
-
-        for (const copy of note.copiedBy) {
-            if (copy === user._id) {
-                copied = true
-                break;
-            } else {
-                copied = false
-                break; // This will exit the loop when element is 3
-            }
-        }
+        const liked = note.likedBy.some(like => like === user._id);
+        const copied = note.copiedBy.some(copy => copy === user._id);
 
         return (
             <div
@@ -83,7 +59,6 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                             delay: 25,
                         }}
                     />
-                    {/* {note.content} */}
                 </div>
                 <div className='text-sm mt-2.5 flex justify-end items-center gap-3'>
                     {/* <div className='flex justify-start items-center gap-1 text-sm'>

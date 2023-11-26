@@ -8,17 +8,26 @@ connectDB()
 export async function PUT(request, { params }) {
     const { noteid } = params
     //Fetch work data from request
-    const { copiedBy, copies } = await request.json()
+    const { copiedBy, func } = await request.json()
 
     try {
-        const note = await NoteModel.findById({ _id: noteid })
-        note.copies = copies
-        note.copiedBy = copiedBy
+        let update;
+        if (func === 'copy') {
+            update = {
+                $inc: { copies: 1 },
+                $addToSet: { copiedBy: copiedBy }, // Add to set to ensure unique entries
+            };
+        } else {
+            update = { $inc: { copies: -1 }, $pull: { copiedBy: copiedBy } };
+        }
 
-        const updatedNote = await note.save()
+        const updatedNote = await NoteModel.findByIdAndUpdate(noteid, update, { new: true });
 
         return getResponseMsg(
-            { message: `Copied successfully: ${noteid}`, status: 200, success: true, body: updatedNote }
+            {
+                message: func === 'copy' ? `Copied to your notes` : `Removed from your notes`, status: 200,
+                success: true, body: updatedNote
+            }
         )
     } catch (error) {
         console.log(error)

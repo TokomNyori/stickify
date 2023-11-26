@@ -90,6 +90,35 @@
     width: 100%;
 }
 
+
+.ytModal-back-btn-icon {
+    animation: move-icon 2s ease-in-out infinite;
+}
+
+@keyframes move-icon {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    20% {
+        transform: translateX(-25px);
+        opacity: 0;
+    }
+
+    40%,
+    60% {
+        transform: translateX(25px);
+        opacity: 0;
+    }
+
+    80%,
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
 .ytModal-back-btn {
     animation: blink 1s 3 ease-in-out;
 }

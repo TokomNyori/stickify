@@ -1,6 +1,3 @@
-
-import { NextResponse } from "next/server"
-
 export const getNoteHelper = async ({ method, userId, headers }) => {
     const res = await fetch(`api/notes/get-user-notes/${userId}`, {
         method: method,
@@ -63,10 +60,11 @@ export const editNoteHelper = async ({ method, headers, noteid, body }) => {
     return res.json()
 }
 
-export const deleteNoteHelper = async ({ method, headers, noteid }) => {
+export const deleteNoteHelper = async ({ method, headers, noteid, body }) => {
     const res = await fetch(`api/notes/${noteid}`, {
         method: method,
-        headers: headers
+        headers: headers,
+        body: JSON.stringify(body)
     })
     if (!res.ok) {
         const errorData = await res.json();
@@ -137,41 +135,7 @@ export const getFeedsNoteHelper = async ({ method }) => {
 }
 
 
-export async function youtubeOneVideotHelper({ method, title, youtube_api_key, headers }) {
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/search?type=video&q=${title}&maxResults=3&videoDuration=medium&relevanceLanguage=en&part=snippet&key=${youtube_api_key}`,
-        {
-            method: method,
-            headers: headers
-        })
-
-    if (!res.ok) {
-        const errorData = await res.json();
-        console.log(errorData)
-        throw new Error(errorData.message)
-    }
-
-    return res.json()
-}
-
-export async function youtubeTenVideotHelper({ method, title, youtube_api_key, headers }) {
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/search?type=video&q=${title}&maxResults=15&relevanceLanguage=en&part=snippet&key=${youtube_api_key}`,
-        {
-            method: method,
-            headers: headers
-        })
-
-    if (!res.ok) {
-        const errorData = await res.json();
-        console.log(errorData)
-        throw new Error(errorData.message)
-    }
-
-    return res.json()
-}
-
-
 //Handles Copy
-
 export const updateNoteCopiesHelper = async ({ method, headers, noteid, body }) => {
     const res = await fetch(`api/notes/${noteid}/update-copies`, {
         method: method,

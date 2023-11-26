@@ -124,22 +124,10 @@ export default function NotesContainer() {
             setWarningModalState(false)
             setDeleteLoading(true)
 
-            //Handles to remove the self from likedBy list from the original note
-            let copy
-            let copiedByBluePrint
-            if (!isItOriginalNote) {
-                notes.forEach(eachnote => {
-                    if (eachnote._id === originNoteId) {
-                        copy = eachnote.copies - 1
-                        copiedByBluePrint = eachnote.copiedBy.filter(copiedUserId => copiedUserId !== users._id)
-                    }
-                })
-            }
-
             //Deletes local redux Note state with animation
             setDeletedNotes({ ...deletedNotes, [noteid]: true });
+            const refreshedNotes = notes.filter(note => note._id !== noteid)
             setTimeout(() => {
-                const refreshedNotes = notes.filter(note => note._id !== noteid)
                 //setNotes(refreshedNotes)
                 dispatch(addNote(refreshedNotes))
                 const newDeletedNotes = { ...deletedNotes };
@@ -153,13 +141,25 @@ export default function NotesContainer() {
 
             // Making API requests to delete the note object and to remove self from likedBy list from the original note
             try {
-                const res = await deleteNoteHelper({ noteid: noteid, method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
-                const removeCopyRes = await updateNoteCopiesHelper({
-                    noteid: originNoteId,
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: { copies: copy, copiedBy: copiedByBluePrint }
-                })
+                if (isItOriginalNote) {
+                    const res = await deleteNoteHelper({
+                        noteid: noteid, method: 'DELETE', headers: { 'Content-Type': 'application/json' },
+                        body: { isItOriginalNote: isItOriginalNote }  //isItOriginalNote is true
+                    })
+                } else {
+                    // Delete the copied note
+                    const res = await deleteNoteHelper({
+                        noteid: originNoteId, method: 'DELETE', headers: { 'Content-Type': 'application/json' },
+                        body: { isItOriginalNote: isItOriginalNote, userId: users._id }  //isItOriginalNote is false
+                    })
+                    // Remove self from copiedBy list from the original note
+                    const removeCopyRes = await updateNoteCopiesHelper({
+                        noteid: originNoteId,
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: { copiedBy: users._id, func: 'remove' }
+                    })
+                }
                 getNotes()
             } catch (error) {
                 setDeleteLoading(false)
@@ -172,7 +172,7 @@ export default function NotesContainer() {
         }
     }
 
-    console.log(notes)
+    //console.log(notes)
 
     async function togglePinned(e, id, func) {
         // Unpinned or remove from pinned

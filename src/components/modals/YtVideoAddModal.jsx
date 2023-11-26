@@ -7,18 +7,18 @@ import { IoIosAddCircle } from 'react-icons/io'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { AiFillYoutube } from 'react-icons/ai'
 import YouTube from "react-youtube"
-import { youtubeTenVideotHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import toast from 'react-hot-toast'
 import YourVideoPopup from '../popups/YourVideoPopup'
 import { nanoid } from 'nanoid'
 import ClipLoader from "react-spinners/BounceLoader";
+import { youtubeTenVideotHelper } from '@/helper/externalAPIHelpers/handleExternalAPIs'
 //videoThumbnail: item.snippet.thumbnails.default
 const YtVideoAddModal = (
     { ytVideAddModalState, changeYtAddModal, ytVideoFromNote, AddToYtVideosFromYtModal, ytRefs, deleteYourYtVideo }
 ) => {
     const [formData, setFormData] = useState({ title: '' })
     const [ytVideos, setYtVideos] = useState([])
-    const [videos, setVideos] = useState()
+    const [videos, setVideos] = useState([])
     const [navSection, setNavSection] = useState()
     const [ytLoading, setYtLoading] = useState(false)
     const ytVideoModalUpRef = useRef(null);
@@ -88,7 +88,7 @@ const YtVideoAddModal = (
                                     :
                                     <div className=' cursor-pointer'
                                         onClick={() => handleAddVideo(
-                                            { operation: 'add', id: video?.ytVideoId, title: video?.videoTitle, uniqueId: video?.uniqueId }
+                                            { operation: 'add', id: video?.ytVideoId, title: video?.videoTitle }
                                         )}>
                                         <IoIosAddCircle className='text-5xl' />
                                     </div>
@@ -130,7 +130,7 @@ const YtVideoAddModal = (
         },
     };
 
-    function handleAddVideo({ operation, id, title, uniqueId }) {
+    function handleAddVideo({ operation, id, title }) {
         // console.log('.ytVideo.length Inside')
         // console.log(ytVideoLength)
         if (ytVideoFromNote.length >= 7 && operation === 'add') {
@@ -157,7 +157,7 @@ const YtVideoAddModal = (
             return objects
         })
         operation === 'add' ?
-            AddToYtVideosFromYtModal({ id: id, operation: 'add', title: title, uniqueId: uniqueId })
+            AddToYtVideosFromYtModal({ id: id, operation: 'add', title: title })
             :
             AddToYtVideosFromYtModal({ id: id, operation: 'remove' })
         operation === 'add' ? toast.success('Added') : toast('Removed', { icon: '✂️' })
@@ -180,7 +180,6 @@ const YtVideoAddModal = (
                 {
                     method: 'GET',
                     title: ytTitle,
-                    youtube_api_key: process.env.NEXT_PUBLIC_YOUTUBE_API,
                     headers: { 'Content-Type': 'application/json' }
                 }
             )
@@ -189,7 +188,6 @@ const YtVideoAddModal = (
             const itemsArray = items.map((item) => {
                 return {
                     ytVideoId: item.id.videoId,
-                    uniqueId: nanoid(),
                     videoTitle: item.snippet.title,
                     added: handleAddedValue(item.id.videoId),
                 }
@@ -217,13 +215,15 @@ const YtVideoAddModal = (
     }
 
     function eraseVideosAndClose() {
-        //setFormData({ title: '' })
+        setFormData({ title: '' })
+        setYtVideos([])
+        setVideos([])
         changeYtAddModal()
-        for (let i = 0; i < ytVideos.length; i++) {
-            if (ytVideoPlayerAddModalRefs[i].current) {
-                ytVideoPlayerAddModalRefs[i].current.getInternalPlayer().pauseVideo();
-            }
-        }
+        // for (let i = 0; i < ytVideos.length; i++) {
+        //     if (ytVideoPlayerAddModalRefs[i].current) {
+        //         ytVideoPlayerAddModalRefs[i].current.getInternalPlayer().pauseVideo();
+        //     }
+        // }
     }
 
     function changeYtVideoAdded(id) {
@@ -326,10 +326,10 @@ const YtVideoAddModal = (
                     }
                 </div>
                 <div className="fixed sm:bottom-14 bottom-36 sm:right-20 right-6 ytModal-back-btn">
-                    <div className=' bg-yellow-400 border-2 border-black shadow-lg rounded-full w-16 h-16 flex 
+                    <div className=' bg-zinc-800 border-2 border-yellow-500 shadow-lg rounded-full w-16 h-16 flex 
                     items-center justify-center tracking-wide font-bold cursor-pointer brightness-110'
                         onClick={eraseVideosAndClose}>
-                        <BiArrowBack className='text-4xl text-black font-bold' />
+                        <BiArrowBack className='text-4xl text-yellow-500 font-bold ytModal-back-btn-icon' />
                         {/* <span className='text-red-500 text-xl font-bold cursor-pointer'>Back</span> */}
                     </div>
                 </div>

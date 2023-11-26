@@ -117,194 +117,166 @@ export default function FeedsContainer() {
         e.stopPropagation()
         //Backup 
         const backupDetailNotes = [...detailNotes]
+        let newDetailNotes = [...detailNotes]
+        let like, unlike, likedByBluePrint, unLikedByBluePrint;
+
         if (func === 'like') {
             setIsLiked(true)
-            let like;
-            let likedByBluePrint
-            detailNotes.forEach(dNote => {
+            newDetailNotes = newDetailNotes.map(dNote => {
                 if (dNote._id === id) {
                     like = dNote.likes + 1
                     likedByBluePrint = [user._id, ...dNote.likedBy]
+                    return { ...dNote, likes: like, likedBy: likedByBluePrint }
+                } else {
+                    return dNote
                 }
             })
-            setDetailNotes(prevNotes => {
-                return prevNotes.map(pNote => {
-                    if (pNote._id === id) {
-                        return { ...pNote, likes: like, likedBy: likedByBluePrint }
-                    } else {
-                        return pNote
-                    }
-                })
-            });
+            setDetailNotes(newDetailNotes)
             setTimeout(() => {
                 setIsLiked(false)
             }, 1500);
-            try {
-                const res = await updateNoteLikesHelper({
-                    noteid: id,
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: { likes: like, likedBy: likedByBluePrint }
-                })
-                //getFeedsNotes()
-                //getGlobalUsers()
-            } catch (error) {
-                setDetailNotes(backupDetailNotes)
-                toast.error(error.message)
-            }
         } else if (func === 'unlike' && likeNo > 0) {
-            let unlike;
-            let unLikedByBluePrint
-            detailNotes.forEach(dNote => {
+            newDetailNotes = newDetailNotes.map(dNote => {
                 if (dNote._id === id) {
                     unlike = dNote.likes - 1
                     unLikedByBluePrint = dNote.likedBy.filter(likedId => likedId !== user._id)
+                    return { ...dNote, likes: unlike, likedBy: unLikedByBluePrint }
+                } else {
+                    return dNote
                 }
             })
+            setDetailNotes(newDetailNotes)
+        }
+
+        try {
+            if (func === 'unlike' && likeNo < 1) {
+                return
+            }
+
+            const res = await updateNoteLikesHelper({
+                noteid: id,
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: { likedBy: user._id, func: func }
+            })
+
+            // Update the state with the returned note
             setDetailNotes(prevNotes => {
                 return prevNotes.map(pNote => {
                     if (pNote._id === id) {
-                        return { ...pNote, likes: unlike, likedBy: unLikedByBluePrint }
+                        return { ...pNote, likes: res.body.likes, likedBy: res.body.likedBy }
                     } else {
                         return pNote
                     }
                 })
-            });
-            try {
-                const res = await updateNoteLikesHelper({
-                    noteid: id,
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: { likes: unlike, likedBy: unLikedByBluePrint }
-                })
-                // getFeedsNotes()
-                // getGlobalUsers()
-            } catch (error) {
-                console.log(error)
-                setDetailNotes(backupDetailNotes)
-                toast.error(error.message)
-            }
+            })
+            // await getGlobalUsers()
+            // await getFeedsNotes()
+        } catch (error) {
+            setDetailNotes(backupDetailNotes)
+            toast.error(error.message)
         }
     }
 
     async function copyNote(e, id, func, copyNo) {
         e.stopPropagation()
         const backupDetailNotes = [...detailNotes]
+        let newDetailNotes = [...detailNotes]
+        let copy, copiedByBluePrint
 
         if (func === 'copy') {
             setIsCopied(true)
-            let copy
-            let copiedByBluePrint
-            detailNotes.forEach(dNote => {
+            newDetailNotes = newDetailNotes.map(dNote => {
                 if (dNote._id === id) {
                     copy = dNote.copies + 1
                     copiedByBluePrint = [user._id, ...dNote.copiedBy]
+                    return { ...dNote, copies: copy, copiedBy: copiedByBluePrint }
+                } else {
+                    return dNote
                 }
             })
 
             //Update copies locally
-            setDetailNotes(prevNotes => {
-                return prevNotes.map(pNote => {
-                    if (pNote._id === id) {
-                        return {
-                            ...pNote,
-                            copies: copy,
-                            copiedBy: copiedByBluePrint,
-                        }
-                    } else {
-                        return pNote
-                    }
-                })
-            });
-
-            //Create a copy with change in some properties like originId, etc.
-            const clickedNote = backupDetailNotes.filter(note => note._id === id)
-            //const idOfOriginalNote = id
-            const copiedANdModifiedNote = {
-                ...clickedNote[0],
-                userId: user._id,
-                isOriginal: false,
-                originId: id,
-            }
+            setDetailNotes(newDetailNotes);
 
             setTimeout(() => {
                 setIsCopied(false)
                 toast.success('Copied to your notes')
             }, 1500);
 
-            try {
-                const res = await updateNoteCopiesHelper({
-                    noteid: id,
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: { copies: copy, copiedBy: copiedByBluePrint }
-                })
-
-                const copyNoteRes = await handleCopyHelper({
-                    noteid: id,
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: { ...copiedANdModifiedNote }
-                })
-                //getFeedsNotes()
-                //getGlobalUsers()
-            } catch (error) {
-                setDetailNotes(backupDetailNotes)
-                toast.error(error.message)
-            }
         } else if (func === 'remove' && copyNo > 0) {
+            // Updates the local state and then updates the database
             setIsremoved(true)
-            let copy
-            let copiedByBluePrint
-            detailNotes.forEach(dNote => {
+            newDetailNotes = newDetailNotes.map(dNote => {
                 if (dNote._id === id) {
                     copy = dNote.copies - 1
                     copiedByBluePrint = dNote.copiedBy.filter(copiedUserId => copiedUserId !== user._id)
+                    return { ...dNote, copies: copy, copiedBy: copiedByBluePrint }
+                } else {
+                    return dNote
                 }
             })
 
             //Update copies locally
-            setDetailNotes(prevNotes => {
-                return prevNotes.map(pNote => {
-                    if (pNote._id === id) {
-                        return {
-                            ...pNote,
-                            copies: copy,
-                            copiedBy: copiedByBluePrint,
-                        }
-                    } else {
-                        return pNote
-                    }
-                })
-            });
+            setDetailNotes(newDetailNotes);
 
             setTimeout(() => {
                 setIsremoved(false)
                 toast.success('Removed from your notes')
             }, 700);
+        }
 
-            try {
-                const res = await updateNoteCopiesHelper({
+        try {
+            if (func === 'remove' && copyNo < 1) {
+                return
+            }
+
+            const res = await updateNoteCopiesHelper({
+                noteid: id,
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: { copiedBy: user._id, func: func }
+            })
+
+            //Update the state with the returned note
+            setDetailNotes(prevNotes => {
+                return prevNotes.map(pNote => {
+                    if (pNote._id === id) {
+                        return { ...pNote, copies: res.body.copies, copiedBy: res.body.copiedBy }
+                    } else {
+                        return pNote
+                    }
+                })
+            })
+
+            if (func === 'copy') {
+                //Create a new note for the user
+                const clickedNote = backupDetailNotes.find(note => note._id === id)
+                const copiedAndModifiedNote = {
+                    ...clickedNote,
+                    userId: user._id,
+                    isOriginal: false,
+                    originId: id,
+                }
+
+                await handleCopyHelper({
                     noteid: id,
-                    method: 'PUT',
+                    method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: { copies: copy, copiedBy: copiedByBluePrint }
+                    body: copiedAndModifiedNote
                 })
 
-                const deleteNoteRes = await handleCopyHelper({
+            } else if (func === 'remove' && copyNo > 0) {
+                await handleCopyHelper({
                     noteid: id,
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
                     body: { userId: user._id }
                 })
-                //getFeedsNotes()
-                //getGlobalUsers()
-            } catch (error) {
-                setDetailNotes(backupDetailNotes)
-                toast.error(error.message)
             }
-        } else {
-            toast.success(`Too low ${copyNo}`)
+        } catch (error) {
+            setDetailNotes(backupDetailNotes)
+            toast.error(error.message)
         }
     }
 

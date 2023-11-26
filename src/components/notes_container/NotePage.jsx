@@ -27,8 +27,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice';
 import YouTube from "react-youtube";
-import OpenAI from "openai";
-import { handleTextToSpeech } from '@/helper/handleTextToSpeech';
 
 const NotePage = ({ params }) => {
     const pageNoteData = useSelector(state => state.currentNotePage.currentNotePage)
@@ -225,7 +223,7 @@ const NotePage = ({ params }) => {
     }
 
     async function textToSpeech() {
-        handleTextToSpeech({ text: pageNoteData.content })
+        //handleTextToSpeech({ text: pageNoteData.content })
     }
 
     function editNote(e) {

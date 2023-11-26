@@ -69,8 +69,8 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
         } else if (note.isPrivate) {
             noteInfo = 'Private'
         }
-        console.log(note.isOriginal)
-        console.log(note.originId)
+        // console.log(note.isOriginal)
+        // console.log(note.originId)
 
         return (
             <motion.div

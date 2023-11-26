@@ -1,20 +1,19 @@
 'use client'
-import { openAiPostHelper, youtubeOneVideotHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import { useEffect, useState } from 'react'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { BiSolidSend } from 'react-icons/bi'
 import ClipLoader from "react-spinners/GridLoader";
 import toast, { Toaster } from 'react-hot-toast';
 import { nanoid } from 'nanoid'
-import { openAiGptTextGeneration } from '@/helper/externalAPIHelpers/handleExternalAPIs'
+import { openAiGptTextGeneration, youtubeOneVideotHelper } from '@/helper/externalAPIHelpers/handleExternalAPIs'
 
-const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequirementModal, changeNoteContentByGpt }) => {
+const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequirementModal, changeNoteContentByGpt, isEdit }) => {
 
-    const nfmm = { ...noteFromNoteModal }
+    const copyNoteFromNoteModal = { ...noteFromNoteModal }
     // console.log('NoteFromMainModal')
     // console.log(nfmm.title)
     const [generateRequirementGpt, setGenerateRequirementGpt] = useState({
-        generate_title: nfmm.title,
+        generate_title: copyNoteFromNoteModal.title,
         words: '250',
         output_type: 'easy to understand',
         emojis: true,
@@ -25,7 +24,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
     useEffect(() => {
         setGenerateRequirementGpt(prev => ({
             ...prev,
-            generate_title: nfmm.title
+            generate_title: copyNoteFromNoteModal.title
         }))
     }, [noteFromNoteModal])
 
@@ -101,7 +100,6 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                     {
                         method: 'GET',
                         title: ytTitle,
-                        youtube_api_key: process.env.NEXT_PUBLIC_YOUTUBE_API,
                         headers: { 'Content-Type': 'application/json' }
                     }
                 )
@@ -122,14 +120,29 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                 } else {
                     // If Videos available
                     const datas = ytRes.items
-                    const ytVideoData = datas.map(data => {
-                        const modify = {
-                            ytVideoId: data.id.videoId,
-                            uniqueId: nanoid(),
-                            ytVideoTitle: data.snippet.title,
-                        }
-                        return modify
-                    })
+                    let ytVideoData = []
+                    if (isEdit) {
+                        const ytIdsFromNoteSet = new Set(noteFromNoteModal.ytVideo.map(video => video.ytVideoId));
+                        datas.forEach(data => {
+                            if (!ytIdsFromNoteSet.has(data.id.videoId)) {
+                                const modify = {
+                                    ytVideoId: data.id.videoId,
+                                    ytVideoTitle: data.snippet.title,
+                                }
+                                ytVideoData.push(modify)
+                            }
+                        })
+                    } else {
+                        ytVideoData = datas.map(data => {
+                            const modify = {
+                                ytVideoId: data.id.videoId,
+                                uniqueId: nanoid(),
+                                ytVideoTitle: data.snippet.title,
+                            }
+                            return modify
+                        })
+                    }
+
                     // console.log('yt video data--')
                     // console.log(ytVideoData)
                     const generatedData = {

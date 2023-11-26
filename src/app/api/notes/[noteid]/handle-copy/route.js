@@ -41,14 +41,21 @@ export async function POST(request) {
     }
 }
 
-// Delete note by noteId
+// Delete note by originId and userId
 export async function DELETE(request, { params }) {
     const { noteid } = params
     const { userId } = await request.json()
     try {
-        const deletedNote = await NoteModel.deleteOne({ originId: noteid, userId: userId })
+        const deletedNote = await NoteModel.findOneAndDelete({ originId: noteid, userId: userId, isOriginal: false })
+
+        if (!deletedNote) {
+            return getResponseMsg(
+                { message: `Note not found`, status: 404, success: false }
+            )
+        }
+
         return getResponseMsg(
-            { message: `Dynamically Deleted note: ${noteid}`, status: 200, success: true, body: deletedNote }
+            { message: `Note deleted successfully: ${noteid}`, status: 200, success: true, body: deletedNote }
         )
     } catch (error) {
         return getResponseMsg(

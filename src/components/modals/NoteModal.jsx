@@ -287,8 +287,8 @@ const NoteModal = () => {
     //Important!!!!!!!!!!!!!
     function changeNoteContentByGpt(generatedData, addedVideo) {
         const targetNote = isRephrasedNote ? rephrasedNote : note
-        // console.log('generatedData')
-        // console.log(generatedData)
+        console.log('generatedData')
+        console.log(generatedData)
         if (addedVideo && targetNote.ytVideo.length <= 4) {
             const recievedVideos = generatedData.ytVideoData
             const addVideos = [...recievedVideos, ...targetNote.ytVideo]
@@ -510,9 +510,9 @@ const NoteModal = () => {
         setYtVideoDeleteLoading(true)
         const backUp = isRephrasedNote ? { ...rephrasedNote } : { ...note }
         const removeTarget = isRephrasedNote ?
-            rephrasedNote.ytVideo.filter(video => video.uniqueId !== id)
+            rephrasedNote.ytVideo.filter(video => video.ytVideoId !== id)
             :
-            note.ytVideo.filter(video => video.uniqueId !== id)
+            note.ytVideo.filter(video => video.ytVideoId !== id)
 
         if (isRephrasedNote) {
             setTimeout(() => {
@@ -573,12 +573,11 @@ const NoteModal = () => {
     }
 
 
-    async function AddToYtVideosFromYtModal({ operation, id, title, uniqueId }) {
+    async function AddToYtVideosFromYtModal({ operation, id, title }) {
         const backUp = isRephrasedNote ? { ...rephrasedNote } : { ...note }
         const targetNote = isRephrasedNote ? rephrasedNote : note
         const addObject = {
             ytVideoId: id,
-            uniqueId: uniqueId,
             ytVideoTitle: title,
         }
         const addToYtVideo = [addObject, ...targetNote.ytVideo]
@@ -771,7 +770,7 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
-                            {/* <motion.div
+                            <motion.div
                                 drag
                                 animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
                                 whileDrag={{ scale: 1.05 }}
@@ -792,6 +791,13 @@ const NoteModal = () => {
                                     rephraseDefaultTrue={rephraseDefaultTrue}
                                 />
                                 <div
+                                    className={
+                                        `${rephrasePopUp ? 'hidden' : 'flex'} backdrop-blur-[2px] rounded-full text-2xl mr-2
+                                        rephrase-default-btn`
+                                    }>
+                                    <LuMove className='text-2xl' />
+                                </div>
+                                <div
                                     className={`text-sm sm:text-xs text-gray-100 border border-gray-100 px-2 py-1 
                                     rounded-xl cursor-pointer dark:bg-gray-800/70 bg-gray-800/70
                                     flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
@@ -800,7 +806,7 @@ const NoteModal = () => {
                                         <RiMagicFill className='inline text-lg' /> Grammar
                                     </span>
                                 </div>
-                            </motion.div> */}
+                            </motion.div>
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.
@@ -883,7 +889,7 @@ const NoteModal = () => {
                     gptSubmitModalState={gptSubmitModalState}
                     changeGptRequirementModal={changeGptRequirementModal} changeNoteContentByGpt={changeNoteContentByGpt}
                     isRephrasedNote={isRephrasedNote} rephrasedNote={rephrasedNote}
-                    noteFromNoteModal={isRephrasedNote ? rephrasedNote : note} />
+                    noteFromNoteModal={isRephrasedNote ? rephrasedNote : note} isEdit={isEdit} />
                 <YtVideoAddModal
                     ytVideAddModalState={ytVideAddModalState}
                     changeYtAddModal={changeYtAddModal}
