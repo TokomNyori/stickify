@@ -172,6 +172,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         } catch (error) {
             // Catch errors
             setLoadingGpt(false)
+            console.log(error)
             toast('Sorry could not generate', {
                 icon: '🥺'
             })

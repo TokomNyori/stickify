@@ -7,7 +7,6 @@ import OpenAI from "openai";
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY
 
-
 //OPENAI API
 export async function openAiGptTextGeneration({ gptData: gptData }) {
     const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
