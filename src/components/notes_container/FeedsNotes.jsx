@@ -50,8 +50,8 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
 
         const liked = note.likedBy.some(like => like === user._id);
         const copied = note.copiedBy.some(copy => copy === user._id);
-        const ddd = formatDate(note.updated)
-        console.log(ddd)
+        const dateTimeFormat = formatDate(note.updated)
+        //console.log(dateTimeFormat)
 
         return (
             <div
@@ -84,7 +84,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                 </div>
                 <div className='text-sm mt-2.5 flex justify-between items-center gap-3'>
                     <div className='flex justify-start items-center text-xs'>
-                        {ddd}
+                        {dateTimeFormat}
                     </div>
                     <div className='flex justify-end items-center gap-3'>
                         {
