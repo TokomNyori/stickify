@@ -92,8 +92,8 @@
 
 
 .ytModal-back-btn-icon {
-    animation: move-icon 2s ease-in-out infinite, glow 2s ease-in-out infinite;
-    ;
+    /* move-icon 1s ease-in-out infinite, */
+    animation: glow 2s ease-in-out infinite;
 }
 
 @keyframes move-icon {
@@ -140,9 +140,6 @@
     animation: glow 2s ease-in-out infinite;
 }
 
-.glow-icon {
-    animation: glow 4s ease-in-out infinite;
-}
 
 @keyframes glow {
     0% {
