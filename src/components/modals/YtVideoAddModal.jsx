@@ -265,7 +265,7 @@ const YtVideoAddModal = (
                             ${navSection === 'your videos' ? 'border-b' : ''}`}
                         onClick={() => handleNav('your videos')}>
                         <AiFillYoutube className='text-2xl inline text-red-500' />
-                        Your videos
+                        Your videos {ytVideoFromNote.length > 0 ? `(${ytVideoFromNote.length})` : ''}
                     </div>
                 </div>
                 {/* Add Videos Section */}
