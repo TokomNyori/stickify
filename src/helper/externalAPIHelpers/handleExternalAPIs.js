@@ -13,7 +13,7 @@ export async function openAiGptTextGeneration({ gptData: gptData }) {
     try {
         const res = await openai.chat.completions.create(gptData);
         console.log(res)
-        return res
+        return res.choices[0].message.content
     } catch (error) {
         console.log('error chat completion')
         console.log(error.error.message)
