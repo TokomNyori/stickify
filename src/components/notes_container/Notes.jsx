@@ -108,13 +108,13 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
                                 {noteInfo}
                             </div>
                             :
-                            <div className='flex justify-start items-center gap-2 text-sm opacity-70'>
+                            <div className='flex justify-start items-center gap-2 text-sm opacity-75'>
                                 {
                                     note.likes < 1 ? <span></span>
                                         :
                                         <span className='flex items-center'>
                                             <AiFillHeart
-                                                className='font-bold text-red-600
+                                                className='font-bold text-gray-600
                                                 active:text-black text-[1rem]'
                                             />
                                             {note.likes}
@@ -125,7 +125,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
                                         :
                                         <span className='flex items-center'>
                                             <FaCopy
-                                                className=' font-bold text-gray-700
+                                                className=' font-bold text-gray-600
                                                 active:text-black text-[0.9rem]'
                                             />
                                             {note.copies}
