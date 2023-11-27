@@ -108,7 +108,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
                                 {noteInfo}
                             </div>
                             :
-                            <div className='flex justify-start items-center gap-2 text-sm opacity-70'>
+                            <div className='flex justify-start items-center gap-2 text-sm opacity-75'>
                                 {
                                     note.likes < 1 ? <span></span>
                                         :

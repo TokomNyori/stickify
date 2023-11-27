@@ -68,7 +68,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                 <div className='flex justify-start items-center gap-1.5 mb-2'>
                     <div className='sm:w-4 sm:h-4 w-5 h-5 rounded-full'>
                         <Image
-                            src={`/assets/avatars/${note.user_avatar}.jpeg`} width={200} height={200}
+                            src={`/assets/avatars/${note.user_avatar}.jpeg`} width={50} height={50}
                             className='rounded-full' />
                     </div>
                     <div className='truncate sm:text-xs text-sm w-[6.8rem] sm:w-[7.2rem]'>

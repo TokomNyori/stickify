@@ -21,13 +21,18 @@ import { FaRegNoteSticky } from 'react-icons/fa6'
 import { AiOutlineYoutube } from 'react-icons/ai'
 import { AiFillYoutube } from 'react-icons/ai'
 import { useTheme } from 'next-themes';
-import { getSingleNoteHelper, openAiPostHelper, voiceRssApiHelper } from '@/helper/httpHelpers/httpNoteHelper';
+import Image from 'next/image'
+import { getSingleNoteHelper } from '@/helper/httpHelpers/httpNoteHelper';
 import ClipLoader from "react-spinners/GridLoader";
 import toast, { Toaster } from 'react-hot-toast';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice';
 import YouTube from "react-youtube";
 import { openAiGptTextGeneration } from '@/helper/externalAPIHelpers/handleExternalAPIs';
+import {
+    formatDistanceToNowStrict, differenceInMinutes, differenceInHours, differenceInDays, differenceInWeeks,
+    isValid, differenceInYears, format
+} from 'date-fns';
 
 const NotePage = ({ params }) => {
     const pageNoteData = useSelector(state => state.currentNotePage.currentNotePage)
@@ -36,6 +41,7 @@ const NotePage = ({ params }) => {
     const [loadingGpt, setLoadingGpt] = useState(false)
     const [navigationSection, setNavigationSection] = useState('note-section')
     const [videoSection, setVideoSection] = useState([])
+    const [timeStamp, setTimeStamp] = useState()
     const dispatch = useDispatch()
     const { theme, setTheme } = useTheme()
     const themeRedux = useSelector(state => state.currentTheme.currentTheme)
@@ -111,6 +117,11 @@ const NotePage = ({ params }) => {
             setVideoSection(ctx)
         }
     }, [pageNoteData, readingMode])
+
+    useEffect(() => {
+        const timeStmp = formatDate(pageNoteData?.coreUpdated)
+        setTimeStamp(timeStmp)
+    }, [pageNoteData])
 
     const router = useRouter()
     const [translatedContent, setTranslatedContent] = useState('')
@@ -274,6 +285,27 @@ const NotePage = ({ params }) => {
         }
     }
 
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        if (!isValid(date)) {
+            console.error('Invalid date:', dateString);
+            return '';
+        }
+        const now = new Date();
+        const diffInMinutes = differenceInMinutes(now, date);
+        const diffInHours = differenceInHours(now, date);
+        const diffInDays = differenceInDays(now, date);
+        const diffInWeeks = differenceInWeeks(now, date);
+
+        if (diffInMinutes < 1) return 'just now';
+        if (diffInMinutes < 60) return `${diffInMinutes} ${diffInMinutes === 1 ? 'minute' : 'minutes'} ago`;
+        if (diffInHours < 24) return `${diffInHours} ${diffInHours === 1 ? 'hour' : 'hours'} ago`;
+        if (diffInDays < 7) return `${diffInDays} ${diffInDays === 1 ? 'day' : 'days'} ago`;
+        if (diffInWeeks < 5) return `${diffInWeeks} ${diffInWeeks === 1 ? 'week' : 'weeks'} ago`;
+        if (now.getFullYear() === date.getFullYear()) return format(date, 'd MMM'); // return the date in "d MMM" format for current year
+        return format(date, 'MMM yyyy'); // return the date in "MMM yyyy" format for different years
+    }
+
     return (
         <>
             <div className={`
@@ -434,6 +466,27 @@ const NotePage = ({ params }) => {
                     </div>
                     <div className={`${navigationSection === 'videos-section' ? 'flex flex-col mt-2' : 'hidden'}`}>
                         {videoSection}
+                    </div>
+                </div>
+                <div className='mt-12 flex justify-between items-center'>
+                    <div className='flex gap-2 items-center'>
+                        <div className=' w-10 rounded-full'>
+                            <Image
+                                src={`/assets/avatars/${users.avatar}.jpeg`} width={50} height={50}
+                                className='rounded-full'
+                            />
+                        </div>
+                        <div className='flex flex-col items-center justify-center gap-0'>
+                            <span className='font-bold'>
+                                {users.username}
+                            </span>
+                            {
+                                timeStamp &&
+                                <span className='text-sm'>
+                                    Updated {timeStamp}
+                                </span>
+                            }
+                        </div>
                     </div>
                 </div>
             </div >
