@@ -103,7 +103,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                                     />
                                     {
                                         note.likes < 1 ? <sub></sub> :
-                                            <sub className='text-sm text-gray-600/80'>
+                                            <sub className='text-sm text-gray-700/80'>
                                                 {note.likes}
                                             </sub>
                                     }
@@ -112,13 +112,13 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                                 :
                                 <div className='flex justify-center items-center gap-0.5'>
                                     <AiOutlineHeart
-                                        className='text-gray-600/80 font-bold transition ease-in-out duration-300 hover:scale-125 
+                                        className='text-gray-700/80 font-bold transition ease-in-out duration-300 hover:scale-125 
                                         active:text-black text-2xl'
                                         onClick={(e) => toggleLikes(e, note._id, 'like', note.likes)}
                                     />
                                     {
                                         note.likes < 1 ? <sub></sub> :
-                                            <sub className='text-sm text-gray-600/80'>
+                                            <sub className='text-sm text-gray-700/80'>
                                                 {note.likes}
                                             </sub>
                                     }
@@ -132,7 +132,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                                         active:text-black text-[1.21rem]' onClick={(e) => copyNote(e, note._id, 'remove', note.copies)} />
                                     {
                                         note.copies < 1 ? <sub></sub> :
-                                            <sub className='text-sm text-gray-600/80'>
+                                            <sub className='text-sm text-gray-700/80'>
                                                 {note.copies}
                                             </sub>
                                     }
@@ -140,11 +140,11 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                                 :
                                 <div className='flex justify-center items-center gap-0.5'>
                                     <FaRegCopy
-                                        className='text-gray-600/80 font-bold transition ease-in-out duration-300 hover:scale-125 
+                                        className='text-gray-700/80 font-bold transition ease-in-out duration-300 hover:scale-125 
                                         active:text-black text-[1.21rem]' onClick={(e) => copyNote(e, note._id, 'copy', note.copies)} />
                                     {
                                         note.copies < 1 ? <sub></sub> :
-                                            <sub className='text-sm text-gray-600/80'>
+                                            <sub className='text-sm text-gray-700/80'>
                                                 {note.copies}
                                             </sub>
                                     }

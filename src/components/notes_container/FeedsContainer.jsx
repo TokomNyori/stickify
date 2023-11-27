@@ -135,11 +135,36 @@ export default function FeedsContainer() {
                 }
             })
             setDetailNotes(newDetailNotes)
+
             setTimeout(() => {
                 setIsLiked(false)
             }, 1500);
+
+            try {
+                const res = await updateNoteLikesHelper({
+                    noteid: id,
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: { likedBy: user._id, func: func }
+                })
+
+                // Update the state with the returned note
+                setDetailNotes(prevNotes => {
+                    return prevNotes.map(pNote => {
+                        if (pNote._id === id) {
+                            return { ...pNote, likes: res.body.likes, likedBy: res.body.likedBy }
+                        } else {
+                            return pNote
+                        }
+                    })
+                })
+            } catch (error) {
+                setDetailNotes(backupDetailNotes)
+                toast.error(error.message)
+            }
         } else if (func === 'unlike' && likeNo > 0) {
             setDisLiked(true)
+
             newDetailNotes = newDetailNotes.map(dNote => {
                 if (dNote._id === id) {
                     unlike = dNote.likes - 1
@@ -149,39 +174,35 @@ export default function FeedsContainer() {
                     return dNote
                 }
             })
+
             setDetailNotes(newDetailNotes)
+
             setTimeout(() => {
                 setDisLiked(false)
             }, 1500);
-        }
 
-        try {
-            // if (func === 'unlike' && likeNo < 1) {
-            //     return
-            // }
-
-            const res = await updateNoteLikesHelper({
-                noteid: id,
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: { likedBy: user._id, func: func }
-            })
-
-            // Update the state with the returned note
-            setDetailNotes(prevNotes => {
-                return prevNotes.map(pNote => {
-                    if (pNote._id === id) {
-                        return { ...pNote, likes: res.body.likes, likedBy: res.body.likedBy }
-                    } else {
-                        return pNote
-                    }
+            try {
+                const res = await updateNoteLikesHelper({
+                    noteid: id,
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: { likedBy: user._id, func: func }
                 })
-            })
-            // await getGlobalUsers()
-            // await getFeedsNotes()
-        } catch (error) {
-            setDetailNotes(backupDetailNotes)
-            toast.error(error.message)
+
+                // Update the state with the returned note
+                setDetailNotes(prevNotes => {
+                    return prevNotes.map(pNote => {
+                        if (pNote._id === id) {
+                            return { ...pNote, likes: res.body.likes, likedBy: res.body.likedBy }
+                        } else {
+                            return pNote
+                        }
+                    })
+                })
+            } catch (error) {
+                setDetailNotes(backupDetailNotes)
+                toast.error(error.message)
+            }
         }
     }
 
@@ -189,10 +210,11 @@ export default function FeedsContainer() {
         e.stopPropagation()
         const backupDetailNotes = [...detailNotes]
         let newDetailNotes = [...detailNotes]
-        let copy, copiedByBluePrint
+        let copy, copiedByBluePrint, removeCopy, removeCopiedByBluePrint
 
         if (func === 'copy') {
             setIsCopied(true)
+
             newDetailNotes = newDetailNotes.map(dNote => {
                 if (dNote._id === id) {
                     copy = dNote.copies + 1
@@ -211,52 +233,25 @@ export default function FeedsContainer() {
                 toast.success('Copied to your notes')
             }, 1500);
 
-        } else if (func === 'remove' && copyNo > 0) {
-            // Updates the local state and then updates the database
-            setIsremoved(true)
-            newDetailNotes = newDetailNotes.map(dNote => {
-                if (dNote._id === id) {
-                    copy = dNote.copies - 1
-                    copiedByBluePrint = dNote.copiedBy.filter(copiedUserId => copiedUserId !== user._id)
-                    return { ...dNote, copies: copy, copiedBy: copiedByBluePrint }
-                } else {
-                    return dNote
-                }
-            })
-
-            //Update copies locally
-            setDetailNotes(newDetailNotes);
-
-            setTimeout(() => {
-                setIsremoved(false)
-                toast.success('Removed from your notes')
-            }, 700);
-        }
-
-        try {
-            // if (func === 'remove' && copyNo < 1) {
-            //     return
-            // }
-
-            const res = await updateNoteCopiesHelper({
-                noteid: id,
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: { copiedBy: user._id, func: func }
-            })
-
-            //Update the state with the returned note
-            setDetailNotes(prevNotes => {
-                return prevNotes.map(pNote => {
-                    if (pNote._id === id) {
-                        return { ...pNote, copies: res.body.copies, copiedBy: res.body.copiedBy }
-                    } else {
-                        return pNote
-                    }
+            try {
+                const res = await updateNoteCopiesHelper({
+                    noteid: id,
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: { copiedBy: user._id, func: func }
                 })
-            })
 
-            if (func === 'copy') {
+                //Update the state with the returned note
+                setDetailNotes(prevNotes => {
+                    return prevNotes.map(pNote => {
+                        if (pNote._id === id) {
+                            return { ...pNote, copies: res.body.copies, copiedBy: res.body.copiedBy }
+                        } else {
+                            return pNote
+                        }
+                    })
+                })
+
                 //Create a new note for the user
                 const clickedNote = backupDetailNotes.find(note => note._id === id)
                 const copiedAndModifiedNote = {
@@ -272,18 +267,61 @@ export default function FeedsContainer() {
                     headers: { 'Content-Type': 'application/json' },
                     body: copiedAndModifiedNote
                 })
+            } catch (error) {
+                setDetailNotes(backupDetailNotes)
+                toast.error(error.message)
+            }
 
-            } else if (func === 'remove') {
+        } else if (func === 'remove' && copyNo > 0) {
+            // Updates the local state and then updates the database
+            setIsremoved(true)
+            newDetailNotes = newDetailNotes.map(dNote => {
+                if (dNote._id === id) {
+                    removeCopy = dNote.copies - 1
+                    removeCopiedByBluePrint = dNote.copiedBy.filter(copiedUserId => copiedUserId !== user._id)
+                    return { ...dNote, copies: copy, copiedBy: removeCopiedByBluePrint }
+                } else {
+                    return dNote
+                }
+            })
+
+            //Update copies locally
+            setDetailNotes(newDetailNotes);
+
+            setTimeout(() => {
+                setIsremoved(false)
+                toast.success('Removed from your notes')
+            }, 700);
+
+            try {
+                const res = await updateNoteCopiesHelper({
+                    noteid: id,
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: { copiedBy: user._id, func: func }
+                })
+
+                //Update the state with the returned note
+                setDetailNotes(prevNotes => {
+                    return prevNotes.map(pNote => {
+                        if (pNote._id === id) {
+                            return { ...pNote, copies: res.body.copies, copiedBy: res.body.copiedBy }
+                        } else {
+                            return pNote
+                        }
+                    })
+                })
+
                 await handleCopyHelper({
                     noteid: id,
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
                     body: { userId: user._id }
                 })
+            } catch (error) {
+                setDetailNotes(backupDetailNotes)
+                toast.error(error.message)
             }
-        } catch (error) {
-            setDetailNotes(backupDetailNotes)
-            toast.error(error.message)
         }
     }
 
@@ -319,7 +357,7 @@ export default function FeedsContainer() {
                 <div
                     className={`loader-gpt fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
-                    <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
+                    <div className="text-2xl mt-5 font-bold text-[#f1f5f9] w-[50%] sm:w-[25%]">
                         <Lottie className="text-sm" animationData={dislikeAni} loop={false} />
                     </div>
                 </div>
@@ -329,7 +367,7 @@ export default function FeedsContainer() {
                 <div
                     className={`loader-gpt fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
-                    <div className="text-2xl mt-5 font-bold text-[#f1f5f9] sm:w-[50%]">
+                    <div className="text-2xl mt-5 font-bold text-[#f1f5f9] sm:w-[45%]">
                         <Lottie className="text-sm" animationData={copyAni} />
                     </div>
                 </div>
