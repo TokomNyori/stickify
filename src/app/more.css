@@ -143,28 +143,28 @@
 
 @keyframes glow {
     0% {
-        @apply border-red-500;
-        @apply text-red-500;
+        @apply border-red-400;
+        @apply text-red-400;
     }
 
     25% {
-        @apply border-green-500;
-        @apply text-green-500;
+        @apply border-green-400;
+        @apply text-green-400;
     }
 
     50% {
-        @apply border-blue-500;
-        @apply text-blue-500;
+        @apply border-blue-400;
+        @apply text-blue-400;
     }
 
     75% {
-        @apply border-yellow-500;
-        @apply text-yellow-500;
+        @apply border-yellow-400;
+        @apply text-yellow-400;
     }
 
     100% {
-        @apply border-red-500;
-        @apply text-red-500;
+        @apply border-red-400;
+        @apply text-red-400;
     }
 }
 
