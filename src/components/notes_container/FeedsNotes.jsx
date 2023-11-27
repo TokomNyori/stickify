@@ -13,7 +13,10 @@ import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalCo
 import { useEffect, useState } from 'react'
 import { postNoteHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import Typewriter from 'typewriter-effect'
-import { formatDistanceToNowStrict, differenceInMinutes, differenceInHours, differenceInDays, differenceInWeeks, isValid } from 'date-fns';
+import {
+    formatDistanceToNowStrict, differenceInMinutes, differenceInHours, differenceInDays, differenceInWeeks,
+    isValid, differenceInYears, format
+} from 'date-fns';
 
 const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
 
@@ -33,17 +36,20 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
             console.error('Invalid date:', dateString);
             return '';
         }
-        const diffInMinutes = differenceInMinutes(new Date(), date);
-        const diffInHours = differenceInHours(new Date(), date);
-        const diffInDays = differenceInDays(new Date(), date);
+        const now = new Date();
+        const diffInMinutes = differenceInMinutes(now, date);
+        const diffInHours = differenceInHours(now, date);
+        const diffInDays = differenceInDays(now, date);
+        const diffInWeeks = differenceInWeeks(now, date);
+        const diffInYears = differenceInYears(now, date);
 
         if (diffInMinutes < 1) return 'just now';
-        if (diffInMinutes < 60) return `${diffInMinutes} ${diffInMinutes === 1 ? 'min' : 'mins'} ago`;
-        if (diffInHours < 24) return `${diffInHours} ${diffInHours === 1 ? 'hr' : 'hrs'} ago`;
-        if (diffInDays < 7) return `${diffInDays} ${diffInDays === 1 ? 'day' : 'days'} ago`;
-        if (diffInDays === 7) return '1 week ago';
-
-        return format(date, 'dd/MM/yyyy'); // return the date in "dd/MM/yyyy" format
+        if (diffInMinutes < 60) return `${diffInMinutes} ${diffInMinutes === 1 ? 'min' : 'mins'}`;
+        if (diffInHours < 24) return `${diffInHours} ${diffInHours === 1 ? 'hr' : 'hrs'}`;
+        if (diffInDays < 7) return `${diffInDays} ${diffInDays === 1 ? 'day' : 'days'}`;
+        if (diffInWeeks < 4) return `${diffInWeeks} ${diffInWeeks === 1 ? 'week' : 'weeks'}`;
+        if (now.getFullYear() === date.getFullYear()) return format(date, 'd MMM'); // return the date in "d MMM" format for current year
+        return format(date, 'MMM yyyy'); // return the date in "MMM yyyy" format for different years
     }
 
     const taskBoxes = notes?.map(note => {

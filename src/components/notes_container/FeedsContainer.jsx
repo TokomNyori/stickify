@@ -13,6 +13,7 @@ import FeedsNotes from './FeedsNotes';
 import Lottie from 'lottie-react'
 import loveAni from '@/assets/others/loveLottie.json'
 import copyAni from '@/assets/others/copyLottie.json'
+import dislikeAni from '@/assets/others/dislikeAni.json'
 import ClipLoader from "react-spinners/HashLoader";
 import { useTheme } from 'next-themes';
 
@@ -26,6 +27,7 @@ export default function FeedsContainer() {
     const user = useSelector(state => state.user.users)
     const dispatch = useDispatch()
     const [isLiked, setIsLiked] = useState(false)
+    const [isDisliked, setDisLiked] = useState(false)
     const [isCopied, setIsCopied] = useState(false)
     const [isremoved, setIsremoved] = useState(false)
     const { theme, setTheme } = useTheme()
@@ -137,6 +139,7 @@ export default function FeedsContainer() {
                 setIsLiked(false)
             }, 1500);
         } else if (func === 'unlike' && likeNo > 0) {
+            setDisLiked(true)
             newDetailNotes = newDetailNotes.map(dNote => {
                 if (dNote._id === id) {
                     unlike = dNote.likes - 1
@@ -147,12 +150,15 @@ export default function FeedsContainer() {
                 }
             })
             setDetailNotes(newDetailNotes)
+            setTimeout(() => {
+                setDisLiked(false)
+            }, 1500);
         }
 
         try {
-            if (func === 'unlike' && likeNo < 1) {
-                return
-            }
+            // if (func === 'unlike' && likeNo < 1) {
+            //     return
+            // }
 
             const res = await updateNoteLikesHelper({
                 noteid: id,
@@ -228,9 +234,9 @@ export default function FeedsContainer() {
         }
 
         try {
-            if (func === 'remove' && copyNo < 1) {
-                return
-            }
+            // if (func === 'remove' && copyNo < 1) {
+            //     return
+            // }
 
             const res = await updateNoteCopiesHelper({
                 noteid: id,
@@ -267,7 +273,7 @@ export default function FeedsContainer() {
                     body: copiedAndModifiedNote
                 })
 
-            } else if (func === 'remove' && copyNo > 0) {
+            } else if (func === 'remove') {
                 await handleCopyHelper({
                     noteid: id,
                     method: 'DELETE',
@@ -305,6 +311,16 @@ export default function FeedsContainer() {
                                 items-center flex-wrap`}>
                     <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
                         <Lottie className="text-sm" animationData={loveAni} loop={false} />
+                    </div>
+                </div>
+
+            }
+            {isDisliked &&
+                <div
+                    className={`loader-gpt fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                                items-center flex-wrap`}>
+                    <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
+                        <Lottie className="text-sm" animationData={dislikeAni} loop={false} />
                     </div>
                 </div>
 
