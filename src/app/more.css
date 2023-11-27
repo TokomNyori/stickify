@@ -92,7 +92,8 @@
 
 
 .ytModal-back-btn-icon {
-    animation: move-icon 2s ease-in-out infinite;
+    animation: move-icon 2s ease-in-out infinite, glow 2s ease-in-out infinite;
+    ;
 }
 
 @keyframes move-icon {
@@ -120,7 +121,7 @@
 }
 
 .ytModal-back-btn {
-    animation: blink 1s 3 ease-in-out;
+    animation: blink 1s 2 ease-in-out;
 }
 
 @keyframes blink {
@@ -132,6 +133,41 @@
 
     50% {
         opacity: 0;
+    }
+}
+
+.ytModal-back-btn-div {
+    animation: glow 2s ease-in-out infinite;
+}
+
+.glow-icon {
+    animation: glow 4s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0% {
+        @apply border-red-500;
+        @apply text-red-500;
+    }
+
+    25% {
+        @apply border-green-500;
+        @apply text-green-500;
+    }
+
+    50% {
+        @apply border-blue-500;
+        @apply text-blue-500;
+    }
+
+    75% {
+        @apply border-yellow-500;
+        @apply text-yellow-500;
+    }
+
+    100% {
+        @apply border-red-500;
+        @apply text-red-500;
     }
 }
 

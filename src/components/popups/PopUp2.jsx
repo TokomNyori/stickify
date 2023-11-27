@@ -1,4 +1,5 @@
 'use client'
+import { openAiGptTextGeneration } from "@/helper/externalAPIHelpers/handleExternalAPIs";
 import { openAiPostHelper } from "@/helper/httpHelpers/httpNoteHelper";
 import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
@@ -58,7 +59,7 @@ const PopUp2 =
             }
             try {
                 setLoadingRephraserFun(true)
-                const res = await openAiPostHelper({ method: 'POST', headers: headers, body: gptData })
+                const res = await openAiGptTextGeneration({ gptData: gptData })
                 changeRephrasedNote('rephrase', res.choices[0].message.content)
                 changeIsRepCnt(true)
                 setLoadingRephraserFun(false)

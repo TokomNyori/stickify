@@ -62,6 +62,7 @@ export async function PUT(request, { params }) {
         note.isPrivate = isPrivate
         note.ytVideo = ytVideo
         note.updated = new Date()
+        note.coreUpdated = new Date()
 
         const updatedNote = await note.save()
 

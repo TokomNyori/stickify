@@ -27,6 +27,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice';
 import YouTube from "react-youtube";
+import { openAiGptTextGeneration } from '@/helper/externalAPIHelpers/handleExternalAPIs';
 
 const NotePage = ({ params }) => {
     const pageNoteData = useSelector(state => state.currentNotePage.currentNotePage)
@@ -168,7 +169,7 @@ const NotePage = ({ params }) => {
         }
         try {
             setLoadingGpt(true)
-            const res = await openAiPostHelper({ method: 'POST', headers: headers, body: gptData })
+            const res = await openAiGptTextGeneration({ gptData: gptData })
             setSummarizedContent(res.choices[0].message.content)
             setLoadingGpt(false)
             toast('Summarized!', {
@@ -205,7 +206,7 @@ const NotePage = ({ params }) => {
         }
         try {
             setLoadingGpt(true)
-            const res = await openAiPostHelper({ method: 'POST', headers: headers, body: gptData })
+            const res = await openAiGptTextGeneration({ gptData: gptData })
             setTranslatedContent(res.choices[0].message.content)
             setLoadingGpt(false)
             setTranslatePopUp(false)

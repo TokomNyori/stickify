@@ -98,7 +98,7 @@ export default function Navbar() {
             <>
                 <nav className=" z-10 fixed top-0 w-full flex justify-between items-center pt-2 pb-1 px-3 sm:px-5">
                     <div>
-                        <Link href='/' className="italic text-xl sm:text-lg font-bold">stickify</Link>
+                        <Link href='/' className="italic text-xl sm:text-lg font-bold glow-icon">stickify</Link>
                     </div>
                     <div>
                         <ul className="flex gap-5 justify-center items-center sm:ml-12 ml-2">

@@ -21,6 +21,7 @@ const NoteSchema = new Schema({
     },
     created: { type: Date, default: Date.now },
     updated: { type: Date, default: Date.now },
+    coreUpdated: { type: Date, default: Date.now },
     isPrivate: { type: Boolean, default: false, },
     likes: { type: Number, default: 0, min: 0 },
     likedBy: [{ type: mongoose.ObjectId }],

@@ -56,6 +56,7 @@ export default function FeedsContainer() {
                         user_avatar: user.avatar,
                         created: note.created,
                         updated: note.updated,
+                        coreUpdated: note.coreUpdated,
                         likes: note.likes,
                         likedBy: note.likedBy,
                         copies: note.copies,
