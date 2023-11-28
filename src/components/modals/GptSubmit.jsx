@@ -68,7 +68,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         const gptData = {
             model: 'gpt-3.5-turbo-1106',
             temperature: temperature,
-            max_tokens: tokens,
+            // max_tokens: tokens,
             messages: [
                 {
                     'role': 'system',
@@ -88,7 +88,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         // }
         try {
             setLoadingGpt(true)
-            const res = await openAiGptTextGeneration({gptData: gptData})
+            const res = await openAiGptTextGeneration({ gptData: gptData })
             console.log('openAiGptTextGeneration')
             console.log(res)
             const gptGeneratedContent = res.choices[0].message.content

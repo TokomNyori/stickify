@@ -118,6 +118,13 @@ textarea {
   -webkit-resize: none;
 }
 
+.bottom-info-notePage {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
 
 @media (max-width: 640px) {
   .note-box {
@@ -142,6 +149,14 @@ textarea {
   .color-input-label {
     width: 2.2rem;
     height: 2.2rem;
+  }
+
+  .bottom-info-notePage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
   }
 
 }

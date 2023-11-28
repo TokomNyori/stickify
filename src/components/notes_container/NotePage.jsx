@@ -20,6 +20,10 @@ import { FaNoteSticky } from 'react-icons/fa6'
 import { FaRegNoteSticky } from 'react-icons/fa6'
 import { AiOutlineYoutube } from 'react-icons/ai'
 import { AiFillYoutube } from 'react-icons/ai'
+import { AiFillHeart } from 'react-icons/ai'
+import { FaCopy } from "react-icons/fa6";
+import { MdOutlinePublic } from "react-icons/md";
+import { IoLockClosedOutline } from "react-icons/io5";
 import { useTheme } from 'next-themes';
 import Image from 'next/image'
 import { getSingleNoteHelper } from '@/helper/httpHelpers/httpNoteHelper';
@@ -468,16 +472,44 @@ const NotePage = ({ params }) => {
                         {videoSection}
                     </div>
                 </div>
-                <div className='mt-12 flex justify-between items-center'>
+                <div className='mt-12 bottom-info-notePage'>
+                    {/* For Mobile Devices */}
+                    <div className='flex sm:hidden items-center justify-center gap-2'>
+                        {
+                            pageNoteData.likes > 0 ?
+                                <div className='flex items-center gap-1 text-sm'>
+                                    <AiFillHeart
+                                        className='font-bold 
+                                        active:text-black text-[1rem]'
+                                    />
+                                    {pageNoteData.likes}
+                                </div>
+                                :
+                                <div></div>
+                        }
+                        {
+                            pageNoteData.copies > 0 ?
+                                <div className='flex items-center gap-1 text-sm'>
+                                    <FaCopy
+                                        className=' font-bold 
+                                        active:text-black text-[0.9rem]'
+                                    />
+                                    {pageNoteData.copies}
+                                </div>
+                                :
+                                <div></div>
+                        }
+                    </div>
+                    {/* Shared between Mobile Devices and Desktops */}
                     <div className='flex gap-2 items-center'>
-                        <div className=' w-10 rounded-full'>
+                        <div className='w-10 rounded-full'>
                             <Image
                                 src={`/assets/avatars/${users.avatar}.jpeg`} width={50} height={50}
                                 className='rounded-full'
                             />
                         </div>
-                        <div className='flex flex-col items-center justify-center gap-0'>
-                            <span className='font-bold'>
+                        <div className='flex flex-col items-start justify-center gap-0 '>
+                            <span className='font-bold truncate'>
                                 {users.username}
                             </span>
                             {
@@ -488,6 +520,86 @@ const NotePage = ({ params }) => {
                             }
                         </div>
                     </div>
+                    {/* For Desktop Devices */}
+                    <div className={`hidden sm:flex flex-col items-end gap-0`}>
+                        <div className='flex items-center gap-2'>
+                            {
+                                pageNoteData.likes > 0 ?
+                                    <div className='flex items-center gap-1 text-sm'>
+                                        <AiFillHeart
+                                            className='font-bold 
+                                        active:text-black text-[1rem]'
+                                        />
+                                        {pageNoteData.likes}
+                                    </div>
+                                    :
+                                    <div></div>
+                            }
+                            {
+                                pageNoteData.copies > 0 ?
+                                    <div className='flex items-center gap-1 text-sm'>
+                                        <FaCopy
+                                            className=' font-bold 
+                                        active:text-black text-[0.9rem]'
+                                        />
+                                        {pageNoteData.copies}
+                                    </div>
+                                    :
+                                    <div></div>
+                            }
+                        </div>
+                        {
+                            !pageNoteData.isPrivate ?
+                                <div className='flex justify-center items-center gap-1'>
+                                    <MdOutlinePublic
+                                        className='font-bold text-[0.9rem]' />
+                                    Public Note
+                                    {!pageNoteData.isOriginal ?
+                                        ' (copy)'
+                                        :
+                                        ''
+                                    }
+                                </div>
+                                :
+                                <div className='flex justify-center items-center gap-1'>
+                                    <IoLockClosedOutline
+                                        className='font-bold 
+                                        active:text-black text-[0.9rem]'/>
+                                    Private Note
+                                    {!pageNoteData.isOriginal ?
+                                        ' (copy)'
+                                        :
+                                        ''
+                                    }
+                                </div>
+                        }
+                    </div>
+                    {/* For Mobile Devices */}
+                    {
+                        !pageNoteData.isPrivate ?
+                            <div className='flex sm:hidden justify-center items-center gap-1'>
+                                <MdOutlinePublic
+                                    className='font-bold text-[0.9rem]' />
+                                Public Note
+                                {!pageNoteData.isOriginal ?
+                                    ' (copy)'
+                                    :
+                                    ''
+                                }
+                            </div>
+                            :
+                            <div className='flex sm:hidden justify-center items-center gap-1'>
+                                <IoLockClosedOutline
+                                    className='font-bold 
+                                        active:text-black text-[0.9rem]'/>
+                                Private Note
+                                {!pageNoteData.isOriginal ?
+                                    ' (copy)'
+                                    :
+                                    ''
+                                }
+                            </div>
+                    }
                 </div>
             </div >
 
