@@ -854,7 +854,8 @@ const NoteModal = () => {
                             onClick={() => applyFormattingToSelectedText('underline')}>
                             U
                         </div>
-                        <div className=' flex justify-center items-center border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-8 text-center'
+                        <div className=' flex justify-center items-center border border-gray-800 rounded-md px-1 py-0 cursor-pointer 
+                            w-7 text-center'
                             onClick={() => applyFormattingToSelectedText('bullet')}>
                             <MdOutlineFormatListBulleted className='text-[1rem]' />
                         </div>
