@@ -33,8 +33,10 @@ const PopUp2 =
             event.stopPropagation()
             const ctx = isRephrasedNote ? rephrasedNote.content : content
 
-            const instruction = `Your role is to rephrase the given content to a different tone. Rephrase the content in a ${tone} tone. The content is: ${ctx}`
-            const enhanceInstruction = `You will be provided with content, and your task is to convert the content to standard English. The content is: ${ctx}`
+            const instruction = `Rephrase the following content to embody a ${tone} tone, adjusting the style and vocabulary to fit this tone while retaining the original meaning. Ensure the rephrased content is coherent and fluid. Original content: ${ctx}`
+            const enhanceInstruction = `Enhance the provided content to align with standard English. Focus on correcting grammatical errors, improving sentence structure, and ensuring clarity of expression. Original content: ${ctx}`
+            const systemContentGrammar = 'Your task is to refine the provided content to standard English. This includes correcting grammatical errors, clarifying ambiguous statements, and improving overall readability.';
+            const systemContentRephrase = 'You are to rephrase the provided content to match a specific tone. Adjust the style, vocabulary, and structure to reflect the designated tone, while maintaining the original message.';
             const gptData = {
                 //gpt-4-1106-preview  
                 //gpt-3.5-turbo-1106
@@ -44,7 +46,7 @@ const PopUp2 =
                 messages: [
                     {
                         'role': 'system',
-                        'content': tone === 'enhance' ? 'You will be provided with content, and your task is to convert the content to standard english.' : 'You are a rephrasing assistant.',
+                        'content': tone === 'enhance' ? systemContentGrammar : systemContentRephrase,
                     },
                     {
                         'role': 'user',
