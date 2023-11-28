@@ -17,8 +17,9 @@ import {
     formatDistanceToNowStrict, differenceInMinutes, differenceInHours, differenceInDays, differenceInWeeks,
     isValid, differenceInYears, format
 } from 'date-fns';
+import MarkdownContent from '../others/MarkdownContent';
 
-const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
+const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote, initialRender }) => {
 
     const dispatch = useDispatch()
     const router = useRouter()
@@ -78,17 +79,22 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote }) => {
                 <div className='truncate text-[1rem] sm:text-[0.95rem] font-bold'>
                     {note.title}
                 </div>
-                <div className='line-clamp-6 text-[0.9rem] mt-2 flex-grow' style={{ whiteSpace: 'pre-line' }}>
-                    <Typewriter
-                        onInit={(typewritter) => {
-                            typewritter.typeString(note.content).start()
-                        }}
-                        options={{
-                            delay: 25,
-                        }}
-                    />
+                <div className='line-clamp-6 text-[0.9rem] mt-2 flex-grow note-content-two-max-height' style={{ whiteSpace: 'pre-line' }}>
+                    {
+                        initialRender ?
+                            <Typewriter
+                                onInit={(typewritter) => {
+                                    typewritter.typeString(note.content).start()
+                                }}
+                                options={{
+                                    delay: 23,
+                                }}
+                            />
+                            :
+                            <MarkdownContent texts={note.content} />
+                    }
                 </div>
-                <div className='text-sm mt-2.5 flex justify-between items-center gap-3'>
+                <div className='text-sm mt-3 flex justify-between items-center gap-3'>
                     <div className='flex justify-start items-center text-sm'>
                         {dateTimeFormat}
                     </div>

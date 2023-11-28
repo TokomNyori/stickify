@@ -1,6 +1,7 @@
 import { connectDB } from "@/helper/db"
 import { getResponseMsg } from "@/helper/getResponseMsg"
 import { NoteModel } from "@/models/notemodel"
+import { Types } from 'mongoose';
 
 connectDB()
 
@@ -9,16 +10,17 @@ export async function PUT(request, { params }) {
     const { noteid } = params
     //Fetch work data from request
     const { likedBy, func } = await request.json()
+    const { ObjectId } = Types;
     console.log(func)
     try {
         let update;
         if (func === 'like') {
             update = {
                 $inc: { likes: 1 },
-                $addToSet: { likedBy: likedBy }, // Add to set to ensure unique entries
+                $addToSet: { likedBy: new ObjectId(likedBy) }, // Add to set to ensure unique entries
             };
         } else {
-            update = { $inc: { likes: -1 }, $pull: { likedBy: likedBy } };
+            update = { $inc: { likes: -1 }, $pull: { likedBy: new ObjectId(likedBy) } };
         }
 
         const updatedNote = await NoteModel.findByIdAndUpdate(noteid, update, { new: true });

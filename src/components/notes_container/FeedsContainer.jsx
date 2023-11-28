@@ -30,6 +30,7 @@ export default function FeedsContainer() {
     const [isDisliked, setDisLiked] = useState(false)
     const [isCopied, setIsCopied] = useState(false)
     const [isremoved, setIsremoved] = useState(false)
+    const [initialRender, setInitialRender] = useState(true);
     const { theme, setTheme } = useTheme()
 
     useEffect(() => {
@@ -71,6 +72,19 @@ export default function FeedsContainer() {
         //console.log(looping)
         setDetailNotes(looping)
     }, [globalUsers, notes])
+
+    useEffect(() => {
+        let timeoutId;
+        if (initialLoading === false) {
+            timeoutId = setTimeout(() => {
+                setInitialRender(false)
+            }, 5500);
+        }
+        return () => {
+            // Clear the timeout when the component unmounts or when dependencies change
+            clearTimeout(timeoutId);
+        };
+    }, [initialLoading])
 
     async function getFeedsNotes() {
         try {
@@ -341,6 +355,7 @@ export default function FeedsContainer() {
                         toggleLikes={toggleLikes}
                         user={user}
                         copyNote={copyNote}
+                        initialRender={initialRender}
                     />
                 }
             </div>

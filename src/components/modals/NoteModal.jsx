@@ -21,12 +21,22 @@ import { AiFillYoutube } from 'react-icons/ai'
 import { AiOutlineYoutube } from "react-icons/ai";
 import { IoLockOpenOutline } from "react-icons/io5";
 import { IoLockClosed } from "react-icons/io5";
+import { MdOutlineFormatListBulleted } from "react-icons/md";
 import YtVideoAddModal from './YtVideoAddModal';
 import { LuMove } from "react-icons/lu";
 import ClipLoader from "react-spinners/PacmanLoader";
 import ClipLoader2 from "react-spinners/GridLoader";
 import ClipLoader3 from "react-spinners/HashLoader";
 import { motion, useDragControls } from "framer-motion"
+import { Courgette } from 'next/font/google'
+
+const caveat = Courgette(
+    {
+        subsets: ['latin'],
+        weight: ['400'],
+        display: 'swap',
+    }
+)
 
 
 const NoteModal = () => {
@@ -70,7 +80,7 @@ const NoteModal = () => {
     const ytListPopupVideosRefs4 = useRef(null)
     const ytListPopupVideosRefs5 = useRef(null)
     const ytListPopupVideosRefs6 = useRef(null)
-    const parentRef = useRef()
+    const parentRef = useRef(null)
     const isTitleEmpty = isRephrasedNote ? isRephrasedTitle : isTitle
     const isContentEmpty = isRephrasedNote ? isRephrasedContent : isContent
     const pageName = useSelector(state => state.page.page)
@@ -229,6 +239,7 @@ const NoteModal = () => {
             window.removeEventListener('popstate', handlePopState);
         };
     }, [noteModalConfig]);
+
 
     function closeModal(event) {
         event.preventDefault()
@@ -671,6 +682,66 @@ const NoteModal = () => {
         }
     }
 
+    function applyFormattingToSelectedText(formatType) {
+        const textarea = document.getElementById("note_content");
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+
+        // Check if text is selected
+        if (start === end) {
+            toast('Please highlight text', {
+                // Customize as per your setup
+                icon: '🥺',
+                duration: 3000,
+            });
+            return;
+        }
+
+        const selectedText = textarea.value.substring(start, end);
+        let updatedText = '';
+
+        switch (formatType) {
+            case 'bold':
+                updatedText = `${textarea.value.substring(0, start)}**${selectedText}**${textarea.value.substring(end)}`;
+                break;
+            case 'italic':
+                updatedText = `${textarea.value.substring(0, start)}*${selectedText}*${textarea.value.substring(end)}`;
+                break;
+            case 'underline':
+                // Note: Underline is not standard in markdown
+                updatedText = `${textarea.value.substring(0, start)}__${selectedText}__${textarea.value.substring(end)}`;
+                break;
+            case 'bullet':
+                // Split the selected text into lines and add a bullet point to each line
+                const lines = selectedText.split('\n');
+                const bulletedLines = lines.map(line => `- ${line}`);
+                updatedText = `${textarea.value.substring(0, start)}${bulletedLines.join('\n')}${textarea.value.substring(end)}`;
+                break;
+            case 'h1':
+                updatedText = `${textarea.value.substring(0, start)}# ${selectedText}${textarea.value.substring(end)}`;
+                break;
+            case 'h2':
+                updatedText = `${textarea.value.substring(0, start)}## ${selectedText}${textarea.value.substring(end)}`;
+                break;
+            case 'h3':
+                updatedText = `${textarea.value.substring(0, start)}### ${selectedText}${textarea.value.substring(end)}`;
+                break;
+            case 'h4':
+                updatedText = `${textarea.value.substring(0, start)}#### ${selectedText}${textarea.value.substring(end)}`;
+                break;
+            // Add cases for h1, h2, h3, h4 here
+        }
+
+        // Update the note's content
+        setNote(prevNote => ({
+            ...prevNote,
+            content: updatedText
+        }));
+    }
+
+    // Call this function when the bold button is clicked
+
+
     // console.log(note.ytVideo)
 
     // console.log('Note Object')
@@ -742,10 +813,10 @@ const NoteModal = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className={`sm:text-sm mt-2 text-red-400 ${isTitleEmpty ? 'hidden' : 'block'}`}>
+                        {/* <div className={`sm:text-sm mt-2 text-red-400 ${isTitleEmpty ? 'hidden' : 'block'}`}>
                             Title cannot be empty. Please enter a title.
-                        </div>
-                        <div className="flex justify-between items-center gap-4 mt-4">
+                        </div> */}
+                        <div className="flex justify-between items-center gap-4 mt-3">
                             <div className="mb-4 flex-grow">
                                 {/* <label htmlFor="note_title" className="block mb-2 text-sm font-medium">Title</label> */}
                                 <input type="text" id="note_title" className="border-b border-gray-800/80 block w-full 
@@ -761,12 +832,44 @@ const NoteModal = () => {
                             </div>
                         </div>
                     </div>
+                    <div className={`${'flex gap-2 bg-transparent -mt-1.5 pb-1'} `}>
+                        <div className='font-extrabold border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-6 text-center'
+                            onClick={() => applyFormattingToSelectedText('bold')}>
+                            B
+                        </div>
+                        <div
+                            className={`${caveat.className} italic border border-gray-800 rounded-md px-1 py-0 cursor-pointer 
+                            w-6 text-center font-normal`}
+                            onClick={() => applyFormattingToSelectedText('italic')}>
+                            i
+                        </div>
+                        <div className=' underline border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-6 text-center'
+                            onClick={() => applyFormattingToSelectedText('underline')}>
+                            U
+                        </div>
+                        <div className=' flex justify-center items-center border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-8 text-center'
+                            onClick={() => applyFormattingToSelectedText('bullet')}>
+                            <MdOutlineFormatListBulleted className='text-[1rem]' />
+                        </div>
+                        <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
+                            onClick={() => applyFormattingToSelectedText('h1')}>
+                            h1
+                        </div>
+                        <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
+                            onClick={() => applyFormattingToSelectedText('h2')}>
+                            h2
+                        </div>
+                        <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
+                            onClick={() => applyFormattingToSelectedText('h3')}>
+                            h3
+                        </div>
+                    </div>
                     <div className='text-area-section mb-2'>
                         <div className="mb-2 notemodal-text-area relative" ref={parentRef}>
                             <textarea type="text" id="note_content" className="rounded-lg bg-transparent block 
                                 py-2 w-full placeholder-gray-500 text-gray-800 focus:outline-none
                                 min-h-full note-textarea sm:text-[1rem] text-[1.05rem]" rows={textareaRows}
-                                placeholder="Type your content here..."
+                                placeholder="Content..."
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />

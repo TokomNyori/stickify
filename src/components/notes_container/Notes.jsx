@@ -16,6 +16,7 @@ import ClipLoader from "react-spinners/PacmanLoader";
 import { useState } from 'react'
 import { motion } from "framer-motion"
 import Typewriter from 'typewriter-effect'
+import MarkdownContent from '../others/MarkdownContent'
 
 const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initialRender, pinnedNoteAni, pinState }) => {
     const [nextPage, setNextPage] = useState(false)
@@ -85,7 +86,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
                 <div className='truncate text-[1rem] sm:text-[0.95rem] font-bold'>
                     {note.title}
                 </div>
-                <div className='note-content-line-clamp text-[0.9rem] mt-2 flex-grow'
+                <div className='note-content-line-clamp text-[0.9rem] mt-1.5 flex-grow note-content-max-height'
                     style={{ whiteSpace: 'pre-line' }}>
                     {
                         initialRender ?
@@ -94,14 +95,14 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
                                     typewritter.typeString(note.content).start()
                                 }}
                                 options={{
-                                    delay: 25,
+                                    delay: 23,
                                 }}
                             />
                             :
-                            note.content
+                            <MarkdownContent texts={note.content} />
                     }
                 </div>
-                <div className='text-sm mt-5 flex justify-between items-center gap-2'>
+                <div className='text-sm mt-4 flex justify-between items-center gap-2'>
                     {
                         note.isPrivate || !note.isOriginal ?
                             <div className='flex justify-start items-center gap-1 text-sm'>

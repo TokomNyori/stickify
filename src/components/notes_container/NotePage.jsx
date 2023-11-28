@@ -37,6 +37,8 @@ import {
     formatDistanceToNowStrict, differenceInMinutes, differenceInHours, differenceInDays, differenceInWeeks,
     isValid, differenceInYears, format
 } from 'date-fns';
+import ReactMarkdown from 'react-markdown';
+import MarkdownContent from '../others/MarkdownContent';
 
 const NotePage = ({ params }) => {
     const pageNoteData = useSelector(state => state.currentNotePage.currentNotePage)
@@ -315,7 +317,7 @@ const NotePage = ({ params }) => {
             <div className={`
                 ${readingMode ? ` bg-zinc-800 text-gray-100 brightness-[90%]` :
                     `bg-[${pageNoteData.color}] text-gray-800 dark:brightness-[90%] shadow-xl`} 
-                    px-4 sm:px-8 py-4 sm:py-8 pb-20 sm:pb-20 rounded-3xl min-h-screen`}>
+                    px-4 sm:px-8 py-4 sm:py-8 pb-20 sm:pb-20 rounded-3xl min-h-screen flex flex-col`}>
                 <div className='controls flex gap-4 mb-4 justify-between'>
                     <div className='relative flex flex-col items-start'>
                         <BiArrowBack className='text-3xl cursor-pointer home-link' onClick={goBack} />
@@ -431,7 +433,7 @@ const NotePage = ({ params }) => {
                 <div className='font-bold mb-2 sm:text-xl text-xl'>{pageNoteData.title}</div>
 
                 {/* Content */}
-                <div className='note-page-main-content'>
+                <div className='note-page-main-content mb-12'>
                     <div className={`note-page-main-nav font-bold mb-8`}>
                         <div
                             className={`note-page-main-items sm:text-[1.05rem] text-[1.1rem] 
@@ -458,21 +460,26 @@ const NotePage = ({ params }) => {
                             } Videos
                         </div>
                     </div>
+                    {/* Note Contents */}
                     <div className={`${navigationSection === 'note-section' ? 'flex' : 'hidden'}`}>
                         {
                             !translatedContent ?
-                                <div className='sm:text-[1rem] text-[1.1rem]' style={{ whiteSpace: 'pre-line' }}>
-                                    {summarizedContent ? summarizedContent : pageNoteData.content}
+                                <div className='sm:text-[1rem] text-[1.1rem] markDownContent'
+                                    style={{ whiteSpace: 'pre-line' }}>
+                                    <MarkdownContent texts={summarizedContent ? summarizedContent : pageNoteData.content} />
                                 </div>
                                 :
-                                <div className='' style={{ whiteSpace: 'pre-line' }}>{translatedContent}</div>
+                                <div className='' style={{ whiteSpace: 'pre-line' }}>
+                                    <MarkdownContent texts={translatedContent} />
+                                </div>
                         }
                     </div>
+                    {/* Video Contents */}
                     <div className={`${navigationSection === 'videos-section' ? 'flex flex-col mt-2' : 'hidden'}`}>
                         {videoSection}
                     </div>
                 </div>
-                <div className='mt-12 bottom-info-notePage'>
+                <div className='mt-auto bottom-info-notePage'>
                     {/* For Mobile Devices */}
                     <div className='flex sm:hidden items-center justify-center gap-2'>
                         {

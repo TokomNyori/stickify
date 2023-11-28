@@ -20,7 +20,7 @@
 
 .modal-main {
   width: 50%;
-  height: 98%;
+  height: 99%;
   flex-wrap: wrap;
   padding: 1rem 1rem;
   /* @apply bg-gray-700; */
@@ -261,6 +261,29 @@
   width: 100%;
 }
 
+.heading1 {
+  font-size: 1.5em;
+  margin: 0;
+  /* Larger font size for h1 */
+}
+
+.heading2 {
+  font-size: 1.25em;
+  margin: 0;
+  /* Smaller font size for h2 */
+}
+
+.heading3 {
+  font-size: 1.1em;
+  margin: 0;
+  /* Even smaller font size for h3 */
+}
+
+.heading4 {
+  font-size: 1.05em;
+  margin: 0;
+  /* Even smaller font size for h3 */
+}
 
 /* Media Queries */
 

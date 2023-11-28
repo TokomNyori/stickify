@@ -2,11 +2,23 @@ import Navbar from '@/components/Navbar'
 import './globals.css'
 import './app.css'
 import './more.css'
-import { Nunito } from 'next/font/google'
+import { Nunito, Caveat } from 'next/font/google'
 import Footer from '@/components/Footer'
 import ReduxProvider from '@/components/redux/ReduxProvider'
 
-const nunito = Nunito({ subsets: ['latin'] })
+const nunito = Nunito(
+  {
+    subsets: ['latin'],
+    display: 'swap',
+  }
+)
+
+const caveat = Caveat(
+  {
+    subsets: ['latin'],
+    display: 'swap',
+  }
+)
 
 export const metadata = {
   title: 'stickify',

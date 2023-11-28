@@ -54,17 +54,17 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         }
         let output_type = ''
         if (generateRequirementGpt.output_type === 'easy to understand') {
-            output_type = `Explain in a way that makes the topic simple. Present the subject matter in a manner so simple and clear that it can be comprehended by an 8-year-old. Simplify complex concepts and use plain language`
+            output_type = `Simplify the explanation as if teaching a young child. Use analogies and metaphors for complex concepts, and avoid jargon. The language should be straightforward and engaging, suitable for someone with no prior knowledge of the topic`
             temperature = 0.7
         } else if (generateRequirementGpt.output_type === 'gamify') {
-            output_type = `Explain the topic so it feels like a game. Gamify the learning process. Use gamification techniques to engage the audience. Explain the topic by playing a Game`
+            output_type = `Explain the topic so it feels like a game. Gamify the learning process. Use gamification techniques to engage the audience. Explain the topic by playing a Game. Introduce elements like challenges, rewards, and progress levels. Use playful language and scenarios to make the learning process fun and memorable`
             temperature = 0.7
         } else {
-            output_type = `Explain the topic with precision and accuracy. Explain the subject matter in a standard and clear manner. Provide detailed and accurate information in a clear and concise way`
+            output_type = `Explain the topic with precision and accuracy. Deliver the content with accuracy and depth. Use technical terms appropriately and provide clear definitions. Ensure that the information is up-to-date and cite reliable sources where applicable`
             temperature = 0.5
         }
         const emojiOption = ' Generate 5 to 7 meaningful emojis interspersed throughout the content. The emojis should be relevant to the context.'
-        const instruction = `Act as an expert in the topic. ${output_type}. Don't be VERBOSE. Generate around ${words} WORDS.${generateRequirementGpt.emojis ? emojiOption : ''} End with an interesting fact about the topic. The topic is: ${generateRequirementGpt.generate_title}`
+        const instruction = `Act as an expert in the topic. ${output_type}. Don't be VERBOSE. Format the content using Markdown where appropriate to improve readability and organization. Use headers for titles and subheadings, lists for itemization or enumeration, bold and italics for emphasis, and links for references. Avoid creating unnecessary white spaces and new lines. Include hyperlinks for additional information. Aim for a word count of approximately ${words}.${generateRequirementGpt.emojis ? emojiOption : ''} Conclude with an intriguing fact related to the topic. The topic is: ${generateRequirementGpt.generate_title}`
         const gptData = {
             model: 'gpt-3.5-turbo-1106',
             temperature: temperature,
@@ -72,7 +72,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
             messages: [
                 {
                     'role': 'system',
-                    'content': 'You are generating content for a Note-taking app, Stickify.'
+                    'content': "You are generating content for 'Stickify', a note-taking app designed for a diverse user base ranging from students to professionals. The content should be adaptable for educational purposes, professional use, and personal knowledge enhancement. Keep in mind the varying levels of expertise and interests of the users."
                 },
                 {
                     'role': 'user',

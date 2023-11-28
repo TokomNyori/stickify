@@ -140,6 +140,15 @@
     animation: glow 2s ease-in-out infinite;
 }
 
+.markDownContent h1,
+.markDownContent h2,
+.markDownContent h3,
+.markDownContent h4,
+.markDownContent h5,
+.markDownContent h6 {
+    margin: 0;
+}
+
 
 @keyframes glow {
     0% {

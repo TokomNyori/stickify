@@ -1,6 +1,7 @@
 import { connectDB } from "@/helper/db"
 import { getResponseMsg } from "@/helper/getResponseMsg"
 import { NoteModel } from "@/models/notemodel"
+import { Types } from 'mongoose';
 
 connectDB()
 
@@ -9,16 +10,16 @@ export async function PUT(request, { params }) {
     const { noteid } = params
     //Fetch work data from request
     const { copiedBy, func } = await request.json()
-
+    const { ObjectId } = Types;
     try {
         let update;
         if (func === 'copy') {
             update = {
                 $inc: { copies: 1 },
-                $addToSet: { copiedBy: copiedBy }, // Add to set to ensure unique entries
+                $addToSet: { copiedBy: new ObjectId(copiedBy) }, // Add to set to ensure unique entries
             };
         } else {
-            update = { $inc: { copies: -1 }, $pull: { copiedBy: copiedBy } };
+            update = { $inc: { copies: -1 }, $pull: { copiedBy: new ObjectId(copiedBy) } };
         }
 
         const updatedNote = await NoteModel.findByIdAndUpdate(noteid, update, { new: true });
