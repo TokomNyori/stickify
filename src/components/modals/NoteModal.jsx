@@ -28,7 +28,6 @@ import ClipLoader from "react-spinners/PacmanLoader";
 import ClipLoader2 from "react-spinners/GridLoader";
 import ClipLoader3 from "react-spinners/HashLoader";
 import { motion, useDragControls } from "framer-motion";
-import FormatPopup from '../popups/FormatPopup';
 import { Courgette } from 'next/font/google'
 import { MdOutlineFormatListBulleted } from "react-icons/md";
 const caveat = Courgette(
