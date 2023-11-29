@@ -134,7 +134,6 @@ textarea {
   align-items: flex-end;
 }
 
-
 @media (max-width: 640px) {
   .note-box {
     width: 100%;

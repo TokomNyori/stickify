@@ -21,15 +21,16 @@ import { AiFillYoutube } from 'react-icons/ai'
 import { AiOutlineYoutube } from "react-icons/ai";
 import { IoLockOpenOutline } from "react-icons/io5";
 import { IoLockClosed } from "react-icons/io5";
-import { MdOutlineFormatListBulleted } from "react-icons/md";
+import { CgFormatText } from "react-icons/cg";
 import YtVideoAddModal from './YtVideoAddModal';
 import { LuMove } from "react-icons/lu";
 import ClipLoader from "react-spinners/PacmanLoader";
 import ClipLoader2 from "react-spinners/GridLoader";
 import ClipLoader3 from "react-spinners/HashLoader";
-import { motion, useDragControls } from "framer-motion"
+import { motion, useDragControls } from "framer-motion";
+import FormatPopup from '../popups/FormatPopup';
 import { Courgette } from 'next/font/google'
-
+import { MdOutlineFormatListBulleted } from "react-icons/md";
 const caveat = Courgette(
     {
         subsets: ['latin'],
@@ -787,6 +788,12 @@ const NoteModal = () => {
                                             <AiOutlineYoutube className='text-4xl font-light text-gray-700' />
                                         </div>
                                 }
+                                {/* <div className={`flex justify-center items-center relative`}>
+                                    <CgFormatText className='text-[2rem] text-gray-700' />
+                                    <div className='absolute top-9'>
+                                        <FormatPopup />
+                                    </div>
+                                </div> */}
                                 <div className=''>
                                     <input id="isPrivate" type="checkbox" name="isPrivate"
                                         checked={isRephrasedNote ? rephrasedNote.isPrivate : note.isPrivate}
@@ -824,7 +831,7 @@ const NoteModal = () => {
                             Title cannot be empty. Please enter a title.
                         </div> */}
                         <div className="flex justify-between items-center gap-4 mt-3">
-                            <div className="mb-4 flex-grow">
+                            <div className="mb-2 flex-grow">
                                 {/* <label htmlFor="note_title" className="block mb-2 text-sm font-medium">Title</label> */}
                                 <input type="text" id="note_title" className="border-b border-gray-800/80 block w-full 
                                 py-2 font-bold placeholder-gray-500 text-gray-800 focus:outline-none bg-transparent
@@ -839,41 +846,8 @@ const NoteModal = () => {
                             </div>
                         </div>
                     </div>
-                    <div className={`${'flex gap-2 bg-transparent -mt-1.5 pb-1'} `}>
-                        <div className='font-extrabold border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-6 text-center'
-                            onClick={() => applyFormattingToSelectedText('bold')}>
-                            B
-                        </div>
-                        <div
-                            className={`${caveat.className} italic border border-gray-800 rounded-md px-1 py-0 cursor-pointer 
-                            w-6 text-center font-normal`}
-                            onClick={() => applyFormattingToSelectedText('italic')}>
-                            i
-                        </div>
-                        <div className=' underline border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-6 text-center'
-                            onClick={() => applyFormattingToSelectedText('underline')}>
-                            U
-                        </div>
-                        <div className=' flex justify-center items-center border border-gray-800 rounded-md px-1 py-0 cursor-pointer 
-                            w-7 text-center'
-                            onClick={() => applyFormattingToSelectedText('bullet')}>
-                            <MdOutlineFormatListBulleted className='text-[1rem]' />
-                        </div>
-                        <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
-                            onClick={() => applyFormattingToSelectedText('h1')}>
-                            h1
-                        </div>
-                        <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
-                            onClick={() => applyFormattingToSelectedText('h2')}>
-                            h2
-                        </div>
-                        <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
-                            onClick={() => applyFormattingToSelectedText('h3')}>
-                            h3
-                        </div>
-                    </div>
-                    <div className='text-area-section mb-2'>
-                        <div className="mb-2 notemodal-text-area relative" ref={parentRef}>
+                    <div className='text-area-section mb-3'>
+                        <div className="notemodal-text-area relative" ref={parentRef}>
                             <textarea type="text" id="note_content" className="rounded-lg bg-transparent block 
                                 py-2 w-full placeholder-gray-500 text-gray-800 focus:outline-none
                                 min-h-full note-textarea sm:text-[1rem] text-[1.05rem]" rows={textareaRows}
@@ -923,7 +897,40 @@ const NoteModal = () => {
                             Please enter content.
                         </div> */}
                     </div>
-                    <div className="radio-inputs flex-1 mb-4 flex gap-3">
+                    <div className={`${'flex gap-2 bg-transparent mb-3.5'} `}>
+                        <div className='font-extrabold border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-6 text-center'
+                            onClick={() => applyFormattingToSelectedText('bold')}>
+                            B
+                        </div>
+                        <div
+                            className={`${caveat.className} italic border border-gray-800 rounded-md px-1 py-0 cursor-pointer 
+                            w-6 text-center font-normal`}
+                            onClick={() => applyFormattingToSelectedText('italic')}>
+                            i
+                        </div>
+                        <div className=' underline border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-6 text-center'
+                            onClick={() => applyFormattingToSelectedText('underline')}>
+                            U
+                        </div>
+                        <div className=' flex justify-center items-center border border-gray-800 rounded-md px-1 py-0 cursor-pointer 
+                            w-7 text-center'
+                            onClick={() => applyFormattingToSelectedText('bullet')}>
+                            <MdOutlineFormatListBulleted className='text-[1rem]' />
+                        </div>
+                        <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
+                            onClick={() => applyFormattingToSelectedText('h1')}>
+                            h1
+                        </div>
+                        <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
+                            onClick={() => applyFormattingToSelectedText('h2')}>
+                            h2
+                        </div>
+                        <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
+                            onClick={() => applyFormattingToSelectedText('h3')}>
+                            h3
+                        </div>
+                    </div>
+                    <div className="radio-inputs flex-1 items-center mb-4 flex gap-3">
                         <div>
                             {/* checked={note.color === '#FFFAD1'} */}
                             <input type="radio" id="color1" name="color" className="hidden note-radio-btn" value="#FFFAD1"
@@ -993,6 +1000,9 @@ const NoteModal = () => {
                                 className="block color-input-label rounded-full bg-[#c8b6ff] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
                             ></label>
+                        </div>
+                        <div className="sm:hidden flex text-center ml-auto" onClick={(event) => closeModal(event, 'back')}>
+                            <BiArrowBack className='sm:text-3xl text-4xl cursor-pointer ' />
                         </div>
                     </div>
                 </form>
