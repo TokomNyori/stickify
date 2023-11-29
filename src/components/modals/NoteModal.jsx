@@ -765,7 +765,7 @@ const NoteModal = () => {
                 className={`modal-main rounded-3xl shadow-lg 
                 ${isRephrasedNote ? `bg-[${rephrasedNote.color}]` : `bg-[${note.color}]`} text-gray-800`}
                 ref={noteModalRef} >
-                <form className="mt-2 min-h-full flex flex-col" onSubmit={submitForm}
+                <form className="mt-2 min-h-screen flex flex-col" onSubmit={submitForm}
                     id='createNoteForm'>
                     <div className='top-section'>
                         <div className="modal-heading">
@@ -896,112 +896,121 @@ const NoteModal = () => {
                             Please enter content.
                         </div> */}
                     </div>
-                    <div className={`${'flex gap-2 bg-transparent mb-3.5'} `}>
-                        <div className='font-extrabold border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-6 text-center'
-                            onClick={() => applyFormattingToSelectedText('bold')}>
-                            B
-                        </div>
-                        <div
-                            className={`${caveat.className} italic border border-gray-800 rounded-md px-1 py-0 cursor-pointer 
+                    <div className='flex flex-col gap-4 items-start justify-center mb-6'>
+                        {/* Formatting Buttons */}
+                        <div className={`${'flex gap-2 bg-transparent'} ml-1`}>
+                            <div className='font-extrabold border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-6 text-center'
+                                onClick={() => applyFormattingToSelectedText('bold')}>
+                                B
+                            </div>
+                            <div
+                                className={`${caveat.className} italic border border-gray-800 rounded-md px-1 py-0 cursor-pointer 
                             w-6 text-center font-normal`}
-                            onClick={() => applyFormattingToSelectedText('italic')}>
-                            i
-                        </div>
-                        <div className=' underline border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-6 text-center'
-                            onClick={() => applyFormattingToSelectedText('underline')}>
-                            U
-                        </div>
-                        <div className=' flex justify-center items-center border border-gray-800 rounded-md px-1 py-0 cursor-pointer 
+                                onClick={() => applyFormattingToSelectedText('italic')}>
+                                i
+                            </div>
+                            <div className=' underline border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-6 text-center'
+                                onClick={() => applyFormattingToSelectedText('underline')}>
+                                U
+                            </div>
+                            <div className=' flex justify-center items-center border border-gray-800 rounded-md px-1 py-0 cursor-pointer 
                             w-7 text-center'
-                            onClick={() => applyFormattingToSelectedText('bullet')}>
-                            <MdOutlineFormatListBulleted className='text-[1rem]' />
+                                onClick={() => applyFormattingToSelectedText('bullet')}>
+                                <MdOutlineFormatListBulleted className='text-[1rem]' />
+                            </div>
+                            <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
+                                onClick={() => applyFormattingToSelectedText('h1')}>
+                                h1
+                            </div>
+                            <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
+                                onClick={() => applyFormattingToSelectedText('h2')}>
+                                h2
+                            </div>
+                            <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
+                                onClick={() => applyFormattingToSelectedText('h3')}>
+                                h3
+                            </div>
                         </div>
-                        <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
-                            onClick={() => applyFormattingToSelectedText('h1')}>
-                            h1
-                        </div>
-                        <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
-                            onClick={() => applyFormattingToSelectedText('h2')}>
-                            h2
-                        </div>
-                        <div className=' border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-7 text-center'
-                            onClick={() => applyFormattingToSelectedText('h3')}>
-                            h3
-                        </div>
-                    </div>
-                    <div className="radio-inputs flex-1 items-center mb-4 flex gap-3">
-                        <div>
-                            {/* checked={note.color === '#FFFAD1'} */}
-                            <input type="radio" id="color1" name="color" className="hidden note-radio-btn" value="#FFFAD1"
-                                onChange={changeNote}
-                                checked={isRephrasedNote ? rephrasedNote.color === '#FFFAD1' : note.color === '#FFFAD1'} />
-                            <label htmlFor="color1"
-                                className="block color-input-label rounded-full bg-[#FFFAD1] border border-gray-500
+                        {/* */}
+                        <div className=' w-full flex justify-between items-center'>
+                            <div className="radio-inputs items-center flex gap-3">
+                                <div>
+                                    {/* checked={note.color === '#FFFAD1'} */}
+                                    <input type="radio" id="color1" name="color" className="hidden note-radio-btn" value="#FFFAD1"
+                                        onChange={changeNote}
+                                        checked={isRephrasedNote ? rephrasedNote.color === '#FFFAD1' : note.color === '#FFFAD1'} />
+                                    <label htmlFor="color1"
+                                        className="block color-input-label rounded-full bg-[#FFFAD1] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
-                            ></label>
-                        </div>
-                        <div>
-                            {/* checked={note.color === '#f4bee1'}  */}
-                            <input type="radio" id="color2" name="color" className="hidden note-radio-btn" value="#f4bee1"
-                                onChange={changeNote}
-                                checked={isRephrasedNote ? rephrasedNote.color === '#f4bee1' : note.color === '#f4bee1'} />
-                            <label htmlFor="color2"
-                                className="block color-input-label rounded-full bg-[#f4bee1] border border-gray-500
+                                    ></label>
+                                </div>
+                                <div>
+                                    {/* checked={note.color === '#f4bee1'}  */}
+                                    <input type="radio" id="color2" name="color" className="hidden note-radio-btn" value="#f4bee1"
+                                        onChange={changeNote}
+                                        checked={isRephrasedNote ? rephrasedNote.color === '#f4bee1' : note.color === '#f4bee1'} />
+                                    <label htmlFor="color2"
+                                        className="block color-input-label rounded-full bg-[#f4bee1] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
-                            ></label>
-                        </div>
-                        <div>
-                            {/* checked={note.color === '#F1DED0'} */}
-                            <input type="radio" id="color3" name="color" className="hidden note-radio-btn" value="#F1DED0"
-                                onChange={changeNote}
-                                checked={isRephrasedNote ? rephrasedNote.color === '#F1DED0' : note.color === '#F1DED0'} />
-                            <label htmlFor="color3"
-                                className="block color-input-label rounded-full bg-[#F1DED0] border border-gray-500
+                                    ></label>
+                                </div>
+                                <div className='hideForSmallMobile'>
+                                    {/* checked={note.color === '#f8d2b7'} */}
+                                    <input type="radio" id="color3" name="color" className="hidden note-radio-btn" value="#f8d2b7"
+                                        onChange={changeNote}
+                                        checked={isRephrasedNote ? rephrasedNote.color === '#f8d2b7' : note.color === '#f8d2b7'} />
+                                    <label htmlFor="color3"
+                                        className="block color-input-label rounded-full bg-[#f8d2b7] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
-                            ></label>
-                        </div>
-                        <div>
-                            {/* checked={note.color === '#B4C9F9'}  */}
-                            <input type="radio" id="color4" name="color" className="hidden note-radio-btn" value="#B4C9F9"
-                                onChange={changeNote}
-                                checked={isRephrasedNote ? rephrasedNote.color === '#B4C9F9' : note.color === '#B4C9F9'} />
-                            <label htmlFor="color4"
-                                className="block color-input-label rounded-full bg-[#B4C9F9] border border-gray-500
+                                    ></label>
+                                </div>
+                                <div>
+                                    {/* checked={note.color === '#B4C9F9'}  */}
+                                    <input type="radio" id="color4" name="color" className="hidden note-radio-btn" value="#B4C9F9"
+                                        onChange={changeNote}
+                                        checked={isRephrasedNote ? rephrasedNote.color === '#B4C9F9' : note.color === '#B4C9F9'} />
+                                    <label htmlFor="color4"
+                                        className="block color-input-label rounded-full bg-[#B4C9F9] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
-                            ></label>
-                        </div>
-                        <div>
-                            {/* checked={note.color === '#A9D1B5'} */}
-                            <input type="radio" id="color5" name="color" className="hidden note-radio-btn" value="#A9D1B5"
-                                onChange={changeNote}
-                                checked={isRephrasedNote ? rephrasedNote.color === '#A9D1B5' : note.color === '#A9D1B5'} />
-                            <label htmlFor="color5"
-                                className="block color-input-label rounded-full bg-[#A9D1B5] border border-gray-500
+                                    ></label>
+                                </div>
+                                <div>
+                                    {/* checked={note.color === '#A9D1B5'} */}
+                                    <input type="radio" id="color5" name="color" className="hidden note-radio-btn" value="#A9D1B5"
+                                        onChange={changeNote}
+                                        checked={isRephrasedNote ? rephrasedNote.color === '#A9D1B5' : note.color === '#A9D1B5'} />
+                                    <label htmlFor="color5"
+                                        className="block color-input-label rounded-full bg-[#A9D1B5] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
-                            ></label>
-                        </div>
-                        <div>
-                            {/* checked={note.color === '#f8f9fa'} */}
-                            <input type="radio" id="color6" name="color" className="hidden note-radio-btn" value="#f8f9fa"
-                                onChange={changeNote}
-                                checked={isRephrasedNote ? rephrasedNote.color === '#f8f9fa' : note.color === '#f8f9fa'} />
-                            <label htmlFor="color6"
-                                className="block color-input-label rounded-full bg-[#f8f9fa] border border-gray-500
+                                    ></label>
+                                </div>
+                                <div>
+                                    {/* checked={note.color === '#f8f9fa'} */}
+                                    <input type="radio" id="color6" name="color" className="hidden note-radio-btn" value="#f8f9fa"
+                                        onChange={changeNote}
+                                        checked={isRephrasedNote ? rephrasedNote.color === '#f8f9fa' : note.color === '#f8f9fa'} />
+                                    <label htmlFor="color6"
+                                        className="block color-input-label rounded-full bg-[#f8f9fa] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
-                            ></label>
-                        </div>
-                        <div>
-                            {/* checked={note.color === '#c8b6ff'} */}
-                            <input type="radio" id="color7" name="color" className="hidden note-radio-btn" value="#c8b6ff"
-                                onChange={changeNote}
-                                checked={isRephrasedNote ? rephrasedNote.color === '#c8b6ff' : note.color === '#c8b6ff'} />
-                            <label htmlFor="color7"
-                                className="block color-input-label rounded-full bg-[#c8b6ff] border border-gray-500
+                                    ></label>
+                                </div>
+                                <div>
+                                    {/* checked={note.color === '#c8b6ff'} */}
+                                    <input type="radio" id="color7" name="color" className="hidden note-radio-btn" value="#c8b6ff"
+                                        onChange={changeNote}
+                                        checked={isRephrasedNote ? rephrasedNote.color === '#c8b6ff' : note.color === '#c8b6ff'} />
+                                    <label htmlFor="color7"
+                                        className="block color-input-label rounded-full bg-[#c8b6ff] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
-                            ></label>
-                        </div>
-                        <div className="sm:hidden flex text-center ml-auto" onClick={(event) => closeModal(event, 'back')}>
-                            <BiArrowBack className='sm:text-3xl text-4xl cursor-pointer ' />
+                                    ></label>
+                                </div>
+                            </div>
+                            <div
+                                className=" sm:hidden flex text-center rounded-full border-2 border-gray-800 w-[2.6rem] 
+                                h-[2.6rem] justify-center items-center cursor-pointer "
+                                onClick={(event) => closeModal(event, 'back')}>
+                                <BiArrowBack className='sm:text-3xl text-4xl cursor-pointer ' />
+                            </div>
                         </div>
                     </div>
                 </form>
