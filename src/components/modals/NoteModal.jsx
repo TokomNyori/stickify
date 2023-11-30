@@ -31,7 +31,7 @@ import ClipLoader3 from "react-spinners/HashLoader";
 import { motion, useDragControls } from "framer-motion";
 import { Courgette } from 'next/font/google'
 import { MdOutlineFormatListBulleted } from "react-icons/md";
-import TextFormatPop from '../popups/TextFormatPop';
+import TextFormatComp from '../others/TextFormatComp';
 const caveat = Courgette(
     {
         subsets: ['latin'],
@@ -862,7 +862,7 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required
                             />
-                            <TextFormatPop
+                            <TextFormatComp
                                 applyFormattingToSelectedText={applyFormattingToSelectedText}
                                 parentRef={parentRef}
                             />
