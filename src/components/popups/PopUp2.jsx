@@ -98,7 +98,7 @@ const PopUp2 =
         return (
             <div
                 className={`${rephrasePopUp ? 'PopUps2' : 'hidden w-0 h-0'} 
-                        border-[1.5px] border-gray-800 backdrop-blur-[5px]`}
+                        border-[1.5px] border-gray-800 backdrop-blur-[6px]`}
                 ref={rephrasePopUpRef}
             >
                 {
