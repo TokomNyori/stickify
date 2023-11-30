@@ -61,8 +61,8 @@ const TextFormatComp = ({ applyFormattingToSelectedText, parentRef }) => {
                 onClick={() => applyFormattingToSelectedText('h3')}>
                 h3
             </div>
-            <div className='rounded-full px-1 py-0 cursor-pointer text-gray-800 backdrop-blur-[3px]
-            text-center p-1'
+            <div className='rounded-full px-1 py-0 cursor-move text-gray-800 backdrop-blur-[3px]
+            text-center'
             >
                 <IoMove className='text-[1.4rem] -ml-2' />
             </div>

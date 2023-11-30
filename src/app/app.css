@@ -20,6 +20,7 @@
 
 .modal-main {
   width: 50%;
+  min-height: 570px;
   height: 99%;
   flex-wrap: wrap;
   padding: 1rem 1rem;
@@ -34,10 +35,10 @@
   animation-duration: 0.5s;
 }
 
-.notemodal-text-area {
+/* .notemodal-text-area {
   min-height: 100%;
   height: 100%;
-}
+} */
 
 .gpt-generate-modal {
   width: 80%;
@@ -295,6 +296,7 @@
 @media (max-width: 868px) {
   .modal-main {
     width: 90%;
+    min-height: 900px;
     height: 95%;
     overflow: hidden;
     padding: 1rem 1rem;
@@ -305,6 +307,7 @@
 @media (max-width: 640px) {
   .modal-main {
     width: 100%;
+    min-height: 780px;
     height: 99.5%;
     overflow: hidden;
     padding: 1rem 1rem;
@@ -405,6 +408,15 @@
 @media (max-width: 391px) {
   .hideForSmallMobile {
     display: none;
+  }
+
+  .modal-main {
+    width: 100%;
+    min-height: 655px;
+    height: 99.5%;
+    overflow: hidden;
+    padding: 1rem 1rem;
+    flex-wrap: wrap;
   }
 }
 

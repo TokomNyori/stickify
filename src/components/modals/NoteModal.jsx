@@ -891,7 +891,7 @@ const NoteModal = () => {
                                         `${rephrasePopUp ? 'hidden' : 'flex'} backdrop-blur-[2px] rounded-full text-2xl mr-2
                                         rephrase-default-btn`
                                     }>
-                                    <LuMove className='text-2xl' />
+                                    <LuMove className='text-2xl cursor-move' />
                                 </div>
                                 <div
                                     className={`text-sm sm:text-xs text-gray-100 border border-gray-100 px-2 py-1 
