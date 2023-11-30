@@ -285,14 +285,33 @@
   /* Even smaller font size for h3 */
 }
 
+.note-modal-form {
+  min-height: 100vh;
+}
+
 /* Media Queries */
+
+@media (max-width: 868px) {
+  .modal-main {
+    width: 90%;
+    height: 90%;
+    overflow: hidden;
+    padding: 1rem 1rem;
+    flex-wrap: wrap;
+  }
+}
 
 @media (max-width: 640px) {
   .modal-main {
     width: 100%;
+    min-height: 100vh;
     overflow: hidden;
     padding: 1rem 1rem;
     flex-wrap: wrap;
+  }
+
+  .note-modal-form {
+    min-height: 100vh;
   }
 
   .modal-heading {
@@ -386,12 +405,12 @@
 
 }
 
-@media (max-width: 391px) {}
-
-@media (max-width: 376px) {
+@media (max-width: 391px) {
   .hideForSmallMobile {
     display: none;
   }
 }
+
+@media (max-width: 376px) {}
 
 @media (max-width: 360px) {}
