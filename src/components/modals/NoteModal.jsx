@@ -914,7 +914,7 @@ const NoteModal = () => {
                                 </div>
                                 <div
                                     className={`text-sm sm:text-xs border-[1.5px] border-gray-700 px-2 py-1 
-                                    rounded-xl cursor-pointer backdrop-blur-[10px] bg-gray-100/10
+                                    rounded-xl cursor-pointer backdrop-blur-[10px] bg-white/10
                                     flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
                                     onClick={toggleRephrasePopUp}>
                                     <span className='text-sm'>
