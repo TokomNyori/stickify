@@ -34,6 +34,10 @@
   animation-duration: 0.5s;
 }
 
+/* .note-modal-form {
+  min-height: 100vh;
+} */
+
 .gpt-generate-modal {
   width: 80%;
   height: auto;
@@ -285,10 +289,6 @@
   /* Even smaller font size for h3 */
 }
 
-.note-modal-form {
-  min-height: 100vh;
-}
-
 /* Media Queries */
 
 @media (max-width: 868px) {
@@ -304,15 +304,16 @@
 @media (max-width: 640px) {
   .modal-main {
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
     overflow: hidden;
     padding: 1rem 1rem;
     flex-wrap: wrap;
   }
 
+  /* 
   .note-modal-form {
     min-height: 100vh;
-  }
+  } */
 
   .modal-heading {
     display: flex;
