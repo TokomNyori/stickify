@@ -22,7 +22,7 @@ const TextFormatComp = ({ applyFormattingToSelectedText, parentRef }) => {
             whileDrag={{ scale: 1.05 }}
             dragConstraints={parentRef}
             dragElastic={0.3}
-            className={`${'flex gap-2 bg-transparent'} z-40 absolute top-0`}>
+            className={`${'flex gap-2 bg-transparent'} z-10 absolute top-0`}>
             <div
                 className='font-extrabold border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-6 text-center
                 backdrop-blur-[5px]'
