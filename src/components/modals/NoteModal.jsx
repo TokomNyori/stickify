@@ -772,7 +772,7 @@ const NoteModal = () => {
                 className={`modal-main rounded-3xl shadow-lg 
                 ${isRephrasedNote ? `bg-[${rephrasedNote.color}]` : `bg-[${note.color}]`} text-gray-800`}
                 ref={noteModalRef} >
-                <form className="mt-2 flex flex-col min-h-screen" onSubmit={submitForm}
+                <form className="mt-2 flex flex-col" onSubmit={submitForm}
                     id='createNoteForm'>
                     <div className='top-section'>
                         <div className="modal-heading">
