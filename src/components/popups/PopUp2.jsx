@@ -97,13 +97,13 @@ const PopUp2 =
 
         return (
             <div
-                className={`${rephrasePopUp ? 'PopUps2' : 'hidden w-0 h-0'} bg-gray-800/70 text-gray-100
-                        border border-gray-100`}
+                className={`${rephrasePopUp ? 'PopUps2' : 'hidden w-0 h-0'} 
+                        border-[1.5px] border-gray-800 backdrop-blur-[5px]`}
                 ref={rephrasePopUpRef}
             >
                 {
                     !isDefault ?
-                        <div className="border-b py-0.5">
+                        <div className="border-b py-0.5 border-gray-800">
                             <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out 
                             flex items-center gap-1 rephrase-default-btn"
                                 onClick={(event) => undoRephraseContentFun(event)}>
@@ -112,41 +112,47 @@ const PopUp2 =
                             </div>
                         </div>
                         :
-                        <div className="border-b py-0.5 flex items-center gap-1">
+                        <div className="border-b py-0.5 flex items-center gap-1 border-gray-800">
                             <span >Select Tone</span>
                             <span><RiSpeakLine className="inline text-bold text-lg mb-1" /></span>
                         </div>
 
                 }
-                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5"
+                <div
+                    className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5
+                    border-gray-800"
                     onClick={(event) => rephraseContentFun(event, 'enhance')}
                 >
                     Enhance ✨
                 </div>
-                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5"
+                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5
+                border-gray-800"
                     onClick={(event) => rephraseContentFun(event, 'professional')}
                 >
                     Professional 🤵
                 </div>
-                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5"
-                    onClick={(event) => rephraseContentFun(event, 'casual')}
-                >
-                    Casual 😎
-                </div>
-                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5"
-                    onClick={(event) => rephraseContentFun(event, 'confident')}
-                >
-                    Confident 💪
-                </div>
-                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5"
+                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5
+                border-gray-800"
                     onClick={(event) => rephraseContentFun(event, 'formal')}
                 >
                     Formal 📚
                 </div>
-                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out"
+                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5
+                border-gray-800"
                     onClick={(event) => rephraseContentFun(event, 'friendly')}
                 >
                     Friendly 😊
+                </div>
+                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5
+                border-gray-800"
+                    onClick={(event) => rephraseContentFun(event, 'confident')}
+                >
+                    Confident 💪
+                </div>
+                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out"
+                    onClick={(event) => rephraseContentFun(event, 'casual')}
+                >
+                    Casual 😎
                 </div>
             </div>
         )

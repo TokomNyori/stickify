@@ -40,6 +40,15 @@
   height: 100%;
 } */
 
+.notemodal-text-area textarea::-webkit-scrollbar {
+  display: none;
+  /* Adjust the width to your preference */
+}
+
+.notemodal-text-area textarea {
+  scrollbar-width: none;
+}
+
 .gpt-generate-modal {
   width: 80%;
   height: auto;
@@ -150,6 +159,7 @@
   row-gap: 0.3rem;
   backdrop-filter: blur(0.225rem);
   padding: 0.6rem;
+  padding-top: 0.4rem;
   border-radius: 10px;
   border-bottom-right-radius: 0;
   z-index: 40;

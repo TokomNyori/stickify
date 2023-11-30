@@ -369,21 +369,29 @@ const NoteModal = () => {
         if (isEdit) {
             try {
                 setLoading(true)
-                const res = await editNoteHelper(
-                    {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        noteid: noteModalConfig.noteObject._id,
-                        body: isRephrasedNote ? rephrasedNote : note
-                    }
-                )
+                const res = await editNoteHelper({
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    noteid: noteModalConfig.noteObject._id,
+                    body: isRephrasedNote ?
+                        {
+                            ...rephrasedNote,
+                            content: rephrasedNote.content.endsWith('\n') ? rephrasedNote.content : rephrasedNote.content + '\n'
+                        }
+                        :
+                        {
+                            ...note,
+                            content: note.content.endsWith('\n') ? note.content : note.content + '\n'
+                        }
+                })
+
                 const notesRes = await getNoteHelper({
                     method: 'GET',
                     userId: users._id,
                     headers: { 'Content-Type': 'application/json' }
                 })
-                console.log('notesRes.body')
-                console.log(notesRes.body)
+                // console.log('notesRes.body')
+                // console.log(notesRes.body)
                 dispatch(addNote(notesRes.body))
                 dispatch(addCurrentNotePage(res.body))
                 setLoading(false)
@@ -403,15 +411,26 @@ const NoteModal = () => {
         }
         try {
             setLoading(true)
-            isRephrasedNote ?
-                await postNoteHelper({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: rephrasedNote })
-                :
-                await postNoteHelper({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: note })
+            await postNoteHelper({
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: isRephrasedNote ?
+                    {
+                        ...rephrasedNote,
+                        content: rephrasedNote.content.endsWith('\n') ? rephrasedNote.content : rephrasedNote.content + '\n'
+                    }
+                    :
+                    {
+                        ...note,
+                        content: note.content.endsWith('\n') ? note.content : note.content + '\n'
+                    }
+            })
+
             const notesRes = await getNoteHelper({
                 method: 'GET',
                 userId: users._id,
                 headers: { 'Content-Type': 'application/json' }
             })
+
             dispatch(addNote(notesRes.body))
             setLoading(false)
             rephraseDefaultTrue()
@@ -866,7 +885,7 @@ const NoteModal = () => {
                                 applyFormattingToSelectedText={applyFormattingToSelectedText}
                                 parentRef={parentRef}
                             />
-                            {/* <motion.div
+                            <motion.div
                                 drag
                                 animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
                                 whileDrag={{ scale: 1.05 }}
@@ -888,21 +907,21 @@ const NoteModal = () => {
                                 />
                                 <div
                                     className={
-                                        `${rephrasePopUp ? 'hidden' : 'flex'} backdrop-blur-[2px] rounded-full text-2xl mr-2
+                                        `${rephrasePopUp ? 'hidden' : 'flex'} backdrop-blur-[5px] rounded-full text-2xl mr-2
                                         rephrase-default-btn`
                                     }>
                                     <LuMove className='text-2xl cursor-move' />
                                 </div>
                                 <div
-                                    className={`text-sm sm:text-xs text-gray-100 border border-gray-100 px-2 py-1 
-                                    rounded-xl cursor-pointer dark:bg-gray-800/70 bg-gray-800/70
+                                    className={`text-sm sm:text-xs border-[1.5px] border-gray-700 px-2 py-1 
+                                    rounded-xl cursor-pointer backdrop-blur-[5px]
                                     flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
                                     onClick={toggleRephrasePopUp}>
                                     <span className='text-sm'>
                                         <RiMagicFill className='inline text-lg' /> Grammar
                                     </span>
                                 </div>
-                            </motion.div> */}
+                            </motion.div>
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.
