@@ -1,7 +1,7 @@
 
-import fs from "fs";
-import path from "path";
-import OpenAI from "openai";
+// import fs from "fs";
+// import path from "path";
+// import OpenAI from "openai";
 
 // API KEYS
 const OPENAI_API_KEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY
