@@ -1,11 +1,11 @@
-'use server'
+
 import fs from "fs";
 import path from "path";
 import OpenAI from "openai";
 
 // API KEYS
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY
-const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY
+const OPENAI_API_KEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY
+const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
 
 //OPENAI API
 export async function openAiGptTextGeneration({ gptData }) {

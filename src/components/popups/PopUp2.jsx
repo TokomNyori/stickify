@@ -101,7 +101,7 @@ const PopUp2 =
                         border-[1.5px] border-gray-800 backdrop-blur-[10px] bg-white/10 font-semibold`}
                 ref={rephrasePopUpRef}
             >
-                {
+                { 
                     !isDefault ?
                         <div className="border-b py-0.5 border-gray-800">
                             <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out 
