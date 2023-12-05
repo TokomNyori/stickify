@@ -1157,7 +1157,7 @@ const NoteModal = () => {
                             data-testid="loader"
                             speedMultiplier={1}
                         />
-                        <div className="text-2xl mt-5 font-bold backdrop-blur-[4px] p-1 text-[#1F2937]">
+                        <div className="text-2xl mt-5 font-bold backdrop-blur-[6px] p-1 text-[#1F2937]">
                             Getting videos...
                         </div>
                     </div>
@@ -1175,7 +1175,7 @@ const NoteModal = () => {
                             data-testid="loader"
                             speedMultiplier={1}
                         />
-                        <div className="text-2xl mt-5 backdrop-blur-[4px] font-bold p-1 text-[#1F2937]">
+                        <div className="text-2xl mt-5 backdrop-blur-[6px] font-bold p-1 text-[#1F2937]">
                             Gathering thoughts... 🍂
                         </div>
                         {/* <div className="text-lg mt-2 font-bold text-[#1F2937] text-center">
