@@ -253,9 +253,11 @@ const NoteModal = () => {
     }, [noteModalConfig]);
 
     useEffect(() => {
-        const textarea = textareaRef.current;
-        if (textarea && streamGptLoader) {
-            textarea.scrollTop = textarea.scrollHeight;
+        if (streamGptLoader) {
+            const textarea = textareaRef.current;
+            if (textarea) {
+                textarea.scrollTop = textarea.scrollHeight;
+            }
         }
     }, [note.content, rephrasedNote.content]);
 
