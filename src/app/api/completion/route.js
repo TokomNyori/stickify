@@ -1,8 +1,6 @@
 import OpenAI from "openai";
-import { NextResponse } from "next/server"
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 import { Configuration, OpenAIApi } from "openai-edge";
-import { headers } from 'next/headers'
 
 export const runtime = 'edge'
 //export const runtime = 'nodejs';
