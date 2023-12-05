@@ -12,17 +12,17 @@ const caveat = Courgette(
     }
 )
 
-const TextFormatComp = ({ applyFormattingToSelectedText, parentRef }) => {
+const TextFormatComp = ({ applyFormattingToSelectedText, parentRef, ctx }) => {
     const noteModalConfig = useSelector(state => state.noteModalConfig.noteModalConfig)
 
     return (
-        <motion.div
+        <div
             drag
             animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
             whileDrag={{ scale: 1.05 }}
             dragConstraints={parentRef}
             dragElastic={0.3}
-            className={`${'flex gap-2 bg-transparent'} absolute top-0`}>
+            className={`${ctx.content ? 'flex gap-2 bg-transparent absolute top-0' : 'hidden'}`}>
             <div
                 className='font-extrabold border border-gray-800 rounded-md px-1 py-0 cursor-pointer w-6 text-center
                 backdrop-blur-[7px]'
@@ -66,7 +66,7 @@ const TextFormatComp = ({ applyFormattingToSelectedText, parentRef }) => {
             >
                 <IoMove className='text-[1.4rem] -ml-2' />
             </div>
-        </motion.div>
+        </div>
     );
 };
 

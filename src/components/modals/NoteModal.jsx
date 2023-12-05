@@ -28,6 +28,8 @@ import { IoMove } from "react-icons/io5";
 import ClipLoader from "react-spinners/PacmanLoader";
 import ClipLoader2 from "react-spinners/GridLoader";
 import ClipLoader3 from "react-spinners/HashLoader";
+import ClipLoader4 from "react-spinners/BounceLoader";
+import ClipLoader5 from "react-spinners/SyncLoader";
 import { motion, useDragControls } from "framer-motion";
 import { Courgette } from 'next/font/google'
 import { MdOutlineFormatListBulleted } from "react-icons/md";
@@ -73,6 +75,8 @@ const NoteModal = () => {
     const [gptSubmitModalState, setGptSubmitModalState] = useState(false)
     const [ytVideAddModalState, setYtVideAddModalState] = useState(false)
     const [ytVideoDeleteLoading, setYtVideoDeleteLoading] = useState(false)
+    const [ytGptLoader, setYtGptLoader] = useState(false)
+    const [streamGptLoader, setStreamGptLoader] = useState(false)
     const [isDefault, setIsDefault] = useState(true)
     const noteModalRef = useRef(null);
     const ytListPopupVideosRefs0 = useRef(null)
@@ -83,6 +87,7 @@ const NoteModal = () => {
     const ytListPopupVideosRefs5 = useRef(null)
     const ytListPopupVideosRefs6 = useRef(null)
     const parentRef = useRef(null)
+    const textareaRef = useRef(null)
     const isTitleEmpty = isRephrasedNote ? isRephrasedTitle : isTitle
     const isContentEmpty = isRephrasedNote ? isRephrasedContent : isContent
     const pageName = useSelector(state => state.page.page)
@@ -178,36 +183,36 @@ const NoteModal = () => {
         const height = window.innerHeight;
         console.log(height)
         if (height > 700 && height < 800) {
-            setTextareaRows(19)
+            rephrasedNote.content || note.content ? setTextareaRows(19) : setTextareaRows(20)
         } else if (height > 799 && height < 900) {
-            setTextareaRows(23)
+            rephrasedNote.content || note.content ? setTextareaRows(23) : setTextareaRows(24)
         } else if (height > 899 && height < 1000) {
-            setTextareaRows(25)
+            rephrasedNote.content || note.content ? setTextareaRows(25) : setTextareaRows(26)
         } else if (height > 999 && height < 1300) {
-            setTextareaRows(27)
+            rephrasedNote.content || note.content ? setTextareaRows(27) : setTextareaRows(28)
         } else if (height < 600) {
-            setTextareaRows(14)
+            rephrasedNote.content || note.content ? setTextareaRows(14) : setTextareaRows(15)
         } else {
-            setTextareaRows(16)
+            rephrasedNote.content || note.content ? setTextareaRows(16) : setTextareaRows(17)
         }
-    }, [])
+    }, [rephrasedNote.content, note.content])
 
     useEffect(() => {
         function handleResize() {
             const height = window.innerHeight;
             console.log(height)
             if (height > 700 && height < 800) {
-                setTextareaRows(19)
+                rephrasedNote.content || note.content ? setTextareaRows(19) : setTextareaRows(20)
             } else if (height > 799 && height < 900) {
-                setTextareaRows(23)
+                rephrasedNote.content || note.content ? setTextareaRows(23) : setTextareaRows(24)
             } else if (height > 899 && height < 1000) {
-                setTextareaRows(25)
+                rephrasedNote.content || note.content ? setTextareaRows(25) : setTextareaRows(26)
             } else if (height > 999 && height < 1300) {
-                setTextareaRows(27)
+                rephrasedNote.content || note.content ? setTextareaRows(27) : setTextareaRows(28)
             } else if (height < 600) {
-                setTextareaRows(14)
+                rephrasedNote.content || note.content ? setTextareaRows(14) : setTextareaRows(15)
             } else {
-                setTextareaRows(16)
+                rephrasedNote.content || note.content ? setTextareaRows(16) : setTextareaRows(17)
             }
         }
         // Add the event listener
@@ -216,7 +221,7 @@ const NoteModal = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, []);
+    }, [rephrasedNote.content, note.content]);
 
     useEffect(() => {
         // Create the handlePopState function inside useEffect
@@ -246,6 +251,13 @@ const NoteModal = () => {
             window.removeEventListener('popstate', handlePopState);
         };
     }, [noteModalConfig]);
+
+    useEffect(() => {
+        const textarea = textareaRef.current;
+        if (textarea && streamGptLoader) {
+            textarea.scrollTop = textarea.scrollHeight;
+        }
+    }, [note.content, rephrasedNote.content]);
 
 
     function closeModal(event) {
@@ -298,6 +310,38 @@ const NoteModal = () => {
                         duration: 800,
                     })
                 }
+            }
+        }
+    }
+
+    function changeNoteContentByGptTrial(streamData) {
+        if (isRephrasedNote) {
+            setRephrasedNote(prev => ({
+                ...prev,
+                content: streamData,
+            }))
+        } else {
+            setNote(prev => ({
+                ...prev,
+                content: streamData,
+            }))
+        }
+    }
+
+    function setYoutubeVideosByGptModal(recievedVideos) {
+        const targetNote = isRephrasedNote ? rephrasedNote : note
+        const addVideos = [...recievedVideos, ...targetNote.ytVideo]
+        if (targetNote.ytVideo.length <= 4) {
+            if (isRephrasedNote) {
+                setRephrasedNote(prev => ({
+                    ...prev,
+                    ytVideo: addVideos,
+                }))
+            } else {
+                setNote(prev => ({
+                    ...prev,
+                    ytVideo: addVideos,
+                }))
             }
         }
     }
@@ -490,6 +534,10 @@ const NoteModal = () => {
             return
         }
         setGptSubmitModalState(prev => !prev)
+    }
+
+    function closeGptRequirementModal() {
+        setGptSubmitModalState(false)
     }
 
     function toggleRephrasePopUp() {
@@ -772,6 +820,14 @@ const NoteModal = () => {
         }
     }
 
+    function changeYtGptLoader(val) {
+        setYtGptLoader(val)
+    }
+
+    function changeStreamGptLoader(val) {
+        setStreamGptLoader(val)
+    }
+
     // Call this function when the bold button is clicked
 
 
@@ -855,7 +911,7 @@ const NoteModal = () => {
                         {/* <div className={`sm:text-sm mt-2 text-red-400 ${isTitleEmpty ? 'hidden' : 'block'}`}>
                             Title cannot be empty. Please enter a title.
                         </div> */}
-                        <div className="flex justify-between items-end gap-4 mt-3 mb-2 ">
+                        <div className="flex justify-between items-end gap-4 mt-3 mb-2.5 ">
                             <div className="flex-grow">
                                 {/* <label htmlFor="note_title" className="block mb-2 text-sm font-medium">Title</label> */}
                                 <input type="text" id="note_title" className="border-b border-gray-800/80 block w-full 
@@ -874,18 +930,21 @@ const NoteModal = () => {
                     </div>
                     <div className='text-area-section mb-3'>
                         <div className="notemodal-text-area relative" ref={parentRef}>
-                            <textarea type="text" id="note_content" className="rounded-lg bg-transparent block 
-                                py-2 pt-8 w-full placeholder-gray-500 text-gray-800 focus:outline-none
-                                min-h-full note-textarea sm:text-[1rem] text-[1.05rem]" rows={textareaRows}
+                            <textarea type="text" id="note_content"
+                                className={`rounded-lg bg-transparent block 
+                                py-2 w-full placeholder-gray-500 text-gray-800 focus:outline-none
+                                min-h-full note-textarea sm:text-[1rem] text-[1.05rem] 
+                                ${isRephrasedNote.content || note.content ? 'pt-8' : ''}`}
+                                rows={textareaRows}
                                 placeholder="Content..."
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
-                                onChange={changeNote} required
+                                onChange={changeNote} required ref={textareaRef}
                             />
                             <TextFormatComp
                                 applyFormattingToSelectedText={applyFormattingToSelectedText}
-                                parentRef={parentRef}
+                                parentRef={parentRef} ctx={isRephrasedNote ? rephrasedNote : note}
                             />
-                            <motion.div
+                            <div
                                 drag
                                 animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
                                 whileDrag={{ scale: 1.05 }}
@@ -914,14 +973,14 @@ const NoteModal = () => {
                                 </div>
                                 <div
                                     className={`text-sm sm:text-xs border-[1.5px] border-gray-700 px-2 py-1 
-                                    rounded-xl cursor-pointer backdrop-blur-[10px] bg-white/10 font-semibold
+                                    rounded-xl cursor-pointer backdrop-blur-[10px] font-semibold
                                     flex gap-1 justify-center items-center ${rephrasePopUp && 'rounded-tr-none'}`}
                                     onClick={toggleRephrasePopUp}>
                                     <span className='text-sm'>
                                         <RiMagicFill className='inline text-lg' /> Grammar
                                     </span>
                                 </div>
-                            </motion.div>
+                            </div>
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.
@@ -1012,7 +1071,11 @@ const NoteModal = () => {
                     gptSubmitModalState={gptSubmitModalState}
                     changeGptRequirementModal={changeGptRequirementModal} changeNoteContentByGpt={changeNoteContentByGpt}
                     isRephrasedNote={isRephrasedNote} rephrasedNote={rephrasedNote}
-                    noteFromNoteModal={isRephrasedNote ? rephrasedNote : note} isEdit={isEdit} />
+                    noteFromNoteModal={isRephrasedNote ? rephrasedNote : note} isEdit={isEdit}
+                    changeNoteContentByGptTrial={changeNoteContentByGptTrial} closeGptRequirementModal={closeGptRequirementModal}
+                    setYoutubeVideosByGptModal={setYoutubeVideosByGptModal} changeYtGptLoader={changeYtGptLoader}
+                    changeStreamGptLoader={changeStreamGptLoader}
+                />
                 <YtVideoAddModal
                     ytVideAddModalState={ytVideAddModalState}
                     changeYtAddModal={changeYtAddModal}
@@ -1021,64 +1084,104 @@ const NoteModal = () => {
                     deleteYourYtVideo={deleteYourYtVideo}
                     ytRefs={ytRefs}
                 />
-            </div>
-            {loading &&
-                <div
-                    className={`loader-gpt absolute inset-0 bg-black bg-opacity-40 backdrop-blur-[2px] flex flex-col justify-center 
-                                items-center flex-wrap`}>
-                    <ClipLoader
-                        color='#f1f5f9'
-                        loading='Generating...'
-                        //cssOverride={override}
-                        size={50}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
-                        speedMultiplier={1}
-                    />
-                    <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
-                        {isEdit ? 'Customizing...' : 'Creating note...'}
-                    </div>
-                </div>
 
-            }
-            {loadingRephraser &&
-                <div
-                    className={`modal-blur absolute inset-0 bg-black bg-opacity-40 backdrop-blur-[2px] flex flex-col justify-center 
+                {loading &&
+                    <div
+                        className={`loader-gpt absolute inset-0 bg-black bg-opacity-40 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
-                    <ClipLoader2
-                        color='#e2e8f0'
-                        loading='Generating...'
-                        //cssOverride={override}
-                        size={30}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
-                        speedMultiplier={1}
-                    />
-                    <div className="text-2xl mt-5 font-bold text-[#e2e8f0]">
-                        Rephrasing...
+                        <ClipLoader
+                            color='#f1f5f9'
+                            loading='Generating...'
+                            //cssOverride={override}
+                            size={50}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                            speedMultiplier={1}
+                        />
+                        <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
+                            {isEdit ? 'Customizing...' : 'Creating note...'}
+                        </div>
                     </div>
-                    {/* <div classN ame={`border-gray-200 border px-2 rounded-lg  py-1 mt-2
+
+                }
+                {loadingRephraser &&
+                    <div
+                        className={`modal-blur absolute inset-0 bg-black bg-opacity-40 backdrop-blur-[2px] flex flex-col justify-center 
+                                items-center flex-wrap`}>
+                        <ClipLoader2
+                            color='#e2e8f0'
+                            loading='Generating...'
+                            //cssOverride={override}
+                            size={30}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                            speedMultiplier={1}
+                        />
+                        <div className="text-2xl mt-5 font-bold text-[#e2e8f0]">
+                            Rephrasing...
+                        </div>
+                        {/* <div classN ame={`border-gray-200 border px-2 rounded-lg  py-1 mt-2
                                     cursor-pointer hover:scale-[1.02] transition-all duration-150 ease-in-out text-lg`}
                         onClick={() => {}}
                     >
                         Cancel?
                     </div> */}
-                </div>
-            }
-            {ytVideoDeleteLoading &&
-                <div
-                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    </div>
+                }
+                {ytVideoDeleteLoading &&
+                    <div
+                        className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                     items-center flex-wrap`}>
-                    <ClipLoader3
-                        color='#f86464'
-                        loading='Generating...'
-                        size={70}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
-                        speedMultiplier={1}
-                    />
-                </div>
-            }
+                        <ClipLoader3
+                            color='#f86464'
+                            loading='Generating...'
+                            size={70}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                            speedMultiplier={1}
+                        />
+                    </div>
+                }
+                {ytGptLoader &&
+                    <div
+                        className={`modal-blur absolute inset-0  backdrop-blur-[1px] flex flex-col justify-center 
+                                items-center flex-wrap`}>
+                        <ClipLoader4
+                            color='#1F2937'
+                            loading='Getting...'
+                            //cssOverride={override}
+                            size={100}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                            speedMultiplier={1}
+                        />
+                        <div className="text-2xl mt-5 font-bold text-[#1F2937]">
+                            Getting videos...
+                        </div>
+                    </div>
+                }
+                {streamGptLoader &&
+                    <div
+                        className={`modal-blur absolute inset-0 backdrop-blur-[1px] flex flex-col justify-center 
+                                items-center flex-wrap`}>
+                        <ClipLoader5
+                            color='#1F2937'
+                            loading='Generating...'
+                            //cssOverride={override}
+                            size={25}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                            speedMultiplier={1}
+                        />
+                        <div className="text-2xl mt-5 font-bold text-[#1F2937]">
+                            Gathering thoughts... 🍂
+                        </div>
+                        {/* <div className="text-lg mt-2 font-bold text-[#1F2937] text-center">
+                            Gathering thoughts... 🍂 <br />
+                        </div> */}
+                    </div>
+                }
+            </div>
         </div>
     )
 }

@@ -6,15 +6,21 @@ import ClipLoader from "react-spinners/GridLoader";
 import toast, { Toaster } from 'react-hot-toast';
 import { nanoid } from 'nanoid'
 import { openAiGptTextGeneration, youtubeOneVideotHelper } from '@/helper/externalAPIHelpers/handleExternalAPIs'
+import { useCompletion } from 'ai/react'
+import { set } from 'mongoose';
+import { RiEyeCloseLine } from 'react-icons/ri';
 
-const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequirementModal, changeNoteContentByGpt, isEdit }) => {
+const GptSubmit = (
+    { gptSubmitModalState, noteFromNoteModal, changeGptRequirementModal, changeNoteContentByGpt, isEdit,
+        changeNoteContentByGptTrial, closeGptRequirementModal, setYoutubeVideosByGptModal, changeYtGptLoader, changeStreamGptLoader }
+) => {
 
     const copyNoteFromNoteModal = { ...noteFromNoteModal }
     // console.log('NoteFromMainModal')
     // console.log(nfmm.title)
     const [generateRequirementGpt, setGenerateRequirementGpt] = useState({
         generate_title: copyNoteFromNoteModal.title,
-        words: '250',
+        words: '300',
         output_type: 'easy to understand',
         emojis: true,
         videos: true,
@@ -36,65 +42,80 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
         }))
     }
 
-    async function generateContent(event) {
-        event.preventDefault()
-        let temperature = 0.5
-        let tokens = 0
-        let words = parseInt(generateRequirementGpt.words, 10)
-        if (words > 250 && words < 501) {
-            tokens = 1200
-        } else if (words > 500 && words < 751) {
-            tokens = 1700
-        } else if (words > 750 && words < 1001) {
-            tokens = 2200
-        } if (words > 1000 && words < 2001) {
-            tokens = 4000
-        } else {
-            tokens = 700
-        }
-        let output_type = ''
-        if (generateRequirementGpt.output_type === 'easy to understand') {
-            output_type = `Simplify the explanation as if teaching a young child. Use analogies and metaphors for complex concepts, and avoid jargon. The language should be straightforward and engaging, suitable for someone with no prior knowledge of the topic`
-            temperature = 0.7
-        } else if (generateRequirementGpt.output_type === 'gamify') {
-            output_type = `Explain the topic so it feels like a game. Gamify the learning process. Use gamification techniques to engage the audience. Explain the topic by playing a Game. Introduce elements like challenges, rewards, and progress levels. Use playful language and scenarios to make the learning process fun and memorable`
-            temperature = 0.7
-        } else {
-            output_type = `Explain the topic with precision and accuracy. Deliver the content with accuracy and depth. Use technical terms appropriately and provide clear definitions. Ensure that the information is up-to-date and cite reliable sources where applicable`
-            temperature = 0.5
-        }
-        const emojiOption = ' Generate 5 to 7 meaningful emojis interspersed throughout the content. The emojis should be relevant to the context.'
-        const instruction = `Act as an expert in the topic. ${output_type}. Don't be VERBOSE. Format the content using Markdown where appropriate to improve readability and organization. Use headers for titles and subheadings, lists for itemization or enumeration, bold and italics for emphasis, and links for references. Avoid creating unnecessary white spaces and new lines. Include hyperlinks for additional information. Aim for a word count of approximately ${words}.${generateRequirementGpt.emojis ? emojiOption : ''} Conclude with an intriguing fact related to the topic. The topic is: ${generateRequirementGpt.generate_title}`
-        const gptData = {
-            model: 'gpt-3.5-turbo-1106',
-            temperature: temperature,
-            // max_tokens: tokens,
-            messages: [
-                {
-                    'role': 'system',
-                    'content': "You are generating content for 'Stickify', a note-taking app designed for a diverse user base ranging from students to professionals. The content should be adaptable for educational purposes, professional use, and personal knowledge enhancement. Keep in mind the varying levels of expertise and interests of the users."
-                },
-                {
-                    'role': 'user',
-                    'content': instruction,
-                }
-            ],
-        }
-        // console.log(tokens)
-        // console.log(instruction)
-        // const headers = {
-        //     'Content-Type': 'application/json',
-        //     'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`
-        // }
-        try {
-            setLoadingGpt(true)
-            const res = await openAiGptTextGeneration({ gptData: gptData })
-            console.log('openAiGptTextGeneration')
-            console.log(res)
-            const gptGeneratedContent = res.choices[0].message.content
+    let temperature = 0.5
+    let tokens = 0
+    let words = parseInt(generateRequirementGpt.words, 10)
+    console.log(words)
+    if (words > 250 && words < 501) {
+        tokens = 1200
+    } else if (words > 500 && words < 751) {
+        console.log('BOOMM')
+        tokens = 1700
+    } else if (words > 750 && words < 1001) {
+        tokens = 2200
+    } else if (words > 1000 && words < 2001) {
+        tokens = 4000
+    } else {
+        tokens = 700
+    }
+    let output_type = ''
+    if (generateRequirementGpt.output_type === 'easy to understand') {
+        output_type = `Simplify the explanation as if teaching a young child. Use analogies and metaphors for complex concepts, and avoid jargon. The language should be straightforward and engaging, suitable for someone with no prior knowledge of the topic`
+        temperature = 0.7
+    } else if (generateRequirementGpt.output_type === 'gamify') {
+        output_type = `Explain the topic so it feels like a game. Gamify the learning process. Use gamification techniques to engage the audience. Explain the topic by playing a Game. Introduce elements like challenges, rewards, and progress levels. Use playful language and scenarios to make the learning process fun and memorable`
+        temperature = 0.7
+    } else {
+        output_type = `Explain the topic with precision and accuracy. Deliver the content with accuracy and depth. Use technical terms appropriately and provide clear definitions. Ensure that the information is up-to-date and cite reliable sources where applicable`
+        temperature = 0.5
+    }
+    const emojiOption = ' Generate 5 to 7 meaningful emojis interspersed throughout the content. The emojis should be relevant to the context.'
+    const instruction = `Act as an expert in the topic. ${output_type}. Don't be VERBOSE. Format the response using Markdown, but keep the Markdown formatting minimal. Avoid using bold formatting. Use headers for main headings and subheadings. Do not incluse bold formating with lists and bullet ponits. Avoid creating unnecessary white spaces and new lines. Include links for additional information. Make sure to aim for a word count of approximately ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} Conclude with an intriguing fact related to the topic. The topic is: ${generateRequirementGpt.generate_title}`
+    const gptData = {
+        model: 'gpt-3.5-turbo-1106',
+        stream: true,
+        temperature: temperature,
+        max_tokens: tokens,
+        messages: [
+            {
+                'role': 'system',
+                'content': "You are generating content for 'Stickify', a note-taking app designed for a diverse user base ranging from students to professionals. The content should be adaptable for educational purposes, professional use, and personal knowledge enhancement. Keep in mind the varying levels of expertise and interests of the users."
+            },
+            {
+                'role': 'user',
+                'content': instruction,
+            }
+        ],
+    }
 
-            // If Video included
+    const {
+        completion,
+        input,
+        stop,
+        isLoading,
+        handleInputChange,
+        handleSubmit,
+    } = useCompletion({
+        api: '/api/completion',
+        body: {
+            geyi: gptData
+        },
+        initialInput: instruction,
+        onError: () => {
+            toast('Sorry could not generate', {
+                icon: '🥺'
+            })
+        },
+        onResponse: (res) => {
+            //const resp = res.json()
+            console.log(res)
+        },
+        onFinish: async () => {
             if (generateRequirementGpt.videos) {
+                if (isEdit && noteFromNoteModal.ytVideo.length > 4) {
+                    return
+                }
+                changeYtGptLoader(true)
                 const ytTitle = `${generateRequirementGpt.generate_title}`
                 const ytRes = await youtubeOneVideotHelper(
                     {
@@ -111,12 +132,12 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                         'gptGeneratedContent': gptGeneratedContent,
                         'ytVideoData': [],
                     }
-                    changeNoteContentByGpt(generatedData, false)
-                    setLoadingGpt(false)
-                    changeGptRequirementModal()
-                    // toast('Generated!', {
-                    //     icon: '😀'
-                    // })
+                    // changeNoteContentByGpt(generatedData, false)
+                    changeYtGptLoader(false)
+                    // changeGptRequirementModal()
+                    toast('Sorry could not find', {
+                        icon: '🥺'
+                    })
                 } else {
                     // If Videos available
                     const datas = ytRes.items
@@ -136,50 +157,49 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                         ytVideoData = datas.map(data => {
                             const modify = {
                                 ytVideoId: data.id.videoId,
-                                uniqueId: nanoid(),
                                 ytVideoTitle: data.snippet.title,
                             }
                             return modify
                         })
                     }
-
                     // console.log('yt video data--')
                     // console.log(ytVideoData)
-                    const generatedData = {
-                        'gptGeneratedContent': gptGeneratedContent,
-                        'ytVideoData': ytVideoData,
-                    }
-                    changeNoteContentByGpt(generatedData, true)
-                    setLoadingGpt(false)
-                    changeGptRequirementModal()
-                    // toast('Generated!', {
-                    //     icon: '😀'
-                    // })
+                    setYoutubeVideosByGptModal(ytVideoData)
+                    changeYtGptLoader(false)
+                    toast('Boom!', {
+                        icon: '🔥',
+                        position: 'top-center'
+                    })
                 }
             } else {
-                // If Videos not included
-                const generatedData = {
-                    'gptGeneratedContent': gptGeneratedContent,
-                    'ytVideoData': [],
-                }
-                changeNoteContentByGpt(generatedData, false)
-                setLoadingGpt(false)
-                changeGptRequirementModal()
-                toast('Generated!', {
-                    icon: '😀'
+                toast('Boom!', {
+                    icon: '🔥'
                 })
             }
-        } catch (error) {
-            // Catch errors
-            setLoadingGpt(false)
-            console.log(error)
-            toast('Sorry could not generate', {
-                icon: '🥺'
-            })
-        }
-    }
+        },
+    });
 
-    // console.log(generateRequirementGpt)
+    useEffect(() => {
+        if (completion) {
+            console.log(completion)
+            changeNoteContentByGptTrial(completion)
+        }
+    }, [completion])
+
+    useEffect(() => {
+        if (isLoading) {
+            changeStreamGptLoader(true)
+        } else {
+            changeStreamGptLoader(false)
+        }
+
+        if (gptSubmitModalState) {
+            closeGptRequirementModal()
+        }
+    }, [isLoading])
+
+
+    //console.log(ytGptLoader)
 
     return (
         <div
@@ -192,7 +212,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                         <AiOutlineCloseCircle className={`sm:text-3xl text-4xl text-gray-300 hover:text-red-400`} />
                     </div>
                 </div>
-                <form className="mt-4 text-zinc-200" onSubmit={generateContent} id='gptSubmitForm'>
+                <form className="mt-4 text-zinc-200" onSubmit={handleSubmit} id='gptSubmitForm'>
                     {/* <div className="mb-4">
                         <label htmlFor="generate_title" className="block mb-2 text-sm font-medium">Title</label>
                         <input type="text" id="generate_title" className="bg-gray-700 border-b border-gray-400/75 block w-full 
@@ -202,8 +222,8 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                     </div> */}
                     <div className="flex justify-between items-center gap-4 mb-4">
                         <div>
-                            <label htmlFor="" className="block mb-2 sm:text-[1rem] text-[1.1rem] font-medium">Words:</label>
-                            <input type="number" name="words" id="" placeholder='100' min="10" max="2000"
+                            <label htmlFor="words" className="block mb-2 sm:text-[1rem] text-[1.1rem] font-medium">Words:</label>
+                            <input type="number" name="words" id="words" placeholder='100' min="100" max="2000"
                                 className='sm:text-[1rem] text-[1.1rem] rounded-lg w-full p-2 bg-zinc-700 border-zinc-700 
                                 placeholder-zinc-400
                                 text-zinc-100 focus:ring-blue-500 focus:border-blue-500 shadow-sm-light'
@@ -211,8 +231,8 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                                 title='Enter a number between 10 and 2000' />
                         </div>
                         <div className='flex-grow'>
-                            <label htmlFor="" className="block mb-2 sm:text-[1rem] text-[1.1rem] font-medium">Output type:</label>
-                            <select name="output_type" id=""
+                            <label htmlFor="output_type" className="block mb-2 sm:text-[1rem] text-[1.1rem] font-medium">Output type:</label>
+                            <select name="output_type" id="output_type"
                                 className='sm:text-[1rem] text-[1.1rem] rounded-lg w-full p-2 bg-zinc-700 border-gray-500 
                                 placeholder-zinc-400 
                                 text-zinc-100 focus:ring-blue-500 focus:border-blue-500 shadow-sm-light'
@@ -255,7 +275,7 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                     </div>
                 </form>
             </div>
-            {loadingGpt &&
+            {/* {isLoading &&
                 <div
                     className={`modal-blur absolute inset-0 bg-black bg-opacity-30 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
@@ -269,14 +289,13 @@ const GptSubmit = ({ gptSubmitModalState, noteFromNoteModal, changeGptRequiremen
                         speedMultiplier={1}
                     />
                     <div className="text-2xl mt-5 font-bold text-[#e2e8f0]">
-                        Generating...
+                        Hold on!
                     </div>
                     <div className="text-lg mt-2 font-bold text-[#f1f5f9] text-center">
                         Optimizing Your Wait ⚙️🚀 <br />
                     </div>
                 </div>
-
-            }
+            } */}
         </div>
 
     )

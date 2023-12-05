@@ -87,11 +87,12 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote, initialR
                                     typewritter.typeString(note.content).start()
                                 }}
                                 options={{
-                                    delay: 23,
+                                    delay: 25,
                                 }}
                             />
                             :
-                            <MarkdownContent texts={note.content} />
+                            // <MarkdownContent texts={note.content} />
+                            note.content
                     }
                 </div>
                 <div className='text-sm mt-3 flex justify-between items-center gap-3'>

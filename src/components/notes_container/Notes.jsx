@@ -95,11 +95,12 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
                                     typewritter.typeString(note.content).start()
                                 }}
                                 options={{
-                                    delay: 23,
+                                    delay: 25,
                                 }}
                             />
                             :
-                            <MarkdownContent texts={note.content} />
+                            // <MarkdownContent texts={note.content} />
+                            note.content
                     }
                 </div>
                 <div className='text-sm mt-4 flex justify-between items-center gap-2'>

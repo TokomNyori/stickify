@@ -65,7 +65,7 @@ export default function NotesContainer() {
         if (initialLoading === false) {
             timeoutId = setTimeout(() => {
                 setInitialRender(false)
-            }, 5500);
+            }, 7000);
         }
         return () => {
             // Clear the timeout when the component unmounts or when dependencies change

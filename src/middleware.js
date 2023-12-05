@@ -15,6 +15,11 @@ export function middleware(request) {
     // Extracting the current path
     const { pathname } = request.nextUrl
 
+    if (pathname === '/api/chat') {
+        // Add your specific logic for /api/chat here
+        console.log('Accessing /api/chat');
+    }
+
     // NO restrictions for these two APIs, the middleware will be closed.
     if (pathname === '/api/users/login' || pathname === '/api/users/signup') {
         return

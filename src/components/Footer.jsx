@@ -1,10 +1,10 @@
 import Link from 'next/link'
-import React from 'react'
 import { AiOutlineInstagram } from 'react-icons/ai'
 import { AiOutlineMail } from 'react-icons/ai'
 import { AiFillGithub } from 'react-icons/ai'
 
 const Footer = () => {
+
     return (
         <div className='dark:bg-zinc-950 bg-[#fff] flex flex-col justify-center items-center pt-5 pb-10 px-3 sm:px-6 w-full
         text-[1.1rem] sm:text-[1rem]'>

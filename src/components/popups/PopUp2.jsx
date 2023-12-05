@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlineRollback } from 'react-icons/ai'
 import { RiSpeakLine } from 'react-icons/ri'
+import { useCompletion } from 'ai/react'
 
 const PopUp2 =
     ({ closeRephrasePopUp, rephrasePopUp, content, changeRephrasedNote, rephrasedNote,
@@ -33,8 +34,8 @@ const PopUp2 =
             event.stopPropagation()
             const ctx = isRephrasedNote ? rephrasedNote.content : content
 
-            const instruction = `Rephrase the following content to embody a ${tone} tone, adjusting the style and vocabulary to fit this tone while retaining the original meaning. Ensure the rephrased content is coherent and fluid. Original content: ${ctx}`
-            const enhanceInstruction = `Enhance the provided content to align with standard English. Focus on correcting grammatical errors, improving sentence structure, and ensuring clarity of expression. Original content: ${ctx}`
+            const instruction = `Rephrase the following content to embody a ${tone} tone, adjusting the style and vocabulary to fit this tone while retaining the original meaning. Ensure the rephrased content is coherent and fluid. Maintain the markdown formatting if there are any. Original content: ${ctx}`
+            const enhanceInstruction = `Enhance the provided content to align with standard English. Focus on correcting grammatical errors, improving sentence structure, and ensuring clarity of expression. Maintain the markdown formatting if there are any. Original content: ${ctx}`
             const systemContentGrammar = 'Your task is to refine the provided content to standard English. This includes correcting grammatical errors, clarifying ambiguous statements, and improving overall readability.';
             const systemContentRephrase = 'You are to rephrase the provided content to match a specific tone. Adjust the style, vocabulary, and structure to reflect the designated tone, while maintaining the original message.';
             const gptData = {
@@ -98,10 +99,10 @@ const PopUp2 =
         return (
             <div
                 className={`${rephrasePopUp ? 'PopUps2' : 'hidden w-0 h-0'} 
-                        border-[1.5px] border-gray-800 backdrop-blur-[10px] bg-white/10 font-semibold`}
+                        border-[1.5px] border-gray-800 backdrop-blur-[10px] font-semibold`}
                 ref={rephrasePopUpRef}
             >
-                { 
+                {
                     !isDefault ?
                         <div className="border-b py-0.5 border-gray-800">
                             <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out 

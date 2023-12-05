@@ -339,10 +339,10 @@
     display: flex;
   }
 
-  /* .ai-rephrase-btn {
+  .ai-rephrase-btn {
     right: 0;
-    bottom: 1%;
-  } */
+    bottom: 2%;
+  }
 
   .ai-rephrase-options {
     left: -62%;

@@ -8,7 +8,7 @@ const MarkdownContent = ({ texts }) => {
         }
 
         // Updated regex to include underline syntax (__text__)
-        const segments = text.split(/(\*\*.*?\*\*|\*.*?\*|__.*?__|#{1,6} .*?\n|- .*?\n|https?:\/\/[^\s]+)/);
+        const segments = text.split(/(\*\*.*?\*\*|\*.*?\*|__.*?__|#{1,6} .*?\n|- .*?\n|\[.*?\]\(http[s]?:\/\/.*?\)|https?:\/\/[^\s]+)/);
 
         // Function to parse inner markdown (bold/italic/underline) inside headings
         const parseInnerMarkdown = (text) => {
@@ -53,6 +53,11 @@ const MarkdownContent = ({ texts }) => {
                 const text = match[2];
                 const Heading = `h${level}`;
                 return <Heading className={`heading${level}`}>{parseInnerMarkdown(text)}</Heading>;
+            } else if (/\[(.*?)\]\((http[s]?:\/\/.*?)\)/.test(segment)) {
+                const match = segment.match(/\[(.*?)\]\((http[s]?:\/\/.*?)\)/);
+                const text = match[1];
+                const url = match[2];
+                return <Link href={url} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">{text}</Link>;
             } else if (/^- (.*?)\n$/.test(segment)) {
                 const listItemContent = segment.slice(2, -1);
                 return <li>{parseListItem(listItemContent)}</li>;

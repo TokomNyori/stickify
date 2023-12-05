@@ -37,7 +37,6 @@ import {
     formatDistanceToNowStrict, differenceInMinutes, differenceInHours, differenceInDays, differenceInWeeks,
     isValid, differenceInYears, format
 } from 'date-fns';
-import ReactMarkdown from 'react-markdown';
 import MarkdownContent from '../others/MarkdownContent';
 
 const NotePage = ({ params }) => {
