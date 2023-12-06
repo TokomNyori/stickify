@@ -7,34 +7,16 @@
 }
 
 .gpt-modal-blur {
-  z-index: 40;
+  z-index: 60;
 }
 
 .youtube-modal-blur {
-  z-index: 40;
+  z-index: 60;
 }
 
 .loader-gpt {
-  z-index: 40;
+  z-index: 60;
 }
-
-.modal-main {
-  width: 50%;
-  min-height: 570px;
-  height: 99%;
-  flex-wrap: wrap;
-  padding: 1rem 1rem;
-  /* @apply bg-gray-700; */
-  backdrop-filter: blur(0.625rem);
-  /* border: 1px solid rgba(255, 255, 255, 0.2); */
-  /* border-radius: 10px; */
-  overflow: hidden;
-  box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.2);
-  animation-name: note-modalopen;
-  animation-timing-function: ease-in-out;
-  animation-duration: 0.5s;
-}
-
 
 .fix-modal {
   z-index: 50;
@@ -62,6 +44,23 @@
   position: fixed;
   animation-name: modalopen;
   animation-duration: 1s;
+}
+
+.modal-main {
+  width: 50%;
+  min-height: 570px;
+  height: 99%;
+  flex-wrap: wrap;
+  padding: 1rem 1rem;
+  /* @apply bg-gray-700; */
+  backdrop-filter: blur(0.625rem);
+  /* border: 1px solid rgba(255, 255, 255, 0.2); */
+  /* border-radius: 10px; */
+  overflow: hidden;
+  box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.2);
+  animation-name: note-modalopen;
+  animation-timing-function: ease-in-out;
+  animation-duration: 0.5s;
 }
 
 /* .notemodal-text-area {
