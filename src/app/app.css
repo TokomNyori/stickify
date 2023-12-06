@@ -15,7 +15,7 @@
 }
 
 .loader-gpt {
-  z-index: 100;
+  z-index: 40;
 }
 
 .modal-main {
@@ -33,6 +33,35 @@
   animation-name: note-modalopen;
   animation-timing-function: ease-in-out;
   animation-duration: 0.5s;
+}
+
+
+.fix-modal {
+  z-index: 50;
+  position: fixed;
+  animation-name: modalopen;
+  /* animation-duration: 1s; */
+}
+
+.gpt-fix-modal {
+  z-index: 100;
+  position: fixed;
+  animation-name: modalopen;
+  animation-duration: 1.2s;
+}
+
+.save-warning-fix-modal {
+  z-index: 100;
+  position: fixed;
+  animation-name: modalopen;
+  animation-duration: 1s;
+}
+
+.yt-fix-modal {
+  z-index: 100;
+  position: fixed;
+  animation-name: modalopen;
+  animation-duration: 1s;
 }
 
 /* .notemodal-text-area {
@@ -68,33 +97,6 @@
   align-items: center;
 }
 
-.fix-modal {
-  z-index: 50;
-  position: fixed;
-  animation-name: modalopen;
-  /* animation-duration: 1s; */
-}
-
-.gpt-fix-modal {
-  z-index: 60;
-  position: fixed;
-  animation-name: modalopen;
-  animation-duration: 1.2s;
-}
-
-.save-warning-fix-modal {
-  z-index: 80;
-  position: fixed;
-  animation-name: modalopen;
-  animation-duration: 1s;
-}
-
-.yt-fix-modal {
-  z-index: 70;
-  position: fixed;
-  animation-name: modalopen;
-  animation-duration: 1s;
-}
 
 @keyframes modalopen {
   from {
