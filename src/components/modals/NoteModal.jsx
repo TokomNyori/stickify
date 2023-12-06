@@ -1087,104 +1087,103 @@ const NoteModal = () => {
                     deleteYourYtVideo={deleteYourYtVideo}
                     ytRefs={ytRefs}
                 />
-
-                {loading &&
-                    <div
-                        className={`loader-gpt absolute inset-0 bg-black bg-opacity-40 backdrop-blur-[2px] flex flex-col justify-center 
+            </div>
+            {loading &&
+                <div
+                    className={`loader-gpt absolute inset-0 bg-black bg-opacity-40 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
-                        <ClipLoader
-                            color='#f1f5f9'
-                            loading='Generating...'
-                            //cssOverride={override}
-                            size={50}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                            speedMultiplier={1}
-                        />
-                        <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
-                            {isEdit ? 'Customizing...' : 'Creating note...'}
-                        </div>
+                    <ClipLoader
+                        color='#f1f5f9'
+                        loading='Generating...'
+                        //cssOverride={override}
+                        size={50}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
+                        {isEdit ? 'Customizing...' : 'Creating note...'}
                     </div>
+                </div>
 
-                }
-                {loadingRephraser &&
-                    <div
-                        className={`modal-blur absolute inset-0 bg-black bg-opacity-40 backdrop-blur-[2px] flex flex-col justify-center 
+            }
+            {loadingRephraser &&
+                <div
+                    className={`modal-blur absolute inset-0 bg-black bg-opacity-40 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
-                        <ClipLoader2
-                            color='#e2e8f0'
-                            loading='Generating...'
-                            //cssOverride={override}
-                            size={30}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                            speedMultiplier={1}
-                        />
-                        <div className="text-2xl mt-5 font-bold text-[#e2e8f0]">
-                            Rephrasing...
-                        </div>
-                        {/* <div classN ame={`border-gray-200 border px-2 rounded-lg  py-1 mt-2
+                    <ClipLoader2
+                        color='#e2e8f0'
+                        loading='Generating...'
+                        //cssOverride={override}
+                        size={30}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    <div className="text-2xl mt-5 font-bold text-[#e2e8f0]">
+                        Rephrasing...
+                    </div>
+                    {/* <div classN ame={`border-gray-200 border px-2 rounded-lg  py-1 mt-2
                                     cursor-pointer hover:scale-[1.02] transition-all duration-150 ease-in-out text-lg`}
                         onClick={() => {}}
                     >
                         Cancel?
                     </div> */}
-                    </div>
-                }
-                {ytVideoDeleteLoading &&
-                    <div
-                        className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                </div>
+            }
+            {ytVideoDeleteLoading &&
+                <div
+                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                     items-center flex-wrap`}>
-                        <ClipLoader3
-                            color='#f86464'
-                            loading='Generating...'
-                            size={70}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                            speedMultiplier={1}
-                        />
-                    </div>
-                }
-                {ytGptLoader &&
-                    <div
-                        className={`modal-blur absolute inset-0  backdrop-blur-[2px] flex flex-col justify-center 
+                    <ClipLoader3
+                        color='#f86464'
+                        loading='Generating...'
+                        size={70}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                </div>
+            }
+            {ytGptLoader &&
+                <div
+                    className={`modal-blur absolute inset-0  backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
-                        <ClipLoader4
-                            color='#1F2937'
-                            loading='Getting...'
-                            //cssOverride={override}
-                            size={100}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                            speedMultiplier={1}
-                        />
-                        <div className="text-2xl mt-5 font-bold p-1 text-[#1F2937]">
-                            Getting videos...
-                        </div>
+                    <ClipLoader4
+                        color='#1F2937'
+                        loading='Getting...'
+                        //cssOverride={override}
+                        size={100}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    <div className="text-2xl mt-5 font-bold p-1 text-[#1F2937]">
+                        Getting videos...
                     </div>
-                }
-                {streamGptLoader &&
-                    <div
-                        className={`modal-blur absolute inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                </div>
+            }
+            {streamGptLoader &&
+                <div
+                    className={`modal-blur absolute inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
-                        <ClipLoader5
-                            color='#1F2937'
-                            loading='Generating...'
-                            //cssOverride={override}
-                            size={25}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                            speedMultiplier={1}
-                        />
-                        <div className="text-2xl mt-5 font-bold p-1 text-[#1F2937]">
-                            Gathering thoughts 🍂
-                        </div>
-                        {/* <div className="text-lg mt-2 font-bold text-[#1F2937] text-center">
+                    <ClipLoader5
+                        color='#1F2937'
+                        loading='Generating...'
+                        //cssOverride={override}
+                        size={25}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    <div className="text-2xl mt-5 font-bold p-1 text-[#1F2937]">
+                        Gathering thoughts 🍂
+                    </div>
+                    {/* <div className="text-lg mt-2 font-bold text-[#1F2937] text-center">
                             Gathering thoughts... 🍂 <br />
                         </div> */}
-                    </div>
-                }
-            </div>
+                </div>
+            }
         </div>
     )
 }
