@@ -1176,7 +1176,7 @@ const NoteModal = () => {
                             data-testid="loader"
                             speedMultiplier={1}
                         />
-                        <div className="text-2xl mt-5 font-bold p-1 glow-texts blink">
+                        <div className="text-2xl mt-5 font-bold p-1 text-[#1F2937]">
                             Gathering thoughts 🍂
                         </div>
                         {/* <div className="text-lg mt-2 font-bold text-[#1F2937] text-center">
