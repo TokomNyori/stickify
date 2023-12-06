@@ -252,14 +252,14 @@ const NoteModal = () => {
         };
     }, [noteModalConfig]);
 
-    // useEffect(() => {
-    //     if (streamGptLoader) {
-    //         const textarea = textareaRef.current;
-    //         if (textarea) {
-    //             textarea.scrollTop = textarea.scrollHeight;
-    //         }
-    //     }
-    // }, [note.content, rephrasedNote.content]);
+    useEffect(() => {
+        if (streamGptLoader) {
+            const textarea = textareaRef.current;
+            if (textarea) {
+                textarea.scrollTop = textarea.scrollHeight;
+            }
+        }
+    }, [note.content, rephrasedNote.content]);
 
 
     function closeModal(event) {
@@ -942,11 +942,11 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required ref={textareaRef}
                             />
-                            <TextFormatComp
+                            {/* <TextFormatComp
                                 applyFormattingToSelectedText={applyFormattingToSelectedText}
                                 parentRef={parentRef} ctx={isRephrasedNote ? rephrasedNote : note}
-                            />
-                            <div
+                            /> */}
+                            <motion.div
                                 drag
                                 animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
                                 whileDrag={{ scale: 1.05 }}
@@ -983,7 +983,7 @@ const NoteModal = () => {
                                         <RiMagicFill className='inline text-lg' /> Grammar
                                     </span>
                                 </div>
-                            </div>
+                            </motion.div>
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.
