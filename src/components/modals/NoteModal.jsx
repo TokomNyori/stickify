@@ -179,49 +179,49 @@ const NoteModal = () => {
         // setRephrasedNote(({ ...note, content: '' }))
     }, [rephrasedNote])
 
-    // useEffect(() => {
-    //     const height = window.innerHeight;
-    //     console.log(height)
-    //     if (height > 700 && height < 800) {
-    //         rephrasedNote.content || note.content ? setTextareaRows(19) : setTextareaRows(20)
-    //     } else if (height > 799 && height < 900) {
-    //         rephrasedNote.content || note.content ? setTextareaRows(23) : setTextareaRows(24)
-    //     } else if (height > 899 && height < 1000) {
-    //         rephrasedNote.content || note.content ? setTextareaRows(25) : setTextareaRows(26)
-    //     } else if (height > 999 && height < 1300) {
-    //         rephrasedNote.content || note.content ? setTextareaRows(27) : setTextareaRows(28)
-    //     } else if (height < 600) {
-    //         rephrasedNote.content || note.content ? setTextareaRows(14) : setTextareaRows(15)
-    //     } else {
-    //         rephrasedNote.content || note.content ? setTextareaRows(16) : setTextareaRows(17)
-    //     }
-    // }, [rephrasedNote.content, note.content])
+    useEffect(() => {
+        const height = window.innerHeight;
+        console.log(height)
+        if (height > 700 && height < 800) {
+            rephrasedNote.content || note.content ? setTextareaRows(19) : setTextareaRows(20)
+        } else if (height > 799 && height < 900) {
+            rephrasedNote.content || note.content ? setTextareaRows(23) : setTextareaRows(24)
+        } else if (height > 899 && height < 1000) {
+            rephrasedNote.content || note.content ? setTextareaRows(25) : setTextareaRows(26)
+        } else if (height > 999 && height < 1300) {
+            rephrasedNote.content || note.content ? setTextareaRows(27) : setTextareaRows(28)
+        } else if (height < 600) {
+            rephrasedNote.content || note.content ? setTextareaRows(14) : setTextareaRows(15)
+        } else {
+            rephrasedNote.content || note.content ? setTextareaRows(16) : setTextareaRows(17)
+        }
+    }, [rephrasedNote.content, note.content])
 
-    // useEffect(() => {
-    //     function handleResize() {
-    //         const height = window.innerHeight;
-    //         console.log(height)
-    //         if (height > 700 && height < 800) {
-    //             rephrasedNote.content || note.content ? setTextareaRows(19) : setTextareaRows(20)
-    //         } else if (height > 799 && height < 900) {
-    //             rephrasedNote.content || note.content ? setTextareaRows(23) : setTextareaRows(24)
-    //         } else if (height > 899 && height < 1000) {
-    //             rephrasedNote.content || note.content ? setTextareaRows(25) : setTextareaRows(26)
-    //         } else if (height > 999 && height < 1300) {
-    //             rephrasedNote.content || note.content ? setTextareaRows(27) : setTextareaRows(28)
-    //         } else if (height < 600) {
-    //             rephrasedNote.content || note.content ? setTextareaRows(14) : setTextareaRows(15)
-    //         } else {
-    //             rephrasedNote.content || note.content ? setTextareaRows(16) : setTextareaRows(17)
-    //         }
-    //     }
-    //     // Add the event listener
-    //     window.addEventListener('resize', handleResize);
-    //     // Clean up the event listener when the component unmounts
-    //     return () => {
-    //         window.removeEventListener('resize', handleResize);
-    //     };
-    // }, [rephrasedNote.content, note.content]);
+    useEffect(() => {
+        function handleResize() {
+            const height = window.innerHeight;
+            console.log(height)
+            if (height > 700 && height < 800) {
+                rephrasedNote.content || note.content ? setTextareaRows(19) : setTextareaRows(20)
+            } else if (height > 799 && height < 900) {
+                rephrasedNote.content || note.content ? setTextareaRows(23) : setTextareaRows(24)
+            } else if (height > 899 && height < 1000) {
+                rephrasedNote.content || note.content ? setTextareaRows(25) : setTextareaRows(26)
+            } else if (height > 999 && height < 1300) {
+                rephrasedNote.content || note.content ? setTextareaRows(27) : setTextareaRows(28)
+            } else if (height < 600) {
+                rephrasedNote.content || note.content ? setTextareaRows(14) : setTextareaRows(15)
+            } else {
+                rephrasedNote.content || note.content ? setTextareaRows(16) : setTextareaRows(17)
+            }
+        }
+        // Add the event listener
+        window.addEventListener('resize', handleResize);
+        // Clean up the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [rephrasedNote.content, note.content]);
 
     useEffect(() => {
         // Create the handlePopState function inside useEffect
@@ -942,10 +942,10 @@ const NoteModal = () => {
                                 value={isRephrasedNote ? rephrasedNote.content : note.content} name="content"
                                 onChange={changeNote} required ref={textareaRef}
                             />
-                            {/* <TextFormatComp
+                            <TextFormatComp
                                 applyFormattingToSelectedText={applyFormattingToSelectedText}
                                 parentRef={parentRef} ctx={isRephrasedNote ? rephrasedNote : note}
-                            /> */}
+                            />
                             <motion.div
                                 drag
                                 animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
@@ -1147,7 +1147,7 @@ const NoteModal = () => {
                 }
                 {ytGptLoader &&
                     <div
-                        className={`loader-gpt absolute inset-0  backdrop-blur-[2px] flex flex-col justify-center 
+                        className={`loader-gpt absolute inset-0  backdrop-blur-[3px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
                         <ClipLoader4
                             color='#1F2937'
@@ -1165,7 +1165,7 @@ const NoteModal = () => {
                 }
                 {streamGptLoader &&
                     <div
-                        className={`loader-gpt absolute inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                        className={`loader-gpt absolute inset-0 backdrop-blur-[1px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
                         <ClipLoader5
                             color='#1F2937'
@@ -1176,9 +1176,9 @@ const NoteModal = () => {
                             data-testid="loader"
                             speedMultiplier={1}
                         />
-                        <div className="text-2xl mt-5 font-bold p-1 text-[#1F2937]">
+                        {/* <div className="text-2xl mt-5 font-bold p-1 text-[#1F2937]">
                             Gathering thoughts 🍂
-                        </div>
+                        </div> */}
                         {/* <div className="text-lg mt-2 font-bold text-[#1F2937] text-center">
                             Gathering thoughts... 🍂 <br />
                         </div> */}
