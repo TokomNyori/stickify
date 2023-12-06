@@ -15,7 +15,8 @@ const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 // const openai = new OpenAIApi(config);
 
 export async function POST(request) {
-    const { geyi, messages } = await request.json();
+    console.log('Chat Completion API Triggered')
+    const { geyi } = await request.json();
 
     console.log('body:', geyi)
 

@@ -965,6 +965,7 @@ const NoteModal = () => {
                                     isDefault={isDefault}
                                     rephraseDefaultFalse={rephraseDefaultFalse}
                                     rephraseDefaultTrue={rephraseDefaultTrue}
+                                    changeStreamGptLoader={changeStreamGptLoader}
                                 />
                                 <div
                                     className={
@@ -1146,7 +1147,7 @@ const NoteModal = () => {
                 }
                 {ytGptLoader &&
                     <div
-                        className={`modal-blur absolute inset-0  backdrop-blur-[1px] flex flex-col justify-center 
+                        className={`modal-blur absolute inset-0  backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
                         <ClipLoader4
                             color='#1F2937'
@@ -1157,14 +1158,14 @@ const NoteModal = () => {
                             data-testid="loader"
                             speedMultiplier={1}
                         />
-                        <div className="text-2xl mt-5 font-bold backdrop-blur-[10px] p-1 text-[#1F2937]">
+                        <div className="text-2xl mt-5 font-bold p-1 text-[#1F2937]">
                             Getting videos...
                         </div>
                     </div>
                 }
                 {streamGptLoader &&
                     <div
-                        className={`modal-blur absolute inset-0 backdrop-blur-[1px] flex flex-col justify-center 
+                        className={`modal-blur absolute inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
                         <ClipLoader5
                             color='#1F2937'
@@ -1175,8 +1176,8 @@ const NoteModal = () => {
                             data-testid="loader"
                             speedMultiplier={1}
                         />
-                        <div className="text-2xl mt-5 backdrop-blur-[10px] font-bold p-1 text-[#1F2937]">
-                            Gathering thoughts... 🍂
+                        <div className="text-2xl mt-5 font-bold p-1 glow-texts blink">
+                            Gathering thoughts 🍂
                         </div>
                         {/* <div className="text-lg mt-2 font-bold text-[#1F2937] text-center">
                             Gathering thoughts... 🍂 <br />

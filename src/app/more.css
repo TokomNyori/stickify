@@ -177,6 +177,32 @@
     }
 }
 
+.glow-texts {
+    animation: glowText 2s ease-in-out infinite;
+}
+
+@keyframes glowText {
+    0% {
+        @apply text-red-600;
+    }
+
+    25% {
+        @apply text-green-600;
+    }
+
+    50% {
+        @apply text-blue-600;
+    }
+
+    75% {
+        @apply text-yellow-600;
+    }
+
+    100% {
+        @apply text-red-600;
+    }
+}
+
 
 @media (max-width: 640px) {
     .youtubePlayer-NotePage {

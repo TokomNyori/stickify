@@ -160,7 +160,7 @@ const NotePage = ({ params }) => {
         router.back()
     }
 
-    async function generateContent(event) {
+    async function summarizeContent(event) {
         event.preventDefault()
         if (language !== 'English') {
             toast('Available only in English', {
@@ -411,7 +411,7 @@ const NotePage = ({ params }) => {
                                     className={`${readingMode ? 'border-gray-300' : 'border-gray-700'} border-2 px-2 py-1 rounded-lg 
                                     cursor-pointer hover:scale-[1.02] transition-all duration-150 ease-in-out
                                     ${navigationSection === 'note-section' ? 'block' : 'hidden'}`}
-                                    onClick={generateContent}
+                                    onClick={summarizeContent}
                                 >
                                     <IoBanSharp />
                                 </div>
@@ -420,7 +420,7 @@ const NotePage = ({ params }) => {
                                     className={`${readingMode ? 'border-gray-100' : 'border-gray-800'} border-[1.4px] px-2 rounded-lg 
                                     cursor-pointer hover:scale-[1.02] transition-all duration-150 ease-in-out
                                     ${navigationSection === 'note-section' ? 'block' : 'hidden'} font-bold`}
-                                    onClick={!summarizedContent ? generateContent : undoContent}
+                                    onClick={!summarizedContent ? summarizeContent : undoContent}
                                 >
                                     {summarizedContent ? 'Elaborate' : 'Summarize'}
                                 </div>
