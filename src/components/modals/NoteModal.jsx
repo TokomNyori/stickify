@@ -179,49 +179,49 @@ const NoteModal = () => {
         // setRephrasedNote(({ ...note, content: '' }))
     }, [rephrasedNote])
 
-    useEffect(() => {
-        const height = window.innerHeight;
-        console.log(height)
-        if (height > 700 && height < 800) {
-            rephrasedNote.content || note.content ? setTextareaRows(19) : setTextareaRows(20)
-        } else if (height > 799 && height < 900) {
-            rephrasedNote.content || note.content ? setTextareaRows(23) : setTextareaRows(24)
-        } else if (height > 899 && height < 1000) {
-            rephrasedNote.content || note.content ? setTextareaRows(25) : setTextareaRows(26)
-        } else if (height > 999 && height < 1300) {
-            rephrasedNote.content || note.content ? setTextareaRows(27) : setTextareaRows(28)
-        } else if (height < 600) {
-            rephrasedNote.content || note.content ? setTextareaRows(14) : setTextareaRows(15)
-        } else {
-            rephrasedNote.content || note.content ? setTextareaRows(16) : setTextareaRows(17)
-        }
-    }, [rephrasedNote.content, note.content])
+    // useEffect(() => {
+    //     const height = window.innerHeight;
+    //     console.log(height)
+    //     if (height > 700 && height < 800) {
+    //         rephrasedNote.content || note.content ? setTextareaRows(19) : setTextareaRows(20)
+    //     } else if (height > 799 && height < 900) {
+    //         rephrasedNote.content || note.content ? setTextareaRows(23) : setTextareaRows(24)
+    //     } else if (height > 899 && height < 1000) {
+    //         rephrasedNote.content || note.content ? setTextareaRows(25) : setTextareaRows(26)
+    //     } else if (height > 999 && height < 1300) {
+    //         rephrasedNote.content || note.content ? setTextareaRows(27) : setTextareaRows(28)
+    //     } else if (height < 600) {
+    //         rephrasedNote.content || note.content ? setTextareaRows(14) : setTextareaRows(15)
+    //     } else {
+    //         rephrasedNote.content || note.content ? setTextareaRows(16) : setTextareaRows(17)
+    //     }
+    // }, [rephrasedNote.content, note.content])
 
-    useEffect(() => {
-        function handleResize() {
-            const height = window.innerHeight;
-            console.log(height)
-            if (height > 700 && height < 800) {
-                rephrasedNote.content || note.content ? setTextareaRows(19) : setTextareaRows(20)
-            } else if (height > 799 && height < 900) {
-                rephrasedNote.content || note.content ? setTextareaRows(23) : setTextareaRows(24)
-            } else if (height > 899 && height < 1000) {
-                rephrasedNote.content || note.content ? setTextareaRows(25) : setTextareaRows(26)
-            } else if (height > 999 && height < 1300) {
-                rephrasedNote.content || note.content ? setTextareaRows(27) : setTextareaRows(28)
-            } else if (height < 600) {
-                rephrasedNote.content || note.content ? setTextareaRows(14) : setTextareaRows(15)
-            } else {
-                rephrasedNote.content || note.content ? setTextareaRows(16) : setTextareaRows(17)
-            }
-        }
-        // Add the event listener
-        window.addEventListener('resize', handleResize);
-        // Clean up the event listener when the component unmounts
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [rephrasedNote.content, note.content]);
+    // useEffect(() => {
+    //     function handleResize() {
+    //         const height = window.innerHeight;
+    //         console.log(height)
+    //         if (height > 700 && height < 800) {
+    //             rephrasedNote.content || note.content ? setTextareaRows(19) : setTextareaRows(20)
+    //         } else if (height > 799 && height < 900) {
+    //             rephrasedNote.content || note.content ? setTextareaRows(23) : setTextareaRows(24)
+    //         } else if (height > 899 && height < 1000) {
+    //             rephrasedNote.content || note.content ? setTextareaRows(25) : setTextareaRows(26)
+    //         } else if (height > 999 && height < 1300) {
+    //             rephrasedNote.content || note.content ? setTextareaRows(27) : setTextareaRows(28)
+    //         } else if (height < 600) {
+    //             rephrasedNote.content || note.content ? setTextareaRows(14) : setTextareaRows(15)
+    //         } else {
+    //             rephrasedNote.content || note.content ? setTextareaRows(16) : setTextareaRows(17)
+    //         }
+    //     }
+    //     // Add the event listener
+    //     window.addEventListener('resize', handleResize);
+    //     // Clean up the event listener when the component unmounts
+    //     return () => {
+    //         window.removeEventListener('resize', handleResize);
+    //     };
+    // }, [rephrasedNote.content, note.content]);
 
     useEffect(() => {
         // Create the handlePopState function inside useEffect

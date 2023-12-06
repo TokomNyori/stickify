@@ -36,17 +36,6 @@ const PopUp2 =
             };
         }, [rephrasePopUp]);
 
-        // useEffect(() => {
-        //     function handleSubmit() {
-        //         if (!input)
-        //             return;
-        //         return complete(input);
-        //     }
-        //     if (Object.keys(rephraseData).length !== 0) {
-        //         handleSubmit()
-        //     }
-        // }, [rephraseData, rephraseTone])
-
 
         // const ctx = isRephrasedNote ? rephrasedNote.content : content
         // const instruction = `Rephrase the following content to embody a ${rephraseTone} tone, adjusting the style and vocabulary to fit this tone while retaining the original meaning. Ensure the rephrased content is coherent and fluid. Maintain the markdown formatting if there are any. Original content: ${ctx}`
@@ -116,17 +105,17 @@ const PopUp2 =
             }
         }, [completion])
 
-        // useEffect(() => {
-        //     if (isLoading) {
-        //         changeStreamGptLoader(true)
-        //     } else {
-        //         changeStreamGptLoader(false)
-        //     }
+        useEffect(() => {
+            if (isLoading) {
+                changeStreamGptLoader(true)
+            } else {
+                changeStreamGptLoader(false)
+            }
 
-        //     if (rephrasePopUp) {
-        //         closeRephrasePopUp(false)
-        //     }
-        // }, [isLoading])
+            if (rephrasePopUp) {
+                closeRephrasePopUp(false)
+            }
+        }, [isLoading])
 
         // Rephrase function
         function rephraseContentFun(event, tone) {
