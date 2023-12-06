@@ -186,17 +186,17 @@ const GptSubmit = (
         }
     }, [completion])
 
-    useEffect(() => {
-        if (isLoading) {
-            changeStreamGptLoader(true)
-        } else {
-            changeStreamGptLoader(false)
-        }
+    // useEffect(() => {
+    //     if (isLoading) {
+    //         changeStreamGptLoader(true)
+    //     } else {
+    //         changeStreamGptLoader(false)
+    //     }
 
-        if (gptSubmitModalState) {
-            closeGptRequirementModal()
-        }
-    }, [isLoading])
+    //     if (gptSubmitModalState) {
+    //         closeGptRequirementModal()
+    //     }
+    // }, [isLoading])
 
 
     //console.log(ytGptLoader)

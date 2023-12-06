@@ -116,17 +116,17 @@ const PopUp2 =
             }
         }, [completion])
 
-        useEffect(() => {
-            if (isLoading) {
-                changeStreamGptLoader(true)
-            } else {
-                changeStreamGptLoader(false)
-            }
+        // useEffect(() => {
+        //     if (isLoading) {
+        //         changeStreamGptLoader(true)
+        //     } else {
+        //         changeStreamGptLoader(false)
+        //     }
 
-            if (rephrasePopUp) {
-                closeRephrasePopUp(false)
-            }
-        }, [isLoading])
+        //     if (rephrasePopUp) {
+        //         closeRephrasePopUp(false)
+        //     }
+        // }, [isLoading])
 
         // Rephrase function
         function rephraseContentFun(event, tone) {
