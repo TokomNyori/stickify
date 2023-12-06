@@ -193,9 +193,9 @@ const GptSubmit = (
             changeStreamGptLoader(false)
         }
 
-        if (gptSubmitModalState) {
-            closeGptRequirementModal()
-        }
+        // if (gptSubmitModalState) {
+        //     closeGptRequirementModal()
+        // }
     }, [isLoading])
 
 

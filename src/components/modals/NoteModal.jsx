@@ -252,14 +252,14 @@ const NoteModal = () => {
         };
     }, [noteModalConfig]);
 
-    // useEffect(() => {
-    //     if (streamGptLoader) {
-    //         const textarea = textareaRef.current;
-    //         if (textarea) {
-    //             textarea.scrollTop = textarea.scrollHeight;
-    //         }
-    //     }
-    // }, [note.content, rephrasedNote.content]);
+    useEffect(() => {
+        if (streamGptLoader) {
+            const textarea = textareaRef.current;
+            if (textarea) {
+                textarea.scrollTop = textarea.scrollHeight;
+            }
+        }
+    }, [note.content, rephrasedNote.content]);
 
 
     function closeModal(event) {
