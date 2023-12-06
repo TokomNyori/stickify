@@ -123,9 +123,9 @@ const PopUp2 =
                 changeStreamGptLoader(false)
             }
 
-            // if (rephrasePopUp) {
-            //     closeRephrasePopUp(false)
-            // }
+            if (rephrasePopUp) {
+                closeRephrasePopUp(false)
+            }
         }, [isLoading])
 
         // Rephrase function
