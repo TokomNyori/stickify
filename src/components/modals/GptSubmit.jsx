@@ -2,17 +2,14 @@
 import { useEffect, useState } from 'react'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { BiSolidSend } from 'react-icons/bi'
-import ClipLoader from "react-spinners/GridLoader";
 import toast, { Toaster } from 'react-hot-toast';
-import { nanoid } from 'nanoid'
-import { openAiGptTextGeneration, youtubeOneVideotHelper } from '@/helper/externalAPIHelpers/handleExternalAPIs'
+import { youtubeOneVideotHelper } from '@/helper/externalAPIHelpers/handleExternalAPIs'
 import { useCompletion } from 'ai/react'
-import { set } from 'mongoose';
-import { RiEyeCloseLine } from 'react-icons/ri';
 
 const GptSubmit = (
-    { gptSubmitModalState, noteFromNoteModal, changeGptRequirementModal, changeNoteContentByGpt, isEdit,
-        changeNoteContentByGptTrial, closeGptRequirementModal, setYoutubeVideosByGptModal, changeYtGptLoader, changeStreamGptLoader }
+    { gptSubmitModalState, noteFromNoteModal, changeGptRequirementModal, changeNoteContentByGpt, isEdit, stopStreaming,
+        changeNoteContentByGptTrial, closeGptRequirementModal, setYoutubeVideosByGptModal, changeYtGptLoader, changeStreamGptLoader,
+        setStopSreamingVal }
 ) => {
 
     const copyNoteFromNoteModal = { ...noteFromNoteModal }
@@ -45,29 +42,42 @@ const GptSubmit = (
     let temperature = 0.5
     let tokens = 0
     let words = parseInt(generateRequirementGpt.words, 10)
-    console.log(words)
-    if (words > 250 && words < 501) {
-        tokens = 1200
-    } else if (words > 500 && words < 751) {
-        console.log('BOOMM')
-        tokens = 1700
-    } else if (words > 750 && words < 1001) {
-        tokens = 2200
-    } else if (words > 1000 && words < 2001) {
-        tokens = 4000
-    } else {
-        tokens = 700
+    let top_p = 0.9 // Controls diversity; 1.0 means no restrictions, lower values mean more focused responses
+    let frequency_penalty = 0.5 // Penalizes new tokens based on their frequency in the text so far, encourages diversity
+    let presence_penalty = 0.5 // Penalizes new tokens based on whether they've appeared in the text so far
+    //console.log(words)
+
+    if (words <= 250) {
+        tokens = 700; // For shorter inputs, a lower token count
+    } else if (words <= 500) {
+        tokens = 1200; // Sufficient tokens for a moderate length
+    } else if (words <= 750) {
+        tokens = 1700; // Allowing more tokens for longer inputs
+    } else if (words <= 1000) {
+        tokens = 2200; // Increasing tokens as the input length increases
+    } else if (words <= 2000) {
+        tokens = 4000; // Maximum token allowance for the longest inputs
     }
+
     let output_type = ''
     if (generateRequirementGpt.output_type === 'easy to understand') {
         output_type = `Simplify the explanation as if teaching a young child. Use analogies and metaphors for complex concepts, and avoid jargon. The language should be straightforward and engaging, suitable for someone with no prior knowledge of the topic`
         temperature = 0.7
+        top_p = 0.9; // Allows for some creativity but not too wide
+        frequency_penalty = 0.4; // Moderately discourage repetition
+        presence_penalty = 0.4; // Encourage new concepts but not too divergent
     } else if (generateRequirementGpt.output_type === 'gamify') {
-        output_type = `Explain the topic so it feels like a game. Gamify the learning process. Use gamification techniques to engage the audience. Explain the topic by playing a Game. Introduce elements like challenges, rewards, and progress levels. Use playful language and scenarios to make the learning process fun and memorable`
+        output_type = `Explain the topic so it feels like a game. Gamify the learning process. Use gamification techniques to engage the audience. Explain the topic by playing a Game. Introduce elements like progress levels. Use simple language, playful language and scenarios to make the learning process fun and memorable`
         temperature = 0.7
+        top_p = 0.95; // More diversity for creative expression
+        frequency_penalty = 0.3; // Moderately discourage repetition
+        presence_penalty = 0.5; // Encourage introduction of new elements
     } else {
         output_type = `Explain the topic with precision and accuracy. Deliver the content with accuracy and depth. Use technical terms appropriately and provide clear definitions. Ensure that the information is up-to-date and cite reliable sources where applicable`
         temperature = 0.5
+        top_p = 0.85; // Focused, yet allows for some diversity
+        frequency_penalty = 0.6; // Strongly discourage repetition
+        presence_penalty = 0.6; // Encourage new concepts for depth
     }
     const emojiOption = ' Generate 5 to 7 meaningful emojis interspersed throughout the content. The emojis should be relevant to the context.'
     const instruction = `Act as an expert in the topic. ${output_type}. Don't be VERBOSE. Format the response using Markdown, but keep the Markdown formatting minimal. Avoid using bold formatting. Use headers for main headings and subheadings. Do not incluse bold formating with lists and bullet ponits. Avoid creating unnecessary white spaces and new lines. Include links for additional information. Make sure to aim for a word count of approximately ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} Conclude with an intriguing fact related to the topic. The topic is: ${generateRequirementGpt.generate_title}`
@@ -76,6 +86,9 @@ const GptSubmit = (
         stream: true,
         temperature: temperature,
         max_tokens: tokens,
+        // top_p: top_p,
+        // frequency_penalty: frequency_penalty,
+        // presence_penalty: presence_penalty,
         messages: [
             {
                 'role': 'system',
@@ -102,7 +115,7 @@ const GptSubmit = (
         },
         initialInput: instruction,
         onError: () => {
-            toast('Sorry could not generate', {
+            toast('Sorry, could not generate', {
                 icon: '🥺'
             })
         },
@@ -115,60 +128,64 @@ const GptSubmit = (
                 if (isEdit && noteFromNoteModal.ytVideo.length > 4) {
                     return
                 }
+
                 changeYtGptLoader(true)
                 const ytTitle = `${generateRequirementGpt.generate_title}`
-                const ytRes = await youtubeOneVideotHelper(
-                    {
-                        method: 'GET',
-                        title: ytTitle,
-                        headers: { 'Content-Type': 'application/json' }
-                    }
-                )
-                // console.log('ytRes--')
-                // console.log(ytRes)
-                // If Videos not available
-                if (ytRes.items.length === 0) {
-                    const generatedData = {
-                        'gptGeneratedContent': gptGeneratedContent,
-                        'ytVideoData': [],
-                    }
-                    // changeNoteContentByGpt(generatedData, false)
-                    changeYtGptLoader(false)
-                    // changeGptRequirementModal()
-                    toast('Sorry could not find', {
-                        icon: '🥺'
-                    })
-                } else {
-                    // If Videos available
-                    const datas = ytRes.items
-                    let ytVideoData = []
-                    if (isEdit) {
-                        const ytIdsFromNoteSet = new Set(noteFromNoteModal.ytVideo.map(video => video.ytVideoId));
-                        datas.forEach(data => {
-                            if (!ytIdsFromNoteSet.has(data.id.videoId)) {
+
+                try {
+                    const ytRes = await youtubeOneVideotHelper(
+                        {
+                            method: 'GET',
+                            title: ytTitle,
+                            headers: { 'Content-Type': 'application/json' }
+                        }
+                    )
+                    // console.log('ytRes--')
+                    // console.log(ytRes)
+
+                    // If Videos not available
+                    if (ytRes.items.length === 0) {
+                        changeYtGptLoader(false)
+                        toast('Sorry, could not find', {
+                            icon: '🥺'
+                        })
+                    } else {
+                        // If Videos available
+                        const datas = ytRes.items
+                        let ytVideoData = []
+                        if (isEdit) {
+                            const ytIdsFromNoteSet = new Set(noteFromNoteModal.ytVideo.map(video => video.ytVideoId));
+                            datas.forEach(data => {
+                                if (!ytIdsFromNoteSet.has(data.id.videoId)) {
+                                    const modify = {
+                                        ytVideoId: data.id.videoId,
+                                        ytVideoTitle: data.snippet.title,
+                                    }
+                                    ytVideoData.push(modify)
+                                }
+                            })
+                        } else {
+                            ytVideoData = datas.map(data => {
                                 const modify = {
                                     ytVideoId: data.id.videoId,
                                     ytVideoTitle: data.snippet.title,
                                 }
-                                ytVideoData.push(modify)
-                            }
-                        })
-                    } else {
-                        ytVideoData = datas.map(data => {
-                            const modify = {
-                                ytVideoId: data.id.videoId,
-                                ytVideoTitle: data.snippet.title,
-                            }
-                            return modify
+                                return modify
+                            })
+                        }
+                        // console.log('yt video data--')
+                        // console.log(ytVideoData)
+                        setYoutubeVideosByGptModal(ytVideoData)
+                        changeYtGptLoader(false)
+                        toast('Boom!', {
+                            icon: '🔥',
+                            position: 'top-center'
                         })
                     }
-                    // console.log('yt video data--')
-                    // console.log(ytVideoData)
-                    setYoutubeVideosByGptModal(ytVideoData)
+                } catch (error) {
                     changeYtGptLoader(false)
-                    toast('Boom!', {
-                        icon: '🔥',
-                        position: 'top-center'
+                    toast('Sorry, could not find', {
+                        icon: '🥺'
                     })
                 }
             } else {
@@ -198,8 +215,15 @@ const GptSubmit = (
         }
     }, [isLoading])
 
+    useEffect(() => {
+        if (stopStreaming) {
+            stop()
+            setStopSreamingVal(false)
+        }
+    }, [stopStreaming])
 
-    //console.log(ytGptLoader)
+
+    console.log(gptData)
 
     return (
         <div

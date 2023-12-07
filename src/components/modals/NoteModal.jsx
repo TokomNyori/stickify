@@ -3,7 +3,6 @@ import toast from 'react-hot-toast';
 import { useEffect, useRef, useState } from "react";
 import { editNoteHelper, getNoteHelper, postNoteHelper, ytVideoNoteHelper } from "@/helper/httpHelpers/httpNoteHelper";
 import { useRouter } from "next/navigation";
-import { Configuration, OpenAIApi } from "openai";
 import { BsFillPinAngleFill } from 'react-icons/bs'
 import { BsPin } from 'react-icons/bs'
 import { BsPinFill } from 'react-icons/bs'
@@ -13,7 +12,6 @@ import GptSubmit from './GptSubmit';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNote } from '@/redux_features/notes/noteSlice';
 import { BiArrowBack } from 'react-icons/bi'
-import { HiOutlineLockClosed } from 'react-icons/hi'
 import PopUp2 from '../popups/PopUp2';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice';
@@ -21,10 +19,9 @@ import { AiFillYoutube } from 'react-icons/ai'
 import { AiOutlineYoutube } from "react-icons/ai";
 import { IoLockOpenOutline } from "react-icons/io5";
 import { IoLockClosed } from "react-icons/io5";
-import { CgFormatText } from "react-icons/cg";
+import { FaRegStopCircle } from "react-icons/fa";
 import YtVideoAddModal from './YtVideoAddModal';
 import { LuMove } from "react-icons/lu";
-import { IoMove } from "react-icons/io5";
 import ClipLoader from "react-spinners/PacmanLoader";
 import ClipLoader2 from "react-spinners/GridLoader";
 import ClipLoader3 from "react-spinners/HashLoader";
@@ -32,7 +29,6 @@ import ClipLoader4 from "react-spinners/BounceLoader";
 import ClipLoader5 from "react-spinners/SyncLoader";
 import { motion, useDragControls } from "framer-motion";
 import { Courgette } from 'next/font/google'
-import { MdOutlineFormatListBulleted } from "react-icons/md";
 import TextFormatComp from '../others/TextFormatComp';
 const caveat = Courgette(
     {
@@ -41,7 +37,6 @@ const caveat = Courgette(
         display: 'swap',
     }
 )
-
 
 const NoteModal = () => {
     //const userId = userCookie?._id
@@ -77,6 +72,7 @@ const NoteModal = () => {
     const [ytVideoDeleteLoading, setYtVideoDeleteLoading] = useState(false)
     const [ytGptLoader, setYtGptLoader] = useState(false)
     const [streamGptLoader, setStreamGptLoader] = useState(false)
+    const [stopStreaming, setStopStreaming] = useState(false)
     const [isDefault, setIsDefault] = useState(true)
     const noteModalRef = useRef(null);
     const ytListPopupVideosRefs0 = useRef(null)
@@ -875,6 +871,10 @@ const NoteModal = () => {
         setStreamGptLoader(val)
     }
 
+    function setStopSreamingVal(val) {
+        setStopStreaming(val)
+    }
+
     // Call this function when the bold button is clicked
 
 
@@ -990,7 +990,7 @@ const NoteModal = () => {
                                 applyFormattingToSelectedText={applyFormattingToSelectedText}
                                 parentRef={parentRef} ctx={isRephrasedNote ? rephrasedNote : note}
                             /> */}
-                            <motion.div
+                            <div
                                 drag
                                 animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
                                 whileDrag={{ scale: 1.05 }}
@@ -1010,6 +1010,7 @@ const NoteModal = () => {
                                     rephraseDefaultFalse={rephraseDefaultFalse}
                                     rephraseDefaultTrue={rephraseDefaultTrue}
                                     changeStreamGptLoader={changeStreamGptLoader}
+                                    stopStreaming={stopStreaming} setStopSreamingVal={setStopSreamingVal}
                                 />
                                 <div
                                     className={
@@ -1027,7 +1028,7 @@ const NoteModal = () => {
                                         <RiMagicFill className='inline text-lg' /> Grammar
                                     </span>
                                 </div>
-                            </motion.div>
+                            </div>
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.
@@ -1122,6 +1123,7 @@ const NoteModal = () => {
                     changeNoteContentByGptTrial={changeNoteContentByGptTrial} closeGptRequirementModal={closeGptRequirementModal}
                     setYoutubeVideosByGptModal={setYoutubeVideosByGptModal} changeYtGptLoader={changeYtGptLoader}
                     changeStreamGptLoader={changeStreamGptLoader}
+                    stopStreaming={stopStreaming} setStopSreamingVal={setStopSreamingVal}
                 />
                 <YtVideoAddModal
                     ytVideAddModalState={ytVideAddModalState}
@@ -1191,7 +1193,7 @@ const NoteModal = () => {
                 }
                 {ytGptLoader &&
                     <div
-                        className={`loader-gpt absolute inset-0  backdrop-blur-[3px] flex flex-col justify-center 
+                        className={`loader-gpt absolute inset-0 backdrop-blur-[3px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
                         <ClipLoader4
                             color='#1F2937'
@@ -1209,7 +1211,7 @@ const NoteModal = () => {
                 }
                 {streamGptLoader &&
                     <div
-                        className={`loader-gpt absolute inset-0 backdrop-blur-[1px] flex flex-col justify-center 
+                        className={`loader-gpt absolute inset-0 backdrop-blur-[1px] flex flex-col justify-center mt-2
                                 items-center flex-wrap`}>
                         <ClipLoader5
                             color='#1F2937'
@@ -1220,6 +1222,10 @@ const NoteModal = () => {
                             data-testid="loader"
                             speedMultiplier={1}
                         />
+                        <div className=" text-4xl mt-6 font-bold p-1 text-[#1F2937]"
+                            onClick={() => setStopSreamingVal(true)}>
+                            <FaRegStopCircle />
+                        </div>
                         {/* <div className="text-2xl mt-5 font-bold p-1 text-[#1F2937]">
                             Gathering thoughts 🍂
                         </div> */}

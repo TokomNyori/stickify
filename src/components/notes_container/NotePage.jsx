@@ -24,6 +24,7 @@ import { AiFillHeart } from 'react-icons/ai'
 import { FaCopy } from "react-icons/fa6";
 import { MdOutlinePublic } from "react-icons/md";
 import { IoLockClosedOutline } from "react-icons/io5";
+import { FaRegStopCircle } from "react-icons/fa";
 import { useTheme } from 'next-themes';
 import Image from 'next/image'
 import { getSingleNoteHelper } from '@/helper/httpHelpers/httpNoteHelper';
@@ -38,6 +39,8 @@ import {
     isValid, differenceInYears, format
 } from 'date-fns';
 import MarkdownContent from '../others/MarkdownContent';
+import { useCompletion } from 'ai/react'
+import TranslateComponent from '../others/TranslateComponent';
 
 const NotePage = ({ params }) => {
     const pageNoteData = useSelector(state => state.currentNotePage.currentNotePage)
@@ -96,6 +99,17 @@ const NotePage = ({ params }) => {
     const ytRefs = [ytListNoteVideosRefs0, ytListNoteVideosRefs1, ytListNoteVideosRefs2, ytListNoteVideosRefs3, ytListNoteVideosRefs4,
         ytListNoteVideosRefs5, ytListNoteVideosRefs6]
 
+    // const [isSummarized, setIsSummarized] = useState(false)
+    // const [isTranslated, setIsTranslated] = useState(false)
+    const [translatedContent, setTranslatedContent] = useState('')
+    const [summarizedContent, setSummarizedContent] = useState('')
+    const [summarizedGptData, setSummarizedGptData] = useState({})
+    const [language, setLanguage] = useState('English')
+    const [gptOperationMode, setGptOperationMode] = useState('')
+    const [stopStreamingForTranslate, setStopStreamingForTranslate] = useState(false)
+    const router = useRouter()
+    const contentContainerRef = useRef(null);
+
     useEffect(() => {
         if (pageNoteData.ytVideo) {
             let count = -1
@@ -128,10 +142,64 @@ const NotePage = ({ params }) => {
         setTimeStamp(timeStmp)
     }, [pageNoteData])
 
-    const router = useRouter()
-    const [translatedContent, setTranslatedContent] = useState('')
-    const [summarizedContent, setSummarizedContent] = useState('')
-    const [language, setLanguage] = useState('English')
+    const {
+        completion,
+        input,
+        stop,
+        isLoading,
+        handleInputChange,
+        handleSubmit,
+        complete,
+    } = useCompletion({
+        api: '/api/completion-others',
+        body: {
+            geyi: summarizedGptData,
+        },
+        initialInput: 'Hello world!',
+        onError: (error) => {
+            console.log(error)
+            //changeStreamGptLoader(false)
+            toast('Sorry, could not summarize', {
+                icon: '🥺'
+            })
+        },
+        onResponse: (res) => {
+            console.log(res)
+        },
+        onFinish: () => {
+            toast('Summarized!', {
+                icon: '😀'
+            })
+        },
+    });
+
+    useEffect(() => {
+        if (completion) {
+            setSummarizedContent(completion)
+        }
+    }, [completion])
+
+    useEffect(() => {
+        if (isLoading) {
+            setLoadingGpt(true)
+        } else {
+            setLoadingGpt(false)
+        }
+    }, [isLoading])
+
+    useEffect(() => {
+        if (loadingGpt) { // Or any other condition that indicates new content
+            const offset = 800; // Pixels to stop above the absolute bottom
+            const scrollPosition = document.documentElement.scrollHeight - offset;
+            window.scrollTo({
+                top: scrollPosition,
+                behavior: "smooth" // Optional: for smooth scrolling
+            });
+        }
+    }, [summarizedContent, translatedContent]);
+
+    console.log(completion)
+
 
     async function getUserCookie() {
         try {
@@ -160,6 +228,7 @@ const NotePage = ({ params }) => {
         router.back()
     }
 
+
     async function summarizeContent(event) {
         event.preventDefault()
         if (language !== 'English') {
@@ -169,79 +238,48 @@ const NotePage = ({ params }) => {
             return
         }
         //const words = `${generateRequirementGpt.words}`
-        const instruction = `Your job is to summarize the given content. Turn yourself into a great summarizer tool. Summarize the content in the best possible way. The content is: ${pageNoteData.content}`
+        const instruction = `Concisely summarize the following content, capturing the essential points and main ideas, and format the summary using Markdown. Focus on brevity and clarity, avoiding unnecessary details. Keep the summary short. The content is: ${pageNoteData.content}`
         const gptData = {
             model: 'gpt-3.5-turbo-1106',
             temperature: 0.5,
-            max_tokens: 3000,
-            messages: [{
-                'role': 'user',
-                'content': instruction,
-            }]
-        }
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`
-        }
-        try {
-            setLoadingGpt(true)
-            const res = await openAiGptTextGeneration({ gptData: gptData })
-            setSummarizedContent(res.choices[0].message.content)
-            setLoadingGpt(false)
-            toast('Summarized!', {
-                icon: '😀'
-            })
-        } catch (error) {
-            setLoadingGpt(false)
-            toast(error.message, {
-                icon: '😔'
-            })
-        }
-    }
-
-    async function translateContent(translateTo) {
-        const instruction = `You are a translating assistant. Your role is to translate the given content to ${translateTo} language. While translating, preserve the original meaning. The content is: ${pageNoteData.content}`
-        const gptData = {
-            model: 'gpt-3.5-turbo-1106',
-            temperature: 0.5,
-            max_tokens: 2000,
+            max_tokens: 1000,
+            stream: true,
             messages: [
                 {
                     'role': 'system',
-                    'content': 'You are a translating assistant.',
+                    'content': "Generate a Markdown-formatted summary of the provided content, focusing on distilling the main ideas and crucial points. Ensure the summary is concise, coherent, and retains the essence of the original content.",
                 },
                 {
                     'role': 'user',
                     'content': instruction,
-                },
+                }
             ]
         }
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`
-        }
-        try {
-            setLoadingGpt(true)
-            const res = await openAiGptTextGeneration({ gptData: gptData })
-            setTranslatedContent(res.choices[0].message.content)
-            setLoadingGpt(false)
-            setTranslatePopUp(false)
-            setLanguage(translateTo)
-            toast(`Translated to ${translateTo}!`, {
-                icon: '😀'
-            })
-        } catch (error) {
-            setLoadingGpt(false)
-            setTranslatePopUp(false)
-            toast(error.message, {
-                icon: '😔'
-            })
-        }
+
+        setSummarizedGptData(gptData)
+        //setSharedGptData(gptData)
+        setGptOperationMode('summarize')
+        //setIsSummarized(true)
+        setTimeout(() => {
+            handleSubmit(event)
+        }, 20);
+
+        // try {
+        //     setLoadingGpt(true)
+        //     const res = await openAiGptTextGeneration({ gptData: gptData })
+        //     setSummarizedContent(res.choices[0].message.content)
+        //     setLoadingGpt(false)
+        //     toast('Summarized!', {
+        //         icon: '😀'
+        //     })
+        // } catch (error) {
+        //     setLoadingGpt(false)
+        //     toast(error.message, {
+        //         icon: '😔'
+        //     })
+        // }
     }
 
-    async function textToSpeech() {
-        //handleTextToSpeech({ text: pageNoteData.content })
-    }
 
     function editNote(e) {
         e.stopPropagation()
@@ -253,6 +291,8 @@ const NotePage = ({ params }) => {
     // console.log(pageNoteData)
 
     function undoContent() {
+        setGptOperationMode('')
+
         setSummarizedContent('')
         toast('Back to the original', {
             icon: '😀'
@@ -260,6 +300,7 @@ const NotePage = ({ params }) => {
     }
 
     function undoTranslate() {
+        setGptOperationMode('')
         setTranslatedContent('')
         setSummarizedContent('')
         setLanguage('English')
@@ -267,6 +308,24 @@ const NotePage = ({ params }) => {
         toast('Back to English', {
             icon: '📖'
         })
+    }
+
+    function setLanguageFunction(val) {
+        setLanguage(val)
+        setTranslatePopUp(false)
+    }
+
+    function setLoadingGptFunction(val) {
+        setLoadingGpt(val)
+    }
+
+    function setTranslatedContentFunction(content) {
+        setTranslatedContent(content)
+    }
+
+    function stopSreaming(val) {
+        stop()
+        setStopStreamingForTranslate(val)
     }
 
     const opts = {
@@ -316,7 +375,9 @@ const NotePage = ({ params }) => {
             <div className={`
                 ${readingMode ? ` bg-zinc-800 text-gray-100 brightness-[90%]` :
                     `bg-[${pageNoteData.color}] text-gray-800 dark:brightness-[90%] shadow-xl`} 
-                    px-4 sm:px-8 py-4 sm:py-8 pb-20 sm:pb-20 rounded-3xl min-h-screen flex flex-col`}>
+                    px-4 sm:px-8 py-4 sm:py-8 pb-20 sm:pb-20 rounded-3xl min-h-screen flex flex-col`}
+
+            >
                 <div className='controls flex gap-4 mb-4 justify-between'>
                     <div className='relative flex flex-col items-start'>
                         <BiArrowBack className='text-3xl cursor-pointer home-link' onClick={goBack} />
@@ -345,52 +406,13 @@ const NotePage = ({ params }) => {
                                     opacity-80 text-white text-sm px-2 py-1 rounded-md w-20">
                                 Translate
                             </div>
-                            <div
-                                className={`${translatePopUp ? 'PopUps' : 'hidden'} ${readingMode ? `bg-zinc-900/90 text-gray-100` :
-                                    `dark:bg-zinc-900/90 dark:text-gray-100 bg-[#f6f8f6]`}`}
-                                ref={translatePopUpRef}
-                            >
-                                <div className="col-span-8 cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out"
-                                    onClick={undoTranslate}
-                                >
-                                    English
-                                </div>
-                                <div className="cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out"
-                                    onClick={() => translateContent('Hindi')}
-                                >
-                                    हिंदी (Hindi)
-                                </div>
-                                <div className="col-span-8 cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out"
-                                    onClick={() => translateContent('Japanese')}
-                                >
-                                    日本語 (Japanese)
-                                </div>
-                                <div className="col-span-8 cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out"
-                                    onClick={() => translateContent('French')}
-                                >
-                                    Français (French)
-                                </div>
-                                <div className="col-span-8 cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out"
-                                    onClick={() => translateContent('Korean')}
-                                >
-                                    한국인 (Korean)
-                                </div>
-                                <div className="col-span-8 cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out"
-                                    onClick={() => translateContent('German')}
-                                >
-                                    Deutsch (German)
-                                </div>
-                                <div className="col-span-8 cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out"
-                                    onClick={() => translateContent('Chinese Simplified')}
-                                >
-                                    中国人 (Chinese)
-                                </div>
-                                <div className="col-span-8 cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out"
-                                    onClick={() => translateContent('Spanish')}
-                                >
-                                    Español (Spanish)
-                                </div>
-                            </div>
+                            <TranslateComponent translatePopUp={translatePopUp} undoTranslate={undoTranslate}
+                                translatePopUpRef={translatePopUpRef} setLanguageFunction={setLanguageFunction}
+                                setTranslatedContentFunction={setTranslatedContentFunction} setLoadingGptFunction={setLoadingGptFunction}
+                                readingMode={readingMode} pageNoteData={pageNoteData.content}
+                                stopStreamingForTranslate={stopStreamingForTranslate} stopSreaming={stopSreaming}
+                            />
+
                         </div>
                         {
                             pageNoteData.userId === users._id ?
@@ -460,16 +482,18 @@ const NotePage = ({ params }) => {
                         </div>
                     </div>
                     {/* Note Contents */}
-                    <div className={`${navigationSection === 'note-section' ? 'flex' : 'hidden'}`}>
+                    <div className={`${navigationSection === 'note-section' ? 'flex' : 'hidden'}`}
+                        ref={contentContainerRef}>
                         {
-                            !translatedContent ?
+                            translatedContent ?
+                                <div className='sm:text-[1rem] text-[1.1rem] markDownContent'
+                                    style={{ whiteSpace: 'pre-line' }}>
+                                    <MarkdownContent texts={translatedContent} />
+                                </div>
+                                :
                                 <div className='sm:text-[1rem] text-[1.1rem] markDownContent'
                                     style={{ whiteSpace: 'pre-line' }}>
                                     <MarkdownContent texts={summarizedContent ? summarizedContent : pageNoteData.content} />
-                                </div>
-                                :
-                                <div className='' style={{ whiteSpace: 'pre-line' }}>
-                                    <MarkdownContent texts={translatedContent} />
                                 </div>
                         }
                     </div>
@@ -613,10 +637,10 @@ const NotePage = ({ params }) => {
             {
                 loadingGpt &&
                 <div
-                    className={`modal-blur fixed -top-20 inset-0 bg-black bg-opacity-30 backdrop-blur-[2px] flex flex-col justify-center 
-                                items-center flex-wrap`}>
+                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[1px] flex flex-col justify-center 
+                                items-center flex-wrap  ${readingMode ? 'text-[#e2e8f0]' : 'text-[#1F2937]'}`}>
                     <ClipLoader
-                        color='#e2e8f0'
+                        color={`${readingMode ? '#e2e8f0' : '#1F2937'}`}
                         loading='Generating...'
                         //cssOverride={override}
                         size={30}
@@ -624,8 +648,9 @@ const NotePage = ({ params }) => {
                         data-testid="loader"
                         speedMultiplier={1}
                     />
-                    <div className="text-2xl mt-5 font-bold text-[#e2e8f0]">
-                        Processing...
+                    <div className={`text-5xl mt-6 font-bold p-1 ${readingMode ? 'text-[#e2e8f0]' : 'text-[#1F2937]'}`}
+                        onClick={() => stopSreaming(true)}>
+                        <FaRegStopCircle />
                     </div>
                     {/* <div classN ame={`border-gray-200 border px-2 rounded-lg  py-1 mt-2
                                     cursor-pointer hover:scale-[1.02] transition-all duration-150 ease-in-out text-lg`}

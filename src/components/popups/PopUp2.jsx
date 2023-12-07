@@ -1,7 +1,5 @@
 'use client'
-import { openAiGptTextGeneration } from "@/helper/externalAPIHelpers/handleExternalAPIs";
-import { openAiPostHelper } from "@/helper/httpHelpers/httpNoteHelper";
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlineRollback } from 'react-icons/ai'
 import { RiSpeakLine } from 'react-icons/ri'
@@ -10,11 +8,12 @@ import { set } from "date-fns/fp";
 
 const PopUp2 =
     ({ closeRephrasePopUp, rephrasePopUp, content, changeRephrasedNote, rephrasedNote, changeStreamGptLoader,
-        setLoadingRephraserFun, changeIsRepCnt, isRephrasedNote, isDefault, rephraseDefaultTrue, rephraseDefaultFalse }) => {
+        setLoadingRephraserFun, changeIsRepCnt, isRephrasedNote, isDefault, rephraseDefaultTrue, rephraseDefaultFalse,
+        stopStreaming, setStopSreamingVal }) => {
 
         const [rephraseData, setRephraseData] = useState({})
-        const [rephraseTone, setRephraseTone] = useState('')
-        //let rephraseTone = ''
+        //const [rephraseTone, setRephraseTone] = useState('')
+        let rephraseTone = ''
 
         const rephrasePopUpRef = useRef(null);
         const submitButtonRef = useRef(null);
@@ -37,30 +36,6 @@ const PopUp2 =
         }, [rephrasePopUp]);
 
 
-        // const ctx = isRephrasedNote ? rephrasedNote.content : content
-        // const instruction = `Rephrase the following content to embody a ${rephraseTone} tone, adjusting the style and vocabulary to fit this tone while retaining the original meaning. Ensure the rephrased content is coherent and fluid. Maintain the markdown formatting if there are any. Original content: ${ctx}`
-        // const enhanceInstruction = `Enhance the provided content to align with standard English. Focus on correcting grammatical errors, improving sentence structure, and ensuring clarity of expression. Maintain the markdown formatting if there are any. Original content: ${ctx}`
-        // const systemContentGrammar = 'Your task is to refine the provided content to standard English. This includes correcting grammatical errors, clarifying ambiguous statements, and improving overall readability.';
-        // const systemContentRephrase = 'You are to rephrase the provided content to match a specific tone. Adjust the style, vocabulary, and structure to reflect the designated tone, while maintaining the original message.';
-        // const gptData = {
-        //     //gpt-4-1106-preview  
-        //     //gpt-3.5-turbo-1106
-        //     model: 'gpt-3.5-turbo-1106',
-        //     temperature: 0.7,
-        //     max_tokens: 2000,
-        //     stream: true,
-        //     messages: [
-        //         {
-        //             'role': 'system',
-        //             'content': rephraseTone === 'enhance' ? systemContentGrammar : systemContentRephrase,
-        //         },
-        //         {
-        //             'role': 'user',
-        //             'content': rephraseTone === 'enhance' ? enhanceInstruction : instruction,
-        //         },
-        //     ]
-        // }
-
         const {
             completion,
             input,
@@ -70,19 +45,25 @@ const PopUp2 =
             handleSubmit,
             complete,
         } = useCompletion({
-            api: '/api/completion',
+            api: '/api/completion-rephrase',
             body: {
                 geyi: rephraseData,
             },
             initialInput: 'Hello world!',
             onError: (error) => {
                 console.log(error)
-                toast('Sorry could not rephrase', {
-                    icon: '🥺'
-                })
+                changeStreamGptLoader(false)
+                if (rephraseTone === 'enhance') {
+                    toast('Sorry, could not enhance', {
+                        icon: '🥺'
+                    })
+                } else {
+                    toast('Sorry, could not rephrase', {
+                        icon: '🥺'
+                    })
+                }
             },
             onResponse: (res) => {
-                //const resp = res.json()
                 console.log(res)
             },
             onFinish: () => {
@@ -102,6 +83,7 @@ const PopUp2 =
             if (completion) {
                 changeRephrasedNote('rephrase', completion)
                 changeIsRepCnt(true)
+                rephraseDefaultFalse()
             }
         }, [completion])
 
@@ -117,6 +99,13 @@ const PopUp2 =
             }
         }, [isLoading])
 
+        useEffect(() => {
+            if (stopStreaming) {
+                stop()
+                setStopSreamingVal(false)
+            }
+        }, [stopStreaming])
+
         // Rephrase function
         function rephraseContentFun(event, tone) {
             event.stopPropagation()
@@ -130,7 +119,7 @@ const PopUp2 =
                 //gpt-4-1106-preview  
                 //gpt-3.5-turbo-1106
                 model: 'gpt-3.5-turbo-1106',
-                temperature: 0.7,
+                temperature: 0.5,
                 max_tokens: 2000,
                 stream: true,
                 messages: [
@@ -146,7 +135,8 @@ const PopUp2 =
             }
 
             setRephraseData(gptData)
-            setRephraseTone(tone)
+            rephraseTone = tone
+            //setRephraseTone(tone)
             setTimeout(() => {
                 handleSubmit(event)
             }, 20);
@@ -185,6 +175,7 @@ const PopUp2 =
             changeIsRepCnt(false)
             setTimeout(() => {
                 rephraseDefaultTrue()
+                closeRephrasePopUp(false)
             }, 100);
             toast('Back to the original', {
                 icon: '😀'

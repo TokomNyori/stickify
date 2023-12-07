@@ -80,8 +80,8 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
                 transition={{ ease: 'easeInOut', duration: 0.5 }}
                 className={`note-box flex flex-col px-3 py-3 rounded-xl 
                 text-gray-800 bg-[${note.color}] ${pinned ? ' z-20' : ''}
-                ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-lg dark:brightness-[85%]`} key={note._id}
-                onClick={(e) => toTheNotePage(e, note._id)}
+                ${deletedNotes[note._id] ? 'shrink' : ''} cursor-pointer shadow-lg dark:brightness-[85%]`}
+                key={note._id} onClick={(e) => toTheNotePage(e, note._id)}
             >
                 <div className='truncate text-[1rem] sm:text-[0.95rem] font-bold'>
                     {note.title}
