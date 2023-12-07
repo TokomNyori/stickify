@@ -117,8 +117,8 @@ const NotePage = ({ params }) => {
                 count++
                 return (
                     <div className='sm:mb-10 mb-8'>
-                        <div className={`${readingMode ? 'text-gray-100' : 'text-gray-800'} 
-                            mb-2 ml-1 w-full flex`}>
+                        <div className={`${readingMode ? 'text-gray-100' : 'text-gray-800'} mb-2 ml-1 w-full flex
+                            font-semibold`}>
                             <span className='sm:text-[1rem] text-[1.1rem] line-clamp-2 w-full'>{video.ytVideoTitle}</span>
                         </div>
                         <div className='youtubePlayer-NotePage' >
