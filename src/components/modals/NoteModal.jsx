@@ -184,17 +184,17 @@ const NoteModal = () => {
         const height = window.innerHeight;
         console.log(height)
         if (height > 700 && height < 800) {
-            setTextareaRows(19)
+            setTextareaRows(20)
         } else if (height > 799 && height < 900) {
-            setTextareaRows(23)
+            setTextareaRows(24)
         } else if (height > 899 && height < 1000) {
-            setTextareaRows(25)
+            setTextareaRows(26)
         } else if (height > 999 && height < 1300) {
-            setTextareaRows(27)
+            setTextareaRows(28)
         } else if (height < 600) {
             setTextareaRows(15)
         } else {
-            setTextareaRows(16)
+            setTextareaRows(17)
         }
     }, [])
 
@@ -203,17 +203,17 @@ const NoteModal = () => {
             const height = window.innerHeight;
             console.log(height)
             if (height > 700 && height < 800) {
-                setTextareaRows(19)
+                setTextareaRows(20)
             } else if (height > 799 && height < 900) {
-                setTextareaRows(23)
+                setTextareaRows(24)
             } else if (height > 899 && height < 1000) {
-                setTextareaRows(25)
+                setTextareaRows(26)
             } else if (height > 999 && height < 1300) {
-                setTextareaRows(27)
+                setTextareaRows(28)
             } else if (height < 600) {
                 setTextareaRows(15)
             } else {
-                setTextareaRows(16)
+                setTextareaRows(17)
             }
         }
         // Add the event listener
