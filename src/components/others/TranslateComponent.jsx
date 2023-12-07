@@ -63,7 +63,7 @@ const TranslateComponent = ({
     console.log(completion)
 
     async function translateContent(event, translateTo) {
-        const instruction = `Translate the following content into ${translateTo} language. Focus on preserving the original meaning, tone, and cultural nuances. Pay attention to idiomatic expressions and context to ensure an accurate and natural translation. Content to translate: ${pageNoteData}`
+        const instruction = `Translate the following content into ${translateTo} language. Focus on preserving the original meaning, tone, and cultural nuances. Pay attention to idiomatic expressions and context to ensure an accurate and natural translation. Maintain the markdown formatting if there are any. Content to translate: ${pageNoteData}`
         const gptData = {
             model: 'gpt-3.5-turbo-1106',
             temperature: 0.5,
