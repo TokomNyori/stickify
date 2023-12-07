@@ -4,7 +4,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const TranslateComponent = ({
     translatePopUp, translatePopUpRef, undoTranslate, setLanguageFunction, setTranslatedContentFunction, setLoadingGptFunction,
-    readingMode, pageNoteData, stopStreamingForTranslate, stopSreaming, 
+    readingMode, pageNoteData, stopStreamingForTranslate, stopSreaming,
 }) => {
     const [translatedGptData, setTranslatedGptData] = useState({})
     let translatedLanguage = ''
@@ -111,7 +111,7 @@ const TranslateComponent = ({
     return (
         <div
             className={`${translatePopUp ? 'PopUps' : 'hidden'}  backdrop-blur-[12px] font-semibold
-            ${readingMode ? 'text-gray-100' : 'text-gray-800'}`}
+            ${readingMode ? 'text-gray-100 bg-gray-800/25' : 'text-gray-800 bg-gray-100/25'}`}
             ref={translatePopUpRef}
         >
             <div className={`col-span-8 cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5
