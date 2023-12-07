@@ -990,7 +990,7 @@ const NoteModal = () => {
                                 applyFormattingToSelectedText={applyFormattingToSelectedText}
                                 parentRef={parentRef} ctx={isRephrasedNote ? rephrasedNote : note}
                             /> */}
-                            <motion.div
+                            <div
                                 drag
                                 animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
                                 whileDrag={{ scale: 1.05 }}
@@ -1028,7 +1028,7 @@ const NoteModal = () => {
                                         <RiMagicFill className='inline text-lg' /> Grammar
                                     </span>
                                 </div>
-                            </motion.div>
+                            </div>
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.
@@ -1222,7 +1222,7 @@ const NoteModal = () => {
                             data-testid="loader"
                             speedMultiplier={1}
                         />
-                        <div className=" text-4xl mt-6 font-bold p-1 text-[#1F2937]"
+                        <div className=" text-5xl mt-8 font-bold p-1 text-[#1F2937] cursor-pointer"
                             onClick={() => setStopSreamingVal(true)}>
                             <FaRegStopCircle />
                         </div>

@@ -540,11 +540,14 @@ const NotePage = ({ params }) => {
                         </div>
                         <div className='flex flex-col items-start justify-center gap-0 '>
                             <span className='font-bold truncate'>
-                                {users.username}
+                                {users ?
+                                    users.username :
+                                    pageNoteData.username
+                                }
                             </span>
                             {
                                 timeStamp &&
-                                <span className='text-sm'>
+                                <span className='sm:text-sm text-[1rem]'>
                                     Updated {timeStamp}
                                 </span>
                             }
@@ -648,7 +651,8 @@ const NotePage = ({ params }) => {
                         data-testid="loader"
                         speedMultiplier={1}
                     />
-                    <div className={`text-5xl mt-6 font-bold p-1 ${readingMode ? 'text-[#e2e8f0]' : 'text-[#1F2937]'}`}
+                    <div className={`text-5xl mt-8 font-bold p-1 ${readingMode ? 'text-[#e2e8f0]' : 'text-[#1F2937]'}
+                        cursor-pointer`}
                         onClick={() => stopSreaming(true)}>
                         <FaRegStopCircle />
                     </div>
