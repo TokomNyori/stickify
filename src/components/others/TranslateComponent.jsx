@@ -110,8 +110,8 @@ const TranslateComponent = ({
 
     return (
         <div
-            className={`${translatePopUp ? 'PopUps' : 'hidden'}  backdrop-blur-[12px] font-semibold
-            ${readingMode ? 'text-gray-100 bg-gray-800/25' : 'text-gray-800 bg-gray-100/25'}`}
+            className={`${translatePopUp ? 'PopUps' : 'hidden'}  backdrop-blur-[12px] font-semibold rounded-tr-none
+            ${readingMode ? 'text-gray-100 bg-zinc-900' : 'text-gray-800 bg-zinc-100'} shadow-lg rounded-xl`}
             ref={translatePopUpRef}
         >
             <div className={`col-span-8 cursor-pointer hover:scale-[1.03] transition-all duration-150 ease-in-out border-b py-0.5
