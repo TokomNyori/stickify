@@ -132,7 +132,7 @@ const Welcome = () => {
                     items-center flex-wrap -mt-6`}>
                     <ClipLoader
                         color={`${theme === 'dark' ? '#e2e8f0' : '#1f2937'}`}
-                        loading='Generating...'
+                        loading='Welcome...'
                         //cssOverride={override}
                         size={120}
                         aria-label="Loading Spinner"
@@ -140,7 +140,7 @@ const Welcome = () => {
                         speedMultiplier={1}
                     />
                     {/* <div className="text-2xl mt-5 font-bold text-[#ac3232]">
-                        Deleting note...
+                        Loggin in...
                     </div> */}
                 </div>
             }

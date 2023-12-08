@@ -24,6 +24,7 @@ import { useTheme } from "next-themes";
 import { addPage } from "@/redux_features/pages/pageSlice";
 import { addTheme } from "@/redux_features/theme/themeSlice";
 import { setNoteModalConfig } from "@/redux_features/noteModalConfig/noteModalConfigSlice";
+import ClipLoader from "react-spinners/SquareLoader";
 
 export default function Navbar() {
     //const [noteModalState, setNoteModalState] = useState(false)
@@ -39,6 +40,7 @@ export default function Navbar() {
 
     const { theme, setTheme } = useTheme()
     const profilePopUpRef = useRef(null);
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -64,10 +66,12 @@ export default function Navbar() {
     }
 
     async function logoutFunction() {
+        setLoading(true)
         const res = await logOutHelper({ method: 'POST', headers: { 'Content-Type': 'application/json' } })
-        dispatch(removeUser())
         setProfilePopUp(prev => !prev)
+        dispatch(removeUser())
         router.push('/welcome')
+        setLoading(false)
         toast(res.message, {
             icon: '🥺',
         });
@@ -233,7 +237,7 @@ export default function Navbar() {
                                                                 <div className="profile-popup-text">
                                                                     Dark Mode
                                                                 </div>
-                                                            </div> 
+                                                            </div>
                                                             :
                                                             <div className="gap-3 items-center cursor-pointer hover:scale-[1.03] 
                                                                 transition-all duration-150 ease-in-out nightModeSmallScreen"
@@ -283,6 +287,24 @@ export default function Navbar() {
                     </div>
                 </nav >
                 <NoteModal userCookie={userCookie} />
+                {loading &&
+                    <div
+                        className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    items-center flex-wrap -mt-6`}>
+                        <ClipLoader
+                            color={`${theme === 'dark' ? '#e2e8f0' : '#1f2937'}`}
+                            loading='Logging out...'
+                            //cssOverride={override}
+                            size={120}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                            speedMultiplier={1}
+                        />
+                        {/* <div className="text-2xl mt-5 font-bold text-[#ac3232]">
+                        Loggin in...
+                    </div> */}
+                    </div>
+                }
             </>
             :
             <>

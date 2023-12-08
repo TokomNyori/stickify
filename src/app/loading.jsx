@@ -13,7 +13,7 @@ const loading = () => {
                 <div className="">
                     <ClipLoader
                         color={`${theme === 'dark' ? '#e2e8f0' : '#1f2937'}`}
-                        loading='Generating...'
+                        loading='loading...'
                         //cssOverride={override}
                         size={50}
                         aria-label="Loading Spinner"

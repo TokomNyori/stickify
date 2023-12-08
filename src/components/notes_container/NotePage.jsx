@@ -29,6 +29,7 @@ import { useTheme } from 'next-themes';
 import Image from 'next/image'
 import { getSingleNoteHelper } from '@/helper/httpHelpers/httpNoteHelper';
 import ClipLoader from "react-spinners/GridLoader";
+import ClipLoader2 from "react-spinners/SyncLoader";
 import toast, { Toaster } from 'react-hot-toast';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice';
@@ -642,11 +643,11 @@ const NotePage = ({ params }) => {
                 <div
                     className={`modal-blur fixed top-0 inset-0 backdrop-blur-[1px] flex flex-col justify-center 
                                 items-center flex-wrap  ${readingMode ? 'text-[#e2e8f0]' : 'text-[#1F2937]'}`}>
-                    <ClipLoader
+                    <ClipLoader2
                         color={`${readingMode ? '#e2e8f0' : '#1F2937'}`}
                         loading='Generating...'
                         //cssOverride={override}
-                        size={30}
+                        size={25}
                         aria-label="Loading Spinner"
                         data-testid="loader"
                         speedMultiplier={1}
@@ -656,12 +657,6 @@ const NotePage = ({ params }) => {
                         onClick={() => stopSreaming(true)}>
                         <FaRegStopCircle />
                     </div>
-                    {/* <div classN ame={`border-gray-200 border px-2 rounded-lg  py-1 mt-2
-                                    cursor-pointer hover:scale-[1.02] transition-all duration-150 ease-in-out text-lg`}
-                        onClick={() => {}}
-                    >
-                        Cancel?
-                    </div> */}
                 </div>
             }
             <Toaster />

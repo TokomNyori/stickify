@@ -5,19 +5,20 @@ import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 
 const ReduxProvider = ({ children }) => {
-    // const [mounted, setMounted] = useState(false)
+    const [mounted, setMounted] = useState(false)
     const { theme, setTheme } = useTheme()
+
     useEffect(() => {
-        setTheme('light')
+        setMounted(true)
     }, [])
 
-    // if (!mounted) {
-    //     return (
-    //         <Provider store={store}>
-    //             {children}
-    //         </Provider>
-    //     )
-    // }
+    if (!mounted) {
+        return (
+            <Provider store={store}>
+                {children}
+            </Provider>
+        )
+    }
 
     return (
         <Provider store={store}>
