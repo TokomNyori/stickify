@@ -9,7 +9,7 @@ import { FaCopy } from "react-icons/fa6";
 import toast from 'react-hot-toast';
 
 const HelperModal = ({ shareModalState, readingMode, shareModalRef, linkparam, noteTitle }) => {
-    const [copiedText, setCopiedText] = useState(`http://localhost:3000/notes/${linkparam}`)
+    const [copiedText, setCopiedText] = useState(`https://stickifynotes.vercel.app/notes/${linkparam}`)
     const [copied, setCopied] = useState(false)
 
     async function copyText() {
@@ -35,7 +35,7 @@ const HelperModal = ({ shareModalState, readingMode, shareModalRef, linkparam, n
                 <div className='hover:scale-110 transition-transform duration-200 ease-in-out'>
                     <WhatsappShareButton
                         title={`Title: ${noteTitle}`}
-                        url={`http://localhost:3000/notes/${linkparam}`}
+                        url={`https://stickifynotes.vercel.app/notes/${linkparam}`}
                     >
                         <IoLogoWhatsapp className='text-4xl text-green-500' />
                     </WhatsappShareButton>
@@ -43,7 +43,7 @@ const HelperModal = ({ shareModalState, readingMode, shareModalRef, linkparam, n
                 <div className='hover:scale-110 transition-transform duration-200 ease-in-out'>
                     <TelegramShareButton
                         title={`Title: ${noteTitle}`}
-                        url={`http://localhost:3000/notes/${linkparam}`}
+                        url={`https://stickifynotes.vercel.app/notes/${linkparam}`}
                     >
                         <FaTelegram className='text-[2rem] text-blue-500' />
                     </TelegramShareButton>
