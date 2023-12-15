@@ -14,6 +14,10 @@
   z-index: 60;
 }
 
+.restricted-blur {
+  z-index: 1000;
+}
+
 .loader-gpt {
   z-index: 60;
 }
@@ -44,6 +48,11 @@
   position: fixed;
   animation-name: modalopen;
   animation-duration: 1s;
+}
+
+.restricted-fix-bg {
+  z-index: 1000;
+  position: fixed;
 }
 
 .modal-main {
@@ -164,6 +173,23 @@
   border-radius: 10px;
   border-bottom-right-radius: 0;
   z-index: 40;
+}
+
+.shareModal {
+  width: 12rem;
+  max-width: 50rem;
+  display: flex;
+  justify-content: center;
+  font-size: 0.92rem;
+  position: absolute;
+  flex-direction: column;
+  row-gap: 0.4rem;
+  backdrop-filter: blur(0.225rem);
+  padding: 0.8rem 0.6rem;
+  border-radius: 10px;
+  left: -10.6rem;
+  top: 2rem;
+  border-top-right-radius: 0;
 }
 
 .light .manage-radio-btn[type="radio"]:checked+label {
@@ -389,7 +415,6 @@
     /* @apply bg-gray-700; */
     backdrop-filter: blur(0.625rem);
     /* border: 1px solid rgba(255, 255, 255, 0.2); */
-    border-radius: 10px;
     overflow: auto;
     box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.2);
   }

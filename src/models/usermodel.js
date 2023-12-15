@@ -16,7 +16,7 @@ const UserSchema = new Schema({
         required: [true, "Password required"],
     },
     created: { type: Date, default: Date.now },
-    notifications: { type: Number },
+    notifications: { type: [String] },
 })
 
 export const UserModel = mongoose.models.users || mongoose.model('users', UserSchema)

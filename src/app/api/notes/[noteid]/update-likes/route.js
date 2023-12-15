@@ -20,6 +20,9 @@ export async function PUT(request, { params }) {
                 $addToSet: { likedBy: new ObjectId(likedBy) }, // Add to set to ensure unique entries
             };
         } else {
+            console.log(`likedBy before conversion: ${likedBy}, type: ${typeof likedBy}`)
+            const likedByObjectId = new ObjectId(likedBy)
+            console.log(`likedBy after conversion: ${likedByObjectId}, type: ${typeof likedByObjectId}`)
             update = { $inc: { likes: -1 }, $pull: { likedBy: new ObjectId(likedBy) } };
         }
 

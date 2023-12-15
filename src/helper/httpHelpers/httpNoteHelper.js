@@ -1,5 +1,5 @@
 export const getNoteHelper = async ({ method, userId, headers }) => {
-    const res = await fetch(`api/notes/get-user-notes/${userId}`, {
+    const res = await fetch(`/api/notes/get-user-notes/${userId}/`, {
         method: method,
         headers: headers,
     })
@@ -15,7 +15,23 @@ export const getNoteHelper = async ({ method, userId, headers }) => {
 }
 
 export const getSingleNoteHelper = async ({ method, noteid }) => {
-    const res = await fetch(`api/notes/${noteid}/`, {
+    console.log('getSingleNoteHelper is called')
+    const res = await fetch(`/api/notes/${noteid}/`, {
+        method: method,
+    })
+    //console.log(res)
+    if (!res.ok) {
+        const errorData = await res.json();
+        console.log(errorData)
+        throw new Error(errorData.message)
+    }
+
+    return res.json()
+}
+
+export const handleNonUserNoteHelper = async ({ method, noteid }) => {
+    console.log('handleNonUserNoteHelper is called')
+    const res = await fetch(`/api/notes/${noteid}/handle-nonusers/`, {
         method: method,
     })
     //console.log(res)
@@ -45,12 +61,12 @@ export const postNoteHelper = async ({ method, headers, body }) => {
 }
 
 export const editNoteHelper = async ({ method, headers, noteid, body }) => {
-    const res = await fetch(`api/notes/${noteid}/`, {
+    const res = await fetch(`/api/notes/${noteid}/`, {
         method: method,
         headers: headers,
         body: JSON.stringify(body)
     })
-    console.log(res)
+    //console.log(res)
     if (!res.ok) {
         const errorData = await res.json();
         console.log(errorData)

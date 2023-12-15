@@ -52,9 +52,10 @@ export default function FeedsContainer() {
                         color: note.color,
                         content: note.content,
                         status: note.status,
+                        isPrivate: note.isPrivate,
                         userId: user._id,
                         username: user.username,
-                        user_avatar: user.avatar,
+                        userAvatar: user.avatar,
                         created: note.created,
                         updated: note.updated,
                         coreUpdated: note.coreUpdated,
@@ -179,7 +180,6 @@ export default function FeedsContainer() {
             }
         } else if (func === 'unlike' && likeNo > 0) {
             setDisLiked(true)
-
             newDetailNotes = newDetailNotes.map(dNote => {
                 if (dNote._id === id) {
                     unlike = dNote.likes - 1
@@ -272,6 +272,8 @@ export default function FeedsContainer() {
                 const copiedAndModifiedNote = {
                     ...clickedNote,
                     userId: user._id,
+                    userAvatar: user.avatar,
+                    username: user.username,
                     isOriginal: false,
                     originId: id,
                 }

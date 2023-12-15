@@ -203,6 +203,21 @@
     }
 }
 
+.bg-colorr {
+    background: linear-gradient(135deg,
+            rgba(139, 0, 139, 0.6) 0%,
+            /* More transparent */
+            rgba(139, 0, 139, 0.8) 25%,
+            /* Less transparent */
+            rgba(255, 0, 255, 0.8) 75%,
+            /* Less transparent */
+            rgba(255, 0, 255, 0.6) 100%);
+    /* More transparent */
+
+    /* Apply the blur effect */
+    backdrop-filter: blur(5px);
+}
+
 
 @media (max-width: 640px) {
     .youtubePlayer-NotePage {

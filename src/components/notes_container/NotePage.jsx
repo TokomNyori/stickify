@@ -1,9 +1,9 @@
 'use client'
 import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '@/redux_features/user/userSlice';
+import Link from "next/link";
 import { useEffect, useRef, useState } from 'react';
 import { addPage } from '@/redux_features/pages/pageSlice';
-import { CookieHelper } from '@/helper/httpHelpers/httpCookieHelper';
 import { useRouter, useSearchParams } from 'next/navigation'
 import { BiArrowBack } from 'react-icons/bi'
 import { AiOutlineRead } from 'react-icons/ai'
@@ -15,6 +15,7 @@ import { GoPlay } from "react-icons/go";
 import { FaRegCirclePlay } from "react-icons/fa6";
 import { FaRegCircleStop } from "react-icons/fa6";
 import { MdOutlineModeEditOutline } from 'react-icons/md'
+import { BsPersonFillUp } from "react-icons/bs";
 import { GoPencil } from 'react-icons/go'
 import { FaNoteSticky } from 'react-icons/fa6'
 import { FaRegNoteSticky } from 'react-icons/fa6'
@@ -25,11 +26,12 @@ import { FaCopy } from "react-icons/fa6";
 import { MdOutlinePublic } from "react-icons/md";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { FaRegStopCircle } from "react-icons/fa";
+import { IoShareSocialOutline } from "react-icons/io5";
 import { useTheme } from 'next-themes';
 import Image from 'next/image'
-import { getSingleNoteHelper } from '@/helper/httpHelpers/httpNoteHelper';
 import ClipLoader from "react-spinners/GridLoader";
 import ClipLoader2 from "react-spinners/SyncLoader";
+import ClipLoader3 from "react-spinners/PacmanLoader";
 import toast, { Toaster } from 'react-hot-toast';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice';
@@ -42,29 +44,87 @@ import {
 import MarkdownContent from '../others/MarkdownContent';
 import { useCompletion } from 'ai/react'
 import TranslateComponent from '../others/TranslateComponent';
+import HelperModal from '../modals/HelperModal';
+import { getSingleNoteHelper, handleNonUserNoteHelper } from '@/helper/httpHelpers/httpNoteHelper';
+import { CookieHelper } from '@/helper/httpHelpers/httpCookieHelper';
+import LoginSignUpModal from '../modals/LoginSignUpModal';
+import RestrictedSkeleton from '../skeleton_loaders/RestrictedSkeleton';
+import Lottie from 'lottie-react'
+import pinwheelAni from '@/assets/others/pinwheelAni.json'
 
 const NotePage = ({ params }) => {
+    // Redux states
     const pageNoteData = useSelector(state => state.currentNotePage.currentNotePage)
     const users = useSelector(state => state.user.users)
-    const [readingMode, setReadingMode] = useState(false)
-    const [loadingGpt, setLoadingGpt] = useState(false)
+    const themeRedux = useSelector(state => state.currentTheme.currentTheme)
+    const notes = useSelector(state => state.note.notes)
+    const dispatch = useDispatch()
+
+    // useStates
     const [navigationSection, setNavigationSection] = useState('note-section')
     const [videoSection, setVideoSection] = useState([])
     const [timeStamp, setTimeStamp] = useState()
-    const dispatch = useDispatch()
-    const { theme, setTheme } = useTheme()
-    const themeRedux = useSelector(state => state.currentTheme.currentTheme)
+    const [translatedContent, setTranslatedContent] = useState('')
+    const [summarizedContent, setSummarizedContent] = useState('')
+    const [summarizedGptData, setSummarizedGptData] = useState({})
+    const [language, setLanguage] = useState('English')
+    const [gptOperationMode, setGptOperationMode] = useState('')
+    const [isNonUser, setIsNonUser] = useState('')
+    // Boolean useStates
+    const [readingMode, setReadingMode] = useState(false)
+    const [loadingGpt, setLoadingGpt] = useState(false)
+    const [pageLoading, setPageLoading] = useState(false)
     const [translatePopUp, setTranslatePopUp] = useState(false)
-    const notes = useSelector(state => state.note.notes)
+    const [stopStreamingForTranslate, setStopStreamingForTranslate] = useState(false)
+    const [shareModalState, setShareModalState] = useState(false)
+    const [logSigModalState, setLogSigModalState] = useState(false)
+    const [isRestricted, setIsRestricted] = useState(false)
+
+    //Refs
+    const contentContainerRef = useRef(null);
     const translatePopUpRef = useRef(null);
+    const shareModalRef = useRef(null);
+
+    // Browser theme state
+    const { theme, setTheme } = useTheme()
+
+    // Router
+    const router = useRouter()
+
+    // useEffects
+    useEffect(() => {
+        dispatch(addPage('notes/[noteid]'))
+        getUserCookie()
+    }, [])
 
     useEffect(() => {
-        getUserCookie()
-        dispatch(addPage('noteid'))
         if (Object.keys(pageNoteData).length === 0) {
-            getSingleNote(params?.note)
+            setPageLoading(true)
+            if (isNonUser === 'yes') {
+                handleNonUser(params?.note)
+            } else if (isNonUser === 'no') {
+                getSingleNote(params?.note)
+            }
         }
-    }, [])
+    }, [isNonUser])
+
+    useEffect(() => {
+        if (Object.keys(pageNoteData).length !== 0) {
+            if (isNonUser === 'yes' && pageNoteData.isPrivate === true) {
+                setIsRestricted(true)
+            } else if (String(users?._id) !== String(pageNoteData?.userId) && pageNoteData.isPrivate === true) {
+                setIsRestricted(true)
+            }
+        }
+    }, [pageNoteData, isNonUser])
+
+    // useEffect(() => {
+    //     if (Object.keys(pageNoteData).length === 0) {
+    //         if (users) {
+    //             getSingleNote(params?.note)
+    //         }
+    //     }
+    // }, [users])
 
     useEffect(() => {
         if (readingMode) {
@@ -90,6 +150,23 @@ const NotePage = ({ params }) => {
         };
     }, [translatePopUp]);
 
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (shareModalRef.current && !shareModalRef.current.contains(event.target)) {
+                setShareModalState(false)
+            }
+        };
+
+        if (shareModalState) {
+            document.addEventListener('click', handleOutsideClick);
+        }
+
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, [shareModalState]);
+
+    // Youtube video Refs
     const ytListNoteVideosRefs0 = useRef(null)
     const ytListNoteVideosRefs1 = useRef(null)
     const ytListNoteVideosRefs2 = useRef(null)
@@ -102,15 +179,8 @@ const NotePage = ({ params }) => {
 
     // const [isSummarized, setIsSummarized] = useState(false)
     // const [isTranslated, setIsTranslated] = useState(false)
-    const [translatedContent, setTranslatedContent] = useState('')
-    const [summarizedContent, setSummarizedContent] = useState('')
-    const [summarizedGptData, setSummarizedGptData] = useState({})
-    const [language, setLanguage] = useState('English')
-    const [gptOperationMode, setGptOperationMode] = useState('')
-    const [stopStreamingForTranslate, setStopStreamingForTranslate] = useState(false)
-    const router = useRouter()
-    const contentContainerRef = useRef(null);
 
+    // useEffects
     useEffect(() => {
         if (pageNoteData.ytVideo) {
             let count = -1
@@ -143,6 +213,7 @@ const NotePage = ({ params }) => {
         setTimeStamp(timeStmp)
     }, [pageNoteData])
 
+    // Vercel AI
     const {
         completion,
         input,
@@ -199,25 +270,63 @@ const NotePage = ({ params }) => {
         }
     }, [summarizedContent, translatedContent]);
 
-    console.log(completion)
+    // console.log('params: ')
+    // console.log(params)
 
+    // console.log('Page note data: ')
+    // console.log(pageNoteData)
 
+    // console.log('Users: ')
+    // console.log(users)
+
+    // Local Functions
     async function getUserCookie() {
         try {
             const res = await CookieHelper()
-            console.log('CookieHelper')
-            console.log(res)
+            //console.log('CookieHelper')
+            //console.log(res.body)
             dispatch(addUser(res.body))
+            setIsNonUser('no')
         } catch (error) {
+            setIsNonUser('yes')
             console.log('CookieHelper Error')
-            console.log(error.message)
+            console.log(error)
         }
     }
 
     async function getSingleNote(id) {
-        const res = await getSingleNoteHelper({ method: 'GET', noteid: id })
-        console.log(res.body)
-        dispatch(addCurrentNotePage(res.body))
+        console.log('getSingleNote was called')
+        setPageLoading(true)
+        try {
+            const res = await getSingleNoteHelper({ method: 'GET', noteid: id })
+            console.log('res.body')
+            console.log(res.body)
+            dispatch(addCurrentNotePage(res.body))
+            setPageLoading(false)
+            //setIsNonUser('')
+        } catch (error) {
+            //setIsNonUser('')
+            setPageLoading(false)
+            console.log('getSingleNote Error')
+            console.log(error)
+        }
+    }
+
+    async function handleNonUser(id) {
+        console.log('handleNonUser was called')
+        setPageLoading(true)
+        try {
+            const res = await handleNonUserNoteHelper({ method: 'GET', noteid: id })
+            //console.log(res.body)
+            dispatch(addCurrentNotePage(res.body))
+            setPageLoading(false)
+            //setIsNonUser('')
+        } catch (error) {
+            //setIsNonUser('')
+            setPageLoading(false)
+            console.log('handleNonUserNoteHelper Error')
+            console.log(error)
+        }
     }
 
     function toggleReadingMode() {
@@ -232,6 +341,10 @@ const NotePage = ({ params }) => {
 
     async function summarizeContent(event) {
         event.preventDefault()
+        if (isNonUser === 'yes') {
+            changeLogSigModalState(true)
+            return
+        }
         if (language !== 'English') {
             toast('Available only in English', {
                 icon: '😔'
@@ -239,7 +352,7 @@ const NotePage = ({ params }) => {
             return
         }
         //const words = `${generateRequirementGpt.words}`
-        const instruction = `Concisely summarize the following content, capturing the essential points and main ideas, and format the summary using Markdown. Focus on brevity and clarity, avoiding unnecessary details. Keep the summary as short as posible. The content is: ${pageNoteData.content}`
+        const instruction = `Concisely summarize the following content, capturing the essential points and main ideas, and format the summary using Markdown. Focus on brevity and clarity, avoiding unnecessary details. Keep the summary short. The content is: ${pageNoteData.content}`
         const gptData = {
             model: 'gpt-3.5-turbo-1106',
             temperature: 0.5,
@@ -248,7 +361,7 @@ const NotePage = ({ params }) => {
             messages: [
                 {
                     'role': 'system',
-                    'content': "Generate a Markdown-formatted summary of the provided content, focusing on distilling the main ideas and crucial points. Ensure the summary is concise, coherent, and retains the essence of the original content.",
+                    'content': "Generate a Markdown-formatted summary of the provided content, focusing on distilling the main ideas and crucial points. Ensure the summary is concise and short, coherent, and retains the essence of the original content.",
                 },
                 {
                     'role': 'user',
@@ -288,9 +401,6 @@ const NotePage = ({ params }) => {
         dispatch(setNoteModalConfig({ noteModalState: true, as: 'edit', noteObject: pageNoteData }))
     }
 
-    // console.log('noteData')
-    // console.log(pageNoteData)
-
     function undoContent() {
         setGptOperationMode('')
 
@@ -327,6 +437,19 @@ const NotePage = ({ params }) => {
     function stopSreaming(val) {
         stop()
         setStopStreamingForTranslate(val)
+    }
+
+    function changeLogSigModalState(val) {
+        setLogSigModalState(val)
+    }
+
+    function setShareModalStateFunction() {
+        pageNoteData.isPrivate ?
+            toast('Note is private. Change it to public.', {
+                icon: '🔒',
+                duration: 4000,
+            })
+            : setShareModalState(prev => !prev)
     }
 
     const opts = {
@@ -373,269 +496,326 @@ const NotePage = ({ params }) => {
 
     return (
         <>
-            <div className={`
-                ${readingMode ? ` bg-zinc-800 text-gray-100 brightness-[90%]` :
-                    `bg-[${pageNoteData.color}] text-gray-800 dark:brightness-[90%] shadow-xl`} 
-                    px-4 sm:px-8 py-4 sm:py-8 pb-20 sm:pb-20 rounded-3xl min-h-screen flex flex-col`}
-
-            >
-                <div className='controls flex gap-4 mb-4 justify-between'>
-                    <div className='relative flex flex-col items-start'>
-                        <BiArrowBack className='text-3xl cursor-pointer home-link' onClick={goBack} />
-                        <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900 
-                                    opacity-80 text-white text-sm px-2 py-1 rounded-md w-20">
-                            Go back
+            {
+                isNonUser === 'yes' ?
+                    <nav
+                        className="z-10 fixed top-0 left-0 w-full flex justify-between items-center pt-2 pb-1 px-3 sm:px-5"
+                    >
+                        <Link href='/welcome' className="italic text-xl sm:text-lg font-bold">
+                            stickify
+                        </Link>
+                        <div className="flex items-center justify-center gap-2 cursor-pointer"
+                            onClick={() => changeLogSigModalState(true)}>
+                            <BsPersonFillUp className="glow-texts text-2xl inline" />
+                            <span className="font-semibold">
+                                Login / Signup
+                            </span>
                         </div>
-                    </div>
-
-                    {/* Tools */}
-                    <div className="flex items-center justify-center gap-3">
-                        <div className='relative flex flex-col items-center'>
-                            {
-                                readingMode ?
-                                    <AiFillRead className='text-3xl cursor-pointer home-link' onClick={toggleReadingMode} /> :
-                                    <AiOutlineRead className='text-3xl cursor-pointer home-link' onClick={toggleReadingMode} />
-                            }
-                            <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900
-                                    opacity-80 text-white text-sm px-2 py-1 rounded-md w-28">
-                                {readingMode ? 'Default mode' : 'Reading mode'}
-                            </div>
-                        </div>
-                        <div className={`relative ${navigationSection === 'note-section' ? 'flex flex-col items-center' : 'hidden'}`}>
-                            <BsTranslate className='text-2xl cursor-pointer home-link' onClick={() => setTranslatePopUp(prev => !prev)} />
-                            <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900
-                                    opacity-80 text-white text-sm px-2 py-1 rounded-md w-20">
-                                Translate
-                            </div>
-                            <TranslateComponent translatePopUp={translatePopUp} undoTranslate={undoTranslate}
-                                translatePopUpRef={translatePopUpRef} setLanguageFunction={setLanguageFunction}
-                                setTranslatedContentFunction={setTranslatedContentFunction} setLoadingGptFunction={setLoadingGptFunction}
-                                readingMode={readingMode} pageNoteData={pageNoteData.content}
-                                stopStreamingForTranslate={stopStreamingForTranslate} stopSreaming={stopSreaming}
-                            />
-
-                        </div>
-                        {
-                            pageNoteData.userId === users._id ?
-                                <div className='relative flex flex-col items-center'>
-                                    <GoPencil className='text-2xl cursor-pointer home-link'
-                                        onClick={(e) => editNote(e)} />
-                                    <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900 
-                                    opacity-80 text-white text-sm px-2 py-1 rounded-md w-16">
-                                        Edit
-                                    </div>
-                                </div> : ''
+                    </nav>
+                    :
+                    <>
+                    </>
+            }
+            {
+                isRestricted ?
+                    <RestrictedSkeleton pageColor={pageNoteData.color} readingMode={readingMode} />
+                    :
+                    // If the note is not private
+                    <div
+                        className={`${readingMode ? ` bg-zinc-800 text-gray-100 brightness-[90%]` :
+                            `bg-[${pageNoteData.color}] text-gray-800 dark:brightness-[90%] shadow-xl`} 
+                            px-4 sm:px-8 py-4 sm:py-8 pb-20 sm:pb-20 rounded-3xl min-h-screen flex flex-col relative`
                         }
 
-                        {/* Language popup */}
-                        {
-                            language !== 'English' ?
-                                <div
-                                    className={`${readingMode ? 'border-gray-300' : 'border-gray-700'} border-2 px-2 py-1 rounded-lg 
+                    >
+                        {/* Tools */}
+                        <div className='controls flex gap-4 mb-6 justify-between'>
+                            {/* Left section */}
+                            <div className='relative flex flex-col items-start'>
+                                <BiArrowBack className='text-3xl cursor-pointer home-link' onClick={goBack} />
+                                <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900 
+                                    opacity-80 text-white text-sm px-2 py-1 rounded-md w-20">
+                                    Go back
+                                </div>
+                            </div>
+
+                            {/* Middle section */}
+                            <div className="flex items-center justify-center gap-3">
+                                {
+                                    language !== 'English' ?
+                                        <div
+                                            className={`${readingMode ? 'border-gray-300' : 'border-gray-700'} border-2 px-2 py-1 rounded-lg 
                                     cursor-pointer hover:scale-[1.02] transition-all duration-150 ease-in-out
                                     ${navigationSection === 'note-section' ? 'block' : 'hidden'}`}
-                                    onClick={summarizeContent}
-                                >
-                                    <IoBanSharp />
-                                </div>
-                                :
-                                <div
-                                    className={`${readingMode ? 'border-gray-100' : 'border-gray-800'} border-[1.4px] px-2 rounded-lg 
+                                            onClick={summarizeContent}
+                                        >
+                                            <IoBanSharp />
+                                        </div>
+                                        :
+                                        <div
+                                            className={`${readingMode ? 'border-gray-100' : 'border-gray-800'} border-[1.4px] px-2 rounded-lg 
                                     cursor-pointer hover:scale-[1.02] transition-all duration-150 ease-in-out
                                     ${navigationSection === 'note-section' ? 'block' : 'hidden'} font-bold`}
-                                    onClick={!summarizedContent ? summarizeContent : undoContent}
-                                >
-                                    {summarizedContent ? 'Elaborate' : 'Summarize'}
+                                            onClick={!summarizedContent ? summarizeContent : undoContent}
+                                        >
+                                            {summarizedContent ? 'Elaborate' : 'Summarize'}
+                                        </div>
+                                }
+
+                                <div className='relative flex flex-col items-center'>
+                                    {
+                                        readingMode ?
+                                            <AiFillRead className='text-3xl cursor-pointer home-link' onClick={toggleReadingMode} /> :
+                                            <AiOutlineRead className='text-3xl cursor-pointer home-link' onClick={toggleReadingMode} />
+                                    }
+                                    <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900
+                                    opacity-80 text-white text-sm px-2 py-1 rounded-md w-28">
+                                        {readingMode ? 'Default mode' : 'Reading mode'}
+                                    </div>
                                 </div>
-                        }
-                    </div>
-                </div>
 
-                {/* Title */}
-                <div className='font-bold mb-2 sm:text-xl text-xl'>{pageNoteData.title}</div>
+                                <div className={`relative ${navigationSection === 'note-section' ? 'flex flex-col items-center' : 'hidden'}`}>
+                                    <BsTranslate className='text-2xl cursor-pointer home-link'
+                                        onClick={() => isNonUser === 'yes' ? changeLogSigModalState(true) : setTranslatePopUp(prev => !prev)}
+                                    />
+                                    <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900
+                                    opacity-80 text-white text-sm px-2 py-1 rounded-md w-20">
+                                        Translate
+                                    </div>
+                                    <TranslateComponent translatePopUp={translatePopUp} undoTranslate={undoTranslate}
+                                        translatePopUpRef={translatePopUpRef} setLanguageFunction={setLanguageFunction}
+                                        setTranslatedContentFunction={setTranslatedContentFunction} setLoadingGptFunction={setLoadingGptFunction}
+                                        readingMode={readingMode} pageNoteData={pageNoteData.content}
+                                        stopStreamingForTranslate={stopStreamingForTranslate} stopSreaming={stopSreaming}
+                                    />
 
-                {/* Content */}
-                <div className='note-page-main-content mb-12'>
-                    <div className={`note-page-main-nav font-bold mb-8`}>
-                        <div
-                            className={`note-page-main-items sm:text-[1.05rem] text-[1.1rem] 
+                                </div>
+                            </div>
+
+                            {/* Right section */}
+                            <div className="flex justify-center items-center gap-3">
+                                <div className='relative flex flex-col items-center'>
+                                    <IoShareSocialOutline className='text-2xl cursor-pointer home-link'
+                                        onClick={() => setShareModalStateFunction()}
+                                    />
+                                    <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900 
+                                    opacity-80 text-white text-sm px-2 py-1 rounded-md w-16">
+                                        Share
+                                    </div>
+                                    <HelperModal
+                                        shareModalState={shareModalState} shareModalRef={shareModalRef} readingMode={readingMode}
+                                        linkparam={params?.note} noteTitle={pageNoteData.title}
+                                    />
+                                </div>
+                                {
+                                    pageNoteData.userId === users._id ?
+                                        <div className='relative flex flex-col items-center'>
+                                            <GoPencil className='text-2xl cursor-pointer home-link'
+                                                onClick={(e) => editNote(e)} />
+                                            <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900 
+                                                opacity-80 text-white text-sm px-2 py-1 rounded-md w-16">
+                                                Edit
+                                            </div>
+                                        </div>
+                                        :
+                                        ''
+                                }
+                            </div>
+                        </div>
+
+                        {/* Title */}
+                        <div className='font-bold mb-2 sm:text-xl text-xl'>{pageNoteData.title}</div>
+
+                        {/* Content */}
+                        <div className='note-page-main-content mb-12'>
+                            <div className={`note-page-main-nav font-bold mb-8`}>
+                                <div
+                                    className={`note-page-main-items sm:text-[1.05rem] text-[1.1rem] 
                             ${navigationSection === 'note-section' && readingMode ? 'border-b border-gray-100' : ''}
                             ${navigationSection === 'note-section' && !readingMode ? 'border-b border-gray-800' : ''}`}
-                            onClick={() => navigateNav('note-section')}
-                        >
-                            {
-                                navigationSection === 'note-section' ?
-                                    <FaNoteSticky className='inline text-[1.1rem]' /> :
-                                    <FaRegNoteSticky className='inline text-[1.1rem]' />
-                            } Note
-                        </div>
-                        <div
-                            className={`note-page-main-items sm:text-[1.05rem] text-[1.1rem]
+                                    onClick={() => navigateNav('note-section')}
+                                >
+                                    {
+                                        navigationSection === 'note-section' ?
+                                            <FaNoteSticky className='inline text-[1.1rem]' /> :
+                                            <FaRegNoteSticky className='inline text-[1.1rem]' />
+                                    } Note
+                                </div>
+                                <div
+                                    className={`note-page-main-items sm:text-[1.05rem] text-[1.1rem]
                             ${navigationSection === 'videos-section' && readingMode ? 'border-b border-gray-100' : ''}
                             ${navigationSection === 'videos-section' && !readingMode ? 'border-b border-gray-800' : ''}`}
-                            onClick={() => navigateNav('videos-section')}
-                        >
-                            {
-                                navigationSection === 'note-section' ?
-                                    <AiOutlineYoutube className='inline text-2xl' /> :
-                                    <AiFillYoutube className='inline text-2xl' />
-                            } Videos
-                        </div>
-                    </div>
-                    {/* Note Contents */}
-                    <div className={`${navigationSection === 'note-section' ? 'flex' : 'hidden'}`}
-                        ref={contentContainerRef}>
-                        {
-                            translatedContent ?
-                                <div className='sm:text-[1rem] text-[1.1rem] markDownContent'
-                                    style={{ whiteSpace: 'pre-line' }}>
-                                    <MarkdownContent texts={translatedContent} />
+                                    onClick={() => navigateNav('videos-section')}
+                                >
+                                    {
+                                        navigationSection === 'note-section' ?
+                                            <AiOutlineYoutube className='inline text-2xl' /> :
+                                            <AiFillYoutube className='inline text-2xl' />
+                                    } Videos
                                 </div>
-                                :
-                                <div className='sm:text-[1rem] text-[1.1rem] markDownContent'
-                                    style={{ whiteSpace: 'pre-line' }}>
-                                    <MarkdownContent texts={summarizedContent ? summarizedContent : pageNoteData.content} />
-                                </div>
-                        }
-                    </div>
-                    {/* Video Contents */}
-                    <div className={`${navigationSection === 'videos-section' ? 'flex flex-col mt-2' : 'hidden'}`}>
-                        {videoSection}
-                    </div>
-                </div>
-                <div className='mt-auto bottom-info-notePage'>
-                    {/* For Mobile Devices */}
-                    <div className='flex sm:hidden items-center justify-center gap-2'>
-                        {
-                            pageNoteData.likes > 0 ?
-                                <div className='flex items-center gap-1 text-sm'>
-                                    <AiFillHeart
-                                        className='font-bold 
-                                        active:text-black text-[1rem]'
-                                    />
-                                    {pageNoteData.likes}
-                                </div>
-                                :
-                                <div></div>
-                        }
-                        {
-                            pageNoteData.copies > 0 ?
-                                <div className='flex items-center gap-1 text-sm'>
-                                    <FaCopy
-                                        className=' font-bold 
-                                        active:text-black text-[0.9rem]'
-                                    />
-                                    {pageNoteData.copies}
-                                </div>
-                                :
-                                <div></div>
-                        }
-                    </div>
-                    {/* Shared between Mobile Devices and Desktops */}
-                    <div className='flex gap-2 items-center'>
-                        <div className='w-10 rounded-full'>
-                            <Image
-                                src={`/assets/avatars/${users.avatar}.jpeg`} width={50} height={50}
-                                className='rounded-full'
-                            />
-                        </div>
-                        <div className='flex flex-col items-start justify-center gap-0 '>
-                            <span className='font-bold truncate'>
-                                {users ?
-                                    users.username :
-                                    pageNoteData.username
+                            </div>
+                            {/* Note Contents */}
+                            <div className={`${navigationSection === 'note-section' ? 'flex' : 'hidden'}`}
+                                ref={contentContainerRef}>
+                                {
+                                    translatedContent ?
+                                        <div className='sm:text-[1rem] text-[1.1rem] markDownContent'
+                                            style={{ whiteSpace: 'pre-line' }}>
+                                            <MarkdownContent texts={translatedContent} />
+                                        </div>
+                                        :
+                                        <div className='sm:text-[1rem] text-[1.1rem] markDownContent'
+                                            style={{ whiteSpace: 'pre-line' }}>
+                                            <MarkdownContent texts={summarizedContent ? summarizedContent : pageNoteData.content} />
+                                        </div>
                                 }
-                            </span>
-                            {
-                                timeStamp &&
-                                <span className='sm:text-sm text-[1rem]'>
-                                    Updated {timeStamp}
-                                </span>
-                            }
+                            </div>
+                            {/* Video Contents */}
+                            <div className={`${navigationSection === 'videos-section' ? 'flex flex-col mt-2' : 'hidden'}`}>
+                                {videoSection}
+                            </div>
                         </div>
-                    </div>
-                    {/* For Desktop Devices */}
-                    <div className={`hidden sm:flex flex-col items-end gap-0`}>
-                        <div className='flex items-center gap-2'>
+                        <div className='mt-auto bottom-info-notePage'>
+                            {/* For Mobile Devices */}
+                            <div className='flex sm:hidden items-center justify-center gap-2'>
+                                {
+                                    pageNoteData.likes > 0 ?
+                                        <div className='flex items-center gap-1 text-sm'>
+                                            <AiFillHeart
+                                                className='font-bold 
+                                        active:text-black text-[1rem]'
+                                            />
+                                            {pageNoteData.likes}
+                                        </div>
+                                        :
+                                        <div></div>
+                                }
+                                {
+                                    pageNoteData.copies > 0 ?
+                                        <div className='flex items-center gap-1 text-sm'>
+                                            <FaCopy
+                                                className=' font-bold 
+                                        active:text-black text-[0.9rem]'
+                                            />
+                                            {pageNoteData.copies}
+                                        </div>
+                                        :
+                                        <div></div>
+                                }
+                            </div>
+                            {/* Shared between Mobile Devices and Desktops */}
+                            <div className='flex gap-2 items-center'>
+                                <div className='w-10 rounded-full'>
+                                    <Image
+                                        src={`/assets/avatars/${pageNoteData?.userAvatar}.jpeg`} width={50} height={50}
+                                        className='rounded-full'
+                                    />
+                                </div>
+                                <div className='flex flex-col items-start justify-center gap-0 '>
+                                    <span className='font-bold truncate'>
+                                        {pageNoteData?.username}
+                                    </span>
+                                    {
+                                        timeStamp &&
+                                        <span className='sm:text-sm text-[1rem]'>
+                                            Updated {timeStamp}
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                            {/* For Desktop Devices */}
+                            <div className={`hidden sm:flex flex-col items-end gap-0`}>
+                                <div className='flex items-center gap-2'>
+                                    {
+                                        pageNoteData.likes > 0 ?
+                                            <div className='flex items-center gap-1 text-sm'>
+                                                <AiFillHeart
+                                                    className='font-bold 
+                                        active:text-black text-[1rem]'
+                                                />
+                                                {pageNoteData.likes}
+                                            </div>
+                                            :
+                                            <div></div>
+                                    }
+                                    {
+                                        pageNoteData.copies > 0 ?
+                                            <div className='flex items-center gap-1 text-sm'>
+                                                <FaCopy
+                                                    className=' font-bold 
+                                        active:text-black text-[0.9rem]'
+                                                />
+                                                {pageNoteData.copies}
+                                            </div>
+                                            :
+                                            <div></div>
+                                    }
+                                </div>
+                                {
+                                    !pageNoteData.isPrivate ?
+                                        <div className='flex justify-center items-center gap-1'>
+                                            <MdOutlinePublic
+                                                className='font-bold text-[0.9rem]' />
+                                            Public Note
+                                            {!pageNoteData.isOriginal ?
+                                                ' (copy)'
+                                                :
+                                                ''
+                                            }
+                                        </div>
+                                        :
+                                        <div className='flex justify-center items-center gap-1'>
+                                            <IoLockClosedOutline
+                                                className='font-bold 
+                                        active:text-black text-[0.9rem]'/>
+                                            Private Note
+                                            {!pageNoteData.isOriginal ?
+                                                ' (copy)'
+                                                :
+                                                ''
+                                            }
+                                        </div>
+                                }
+                            </div>
+                            {/* For Mobile Devices */}
                             {
-                                pageNoteData.likes > 0 ?
-                                    <div className='flex items-center gap-1 text-sm'>
-                                        <AiFillHeart
+                                !pageNoteData.isPrivate ?
+                                    <div className='flex sm:hidden justify-center items-center gap-1'>
+                                        <MdOutlinePublic
+                                            className='font-bold text-[0.9rem]' />
+                                        Public Note
+                                        {!pageNoteData.isOriginal ?
+                                            ' (copy)'
+                                            :
+                                            ''
+                                        }
+                                    </div>
+                                    :
+                                    <div className='flex sm:hidden justify-center items-center gap-1'>
+                                        <IoLockClosedOutline
                                             className='font-bold 
-                                        active:text-black text-[1rem]'
-                                        />
-                                        {pageNoteData.likes}
+                                        active:text-black text-[0.9rem]'/>
+                                        Private Note
+                                        {!pageNoteData.isOriginal ?
+                                            ' (copy)'
+                                            :
+                                            ''
+                                        }
                                     </div>
-                                    :
-                                    <div></div>
-                            }
-                            {
-                                pageNoteData.copies > 0 ?
-                                    <div className='flex items-center gap-1 text-sm'>
-                                        <FaCopy
-                                            className=' font-bold 
-                                        active:text-black text-[0.9rem]'
-                                        />
-                                        {pageNoteData.copies}
-                                    </div>
-                                    :
-                                    <div></div>
                             }
                         </div>
                         {
-                            !pageNoteData.isPrivate ?
-                                <div className='flex justify-center items-center gap-1'>
-                                    <MdOutlinePublic
-                                        className='font-bold text-[0.9rem]' />
-                                    Public Note
-                                    {!pageNoteData.isOriginal ?
-                                        ' (copy)'
-                                        :
-                                        ''
-                                    }
+                            pageLoading &&
+                            <div
+                                className={`rounded-3xl absolute top-0 left-0 w-full h-full flex flex-col 
+                                justify-start items-center bg-zinc-800 skeleton2`}>
+                                <div className='flex justify-center items-center mt-5'>
+                                    <Lottie className="" animationData={pinwheelAni} />
                                 </div>
-                                :
-                                <div className='flex justify-center items-center gap-1'>
-                                    <IoLockClosedOutline
-                                        className='font-bold 
-                                        active:text-black text-[0.9rem]'/>
-                                    Private Note
-                                    {!pageNoteData.isOriginal ?
-                                        ' (copy)'
-                                        :
-                                        ''
-                                    }
-                                </div>
+                            </div>
                         }
-                    </div>
-                    {/* For Mobile Devices */}
-                    {
-                        !pageNoteData.isPrivate ?
-                            <div className='flex sm:hidden justify-center items-center gap-1'>
-                                <MdOutlinePublic
-                                    className='font-bold text-[0.9rem]' />
-                                Public Note
-                                {!pageNoteData.isOriginal ?
-                                    ' (copy)'
-                                    :
-                                    ''
-                                }
-                            </div>
-                            :
-                            <div className='flex sm:hidden justify-center items-center gap-1'>
-                                <IoLockClosedOutline
-                                    className='font-bold 
-                                        active:text-black text-[0.9rem]'/>
-                                Private Note
-                                {!pageNoteData.isOriginal ?
-                                    ' (copy)'
-                                    :
-                                    ''
-                                }
-                            </div>
-                    }
-                </div>
-            </div >
+                    </div >
+            }
 
             {/* Loader */}
             {
@@ -659,7 +839,31 @@ const NotePage = ({ params }) => {
                     </div>
                 </div>
             }
+            {/* Loader */}
+            {
+                pageLoading &&
+                <div
+                    className={`modal-blur fixed bg-zinc-800 bg-opacity-30 top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                                items-center flex-wrap  text-[#f9fafb]`}>
+                    <ClipLoader3
+                        color={`#f9fafb`}
+                        loading='Loading page...'
+                        //cssOverride={override}
+                        size={50}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    <div className="text-2xl mt-5 font-bold text-[#f9fafb]">
+                        {isNonUser === '' ? 'Checking system...' : 'Loading... 👾'}
+                    </div>
+                </div>
+            }
             <Toaster />
+            <LoginSignUpModal
+                linkparam={params?.note} changeLogSigModalState={changeLogSigModalState} readingMode={readingMode}
+                logSigModalState={logSigModalState} routeLink={`${params?.note}`} getUserCookie={getUserCookie}
+            />
         </>
     )
 }

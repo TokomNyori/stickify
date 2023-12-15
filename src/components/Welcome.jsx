@@ -20,6 +20,7 @@ import { PiStickerLight } from 'react-icons/pi'
 import ClipLoader from "react-spinners/SquareLoader";
 import { addTheme } from '@/redux_features/theme/themeSlice';
 import Typewriter from 'typewriter-effect'
+import { addPage } from '@/redux_features/pages/pageSlice';
 
 const Welcome = () => {
     const [isLogin, setIsLogin] = useState(false);
@@ -36,6 +37,10 @@ const Welcome = () => {
     const dispatch = useDispatch()
     const { theme, setTheme } = useTheme()
     const router = useRouter()
+
+    useEffect(() => {
+        dispatch(addPage('/welcome'))
+    }, [])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -66,10 +71,10 @@ const Welcome = () => {
                     body: loginFormData
                 })
                 setLoading(false)
-                router.push('/')
                 toast(res.message, {
                     icon: '🤗',
                 })
+                router.push('/')
             } catch (error) {
                 setLoading(false)
                 toast.error(error.message)
@@ -92,7 +97,7 @@ const Welcome = () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: formData
                 })
-                localStorage.setItem('userData', JSON.stringify(res.body))
+                //localStorage.setItem('userData', JSON.stringify(res.body))
                 setLoading(false)
                 setFormData({
                     avatar: '',
@@ -100,10 +105,10 @@ const Welcome = () => {
                     email: '',
                     password: '',
                 })
-                router.push('/')
                 toast.success(res.message, {
                     duration: 3000
                 })
+                router.push('/')
             } catch (error) {
                 setLoading(false)
                 toast.error(error.message, {
@@ -131,10 +136,10 @@ const Welcome = () => {
                     className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                     items-center flex-wrap -mt-6`}>
                     <ClipLoader
-                        color={`${theme === 'dark' ? '#e2e8f0' : '#1f2937'}`}
+                        color="#3f3f46"
                         loading='Welcome...'
                         //cssOverride={override}
-                        size={120}
+                        size={150}
                         aria-label="Loading Spinner"
                         data-testid="loader"
                         speedMultiplier={1}

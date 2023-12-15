@@ -28,7 +28,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
         const clickedNote = notes.filter(note => note._id === id)
         dispatch(addCurrentNotePage(clickedNote[0]))
         setNextPage(true)
-        router.push(`/${id}`)
+        router.push(`/notes/${id}`)
     }
 
     function editNote(e, noteid) {

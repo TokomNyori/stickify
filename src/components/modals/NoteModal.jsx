@@ -50,6 +50,8 @@ const NoteModal = () => {
         content: '',
         isPrivate: false,
         userId: users._id,
+        userAvatar: users.avatar,
+        username: users.username,
         ytVideo: []
     })
 
@@ -121,6 +123,8 @@ const NoteModal = () => {
                 content: noteModalConfig.noteObject.content,
                 isPrivate: noteModalConfig.noteObject.isPrivate,
                 userId: users._id,
+                userAvatar: users.avatar,
+                username: users.username,
                 ytVideo: noteModalConfig.noteObject.ytVideo,
             })
             if (noteModalConfig.noteObject.status === 'pinned') {
@@ -178,7 +182,7 @@ const NoteModal = () => {
 
     useEffect(() => {
         const height = window.innerHeight;
-        console.log(height)
+        //console.log(height)
         if (height > 700 && height < 800) {
             setTextareaRows(20)
         } else if (height > 799 && height < 900) {
@@ -197,7 +201,7 @@ const NoteModal = () => {
     useEffect(() => {
         function handleResize() {
             const height = window.innerHeight;
-            console.log(height)
+            //console.log(height)
             if (height > 700 && height < 800) {
                 setTextareaRows(20)
             } else if (height > 799 && height < 900) {
@@ -220,49 +224,6 @@ const NoteModal = () => {
         };
     }, []);
 
-    // useEffect(() => {
-    //     const height = window.innerHeight;
-    //     console.log(height)
-    //     if (height > 700 && height < 800) {
-    //         rephrasedNote.content || note.content ? setTextareaRows(19) : setTextareaRows(20)
-    //     } else if (height > 799 && height < 900) {
-    //         rephrasedNote.content || note.content ? setTextareaRows(23) : setTextareaRows(24)
-    //     } else if (height > 899 && height < 1000) {
-    //         rephrasedNote.content || note.content ? setTextareaRows(25) : setTextareaRows(26)
-    //     } else if (height > 999 && height < 1300) {
-    //         rephrasedNote.content || note.content ? setTextareaRows(27) : setTextareaRows(28)
-    //     } else if (height < 600) {
-    //         rephrasedNote.content || note.content ? setTextareaRows(14) : setTextareaRows(15)
-    //     } else {
-    //         rephrasedNote.content || note.content ? setTextareaRows(16) : setTextareaRows(17)
-    //     }
-    // }, [rephrasedNote.content, note.content])
-
-    // useEffect(() => {
-    //     function handleResize() {
-    //         const height = window.innerHeight;
-    //         console.log(height)
-    //         if (height > 700 && height < 800) {
-    //             rephrasedNote.content || note.content ? setTextareaRows(19) : setTextareaRows(20)
-    //         } else if (height > 799 && height < 900) {
-    //             rephrasedNote.content || note.content ? setTextareaRows(23) : setTextareaRows(24)
-    //         } else if (height > 899 && height < 1000) {
-    //             rephrasedNote.content || note.content ? setTextareaRows(25) : setTextareaRows(26)
-    //         } else if (height > 999 && height < 1300) {
-    //             rephrasedNote.content || note.content ? setTextareaRows(27) : setTextareaRows(28)
-    //         } else if (height < 600) {
-    //             rephrasedNote.content || note.content ? setTextareaRows(14) : setTextareaRows(15)
-    //         } else {
-    //             rephrasedNote.content || note.content ? setTextareaRows(16) : setTextareaRows(17)
-    //         }
-    //     }
-    //     // Add the event listener
-    //     window.addEventListener('resize', handleResize);
-    //     // Clean up the event listener when the component unmounts
-    //     return () => {
-    //         window.removeEventListener('resize', handleResize);
-    //     };
-    // }, [rephrasedNote.content, note.content]);
 
     useEffect(() => {
         // Create the handlePopState function inside useEffect
@@ -542,6 +503,8 @@ const NoteModal = () => {
             content: '',
             isPrivate: false,
             userId: users._id,
+            userAvatar: users.avatar,
+            username: users.username,
             ytVideo: []
         })
         setNote({
@@ -551,6 +514,8 @@ const NoteModal = () => {
             content: '',
             isPrivate: false,
             userId: users._id,
+            userAvatar: users.avatar,
+            username: users.username,
             ytVideo: []
         })
         setPin(false)
@@ -990,7 +955,7 @@ const NoteModal = () => {
                                 applyFormattingToSelectedText={applyFormattingToSelectedText}
                                 parentRef={parentRef} ctx={isRephrasedNote ? rephrasedNote : note}
                             /> */}
-                            {/* <motion.div
+                            <motion.div
                                 drag
                                 animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
                                 whileDrag={{ scale: 1.05 }}
@@ -1028,7 +993,7 @@ const NoteModal = () => {
                                         <RiMagicFill className='inline text-lg' /> Grammar
                                     </span>
                                 </div>
-                            </motion.div> */}
+                            </motion.div>
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.
@@ -1057,12 +1022,12 @@ const NoteModal = () => {
                                 ></label>
                             </div>
                             <div className='hideForSmallMobile'>
-                                {/* checked={note.color === '#f8d2b7'} */}
-                                <input type="radio" id="color3" name="color" className="hidden note-radio-btn" value="#f8d2b7"
+                                {/* checked={note.color === '#fac0b1'} */}
+                                <input type="radio" id="color3" name="color" className="hidden note-radio-btn" value="#fac0b1"
                                     onChange={changeNote}
-                                    checked={isRephrasedNote ? rephrasedNote.color === '#f8d2b7' : note.color === '#f8d2b7'} />
+                                    checked={isRephrasedNote ? rephrasedNote.color === '#fac0b1' : note.color === '#fac0b1'} />
                                 <label htmlFor="color3"
-                                    className="block color-input-label rounded-full bg-[#f8d2b7] border border-gray-500
+                                    className="block color-input-label rounded-full bg-[#fac0b1] border border-gray-500
                                 hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
                                 ></label>
                             </div>
@@ -1136,10 +1101,10 @@ const NoteModal = () => {
 
                 {loading &&
                     <div
-                        className={`loader-gpt absolute inset-0 bg-black bg-opacity-40 backdrop-blur-[2px] flex flex-col justify-center 
-                                items-center flex-wrap`}>
+                        className={`loader-gpt absolute inset-0 backdrop-blur-[2px] flex flex-col 
+                        justify-center items-center flex-wrap`}>
                         <ClipLoader
-                            color='#f1f5f9'
+                            color='#1f2937'
                             loading='Generating...'
                             //cssOverride={override}
                             size={50}
@@ -1147,7 +1112,7 @@ const NoteModal = () => {
                             data-testid="loader"
                             speedMultiplier={1}
                         />
-                        <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
+                        <div className="text-2xl mt-5 font-bold text-[#1f2937]">
                             {isEdit ? 'Customizing...' : 'Creating note...'}
                         </div>
                     </div>
@@ -1155,18 +1120,18 @@ const NoteModal = () => {
                 }
                 {loadingRephraser &&
                     <div
-                        className={`loader-gpt absolute inset-0 bg-black bg-opacity-40 backdrop-blur-[2px] flex flex-col justify-center 
+                        className={`loader-gpt absolute inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
                         <ClipLoader2
-                            color='#e2e8f0'
-                            loading='Generating...'
+                            color='#1f2937'
+                            loading='Rephrasing...'
                             //cssOverride={override}
                             size={30}
                             aria-label="Loading Spinner"
                             data-testid="loader"
                             speedMultiplier={1}
                         />
-                        <div className="text-2xl mt-5 font-bold text-[#e2e8f0]">
+                        <div className="text-2xl mt-5 font-bold text-[#1f2937]">
                             Rephrasing...
                         </div>
                         {/* <div classN ame={`border-gray-200 border px-2 rounded-lg  py-1 mt-2

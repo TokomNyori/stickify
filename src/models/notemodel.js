@@ -19,6 +19,12 @@ const NoteSchema = new Schema({
         type: mongoose.ObjectId,
         required: true,
     },
+    userAvatar: {
+        type: String,
+    },
+    username: {
+        type: String,
+    },
     created: { type: Date, default: Date.now },
     updated: { type: Date, default: Date.now },
     coreUpdated: { type: Date, default: Date.now },

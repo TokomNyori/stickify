@@ -20,6 +20,7 @@ const ReduxProvider = ({ children }) => {
         )
     }
 
+
     return (
         <Provider store={store}>
             <ThemeProvider attribute="class">

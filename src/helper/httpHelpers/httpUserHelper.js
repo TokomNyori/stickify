@@ -1,5 +1,5 @@
 export const signupHelper = async ({ method, headers, body, id }) => {
-    const res = await fetch(`api/users/signup`, {
+    const res = await fetch(`/api/users/signup/`, {
         method: method,
         headers: headers,
         body: JSON.stringify(body)
@@ -15,7 +15,7 @@ export const signupHelper = async ({ method, headers, body, id }) => {
 
 export const loginHelper = async ({ method, headers, body, id }) => {
     if (method === 'POST') {
-        const res = await fetch(`api/users/login`, {
+        const res = await fetch(`/api/users/login/`, {
             method: method,
             headers: headers,
             body: JSON.stringify(body)
@@ -33,7 +33,7 @@ export const loginHelper = async ({ method, headers, body, id }) => {
 
 export const logOutHelper = async ({ method, headers }) => {
     if (method === 'POST') {
-        const res = await fetch(`api/users/logout`, {
+        const res = await fetch(`/api/users/logout/`, {
             method: method,
             headers: headers,
         })
@@ -91,3 +91,39 @@ export const getGlobalUsersHelper = async ({ method }) => {
 
     return res.json()
 }
+
+
+
+// Modal Login and Signup
+// export const modalSignupHelper = async ({ method, headers, body, id }) => {
+//     const res = await fetch(`/api/users/modal-signup/`, {
+//         method: method,
+//         headers: headers,
+//         body: JSON.stringify(body)
+//     })
+//     if (!res.ok) {
+//         const errorData = await res.json();
+//         console.log(errorData)
+//         throw new Error(errorData.message)
+//     }
+
+//     return res.json()
+// }
+
+// export const modalLoginHelper = async ({ method, headers, body, id }) => {
+//     if (method === 'POST') {
+//         const res = await fetch(`/api/users/modal-login/`, {
+//             method: method,
+//             headers: headers,
+//             body: JSON.stringify(body)
+//         })
+
+//         if (!res.ok) {
+//             const errorData = await res.json();
+//             console.log(errorData)
+//             throw new Error(errorData.message)
+//         }
+
+//         return res.json()
+//     }
+// }

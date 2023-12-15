@@ -198,7 +198,7 @@ const GptSubmit = (
 
     useEffect(() => {
         if (completion) {
-            console.log(completion)
+            //console.log(completion)
             changeNoteContentByGptTrial(completion)
         }
     }, [completion])
@@ -223,7 +223,7 @@ const GptSubmit = (
     }, [stopStreaming])
 
 
-    console.log(gptData)
+    //console.log(gptData)
 
     return (
         <div

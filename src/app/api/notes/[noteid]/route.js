@@ -10,7 +10,9 @@ connectDB()
 export async function GET(request, { params }) {
     const { noteid } = params
     try {
+        console.log('note')
         const note = await NoteModel.findById({ _id: noteid })
+        //console.log(note)
         return getResponseMsg(
             { message: 'Note fetched successfully', status: 200, success: true, body: note }
         )
@@ -49,6 +51,7 @@ export async function DELETE(request, { params }) {
 
 // Edit note by noteId
 export async function PUT(request, { params }) {
+    console.log('EDIT NOTE API was called')
     const { noteid } = params
     //Fetch work data from request
     const { title, content, status, color, isPrivate, ytVideo } = await request.json()
@@ -65,6 +68,7 @@ export async function PUT(request, { params }) {
         note.coreUpdated = new Date()
 
         const updatedNote = await note.save()
+        console.log(updatedNote)
 
         return getResponseMsg(
             { message: `Dynamically updated note: ${noteid}`, status: 200, success: true, body: updatedNote }

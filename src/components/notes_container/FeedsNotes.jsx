@@ -28,7 +28,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote, initialR
         e.stopPropagation()
         const clickedNote = notes.filter(note => note._id === id)
         dispatch(addCurrentNotePage(clickedNote[0]))
-        router.push(`/${id}`)
+        router.push(`/notes/${id}`)
     }
 
     function formatDate(dateString) {
@@ -69,10 +69,10 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote, initialR
                 <div className='flex justify-start items-center gap-1.5 mb-2'>
                     <div className='sm:w-4 sm:h-4 w-5 h-5 rounded-full'>
                         <Image
-                            src={`/assets/avatars/${note.user_avatar}.jpeg`} width={50} height={50}
+                            src={`/assets/avatars/${note.userAvatar}.jpeg`} width={50} height={50}
                             className='rounded-full' />
                     </div>
-                    <div className='truncate sm:text-xs text-sm w-[6.8rem] sm:w-[7.2rem]'>
+                    <div className='truncate sm:text-xs text-sm w-[7rem] sm:w-[7.2rem]'>
                         {note.username}
                     </div>
                 </div>

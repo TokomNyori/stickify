@@ -1,4 +1,5 @@
 'use client'
+
 const WarningModal = ({ warningModalState, action, modalType, noteid, isItOriginal, currentOriginId }) => {
     let modalBody;
     if (modalType === 'delete') {
@@ -31,8 +32,7 @@ const WarningModal = ({ warningModalState, action, modalType, noteid, isItOrigin
                 </div>
             </div>
         )
-    }
-    if (modalType === 'saveChanges') {
+    } else if (modalType === 'saveChanges') {
         modalBody = (
             <div
                 className={`gpt-modal-blur inset-0 bg-black bg-opacity-30 backdrop-blur-[1px] flex justify-center items-center
@@ -57,7 +57,7 @@ const WarningModal = ({ warningModalState, action, modalType, noteid, isItOrigin
                 </div>
             </div>
         )
-    }
+    } 
 
     return modalBody
 }

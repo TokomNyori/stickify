@@ -13,6 +13,7 @@ import { MdOutlineLightMode } from 'react-icons/md'
 import { useEffect, useRef, useState } from "react";
 import { BiGroup } from 'react-icons/bi'
 import { BiSolidGroup } from 'react-icons/bi'
+import { BsPersonFillUp } from "react-icons/bs";
 import NoteModal from "./modals/NoteModal";
 import Image from "next/image";
 import { logOutHelper } from "@/helper/httpHelpers/httpUserHelper";
@@ -29,18 +30,24 @@ import ClipLoader from "react-spinners/SquareLoader";
 export default function Navbar() {
     //const [noteModalState, setNoteModalState] = useState(false)
 
-    const [profilePopUp, setProfilePopUp] = useState(false)
-    const [infoPopUp, setInfoPopUp] = useState(false)
+    // Redux
     const page = useSelector(state => state.page.page)
-    const [activePage, setActivePage] = useState(page)
-
     const noteModalConfig = useSelector(state => state.noteModalConfig.noteModalConfig)
     const userCookie = useSelector(state => state.user.users)
     const dispatch = useDispatch()
 
+    // Local states
+    const [profilePopUp, setProfilePopUp] = useState(false)
+    const [infoPopUp, setInfoPopUp] = useState(false)
+    const [activePage, setActivePage] = useState(page)
+    const [loading, setLoading] = useState(false)
+    //const [isNonUser, setIsNonUser] = useState(false)
+
     const { theme, setTheme } = useTheme()
     const profilePopUpRef = useRef(null);
-    const [loading, setLoading] = useState(false)
+
+    // Router
+    const router = useRouter()
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -58,7 +65,16 @@ export default function Navbar() {
         };
     }, [profilePopUp]);
 
-    const router = useRouter()
+    // useEffect(() => {
+    //     if (userCookie.cookieStatus === true) {
+    //         setIsNonUser(false)
+    //     } else if (userCookie.cookieStatus === false) {
+    //         setIsNonUser(true)
+    //     }
+    // }, [userCookie])
+
+    console.log('userCookie')
+    console.log(userCookie)
 
     function changeModal(event, id) {
         //setCurrentID(id)
@@ -70,11 +86,11 @@ export default function Navbar() {
         const res = await logOutHelper({ method: 'POST', headers: { 'Content-Type': 'application/json' } })
         setProfilePopUp(prev => !prev)
         dispatch(removeUser())
-        router.push('/welcome')
         setLoading(false)
         toast(res.message, {
             icon: '🥺',
         });
+        router.push('/welcome')
     }
 
 
@@ -290,12 +306,12 @@ export default function Navbar() {
                 {loading &&
                     <div
                         className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
-                    items-center flex-wrap -mt-6`}>
+                        items-center flex-wrap -mt-6`}>
                         <ClipLoader
-                            color={`${theme === 'dark' ? '#e2e8f0' : '#1f2937'}`}
+                            color="#3f3f46"
                             loading='Logging out...'
                             //cssOverride={override}
-                            size={120}
+                            size={150}
                             aria-label="Loading Spinner"
                             data-testid="loader"
                             speedMultiplier={1}

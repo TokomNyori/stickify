@@ -5,6 +5,7 @@ import './more.css'
 import { Nunito, Caveat } from 'next/font/google'
 import Footer from '@/components/Footer'
 import ReduxProvider from '@/components/redux/ReduxProvider'
+import { icons } from 'react-icons'
 
 const nunito = Nunito(
   {
@@ -23,6 +24,18 @@ const caveat = Caveat(
 export const metadata = {
   title: 'stickify',
   description: 'Your AI Sticker-notes',
+  icons: {
+    icons: [
+      '/favicon.ico?v=4',
+    ],
+    apple: [
+      '/apple-touch-icon.png?v=4',
+    ],
+    shortcut: [
+      '/apple-touch-icon.png',
+    ]
+  },
+  // manifest: '/site.webmanifest',
 }
 
 export default function RootLayout({ children }) {

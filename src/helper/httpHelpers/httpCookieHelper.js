@@ -1,5 +1,6 @@
 export async function CookieHelper() {
-    const res = await fetch(`api/getcookie`, {
+    console.log('CookieHelper called!!!!!!!!!!!!')
+    const res = await fetch(`/api/getcookie/`, {
         method: 'GET',
     })
 

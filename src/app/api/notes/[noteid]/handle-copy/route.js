@@ -11,7 +11,7 @@ connectDB()
 export async function POST(request) {
 
     //Fetch work data from request
-    const { title, content, userId, status, color, isPrivate, ytVideo, isOriginal, originId } = await request.json()
+    const { title, content, userId, status, color, isPrivate, ytVideo, isOriginal, originId, userAvatar, username } = await request.json()
     const createdNote = new NoteModel({
         title,
         status,
@@ -19,6 +19,8 @@ export async function POST(request) {
         content,
         isPrivate,
         userId: userId,
+        userAvatar: userAvatar,
+        username: username,
         ytVideo,
         likes: 0,
         likedBy: [],
