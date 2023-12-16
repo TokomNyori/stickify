@@ -89,8 +89,8 @@ export default function Navbar() {
     //     }
     // }, [userCookie])
 
-    console.log('userCookie')
-    console.log(userCookie)
+    // console.log('userCookie')
+    // console.log(userCookie)
 
     function changeModal(event, id) {
         //setCurrentID(id)
@@ -116,6 +116,11 @@ export default function Navbar() {
         setActivePage(clickedLink.id) // Get and set the id attribute of the clicked link
     }
 
+    function closeProfileAndChangePage(e) {
+        changePage(e)
+        setProfilePopUp(prev => !prev)
+    }
+
     function toggleTheme(mode) {
         if (mode === 'light') {
             setTheme('light')
@@ -126,8 +131,8 @@ export default function Navbar() {
         }
     }
 
-    // console.log('UserCookie')
-    // console.log(userCookie)
+    console.log('page-----')
+    console.log(page)
 
     return (
         Object.keys(userCookie).length !== 0 ?
@@ -307,8 +312,8 @@ export default function Navbar() {
                                                     </div>
                                                     <Link href="/support-me"
                                                         className="flex gap-3 items-center cursor-pointer hover:scale-[1.03] 
-                                                        transition-all duration-150 ease-in-out"
-                                                        onClick={() => setProfilePopUp(prev => !prev)}
+                                                        transition-all duration-150 ease-in-out" id="support-me"
+                                                        onClick={closeProfileAndChangePage}
                                                     >
                                                         <div className="text-2xl sm:text-xl text-red-500">
                                                             <AiTwotoneHeart />
