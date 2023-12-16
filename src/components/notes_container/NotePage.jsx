@@ -94,7 +94,10 @@ const NotePage = ({ params }) => {
     // useEffects
     useEffect(() => {
         dispatch(addPage('notes/[noteid]'))
-        getUserCookie()
+        if (Object.keys(pageNoteData).length === 0) {
+            getUserCookie()
+        }
+        //getUserCookie()
     }, [])
 
     useEffect(() => {

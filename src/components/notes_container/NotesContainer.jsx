@@ -40,6 +40,9 @@ export default function NotesContainer() {
     const [isItOriginal, setIsItOriginal] = useState(true)
     const dispatch = useDispatch()
     useEffect(() => {
+        if (Object.keys(users).length === 0) {
+            getUserCookie()
+        }
         //getUserCookie()
         dispatch(addPage('home'))
     }, [])
