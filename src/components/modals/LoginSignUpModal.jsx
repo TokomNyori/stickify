@@ -17,7 +17,11 @@ import ClipLoader from "react-spinners/SquareLoader";
 
 
 
-const LoginSignUpModal = ({ linkparam, changeLogSigModalState, logSigModalState, routeLink, getUserCookie, readingMode }) => {
+const LoginSignUpModal = (
+    {
+        linkparam, changeLogSigModalState, logSigModalState, routeLink, getUserCookie, readingMode,
+    }
+) => {
 
     const [isLogin, setIsLogin] = useState(false);
     const [isAvatar, setIsAvatar] = useState(true);
@@ -50,6 +54,7 @@ const LoginSignUpModal = ({ linkparam, changeLogSigModalState, logSigModalState,
             document.removeEventListener('click', handleOutsideClick);
         };
     }, [logSigModalState]);
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -131,7 +136,6 @@ const LoginSignUpModal = ({ linkparam, changeLogSigModalState, logSigModalState,
         }
     };
 
-    console.log(routeLink)
 
     return (
         <div

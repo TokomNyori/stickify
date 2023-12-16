@@ -131,8 +131,8 @@ export default function Navbar() {
         }
     }
 
-    console.log('page-----')
-    console.log(page)
+    // console.log('page-----')
+    // console.log(page)
 
     return (
         Object.keys(userCookie).length !== 0 ?

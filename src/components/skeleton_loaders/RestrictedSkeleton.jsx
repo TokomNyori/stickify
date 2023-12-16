@@ -33,7 +33,7 @@ const RestrictedSkeleton = ({ pageColor, readingMode }) => {
     return (
         <div
             className={` text-gray-100 bg-[${pageColor}] text-gray-800 dark:brightness-[90%] shadow-xl 
-    px-4 sm:px-8 py-4 sm:py-8 pb-20 sm:pb-20 rounded-3xl min-h-screen flex flex-col relative`}
+                px-4 sm:px-8 py-4 sm:py-8 pb-20 sm:pb-20 rounded-3xl min-h-screen flex flex-col relative`}
 
         >
             {/* Tools */}
@@ -133,7 +133,7 @@ const RestrictedSkeleton = ({ pageColor, readingMode }) => {
             </div>
 
             <div
-                className={`backdrop-blur-[5px] rounded-3xl absolute top-0 left-0 w-full h-full flex flex-col justify-start
+                className={`backdrop-blur-[7px] rounded-3xl absolute top-0 left-0 w-full h-full flex flex-col justify-start
                 items-center`}>
                 <div className='text-center flex flex-col justify-start items-center gap-2 mt-36'>
                     <div className='text-4xl'>

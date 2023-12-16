@@ -117,6 +117,8 @@ const NotePage = ({ params }) => {
                 setIsRestricted(true)
             } else if (String(users?._id) !== String(pageNoteData?.userId) && pageNoteData.isPrivate === true) {
                 setIsRestricted(true)
+            } else if (String(users?._id) === String(pageNoteData?.userId)) {
+                setIsRestricted(false)
             }
         }
     }, [pageNoteData, isNonUser])
