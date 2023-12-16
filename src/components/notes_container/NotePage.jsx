@@ -811,7 +811,7 @@ const NotePage = ({ params }) => {
                             pageLoading &&
                             <div
                                 className={`rounded-3xl absolute top-0 left-0 w-full h-full flex flex-col 
-                                justify-center items-center bg-zinc-800 skeleton2`}>
+                                justify-center items-center bg-zinc-800 skeleton3`}>
                                 <div className='flex justify-center items-center'>
                                     {/* <Lottie className="" animationData={pinwheelAni} /> */}
                                 </div>
