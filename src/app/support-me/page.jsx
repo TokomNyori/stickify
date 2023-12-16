@@ -2,8 +2,7 @@ import React from 'react'
 import Link from "next/link"
 import Image from 'next/image'
 import BMCqr from '@/assets/important/bmc-qr.png'
-import GPAYqr from '@/assets/important/gpay-qr.png'
-import GPAYqr2 from '@/assets/important/gpay-qr2.png'
+import GPAYqr from '@/assets/important/gpay-qr3.png'
 import { AiTwotoneHeart } from "react-icons/ai";
 
 const page = () => {
@@ -39,19 +38,19 @@ const page = () => {
                 <div className='transaction-section flex flex-col sm:flex-row gap-12 mb-12'>
                     <div className='indian-users flex flex-col items-center'>
                         <span className='mb-2 font-bold text-xl'>Indian Users: </span>
-                        <p className='mb-1'>Scan for your donation.</p>
+                        <p className='mb-1'>Scan for your donation</p>
                         <div className='mb-2'>
-                            <Image src={GPAYqr2} height={250} width={250} />
+                            <Image src={GPAYqr} height={250} width={250} />
                         </div>
-                        <div className='mb-1 italic'>Or use the UPI ID:</div>
+                        <div className='mb-1 italic'>Or use the UPI ID</div>
                         <div className='font-bold text-green-500'>
-                            8837428457@okbizaxis
+                            tokom.nyori-1@okhdfcbank
                         </div>
                     </div>
                     <hr className='sm:hidden' />
                     <div className='international-users flex flex-col items-center'>
                         <span className='mb-2 font-bold text-xl'>International Users: </span>
-                        <p className='mb-1'>Scan for your donation.</p>
+                        <p className='mb-1'>Scan for your donation</p>
                         <div className='mb-2'>
                             <Image src={BMCqr} height={265} width={265} />
                         </div>
