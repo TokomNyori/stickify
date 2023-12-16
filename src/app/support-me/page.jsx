@@ -18,7 +18,7 @@ const page = () => {
                 </div>
                 <div className='the-message mb-8'>
                     <p className='mb-3'>
-                        Thank you for using Stickify for your note-taking needs. As a non-profit app,
+                        As a non-profit app,
                         Stickify is committed to remaining ad-free and accessible for everyone.
                     </p>
                     <p className='mb-3'>
@@ -48,7 +48,7 @@ const page = () => {
                             8837428457@okbizaxis
                         </div>
                     </div>
-
+                    <hr className='sm:hidden' />
                     <div className='international-users flex flex-col items-center'>
                         <span className='mb-2 font-bold text-xl'>International Users: </span>
                         <p className='mb-1'>Scan for your donation.</p>
