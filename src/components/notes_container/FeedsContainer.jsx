@@ -34,7 +34,7 @@ export default function FeedsContainer() {
     const { theme, setTheme } = useTheme()
 
     useEffect(() => {
-        getUserCookie()
+        //getUserCookie()
         getFeedsNotes()
         getGlobalUsers()
         scrollToTop()

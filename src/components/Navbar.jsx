@@ -26,6 +26,8 @@ import { addPage } from "@/redux_features/pages/pageSlice";
 import { addTheme } from "@/redux_features/theme/themeSlice";
 import { setNoteModalConfig } from "@/redux_features/noteModalConfig/noteModalConfigSlice";
 import ClipLoader from "react-spinners/SquareLoader";
+import { CookieHelper } from "@/helper/httpHelpers/httpCookieHelper";
+import { AiTwotoneHeart } from "react-icons/ai";
 
 export default function Navbar() {
     //const [noteModalState, setNoteModalState] = useState(false)
@@ -50,6 +52,10 @@ export default function Navbar() {
     const router = useRouter()
 
     useEffect(() => {
+        getUserCookie()
+    }, [])
+
+    useEffect(() => {
         const handleOutsideClick = (event) => {
             if (profilePopUpRef.current && !profilePopUpRef.current.contains(event.target)) {
                 setProfilePopUp(false)
@@ -64,6 +70,16 @@ export default function Navbar() {
             document.removeEventListener('click', handleOutsideClick);
         };
     }, [profilePopUp]);
+
+    async function getUserCookie() {
+        try {
+            const res = await CookieHelper()
+            dispatch(addUser(res.body))
+        } catch (error) {
+            console.log('CookieHelper Error')
+            console.log(error.message)
+        }
+    }
 
     // useEffect(() => {
     //     if (userCookie.cookieStatus === true) {
@@ -289,6 +305,18 @@ export default function Navbar() {
                                                             Logout
                                                         </div>
                                                     </div>
+                                                    <Link href="/support-me"
+                                                        className="flex gap-3 items-center cursor-pointer hover:scale-[1.03] 
+                                                        transition-all duration-150 ease-in-out"
+                                                        onClick={() => setProfilePopUp(prev => !prev)}
+                                                    >
+                                                        <div className="text-2xl sm:text-xl text-red-500">
+                                                            <AiTwotoneHeart />
+                                                        </div>
+                                                        <div className="profile-popup-text">
+                                                            Support me
+                                                        </div>
+                                                    </Link>
                                                 </div>
                                             </div>
                                         </div>

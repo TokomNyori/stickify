@@ -26,7 +26,7 @@ const ManageProfile = () => {
     const { theme, setTheme } = useTheme()
 
     useEffect(() => {
-        getUserCookie()
+        //getUserCookie()
         dispatch(addPage('manage-profile'))
     }, [])
 
