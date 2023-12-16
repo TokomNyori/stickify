@@ -44,7 +44,7 @@ const page = () => {
                             <Image src={GPAYqr2} height={250} width={250} />
                         </div>
                         <div className='mb-1 italic'>Or use the UPI ID:</div>
-                        <div className='font-bold text-[#FFDD00]'>
+                        <div className='font-bold text-green-500'>
                             8837428457@okbizaxis
                         </div>
                     </div>
