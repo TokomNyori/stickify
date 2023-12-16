@@ -8,7 +8,7 @@ import { AiTwotoneHeart } from "react-icons/ai";
 
 const page = () => {
     return (
-        <div className='px-2 sm:px-64 mt-10'>
+        <div className='px-3 sm:px-64 mt-10'>
             <div className='flex flex-col justify-center items-center'>
                 <div className='Icon-heading mb-6 text-red-500 text-7xl'>
                     <AiTwotoneHeart className='' />
@@ -44,7 +44,7 @@ const page = () => {
                             <Image src={GPAYqr2} height={250} width={250} />
                         </div>
                         <div className='mb-1 italic'>Or use the UPI ID:</div>
-                        <div className='font-bold'>
+                        <div className='font-bold text-[#FFDD00]'>
                             8837428457@okbizaxis
                         </div>
                     </div>
