@@ -46,7 +46,7 @@ export default function NotesContainer() {
             getUserCookie()
         }
         //getUserCookie()
-        dispatch(changePageLoader(false))
+        //dispatch(changePageLoader(false))
         dispatch(addPage('home'))
     }, [])
 

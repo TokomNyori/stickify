@@ -59,6 +59,10 @@ export default function Navbar() {
     }, [])
 
     useEffect(() => {
+        setActivePage(page)
+    }, [page])
+
+    useEffect(() => {
         const handleOutsideClick = (event) => {
             if (profilePopUpRef.current && !profilePopUpRef.current.contains(event.target)) {
                 setProfilePopUp(false)
@@ -121,7 +125,9 @@ export default function Navbar() {
         //dispatch(addPage(clickedLink.id))
         setActivePage(clickedLink.id) // Get and set the id attribute of the clicked link
         if (clickedLink.id !== page) {
-            dispatch(changePageLoader(true))
+            if (clickedLink.id === 'manage-profile' || clickedLink.id === 'support-me') {
+                dispatch(changePageLoader(true))
+            }
         }
     }
 
@@ -155,12 +161,12 @@ export default function Navbar() {
                             <li className="relative flex flex-col items-center">
                                 <Link href='/'
                                     className={
-                                        `home-link ${page === 'home' && 'border-b-[1px] border-gray-700 dark:border-gray-100'}`
+                                        `home-link ${activePage === 'home' && 'border-b-[1px] border-gray-700 dark:border-gray-100'}`
                                     }
                                     id="home" onClick={changePage}
                                 >
                                     {
-                                        page === 'home' ?
+                                        activePage === 'home' ?
                                             <GoHomeFill
                                                 className="text-3xl sm:text-2xl hover:scale-[1.04] hover:text-black dark:hover:text-white
                                                     transition-all duration-150 ease-in-out"
@@ -179,12 +185,12 @@ export default function Navbar() {
                             <li className="relative flex flex-col items-center">
                                 <Link href='/feeds'
                                     className={
-                                        `home-link ${page === 'feeds' && 'border-b-[1px] border-gray-700 dark:border-gray-100'}`
+                                        `home-link ${activePage === 'feeds' && 'border-b-[1px] border-gray-700 dark:border-gray-100'}`
                                     }
                                     onClick={changePage} id="feeds"
                                 >
                                     {
-                                        page === 'feeds' ?
+                                        activePage === 'feeds' ?
                                             <BiSolidGroup
                                                 className="text-3xl sm:text-2xl hover:scale-[1.04] hover:text-black dark:hover:text-white
                                                     transition-all duration-150 ease-in-out"

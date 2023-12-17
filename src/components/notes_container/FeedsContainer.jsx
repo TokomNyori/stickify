@@ -39,7 +39,7 @@ export default function FeedsContainer() {
         getFeedsNotes()
         getGlobalUsers()
         scrollToTop()
-        dispatch(changePageLoader(false))
+        //dispatch(changePageLoader(false))
         dispatch(addPage('feeds'))
     }, [])
 
