@@ -15,6 +15,7 @@ import ClockLoader from "react-spinners/ClockLoader";
 import { useTheme } from "next-themes"
 import ChangeProfile from "./others/ChangeProfile"
 import ChangePassword from "./others/ChangePassword"
+import { changePageLoader } from "@/redux_features/reduxPageLoader/reduxPageLoaderSlice"
 
 const ManageProfile = () => {
     const user = useSelector(state => state.user.users)
@@ -27,6 +28,7 @@ const ManageProfile = () => {
 
     useEffect(() => {
         //getUserCookie()
+        dispatch(changePageLoader(false))
         dispatch(addPage('manage-profile'))
     }, [])
 
@@ -90,7 +92,7 @@ const ManageProfile = () => {
                     />
             }
 
-            <Toaster />
+            {/* <Toaster /> */}
             {loading &&
                 <div
                     className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 

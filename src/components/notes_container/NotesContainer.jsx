@@ -19,6 +19,7 @@ import Lottie from 'lottie-react'
 import studyAni from '@/assets/others/studyAni.json'
 import stickyNote from '@/assets/others/stickyNote.json'
 import Typewriter from 'typewriter-effect'
+import { changePageLoader } from '@/redux_features/reduxPageLoader/reduxPageLoaderSlice';
 
 
 export default function NotesContainer() {
@@ -39,11 +40,13 @@ export default function NotesContainer() {
     const [currentOriginId, setCurrentOriginId] = useState('')
     const [isItOriginal, setIsItOriginal] = useState(true)
     const dispatch = useDispatch()
+
     useEffect(() => {
         if (Object.keys(users).length === 0) {
             getUserCookie()
         }
         //getUserCookie()
+        dispatch(changePageLoader(false))
         dispatch(addPage('home'))
     }, [])
 
@@ -68,7 +71,7 @@ export default function NotesContainer() {
         if (initialLoading === false) {
             timeoutId = setTimeout(() => {
                 setInitialRender(false)
-            }, 7000);
+            }, 6700);
         }
         return () => {
             // Clear the timeout when the component unmounts or when dependencies change
@@ -357,7 +360,7 @@ export default function NotesContainer() {
             }
             <WarningModal warningModalState={warningModalState} action={conifirmDelete} noteid={currentNoteIdForDelete}
                 modalType={'delete'} isItOriginal={isItOriginal} currentOriginId={currentOriginId} />
-            <Toaster />
+            {/* <Toaster /> */}
         </div>
     )
 }

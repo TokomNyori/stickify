@@ -16,6 +16,7 @@ import copyAni from '@/assets/others/copyLottie.json'
 import dislikeAni from '@/assets/others/dislikeAni.json'
 import ClipLoader from "react-spinners/HashLoader";
 import { useTheme } from 'next-themes';
+import { changePageLoader } from '@/redux_features/reduxPageLoader/reduxPageLoaderSlice';
 
 export default function FeedsContainer() {
     const [notes, setNotes] = useState([])
@@ -38,6 +39,7 @@ export default function FeedsContainer() {
         getFeedsNotes()
         getGlobalUsers()
         scrollToTop()
+        dispatch(changePageLoader(false))
         dispatch(addPage('feeds'))
     }, [])
 
@@ -79,7 +81,7 @@ export default function FeedsContainer() {
         if (initialLoading === false) {
             timeoutId = setTimeout(() => {
                 setInitialRender(false)
-            }, 7000);
+            }, 5700);
         }
         return () => {
             // Clear the timeout when the component unmounts or when dependencies change
@@ -391,7 +393,7 @@ export default function FeedsContainer() {
                 </div>
 
             }
-            <Toaster />
+            {/* <Toaster /> */}
             {isremoved &&
                 <div
                     className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 

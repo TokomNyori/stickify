@@ -28,12 +28,14 @@ import { setNoteModalConfig } from "@/redux_features/noteModalConfig/noteModalCo
 import ClipLoader from "react-spinners/SquareLoader";
 import { CookieHelper } from "@/helper/httpHelpers/httpCookieHelper";
 import { AiTwotoneHeart } from "react-icons/ai";
+import { changePageLoader } from "@/redux_features/reduxPageLoader/reduxPageLoaderSlice";
 
 export default function Navbar() {
     //const [noteModalState, setNoteModalState] = useState(false)
 
     // Redux
     const page = useSelector(state => state.page.page)
+    const reduxPageLoader = useSelector(state => state.reduxPageLoader.reduxPageLoader)
     const noteModalConfig = useSelector(state => state.noteModalConfig.noteModalConfig)
     const userCookie = useSelector(state => state.user.users)
     const dispatch = useDispatch()
@@ -41,7 +43,7 @@ export default function Navbar() {
     // Local states
     const [profilePopUp, setProfilePopUp] = useState(false)
     const [infoPopUp, setInfoPopUp] = useState(false)
-    const [activePage, setActivePage] = useState(page)
+    const [activePage, setActivePage] = useState('')
     const [loading, setLoading] = useState(false)
     //const [isNonUser, setIsNonUser] = useState(false)
 
@@ -50,6 +52,7 @@ export default function Navbar() {
 
     // Router
     const router = useRouter()
+    const count = 0
 
     useEffect(() => {
         getUserCookie()
@@ -98,22 +101,28 @@ export default function Navbar() {
     }
 
     async function logoutFunction() {
-        setLoading(true)
+        dispatch(changePageLoader(true))
         const res = await logOutHelper({ method: 'POST', headers: { 'Content-Type': 'application/json' } })
         setProfilePopUp(prev => !prev)
         dispatch(removeUser())
-        setLoading(false)
-        toast(res.message, {
-            icon: '🥺',
-        });
+        //setLoading(false)
+        setTimeout(() => {
+            toast(res.message, {
+                icon: '🥺',
+            });
+        }, 500);
         router.push('/welcome')
     }
 
 
     function changePage(e) {
         const clickedLink = e.currentTarget; // Get the clicked link element
-        dispatch(addPage(clickedLink.id))
+        //if (clickedLink.id == page) return; // If the clicked link is the current page, do nothing
+        //dispatch(addPage(clickedLink.id))
         setActivePage(clickedLink.id) // Get and set the id attribute of the clicked link
+        if (clickedLink.id !== page) {
+            dispatch(changePageLoader(true))
+        }
     }
 
     function closeProfileAndChangePage(e) {
@@ -291,8 +300,8 @@ export default function Navbar() {
                                                     <Link
                                                         href='/manage-profile'
                                                         className="flex gap-3 items-center cursor-pointer hover:scale-[1.03] 
-                                                        transition-all duration-150 ease-in-out"
-                                                        onClick={() => setProfilePopUp(prev => !prev)}>
+                                                        transition-all duration-150 ease-in-out" id="manage-profile"
+                                                        onClick={closeProfileAndChangePage}>
                                                         <div className="text-2xl sm:text-xl">
                                                             <BiCog />
                                                         </div>
@@ -354,9 +363,29 @@ export default function Navbar() {
                     </div> */}
                     </div>
                 }
+                {reduxPageLoader &&
+                    <div
+                        className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                        items-center flex-wrap -mt-6`}>
+                        <ClipLoader
+                            color="#3f3f46"
+                            loading='Logging out...'
+                            //cssOverride={override}
+                            size={150}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                            speedMultiplier={1}
+                        />
+                        {/* <div className="text-2xl mt-5 font-bold text-[#ac3232]">
+                        Loggin in...
+                    </div> */}
+                    </div>
+                }
+                <Toaster />
             </>
             :
             <>
+                <Toaster />
             </>
     )
 }

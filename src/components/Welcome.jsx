@@ -21,6 +21,7 @@ import ClipLoader from "react-spinners/SquareLoader";
 import { addTheme } from '@/redux_features/theme/themeSlice';
 import Typewriter from 'typewriter-effect'
 import { addPage } from '@/redux_features/pages/pageSlice';
+import { changePageLoader } from '@/redux_features/reduxPageLoader/reduxPageLoaderSlice';
 
 const Welcome = () => {
     const [isLogin, setIsLogin] = useState(false);
@@ -40,6 +41,7 @@ const Welcome = () => {
 
     useEffect(() => {
         dispatch(addPage('/welcome'))
+        dispatch(changePageLoader(false))
     }, [])
 
     const handleChange = (e) => {
@@ -71,9 +73,11 @@ const Welcome = () => {
                     body: loginFormData
                 })
                 setLoading(false)
-                toast(res.message, {
-                    icon: '🤗',
-                })
+                setTimeout(() => {
+                    toast(res.message, {
+                        icon: '🤗',
+                    })
+                }, 500);
                 router.push('/')
             } catch (error) {
                 setLoading(false)
@@ -130,7 +134,7 @@ const Welcome = () => {
 
     return (
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-0 justify-center items-center -mt-8 sm:-mt-4'>
-            <Toaster />
+            {/* <Toaster /> */}
             {loading &&
                 <div
                     className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 

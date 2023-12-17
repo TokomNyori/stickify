@@ -18,6 +18,7 @@ import {
     isValid, differenceInYears, format
 } from 'date-fns';
 import MarkdownContent from '../others/MarkdownContent';
+import { changePageLoader } from '@/redux_features/reduxPageLoader/reduxPageLoaderSlice';
 
 const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote, initialRender }) => {
 
@@ -26,6 +27,7 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote, initialR
 
     function toTheNotePage(e, id) {
         e.stopPropagation()
+        dispatch(changePageLoader(true))
         const clickedNote = notes.filter(note => note._id === id)
         dispatch(addCurrentNotePage(clickedNote[0]))
         router.push(`/notes/${id}`)

@@ -17,6 +17,7 @@ import { useState } from 'react'
 import { motion } from "framer-motion"
 import Typewriter from 'typewriter-effect'
 import MarkdownContent from '../others/MarkdownContent'
+import { changePageLoader } from '@/redux_features/reduxPageLoader/reduxPageLoaderSlice'
 
 const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initialRender, pinnedNoteAni, pinState }) => {
     const [nextPage, setNextPage] = useState(false)
@@ -25,6 +26,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
 
     function toTheNotePage(e, id) {
         e.stopPropagation()
+        dispatch(changePageLoader(true))
         const clickedNote = notes.filter(note => note._id === id)
         dispatch(addCurrentNotePage(clickedNote[0]))
         setNextPage(true)
@@ -99,7 +101,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
                                 }}
                             />
                             :
-                            // <MarkdownContent texts={note.content} />
+                            //<MarkdownContent texts={note.content} />
                             note.content
                     }
                 </div>

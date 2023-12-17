@@ -4,6 +4,7 @@ import pageSliceReducer from "@/redux_features/pages/pageSlice";
 import themeSliceReducer from "@/redux_features/theme/themeSlice";
 import noteModalConfigSliceReducer from "@/redux_features/noteModalConfig/noteModalConfigSlice";
 import currentNotePageSliceReducer from "@/redux_features/currentNotePage/currentNotePageSlice";
+import reduxPageLoaderSliceReducer from "@/redux_features/reduxPageLoader/reduxPageLoaderSlice";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     currentTheme: themeSliceReducer,
     noteModalConfig: noteModalConfigSliceReducer,
     currentNotePage: currentNotePageSliceReducer,
+    reduxPageLoader: reduxPageLoaderSliceReducer,
 });
 
 

@@ -141,21 +141,23 @@ const YtVideoAddModal = (
                 })
             return
         }
-        setYtVideos(prev => {
-            const objects = prev.map(objt => {
-                if (objt.ytVideoId === id) {
-                    return {
-                        ...objt,
-                        added: operation === 'add' ? true : false
+        setTimeout(() => {
+            setYtVideos(prev => {
+                const objects = prev.map(objt => {
+                    if (objt.ytVideoId === id) {
+                        return {
+                            ...objt,
+                            added: operation === 'add' ? true : false
+                        }
+                    } else {
+                        return {
+                            ...objt
+                        }
                     }
-                } else {
-                    return {
-                        ...objt
-                    }
-                }
+                })
+                return objects
             })
-            return objects
-        })
+        }, 20);
         operation === 'add' ?
             AddToYtVideosFromYtModal({ id: id, operation: 'add', title: title })
             :

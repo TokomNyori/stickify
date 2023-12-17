@@ -51,6 +51,7 @@ import LoginSignUpModal from '../modals/LoginSignUpModal';
 import RestrictedSkeleton from '../skeleton_loaders/RestrictedSkeleton';
 import Lottie from 'lottie-react'
 import pinwheelAni from '@/assets/others/pinwheelAni.json'
+import { changePageLoader } from '@/redux_features/reduxPageLoader/reduxPageLoaderSlice';
 
 const NotePage = ({ params }) => {
     // Redux states
@@ -94,6 +95,7 @@ const NotePage = ({ params }) => {
     // useEffects
     useEffect(() => {
         dispatch(addPage('notes/[noteid]'))
+        dispatch(changePageLoader(false))
         if (Object.keys(pageNoteData).length === 0) {
             getUserCookie()
         }
@@ -864,7 +866,7 @@ const NotePage = ({ params }) => {
                     </div>
                 </div>
             }
-            <Toaster />
+            {/* <Toaster /> */}
             <LoginSignUpModal
                 linkparam={params?.note} changeLogSigModalState={changeLogSigModalState} readingMode={readingMode}
                 logSigModalState={logSigModalState} routeLink={`${params?.note}`} getUserCookie={getUserCookie}

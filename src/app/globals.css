@@ -25,7 +25,8 @@ nav {
 }
 
 .note-content-max-height {
-  max-height: 69%;
+  /* max-height: 69%; */
+  max-height: 70%;
 }
 
 .note-content-line-clamp {
