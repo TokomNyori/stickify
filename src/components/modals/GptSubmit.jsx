@@ -149,6 +149,7 @@ const GptSubmit = (
                         toast('Sorry, could not find', {
                             icon: '🥺'
                         })
+                        return
                     } else {
                         // If Videos available
                         const datas = ytRes.items
@@ -177,10 +178,10 @@ const GptSubmit = (
                         // console.log(ytVideoData)
                         setYoutubeVideosByGptModal(ytVideoData)
                         changeYtGptLoader(false)
-                        toast('Boom!', {
-                            icon: '🔥',
-                            position: 'top-center'
-                        })
+                        // toast('Boom!', {
+                        //     icon: '🔥',
+                        //     position: 'top-center'
+                        // })
                     }
                 } catch (error) {
                     changeYtGptLoader(false)
