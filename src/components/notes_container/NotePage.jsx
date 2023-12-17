@@ -569,7 +569,8 @@ const NotePage = ({ params }) => {
                                         </div>
                                 }
 
-                                <div className='relative flex flex-col items-center'>
+                                <div className={`relative flex flex-col items-center
+                                                ${navigationSection === 'note-section' ? 'block' : 'hidden'}`}>
                                     {
                                         readingMode ?
                                             <AiFillRead className='text-3xl cursor-pointer home-link' onClick={toggleReadingMode} /> :
@@ -601,6 +602,18 @@ const NotePage = ({ params }) => {
 
                             {/* Right section */}
                             <div className="flex justify-center items-center gap-3">
+                                <div className={`relative flex flex-col items-center
+                                                ${navigationSection === 'videos-section' ? 'block' : 'hidden'}`}>
+                                    {
+                                        readingMode ?
+                                            <AiFillRead className='text-3xl cursor-pointer home-link' onClick={toggleReadingMode} /> :
+                                            <AiOutlineRead className='text-3xl cursor-pointer home-link' onClick={toggleReadingMode} />
+                                    }
+                                    <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900
+                                    opacity-80 text-white text-sm px-2 py-1 rounded-md w-28">
+                                        {readingMode ? 'Default mode' : 'Reading mode'}
+                                    </div>
+                                </div>
                                 <div className='relative flex flex-col items-center'>
                                     <IoShareSocialOutline className='text-2xl cursor-pointer home-link'
                                         onClick={() => setShareModalStateFunction()}
@@ -850,7 +863,7 @@ const NotePage = ({ params }) => {
             {
                 pageLoading &&
                 <div
-                    className={`modal-blur fixed bg-zinc-800 bg-opacity-30 top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    className={`modal-blur fixed bg-zinc-800 bg-opacity-30 top-0 inset-0 backdrop-blur-[1px] flex flex-col justify-center 
                                 items-center flex-wrap  text-[#f9fafb]`}>
                     <ClipLoader3
                         color={`#f9fafb`}
