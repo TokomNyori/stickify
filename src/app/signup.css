@@ -54,6 +54,9 @@ h1 {
   transform: scale(1.12);
 }
 
+
+
+
 @media (max-width: 868px) {
   .signup-form-container2 {
     width: 60%;

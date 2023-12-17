@@ -167,7 +167,8 @@
   font-size: 0.85rem;
   flex-direction: column;
   row-gap: 0.3rem;
-  backdrop-filter: blur(0.225rem);
+  /* background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(0.625rem); */
   padding: 0.6rem;
   padding-top: 0.4rem;
   border-radius: 10px;
