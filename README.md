@@ -23,14 +23,14 @@ Welcome to Stickify - "Your AI sticker notes"! Stickify is an innovative note-ta
 
 ### General Features
 
-- **Social Feeds**: View, like, and copy public notes from other users. Copied notes are marked as copies in your collection, and private notes remain unseen in feeds.
+- **Social Feeds**: View, like, and copy public notes from other users. Copied notes are marked as copies in your collection, and private notes remain unseen in feeds (social section).
 - **Sharing and Privacy**: Share notes on WhatsApp and Telegram. Public notes are accessible via shared links; private notes are not.
 - **Non-Sign-In Accessibility**: Non-registered users can view public notes through shared links.
 
 ## Technologies Used
 
 - **Frontend**: Next.js 14, Tailwind CSS, and standard CSS.
-- **Backend**: OpenAI APIs, Nodemailer, Redux, YouTube Data API.
+- **Backend**: Next.js 14, OpenAI APIs, Nodemailer, Redux, YouTube Data API.
 - **Hosting**: Vercel.
 
 ## Live Application
