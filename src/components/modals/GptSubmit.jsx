@@ -86,9 +86,6 @@ const GptSubmit = (
         stream: true,
         temperature: temperature,
         max_tokens: tokens,
-        // top_p: top_p,
-        // frequency_penalty: frequency_penalty,
-        // presence_penalty: presence_penalty,
         messages: [
             {
                 'role': 'system',

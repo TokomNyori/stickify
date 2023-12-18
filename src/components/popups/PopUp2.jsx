@@ -107,6 +107,8 @@ const PopUp2 =
         }, [stopStreaming])
 
         // Rephrase function
+        //gpt-4-1106-preview 
+        //gpt-3.5-turbo-1106
         function rephraseContentFun(event, tone) {
             event.stopPropagation()
             const ctx = isRephrasedNote ? rephrasedNote.content : content
@@ -116,8 +118,6 @@ const PopUp2 =
             const systemContentGrammar = 'Your task is to refine the provided content to standard English. This includes correcting grammatical errors, clarifying ambiguous statements, and improving overall readability.';
             const systemContentRephrase = 'You are to rephrase the provided content to match a specific tone. Adjust the style, vocabulary, and structure to reflect the designated tone, while maintaining the original message.';
             const gptData = {
-                //gpt-4-1106-preview  
-                //gpt-3.5-turbo-1106
                 model: 'gpt-3.5-turbo-1106',
                 temperature: 0.5,
                 max_tokens: 2000,
