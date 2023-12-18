@@ -12,6 +12,8 @@ import { PiPasswordFill } from 'react-icons/pi'
 import toast, { Toaster } from 'react-hot-toast';
 import ClipLoader from "react-spinners/SyncLoader";
 import ClockLoader from "react-spinners/ClockLoader";
+import PuffLoader from "react-spinners/PuffLoader";
+
 import { useTheme } from "next-themes"
 import ChangeProfile from "./others/ChangeProfile"
 import ChangePassword from "./others/ChangePassword"
@@ -23,6 +25,7 @@ const ManageProfile = () => {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
     const [passwordLoading, setPasswordLoading] = useState(false)
+    const [verificationLoading, setVerificationLoading] = useState(false)
 
     const { theme, setTheme } = useTheme()
 
@@ -58,6 +61,10 @@ const ManageProfile = () => {
         setPasswordLoading(val)
     }
 
+    function toggleVerificationLoading(val) {
+        setVerificationLoading(val)
+    }
+
     return (
         <div className="flex flex-col justify-center items-center">
             <div className="mb-8">Manage profile</div>
@@ -87,7 +94,7 @@ const ManageProfile = () => {
                 operation === 'edit-profile' ?
                     <ChangeProfile user={user} getUserCookie={getUserCookie} toggleLoading={toggleLoading} theme={theme} />
                     :
-                    <ChangePassword user={user} getUserCookie={getUserCookie}
+                    <ChangePassword user={user} getUserCookie={getUserCookie} toggleVerificationLoading={toggleVerificationLoading}
                         togglePasswordLoading={togglePasswordLoading} toggleLoading={toggleLoading} theme={theme}
                     />
             }
@@ -126,6 +133,24 @@ const ManageProfile = () => {
                     />
                     <div className="text-2xl mt-6 font-bold text-[#35a149] dark:text-[#51f770]">
                         Sending OTP...
+                    </div>
+                </div>
+            }
+            {verificationLoading &&
+                <div
+                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    items-center flex-wrap`}>
+                    <PuffLoader
+                        color={`${theme === 'dark' ? '#51f770' : '#35a149'}`}
+                        loading='Generating...'
+                        //cssOverride={override}
+                        size={150}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    <div className="text-2xl mt-6 font-bold text-[#35a149] dark:text-[#51f770]">
+                        Verifying...
                     </div>
                 </div>
             }

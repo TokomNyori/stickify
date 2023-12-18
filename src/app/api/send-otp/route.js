@@ -1,18 +1,39 @@
-import { NextResponse } from "next/server";
-import { transporter } from "@/helper/nodemailer/nodemailer";
+// import { transporter } from "@/helper/nodemailer/nodemailer";
 import { getResponseMsg } from "@/helper/getResponseMsg";
+import nodemailer from 'nodemailer'
+import { UserModel } from "@/models/usermodel";
+import crypto from 'crypto';
+
+const email = process.env.NODEMAILER_USER
+const pass = process.env.NODEMAILER_PASS
+
+export const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: email,
+        pass: pass,
+    }
+})
 
 export async function POST(request, response) {
-    const { mailOptions, subject, text, otp } = await request.json()
+    const { mailOptions, subject, text, userid } = await request.json()
     try {
-        console.log(subject)
+        const user = await UserModel.findById({ _id: userid })
+        const otp = crypto.randomInt(100000, 1000000).toString();
+        user.otp = otp
+        //user.otpExpires = new Date(new Date().getTime() + (30 * 1000)); // 30 seconds from now
+        user.otpExpires = new Date(new Date().getTime() + (5 * 60 * 1000)); // 5 minutes
+        const updatedOtp = await user.save()
+
         const mail = await transporter.sendMail({
             ...mailOptions,
             subject: subject,
             text: text,
-            html: `<h1>${subject}</h1><h3>${text}<h3><h2>OTP: ${otp}</h2><h4>(This OTP is valid for 1 hour)</h4>`
+            html: `<h1>${subject}</h1>
+            <h3>${text}<h3>
+            <h2>OTP: ${otp} <span style="font-size: 1rem;"> (This OTP is valid for 5 minutes)</p></span>`
         })
-        console.log(mail)
+        //console.log(mail)
         return getResponseMsg(
             { message: `Success`, status: 200, success: true, body: mail }
         )
