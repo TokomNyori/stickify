@@ -6,8 +6,6 @@ export async function POST(request, response) {
     try {
         const user = await UserModel.findById({ _id: userid })
         const currentTime = new Date();
-        console.log("OTP generated at:", new Date());
-        console.log("OTP expires at:", user.otpExpires);
         if (user.otp === typedOtp.toString()) {
             if (currentTime < user.otpExpires) {
                 user.otp = ""
