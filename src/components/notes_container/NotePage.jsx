@@ -632,8 +632,9 @@ const NotePage = ({ params }) => {
                                         <div className='relative flex flex-col items-center'>
                                             <GoPencil className='text-2xl cursor-pointer home-link'
                                                 onClick={(e) => editNote(e)} />
-                                            <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900 
-                                                opacity-80 text-white text-sm px-2 py-1 rounded-md w-16">
+                                            <div className="home-link-info hidden justify-center items-start absolute top-10 
+                                                bg-zinc-900 opacity-80 text-white text-sm px-2 py-1 rounded-md w-16 mr-6"
+                                            >
                                                 Edit
                                             </div>
                                         </div>

@@ -8,17 +8,17 @@ const ReduxProvider = ({ children }) => {
     const [mounted, setMounted] = useState(false)
     const { theme, setTheme } = useTheme()
 
-    useEffect(() => {
-        setMounted(true)
-    }, [])
+    // useEffect(() => {
+    //     setMounted(true)
+    // }, [])
 
-    if (!mounted) {
-        return (
-            <Provider store={store}>
-                {children}
-            </Provider>
-        )
-    }
+    // if (!mounted) {
+    //     return (
+    //         <Provider store={store}>
+    //             {children}
+    //         </Provider>
+    //     )
+    // }
 
 
     return (

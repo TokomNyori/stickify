@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
+    "@vercel/speed-insights": "^1.0.2",
     "ai": "^2.2.27",
     "bcryptjs": "^2.4.3",
     "date-fns": "^2.30.0",

@@ -6,6 +6,7 @@ import { Nunito } from 'next/font/google'
 import Footer from '@/components/Footer'
 import ReduxProvider from '@/components/redux/ReduxProvider'
 import { icons } from 'react-icons'
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const nunito = Nunito(
   {
@@ -41,6 +42,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <div className='mt-16 mb-16 flex-grow'>
             {children}
+            <SpeedInsights />
           </div>
           <Footer />
         </ReduxProvider>

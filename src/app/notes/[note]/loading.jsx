@@ -2,7 +2,7 @@
 import { useTheme } from "next-themes";
 import ClipLoader from "react-spinners/GridLoader";
 import ClipLoader2 from "react-spinners/SquareLoader";
-const loading = () => {
+const Loading = () => {
     const { theme, setTheme } = useTheme()
 
     return (
@@ -27,4 +27,4 @@ const loading = () => {
     )
 }
 
-export default loading
+export default Loading
