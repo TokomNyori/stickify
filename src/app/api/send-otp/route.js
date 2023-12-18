@@ -31,7 +31,7 @@ export async function POST(request, response) {
             text: text,
             html: `<h1>${subject}</h1>
             <h3>${text}<h3>
-            <h2>OTP: ${otp} <span style="font-size: 1rem;"> (This OTP is valid for 5 minutes)</p></span>`
+            <h2>OTP: ${otp} <span style="font-size: 0.85rem;"> (This OTP is valid for 5 minutes)</p></span>`
         })
         //console.log(mail)
         return getResponseMsg(
