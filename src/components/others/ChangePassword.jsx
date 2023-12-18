@@ -181,7 +181,7 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                 </button>
                             </>
                             :
-                            <div className="flex flex-col gap-2 mb-4">
+                            <div className="flex flex-col gap-3 mb-4">
                                 <div>
                                     {
                                         isOtpSent &&
