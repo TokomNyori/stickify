@@ -36,8 +36,19 @@ export async function PUT(request, { params }) {
                 const newuserReq = await UserModel.findOne({ email: email })
                 if (newuserReq) {
                     console.log('Oops! An account with this email already exists')
-                    throw new Error('Oops! An account with this email already exists')
+                    return getResponseMsg(
+                        { message: `Oops! An account with this email already exists`, status: 409, success: false }
+                    )
                 }
+            }
+
+            // Verify password
+            const isMatch = await bcrypt.compare(password, user.password)
+            if (!isMatch) {
+                console.log('Invalid credentials')
+                return getResponseMsg(
+                    { message: `Incorrect password`, status: 401, success: false }
+                )
             }
 
             user.avatar = avatar

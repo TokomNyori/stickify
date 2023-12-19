@@ -92,7 +92,9 @@ const ManageProfile = () => {
             </div>
             {
                 operation === 'edit-profile' ?
-                    <ChangeProfile user={user} getUserCookie={getUserCookie} toggleLoading={toggleLoading} theme={theme} />
+                    <ChangeProfile user={user} getUserCookie={getUserCookie} toggleLoading={toggleLoading} theme={theme}
+                        toggleVerificationLoading={toggleVerificationLoading}
+                    />
                     :
                     <ChangePassword user={user} getUserCookie={getUserCookie} toggleVerificationLoading={toggleVerificationLoading}
                         togglePasswordLoading={togglePasswordLoading} toggleLoading={toggleLoading} theme={theme}

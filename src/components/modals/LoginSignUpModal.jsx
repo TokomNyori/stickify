@@ -13,13 +13,12 @@ import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { loginHelper, signupHelper } from '@/helper/httpHelpers/httpUserHelper';
-import ClipLoader from "react-spinners/SquareLoader";
-
 
 
 const LoginSignUpModal = (
     {
-        linkparam, changeLogSigModalState, logSigModalState, routeLink, getUserCookie, readingMode,
+        linkparam, changeLogSigModalState, logSigModalState, routeLink, getUserCookie, readingMode, changeSyncLoader, changeSquareLoader,
+        squareLoader,
     }
 ) => {
 
@@ -41,8 +40,8 @@ const LoginSignUpModal = (
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
-            if (logSigModalRef.current && !logSigModalRef.current.contains(event.target)) {
-                changeLogSigModalState(false)
+            if (logSigModalRef.current && !logSigModalRef.current.contains(event.target) && !squareLoader) {
+                handleChangeLogSigModalState(false)
             }
         };
 
@@ -53,7 +52,7 @@ const LoginSignUpModal = (
         return () => {
             document.removeEventListener('click', handleOutsideClick);
         };
-    }, [logSigModalState]);
+    }, [logSigModalState, squareLoader]);
 
 
     const handleChange = (e) => {
@@ -67,10 +66,20 @@ const LoginSignUpModal = (
         });
     };
 
+    function handleChangeLogSigModalState(val) {
+        changeLogSigModalState(val)
+        setFormData({
+            avatar: '',
+            username: '',
+            email: '',
+            password: '',
+        })
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (isLogin) {
-            setLoading(true)
+            changeSquareLoader(true)
             // Handle login logic here
 
             // Extract data needed for login form submission
@@ -84,15 +93,18 @@ const LoginSignUpModal = (
                     headers: { 'Content-Type': 'application/json' },
                     body: loginFormData
                 })
+                changeSquareLoader(false)
+                handleChangeLogSigModalState(false)
+                changeSyncLoader(true)
                 getUserCookie()
-                changeLogSigModalState(false)
-                setLoading(false)
-                toast(res.message, {
-                    icon: '🤗',
-                })
-                //router.push(`/notes/${routeLink}`)
+                setTimeout(() => {
+                    changeSyncLoader(false)
+                    toast(res.message, {
+                        icon: '🤗',
+                    })
+                }, 2000);
             } catch (error) {
-                setLoading(false)
+                changeSquareLoader(false)
                 toast.error(error.message)
             }
 
@@ -106,29 +118,32 @@ const LoginSignUpModal = (
                 })
                 return
             }
-            setLoading(true)
+            if (formData.password.length < 6) {
+                toast(`Password must be at least 6 characters`, {
+                    icon: '🥺',
+                    duration: 3000,
+                })
+                return
+            }
+            changeSquareLoader(true)
             try {
                 const res = await signupHelper({
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: formData
                 })
-                //localStorage.setItem('userData', JSON.stringify(res.body))
+                changeSquareLoader(false)
+                handleChangeLogSigModalState(false)
+                changeSyncLoader(true)
                 getUserCookie()
-                changeLogSigModalState(false)
-                setLoading(false)
-                setFormData({
-                    avatar: '',
-                    username: '',
-                    email: '',
-                    password: '',
-                })
-                toast.success(res.message, {
-                    duration: 3000
-                })
-                //router.push(`${routeLink}`)
+                setTimeout(() => {
+                    changeSyncLoader(false)
+                    toast.success(res.message, {
+                        duration: 3000
+                    })
+                }, 2000);
             } catch (error) {
-                setLoading(false)
+                changeSquareLoader(false)
                 toast.error(error.message, {
                     duration: 4000
                 })
@@ -151,7 +166,7 @@ const LoginSignUpModal = (
                     </div>
                     <div className='text-lg'>{isLogin ? 'Login to Unlock 🌟⚡' : 'Sign Up to Unlock 🌟⚡'}</div>
                     <div className='inline'
-                        onClick={() => changeLogSigModalState(false)}
+                        onClick={() => handleChangeLogSigModalState(false)}
                     >
                         <AiOutlineCloseCircle className={`sm:text-3xl text-4xl hover:text-red-400`} />
                     </div>
@@ -274,24 +289,6 @@ const LoginSignUpModal = (
                     {isLogin ? 'Create an Account' : 'Already have an account?'}
                 </button>
             </div>
-            {loading &&
-                <div
-                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
-                    items-center flex-wrap -mt-6`}>
-                    <ClipLoader
-                        color={`${readingMode ? '#e2e8f0' : '#1F2937'}`}
-                        loading='Welcome...'
-                        //cssOverride={override}
-                        size={120}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
-                        speedMultiplier={1}
-                    />
-                    {/* <div className="text-2xl mt-5 font-bold text-[#ac3232]">
-                        Loggin in...
-                    </div> */}
-                </div>
-            }
         </div>
     )
 }

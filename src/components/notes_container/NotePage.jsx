@@ -32,6 +32,7 @@ import Image from 'next/image'
 import ClipLoader from "react-spinners/GridLoader";
 import ClipLoader2 from "react-spinners/SyncLoader";
 import ClipLoader3 from "react-spinners/PacmanLoader";
+import SquareLoader from "react-spinners/SquareLoader";
 import toast, { Toaster } from 'react-hot-toast';
 import { setNoteModalConfig } from '@/redux_features/noteModalConfig/noteModalConfigSlice';
 import { addCurrentNotePage } from '@/redux_features/currentNotePage/currentNotePageSlice';
@@ -80,6 +81,8 @@ const NotePage = ({ params }) => {
     const [shareModalState, setShareModalState] = useState(false)
     const [logSigModalState, setLogSigModalState] = useState(false)
     const [isRestricted, setIsRestricted] = useState(false)
+    const [syncLoader, setSyncLoader] = useState(false)
+    const [squareLoader, setSquareLoader] = useState(false)
 
     //Refs
     const contentContainerRef = useRef(null);
@@ -457,6 +460,14 @@ const NotePage = ({ params }) => {
                 duration: 4000,
             })
             : setShareModalState(prev => !prev)
+    }
+
+    function changeSyncLoader(val) {
+        setSyncLoader(val)
+    }
+
+    function changeSquareLoader(val) {
+        setSquareLoader(val)
     }
 
     const opts = {
@@ -880,10 +891,50 @@ const NotePage = ({ params }) => {
                     </div>
                 </div>
             }
+            {/* Sync Loader */}
+            {syncLoader &&
+                <div
+                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    items-center flex-wrap`}>
+                    <ClipLoader2
+                        color={`${readingMode ? '#e2e8f0' : '#1F2937'}`}
+                        loading='Generating...'
+                        //cssOverride={override}
+                        size={30}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    <div className={`text-3xl mt-6 font-bold ${readingMode ? 'text-[#e2e8f0]' : 'text-[#1F2937]'} `}>
+                        Syncing...
+                    </div>
+                </div>
+            }
+
+            {/* SquareLoader */}
+            {squareLoader &&
+                <div
+                    className={`restricted-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    items-center flex-wrap -mt-6`}>
+                    <SquareLoader
+                        color="#e2e8f0"
+                        loading='Welcome...'
+                        //cssOverride={override}
+                        size={120}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    {/* <div className="text-2xl mt-5 font-bold text-[#e2e8f0]">
+                        Loggin in...
+                    </div> */}
+                </div>
+            }
             {/* <Toaster /> */}
             <LoginSignUpModal
                 linkparam={params?.note} changeLogSigModalState={changeLogSigModalState} readingMode={readingMode}
                 logSigModalState={logSigModalState} routeLink={`${params?.note}`} getUserCookie={getUserCookie}
+                changeSyncLoader={changeSyncLoader} changeSquareLoader={changeSquareLoader} squareLoader={squareLoader}
             />
         </>
     )

@@ -94,6 +94,13 @@ const Welcome = () => {
                 })
                 return
             }
+            if (formData.password.length < 6) {
+                toast(`Password must be at least 6 characters`, {
+                    icon: '🥺',
+                    duration: 3000,
+                })
+                return
+            }
             setLoading(true)
             try {
                 const res = await signupHelper({

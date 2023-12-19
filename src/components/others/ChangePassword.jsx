@@ -152,6 +152,8 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
         return Math.floor(1000 + Math.random() * 9000);
     }
 
+    console.log(formData)
+
     return (
         <div className="mt-4 w-[85%] lg:w-[30%] sm:w-[40%]">
             <form onSubmit={isOtpSent ? handleSubmit : handleOtp}>
@@ -167,11 +169,11 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                     type="password"
                                     name="password"
                                     placeholder="Enter a new password"
-                                    value={formData.username}
+                                    value={formData.password}
                                     onChange={handleChange} required
                                 />
                                 <button className='border hover:border-[1.4px] dark:border-gray-100 
-                                focus:outline-none font-medium 
+                                focus:outline-none font-medium mt-1
                                 rounded-lg text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-zinc-800'
                                     type="submit"
                                 >
@@ -197,17 +199,17 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                         type="number"
                                         name="verifyOtp"
                                         placeholder="Enter 4-digit OTP"
-                                        value={formData.email}
+                                        value={formData.verifyOtp}
                                         onChange={handleChange} required
                                     />
                                 </div>
                                 <button className='border hover:border-[1.4px] dark:border-gray-100
-                                focus:outline-none font-medium 
+                                focus:outline-none font-medium mt-1
                                 rounded-lg text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-zinc-800'
                                     type="submit"
                                 >
                                     <span className="dark:text-gray-100 text-gray-800 flex items-center justify-center gap-2">
-                                        Verify <AiOutlineSecurityScan className="inline text-lg" />
+                                        Verify OTP <AiOutlineSecurityScan className="inline text-lg" />
                                     </span>
                                 </button>
                                 {

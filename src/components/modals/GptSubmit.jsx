@@ -260,8 +260,8 @@ const GptSubmit = (
                                 placeholder-zinc-400 
                                 text-zinc-100 focus:ring-blue-500 focus:border-blue-500 shadow-sm-light'
                                 value={generateRequirementGpt.output_type} onChange={changeGenerateRequirementGpt} >
-                                <option value="easy to understand">Easy to understand</option>
                                 <option value="standard">Standard</option>
+                                <option value="easy to understand">Easy to understand</option>
                                 <option value="gamify">Gamify</option>
                             </select>
                         </div>
