@@ -18,7 +18,7 @@ const GptSubmit = (
     const [generateRequirementGpt, setGenerateRequirementGpt] = useState({
         generate_title: copyNoteFromNoteModal.title,
         words: '300',
-        output_type: 'easy to understand',
+        output_type: 'standard',
         emojis: true,
         videos: true,
     })
