@@ -166,7 +166,7 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                 />
                                 <button className='border hover:border-[1.4px] dark:border-gray-100 
                                 focus:outline-none font-medium mt-1
-                                rounded-lg text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-zinc-800'
+                                rounded-xl text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-zinc-800'
                                     type="submit"
                                 >
                                     <span className="dark:text-gray-100 text-gray-800 flex items-center justify-center gap-2">
@@ -192,7 +192,7 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                         </label>
                                     } */}
                                 <input
-                                    className='rounded-lg block w-full p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 
+                                    className='rounded-xl block w-full p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 
                                         dark:text-gray-100 dark:bg-zinc-800 bg-white shadow-sm 
                                         focus:ring-blue-500 focus:border-blue-500'
                                     id="verifyOtp"
@@ -204,7 +204,7 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                 />
                                 <button className='border hover:border-[1.4px] dark:border-gray-100
                                 focus:outline-none font-medium mt-1
-                                rounded-lg text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-zinc-800'
+                                rounded-xl text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-zinc-800'
                                     type="submit"
                                 >
                                     <span className="dark:text-gray-100 text-gray-800 flex items-center justify-center gap-2">
