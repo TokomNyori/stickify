@@ -93,7 +93,7 @@ const ManageProfile = () => {
             {
                 operation === 'edit-profile' ?
                     <ChangeProfile user={user} getUserCookie={getUserCookie} toggleLoading={toggleLoading} theme={theme}
-                        toggleVerificationLoading={toggleVerificationLoading}
+                        toggleVerificationLoading={toggleVerificationLoading} togglePasswordLoading={togglePasswordLoading}
                     />
                     :
                     <ChangePassword user={user} getUserCookie={getUserCookie} toggleVerificationLoading={toggleVerificationLoading}
@@ -131,7 +131,7 @@ const ManageProfile = () => {
                         size={80}
                         aria-label="Loading Spinner"
                         data-testid="loader"
-                        speedMultiplier={1}
+                        speedMultiplier={3}
                     />
                     <div className="text-2xl mt-6 font-bold text-[#35a149] dark:text-[#51f770]">
                         Sending OTP...

@@ -4,7 +4,6 @@
 
 .signup-form-container {
   width: 60%;
-  margin: auto;
   padding: 1.25rem 1.25rem 2.5rem 1.25rem;
   /* box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1); */
 }
@@ -41,6 +40,12 @@ h1 {
 
 .signup-btn:hover {
   background-color: #0056b3;
+}
+
+.modal-signup-radio-btn[type="radio"]:checked+label {
+  border: 1.8px solid rgb(243 244 246);
+  ;
+  transform: scale(1.12);
 }
 
 .light .signup-radio-btn[type="radio"]:checked+label {

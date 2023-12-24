@@ -10,9 +10,21 @@ connectDB()
 export async function GET(request, { params }) {
     const { noteid } = params
     try {
-        console.log('note')
         const note = await NoteModel.findById({ _id: noteid })
-        //console.log(note)
+
+        if (!note) {
+            return getResponseMsg(
+                { message: 'Note not found', status: 404, success: false, body: null }
+            )
+        }
+
+        if (note.isPrivate) {
+            return getResponseMsg(
+                { message: 'Note is private', status: 403, success: false, body: null }
+            )
+        }
+        console.log("note-------------")
+        console.log(note)
         return getResponseMsg(
             { message: 'Note fetched successfully', status: 200, success: true, body: note }
         )

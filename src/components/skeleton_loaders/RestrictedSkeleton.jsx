@@ -8,6 +8,8 @@ import { IoShareSocialOutline } from "react-icons/io5";
 import { FaNoteSticky } from 'react-icons/fa6'
 import { AiOutlineYoutube } from 'react-icons/ai'
 import MarkdownContent from '../others/MarkdownContent'
+import Lottie from 'lottie-react'
+import lockAni from '@/assets/others/lockAni.json'
 
 const RestrictedSkeleton = ({ pageColor, readingMode }) => {
     const lorem =
@@ -32,7 +34,7 @@ const RestrictedSkeleton = ({ pageColor, readingMode }) => {
 
     return (
         <div
-            className={` text-gray-100 bg-[${pageColor}] text-gray-800 dark:brightness-[90%] shadow-xl 
+            className={` text-gray-800 bg-zinc-500 dark:brightness-[90%] shadow-xl
                 px-4 sm:px-8 py-4 sm:py-8 pb-20 sm:pb-20 rounded-3xl min-h-screen flex flex-col relative`}
 
         >
@@ -134,16 +136,19 @@ const RestrictedSkeleton = ({ pageColor, readingMode }) => {
 
             <div
                 className={`backdrop-blur-[7px] rounded-3xl absolute top-0 left-0 w-full h-full flex flex-col justify-start
-                items-center`}>
+                items-center text-black font-bold`}>
                 <div className='text-center flex flex-col justify-start items-center gap-2 mt-36'>
-                    <div className='text-4xl'>
+                    {/* <div className='text-4xl'>
                         <IoLockClosedOutline className='text-center' />
-                    </div>
+                    </div> */}
                     <div className='text-4xl'>
                         Private Note
                     </div>
                     <div className='text-2xl'>
                         Access restricted.
+                    </div>
+                    <div className="text-2xl mt-4 font-bold text-[#f1f5f9] w-[70%] sm:w-[40%] backdrop-blur-[7px]">
+                        <Lottie className="text-sm" animationData={lockAni} loop={true} />
                     </div>
                 </div>
             </div>

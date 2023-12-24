@@ -19,8 +19,6 @@ const UserSchema = new Schema({
     created: { type: Date, default: Date.now },
     notifications: { type: [String] },
     isVerified: { type: Boolean, default: false },
-    otp: { type: String },
-    otpExpires: { type: Date },
 })
 
 export const UserModel = mongoose.models.users || mongoose.model('users', UserSchema)

@@ -3,6 +3,7 @@ import { getResponseMsg } from "@/helper/getResponseMsg"
 import { NoteModel } from "@/models/notemodel"
 import { UserModel } from "@/models/usermodel"
 import { NextResponse } from "next/server"
+import jwt from "jsonwebtoken"
 
 connectDB()
 
@@ -10,9 +11,26 @@ connectDB()
 export async function GET(request, { params }) {
     const { noteid } = params
     try {
-        console.log('note')
         const note = await NoteModel.findById({ _id: noteid })
+        //console.log('note')
         //console.log(note)
+        if (!note) {
+            return getResponseMsg(
+                { message: 'Note not found', status: 404, success: false, body: null }
+            )
+        }
+
+        const userCookie = request.cookies.get('userJwtCookie')?.value
+        const tokenPayload = jwt.verify(userCookie, process.env.JWT_SECRET)
+
+        if (note.isPrivate && String(note.userId) !== String(tokenPayload._id)) {
+            return getResponseMsg(
+                { message: 'Note is private', status: 403, success: false, body: null }
+            )
+        }
+
+        console.log(tokenPayload)
+
         return getResponseMsg(
             { message: 'Note fetched successfully', status: 200, success: true, body: note }
         )

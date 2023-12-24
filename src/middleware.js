@@ -28,7 +28,10 @@ export function middleware(request) {
         if (pathname === welcomePath) {
             console.log('welcome to stickify');
             return
-        } else if (pathname === '/api/users/login' || pathname === '/api/users/signup' || isHandleNonUsersPath || isDynamicNotesPath) {
+        } else if (
+            pathname === '/api/users/login' || pathname === '/api/users/signup' || isHandleNonUsersPath || isDynamicNotesPath
+            || pathname === '/api/send-otp-newusers'
+        ) {
             // NO restrictions for these APIs and path, the middleware will be closed.
             console.log('Unrestricted access');
             return

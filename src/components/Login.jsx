@@ -1,0 +1,95 @@
+'use client'
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import toast, { Toaster } from 'react-hot-toast';
+import { loginHelper } from '@/helper/httpHelpers/httpUserHelper';
+
+const Login = ({ toggleLoading, toggleSyncLoading, theme, toggleIsLogin, isLogin, }) => {
+
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
+
+    const router = useRouter()
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
+
+    // Handle Login logic here
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        toggleLoading(true)
+        try {
+            const res = await loginHelper({
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: formData
+            })
+            router.push('/')
+            setTimeout(() => {
+                toggleLoading(false)
+                toast(res.message, {
+                    icon: '🤗',
+                })
+            }, 500);
+        } catch (error) {
+            toggleLoading(false)
+            toast.error(error.message)
+        }
+    };
+
+
+    return (
+        <div className={`signup-form-container sm:ml-12 rounded-3xl
+        text-gray-800 dark:text-gray-300 ${isLogin ? 'mt-0 sm:mt-12' : 'mt-0 sm:mt-0'}`}>
+            <h1 className='text-lg'>Log in</h1>
+            <form onSubmit={handleSubmit}>
+                <div className='input-group flex flex-col gap-3 w-full'>
+                    <input
+                        className={`rounded-xl dark:border-zinc-600 block w-full p-2.5 py-4 sm:py-3 text-md 
+                        focus:ring-blue-500 focus:border-blue-500 dark:placeholder-gray-500 dark:text-zinc-100
+                        dark:bg-zinc-800 bg-white shadow-md  placeholder-gray-400`}
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        value={formData.email}
+                        onChange={handleChange} required
+                    />
+                    <input
+                        className={`rounded-xl dark:border-zinc-600 block w-full p-2.5 py-4 sm:py-3 text-md 
+                        focus:ring-blue-500 focus:border-blue-500 dark:placeholder-gray-500 dark:text-zinc-100
+                        dark:bg-zinc-800 bg-white shadow-md  placeholder-gray-400`}
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={formData.password}
+                        onChange={handleChange} required
+                    />
+                    <button className='border hover:border-[1.4px] dark:border-gray-100
+                                focus:outline-none font-medium mt-1
+                                rounded-xl text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-zinc-800'
+                        type="submit"
+                    >
+                        Login
+                    </button>
+                </div>
+            </form>
+            <button className='border hover:border-[1.4px] dark:border-gray-100 focus:outline-none font-medium mt-1
+                                rounded-xl text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full 
+                                border-zinc-800'
+                onClick={() => toggleIsLogin(false)}
+            >
+                Create an Account
+            </button>
+        </div>
+    )
+}
+
+export default Login

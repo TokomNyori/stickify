@@ -3,10 +3,14 @@ import { getResponseMsg } from "@/helper/getResponseMsg";
 import nodemailer from 'nodemailer'
 import { UserModel } from "@/models/usermodel";
 import crypto from 'crypto';
-import jwt from "jsonwebtoken"
-import { PassVeriOtpModel } from "@/models/passVeriOtpmodel";
+import { TempOtpModel } from "@/models/tempotpmodel";
 import { connectDB } from "@/helper/db";
+import { EmailVeriOtpModel } from "@/models/emailVeriOtpmodel";
+import bcrypt from 'bcryptjs'
+import jwt from "jsonwebtoken"
 import mongoose from "mongoose";
+
+connectDB()
 
 const email = process.env.NODEMAILER_USER
 const pass = process.env.NODEMAILER_PASS
@@ -19,23 +23,44 @@ export const transporter = nodemailer.createTransport({
     }
 })
 
-connectDB()
-
 export async function POST(request, response) {
-    const { subject, text, userid } = await request.json()
+    const { subject, text, userid, email, } = await request.json()
+    // console.log("POST request received")
+    // console.log("Subject:", subject);
+    // console.log("Text:", text);
+    // console.log("Email:", email);
+
     try {
 
         // Getting user cookie
         const userCookie = request.cookies.get('userJwtCookie')?.value
         const tokenPayload = jwt.verify(userCookie, process.env.JWT_SECRET)
-
         // Convert userid to an ObjectId
         const objectIdUserId = new mongoose.Types.ObjectId(tokenPayload._id);
 
-        const otpRecord = await PassVeriOtpModel.findOne({ userId: objectIdUserId });
+        // Validation
+        const user = await UserModel.findById({ _id: objectIdUserId })
+
+        if (user.email !== email) {
+            const isNewUserReq = await UserModel.findOne({ email: email })
+            if (isNewUserReq) {
+                console.log('Oops! An account with this email already exists')
+                // Return fake success message to prevent email enumeration
+                return getResponseMsg(
+                    { message: `User already exists`, status: 200, success: true }
+                )
+            }
+        }
+
+
+        // IF THE USER IS VERIFIED, THEN SEND THE OTP
+
+        // Generate a random 6 digit OTP
         const temporaryOtp = crypto.randomInt(100000, 1000000).toString();
 
-        // Check if an OTP already exists for this email
+        // Checking for existing OTP record
+        const otpRecord = await EmailVeriOtpModel.findOne({ userId: objectIdUserId });
+
         if (otpRecord) {
             // Update the existing OTP record
             otpRecord.otp = temporaryOtp;
@@ -43,18 +68,18 @@ export async function POST(request, response) {
             await otpRecord.save();
         } else {
             // Create user object with model
-            const tempPassOtp = new PassVeriOtpModel({
+            const tempEmailOtp = new EmailVeriOtpModel({
                 userId: objectIdUserId,
                 otp: temporaryOtp,
             })
 
-            const createdTempPassOtp = await tempPassOtp.save()
+            const createdTempEmailOtp = await tempEmailOtp.save()
         }
 
         // Setting mail options
         const mailOptions = {
             from: 'stickify.notes@gmail.com',
-            to: tokenPayload.email,
+            to: email,
         }
 
         const mail = await transporter.sendMail({
@@ -65,9 +90,9 @@ export async function POST(request, response) {
             <h3>${text}<h3>
             <h2>OTP: ${temporaryOtp} <span style="font-size: 0.85rem;"> (This OTP is valid for 5 minutes)</p></span>`
         })
-        //console.log(mail)
+        //console.log()
         return getResponseMsg(
-            { message: `Success`, status: 200, success: true, body: mail }
+            { message: `Success`, status: 200, success: true, body: { otpSent: true } }
         )
     } catch (error) {
         console.log(error)

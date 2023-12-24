@@ -1,6 +1,10 @@
+export const metadata = {
+  title: 'stickify',
+}
+
 const Notes = () => {
   return (
-    <>page</>
+    <div>Notes</div>
   )
 }
 

@@ -178,7 +178,7 @@
 }
 
 .glow-texts {
-    animation: glowText 2s ease-in-out infinite;
+    animation: glowText 3.5s ease-in-out infinite;
 }
 
 @keyframes glowText {

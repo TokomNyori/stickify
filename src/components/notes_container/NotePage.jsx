@@ -53,6 +53,8 @@ import RestrictedSkeleton from '../skeleton_loaders/RestrictedSkeleton';
 import Lottie from 'lottie-react'
 import pinwheelAni from '@/assets/others/pinwheelAni.json'
 import { changePageLoader } from '@/redux_features/reduxPageLoader/reduxPageLoaderSlice';
+import NoteNotFound from '../skeleton_loaders/NoteNotFound';
+import ModalWelcome from '../log_sign_modals/ModalWelcome';
 
 const NotePage = ({ params }) => {
     // Redux states
@@ -79,10 +81,11 @@ const NotePage = ({ params }) => {
     const [translatePopUp, setTranslatePopUp] = useState(false)
     const [stopStreamingForTranslate, setStopStreamingForTranslate] = useState(false)
     const [shareModalState, setShareModalState] = useState(false)
-    const [logSigModalState, setLogSigModalState] = useState(false)
+    const [modalWelcomeState, setModalWelcomeState] = useState(false)
     const [isRestricted, setIsRestricted] = useState(false)
     const [syncLoader, setSyncLoader] = useState(false)
     const [squareLoader, setSquareLoader] = useState(false)
+    const [noteNotFound, setNoteNotFound] = useState(false)
 
     //Refs
     const contentContainerRef = useRef(null);
@@ -116,17 +119,17 @@ const NotePage = ({ params }) => {
         }
     }, [isNonUser])
 
-    useEffect(() => {
-        if (Object.keys(pageNoteData).length !== 0) {
-            if (isNonUser === 'yes' && pageNoteData.isPrivate === true) {
-                setIsRestricted(true)
-            } else if (String(users?._id) !== String(pageNoteData?.userId) && pageNoteData.isPrivate === true) {
-                setIsRestricted(true)
-            } else if (String(users?._id) === String(pageNoteData?.userId)) {
-                setIsRestricted(false)
-            }
-        }
-    }, [pageNoteData, isNonUser])
+    // useEffect(() => {
+    //     if (Object.keys(pageNoteData).length !== 0) {
+    //         if (isNonUser === 'yes' && pageNoteData.isPrivate === true) {
+    //             setIsRestricted(true)
+    //         } else if (String(users?._id) !== String(pageNoteData?.userId) && pageNoteData.isPrivate === true) {
+    //             setIsRestricted(true)
+    //         } else if (String(users?._id) === String(pageNoteData?.userId)) {
+    //             setIsRestricted(false)
+    //         }
+    //     }
+    // }, [pageNoteData, isNonUser])
 
     // useEffect(() => {
     //     if (Object.keys(pageNoteData).length === 0) {
@@ -312,10 +315,18 @@ const NotePage = ({ params }) => {
             console.log('res.body')
             console.log(res.body)
             dispatch(addCurrentNotePage(res.body))
+            setIsRestricted(false)
+            setNoteNotFound(false)
             setPageLoading(false)
             //setIsNonUser('')
         } catch (error) {
             //setIsNonUser('')
+            if (error.message === 'Note not found') {
+                setNoteNotFound(true)
+            }
+            if (error.message === 'Note is private') {
+                setIsRestricted(true)
+            }
             setPageLoading(false)
             console.log('getSingleNote Error')
             console.log(error)
@@ -330,9 +341,16 @@ const NotePage = ({ params }) => {
             //console.log(res.body)
             dispatch(addCurrentNotePage(res.body))
             setPageLoading(false)
+            setNoteNotFound(false)
             //setIsNonUser('')
         } catch (error) {
             //setIsNonUser('')
+            if (error.message === 'Note not found') {
+                setNoteNotFound(true)
+            }
+            if (error.message === 'Note is private') {
+                setIsRestricted(true)
+            }
             setPageLoading(false)
             console.log('handleNonUserNoteHelper Error')
             console.log(error)
@@ -352,7 +370,7 @@ const NotePage = ({ params }) => {
     async function summarizeContent(event) {
         event.preventDefault()
         if (isNonUser === 'yes') {
-            changeLogSigModalState(true)
+            changeModalWelcomeState(true)
             return
         }
         if (language !== 'English') {
@@ -449,8 +467,8 @@ const NotePage = ({ params }) => {
         setStopStreamingForTranslate(val)
     }
 
-    function changeLogSigModalState(val) {
-        setLogSigModalState(val)
+    function changeModalWelcomeState(val) {
+        setModalWelcomeState(val)
     }
 
     function setShareModalStateFunction() {
@@ -523,7 +541,7 @@ const NotePage = ({ params }) => {
                             stickify
                         </Link>
                         <div className="flex items-center justify-center gap-2 cursor-pointer"
-                            onClick={() => changeLogSigModalState(true)}>
+                            onClick={() => changeModalWelcomeState(true)}>
                             <BsPersonFillUp className="glow-texts text-2xl inline" />
                             <span className="font-semibold">
                                 Login / Signup
@@ -535,10 +553,16 @@ const NotePage = ({ params }) => {
                     </>
             }
             {
-                isRestricted ?
-                    <RestrictedSkeleton pageColor={pageNoteData.color} readingMode={readingMode} />
-                    :
+                isRestricted || noteNotFound ?
+                    noteNotFound ?
+                        // If note not found
+                        <NoteNotFound readingMode={readingMode} />
+                        :
+                        // If note is restricted
+                        <RestrictedSkeleton readingMode={readingMode} />
+
                     // If the note is not private
+                    :
                     <div
                         className={`${readingMode ? ` bg-zinc-800 text-gray-100 brightness-[90%]` :
                             `bg-[${pageNoteData.color}] text-gray-800 dark:brightness-[90%] shadow-xl`} 
@@ -595,7 +619,7 @@ const NotePage = ({ params }) => {
 
                                 <div className={`relative ${navigationSection === 'note-section' ? 'flex flex-col items-center' : 'hidden'}`}>
                                     <BsTranslate className='text-2xl cursor-pointer home-link'
-                                        onClick={() => isNonUser === 'yes' ? changeLogSigModalState(true) : setTranslatePopUp(prev => !prev)}
+                                        onClick={() => isNonUser === 'yes' ? changeModalWelcomeState(true) : setTranslatePopUp(prev => !prev)}
                                     />
                                     <div className="home-link-info hidden justify-center items-start absolute top-10 bg-zinc-900
                                     opacity-80 text-white text-sm px-2 py-1 rounded-md w-20">
@@ -887,17 +911,18 @@ const NotePage = ({ params }) => {
                         speedMultiplier={1}
                     />
                     <div className="text-2xl mt-5 font-bold text-[#f9fafb]">
-                        {isNonUser === '' ? 'Checking system...' : 'Loading... 👾'}
+                        {isNonUser === '' ? 'Checking system...' : 'Loading...'}
                     </div>
                 </div>
             }
             {/* Sync Loader */}
-            {syncLoader &&
+            {
+                syncLoader &&
                 <div
                     className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                     items-center flex-wrap`}>
                     <ClipLoader2
-                        color={`${readingMode ? '#e2e8f0' : '#1F2937'}`}
+                        color={`#35a149`}
                         loading='Generating...'
                         //cssOverride={override}
                         size={30}
@@ -905,14 +930,15 @@ const NotePage = ({ params }) => {
                         data-testid="loader"
                         speedMultiplier={1}
                     />
-                    <div className={`text-3xl mt-6 font-bold ${readingMode ? 'text-[#e2e8f0]' : 'text-[#1F2937]'} `}>
+                    <div className={`text-3xl mt-6 font-bold text-[#35a149] `}>
                         Syncing...
                     </div>
                 </div>
             }
 
             {/* SquareLoader */}
-            {squareLoader &&
+            {
+                squareLoader &&
                 <div
                     className={`restricted-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                     items-center flex-wrap -mt-6`}>
@@ -931,11 +957,17 @@ const NotePage = ({ params }) => {
                 </div>
             }
             {/* <Toaster /> */}
-            <LoginSignUpModal
+            <ModalWelcome
+                changeModalWelcomeState={changeModalWelcomeState}
+                modalWelcomeState={modalWelcomeState} theme={theme}
+                getUserCookie={getUserCookie}
+                changeSyncLoader={changeSyncLoader}
+            />
+            {/* <LoginSignUpModal
                 linkparam={params?.note} changeLogSigModalState={changeLogSigModalState} readingMode={readingMode}
                 logSigModalState={logSigModalState} routeLink={`${params?.note}`} getUserCookie={getUserCookie}
                 changeSyncLoader={changeSyncLoader} changeSquareLoader={changeSquareLoader} squareLoader={squareLoader}
-            />
+            /> */}
         </>
     )
 }

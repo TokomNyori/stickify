@@ -1,10 +1,12 @@
-import { generateAndsendOTP, verifyOTP } from "@/helper/nodemailer/handleOTPhelper";
+import { generateAndsendOTP } from "@/helper/nodemailer/handleOTPhelper";
 import { useEffect, useState } from "react"; //BiSolidSend
 import toast from "react-hot-toast";
 import { BiSolidSend } from 'react-icons/bi'
 import { AiOutlineSecurityScan } from 'react-icons/ai'
 import { editSelfHelper } from "@/helper/httpHelpers/httpUserHelper";
 import { useRouter } from "next/navigation";
+import Lottie from 'lottie-react'
+import otpverifyAni from '@/assets/others/otpverifyAni.json'
 
 
 const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoading, toggleVerificationLoading, theme }) => {
@@ -53,10 +55,16 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
             return;
         }
 
+        // Check if password length is at least 6 characters
+        if (formData.password.length < 6) {
+            toast.error("Password must be at least 6 characters long.");
+            return;
+        }
+
         togglePasswordLoading(true)
 
         const data = {
-            mailOptions: { from: 'stickify.notes@gmail.com', to: user.email },
+            // mailOptions: { from: 'stickify.notes@gmail.com', to: user.email },
             subject: 'One-Time Password (OTP) for Password Setup',
             text: `You have requested to reset your password. To complete this process, 
                 please use the following One-Time Password:`,
@@ -97,49 +105,33 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
         toggleVerificationLoading(true)
         try {
             const data = {
+                ...formData,
                 userid: user._id,
-                typedOtp: formData.verifyOtp,
             }
-            const res = await verifyOTP({
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: data,
-            })
-            //console.log(res.body)
+
+            const res = await editSelfHelper(
+                {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    id: user._id,
+                    body: data,
+                })
             toggleVerificationLoading(false)
+            toggleLoading(true)
 
-            if (res.body.isVerified) {
+            // Stop the timer and prevent further OTP resends
+            setCanResend(false);
+            setTimer(0);
+
+            // Get updated user cookie
+            getUserCookie()
+
+            setTimeout(() => {
+                toggleLoading(false)
                 toast.success(res.message)
-                toggleLoading(true)
-
-                // Stop the timer and prevent further OTP resends
-                setCanResend(false);
-                setTimer(0);
-
-                try {
-                    const res = await editSelfHelper(
-                        {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            id: user._id,
-                            body: formData,
-                        })
-                    getUserCookie()
-                    toggleLoading(false)
-                    toast.success(res.message)
-                    //setIsOtpSent(false)
-                    router.push('/')
-                } catch (error) {
-                    toggleLoading(false)
-                    console.log(error)
-                    toast.error(error.message)
-                }
-            } else {
-                toast.error('Invalid OTP')
-            }
+            }, 1000);
+            //setIsOtpSent(false)
+            router.push('/')
         } catch (error) {
             console.log(error)
             toggleVerificationLoading(false)
@@ -165,7 +157,7 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                     className='rounded-xl block w-full 
                                     p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 dark:text-gray-100 
                                     dark:bg-zinc-800 bg-white shadow-sm 
-                                focus:ring-blue-500 focus:border-blue-500'
+                                    focus:ring-blue-500 focus:border-blue-500'
                                     type="password"
                                     name="password"
                                     placeholder="Enter a new password"
@@ -183,26 +175,33 @@ const ChangePassword = ({ user, togglePasswordLoading, getUserCookie, toggleLoad
                                 </button>
                             </>
                             :
-                            <div className="flex flex-col gap-3 mb-4">
-                                <div>
-                                    {
+                            <div className="flex flex-col items-center gap-3 mb-4">
+                                <div className="text-2xl -mt-2 font-bold text-[#f1f5f9] w-[50%] sm:w-[40%]">
+                                    <Lottie className="text-sm" animationData={otpverifyAni} loop={true} />
+                                </div>
+                                <div className='text-center'>
+                                    We sent an OTP to
+                                    <div className="">
+                                        {user.email}
+                                    </div>
+                                </div>
+                                {/* {
                                         isOtpSent &&
                                         <label htmlFor="verifyOtp" className="block mb-2 text-sm font-medium text-green-500">
                                             OTP sent to {user.email}
                                         </label>
-                                    }
-                                    <input
-                                        className='rounded-lg block w-full p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 
+                                    } */}
+                                <input
+                                    className='rounded-lg block w-full p-2.5 py-4 sm:py-3 text-md dark:placeholder-gray-400 
                                         dark:text-gray-100 dark:bg-zinc-800 bg-white shadow-sm 
                                         focus:ring-blue-500 focus:border-blue-500'
-                                        id="verifyOtp"
-                                        type="number"
-                                        name="verifyOtp"
-                                        placeholder="Enter 4-digit OTP"
-                                        value={formData.verifyOtp}
-                                        onChange={handleChange} required
-                                    />
-                                </div>
+                                    id="verifyOtp"
+                                    type="number"
+                                    name="verifyOtp"
+                                    placeholder="Enter 6-digit OTP"
+                                    value={formData.verifyOtp}
+                                    onChange={handleChange} required
+                                />
                                 <button className='border hover:border-[1.4px] dark:border-gray-100
                                 focus:outline-none font-medium mt-1
                                 rounded-lg text-md px-5 py-4 sm:py-3 mb-2 focus:ring-gray-700 block w-full border-zinc-800'

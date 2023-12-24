@@ -1,16 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
 import '../app/signup.css'
-import Image from 'next/image';
-import BoyAvatar1 from '@/assets/avatars/boy1.jpeg'
-import BoyAvatar2 from '@/assets/avatars/boy2.jpeg'
-import GirlAvatar1 from '@/assets/avatars/girl1.jpeg'
-import GirlAvatar2 from '@/assets/avatars/girl2.jpeg'
-import RobotAvatar from '@/assets/avatars/robot.jpeg'
-import AnonymousAvatar from '@/assets/avatars/anonymous.jpeg'
-import toast, { Toaster } from 'react-hot-toast';
-import { loginHelper, signupHelper } from '@/helper/httpHelpers/httpUserHelper';
-import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { addUser } from '@/redux_features/user/userSlice';
 import { useTheme } from 'next-themes';
@@ -18,116 +8,32 @@ import { MdOutlineDarkMode } from 'react-icons/md'
 import { MdOutlineLightMode } from 'react-icons/md'
 import { PiStickerLight } from 'react-icons/pi'
 import ClipLoader from "react-spinners/SquareLoader";
+import SyncLoader from "react-spinners/SyncLoader";
+import ClockLoader from "react-spinners/ClockLoader";
+import PuffLoader from "react-spinners/PuffLoader";
 import { addTheme } from '@/redux_features/theme/themeSlice';
 import Typewriter from 'typewriter-effect'
 import { addPage } from '@/redux_features/pages/pageSlice';
 import { changePageLoader } from '@/redux_features/reduxPageLoader/reduxPageLoaderSlice';
+import Login from './Login';
+import Signup from './Signup';
 
 const Welcome = () => {
     const [isLogin, setIsLogin] = useState(false);
-    const [isAvatar, setIsAvatar] = useState(true)
-    const [loading, setLoading] = useState(false)
     //const [userCookie, setUserCookie] = useState({})
-    const [formData, setFormData] = useState({
-        avatar: '',
-        username: '',
-        email: '',
-        password: '',
-    });
+    const [loading, setLoading] = useState(false)
+    const [passwordLoading, setPasswordLoading] = useState(false)
+    const [verificationLoading, setVerificationLoading] = useState(false)
+    const [syncLoading, setSyncLoading] = useState(false)
+    const [mirrorIsOtpSent, setMirrorIsOtpSent] = useState(false)
 
     const dispatch = useDispatch()
     const { theme, setTheme } = useTheme()
-    const router = useRouter()
 
     useEffect(() => {
         dispatch(addPage('/welcome'))
         dispatch(changePageLoader(false))
     }, [])
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        if (name === 'avatar') {
-            setIsAvatar(true)
-        }
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (isLogin) {
-            setLoading(true)
-            // Handle login logic here
-
-            // Extract data needed for login form submission
-            const loginFormData = {
-                email: formData.email,
-                password: formData.password
-            }
-            try {
-                const res = await loginHelper({
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: loginFormData
-                })
-                setLoading(false)
-                setTimeout(() => {
-                    toast(res.message, {
-                        icon: '🤗',
-                    })
-                }, 500);
-                router.push('/')
-            } catch (error) {
-                setLoading(false)
-                toast.error(error.message)
-            }
-
-        } else {
-            // Handle signup logic here
-            if (!formData.avatar) {
-                setIsAvatar(false)
-                toast.error(`Please select an avatar`, {
-                    icon: '🤖',
-                    duration: 3000,
-                })
-                return
-            }
-            if (formData.password.length < 6) {
-                toast(`Password must be at least 6 characters`, {
-                    icon: '🥺',
-                    duration: 3000,
-                })
-                return
-            }
-            setLoading(true)
-            try {
-                const res = await signupHelper({
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: formData
-                })
-                //localStorage.setItem('userData', JSON.stringify(res.body))
-                setLoading(false)
-                setFormData({
-                    avatar: '',
-                    username: '',
-                    email: '',
-                    password: '',
-                })
-                toast.success(res.message, {
-                    duration: 3000
-                })
-                router.push('/')
-            } catch (error) {
-                setLoading(false)
-                toast.error(error.message, {
-                    duration: 4000
-                })
-            }
-        }
-    };
 
     function toggleTheme(mode) {
         if (mode === 'light') {
@@ -139,29 +45,34 @@ const Welcome = () => {
         }
     }
 
+    function toggleLoading(val) {
+        setLoading(val)
+    }
+
+    function togglePasswordLoading(val) {
+        setPasswordLoading(val)
+    }
+
+    function toggleVerificationLoading(val) {
+        setVerificationLoading(val)
+    }
+
+    function toggleSyncLoading(val) {
+        setSyncLoading(val)
+    }
+
+    function toggleIsLogin(val) {
+        setIsLogin(val)
+    }
+
+    function toggleMirrorIsOtpSent(val) {
+        setMirrorIsOtpSent(val)
+    }
+
     return (
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-0 justify-center items-center -mt-8 sm:-mt-4'>
-            {/* <Toaster /> */}
-            {loading &&
-                <div
-                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
-                    items-center flex-wrap -mt-6`}>
-                    <ClipLoader
-                        color="#3f3f46"
-                        loading='Welcome...'
-                        //cssOverride={override}
-                        size={150}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
-                        speedMultiplier={1}
-                    />
-                    {/* <div className="text-2xl mt-5 font-bold text-[#ac3232]">
-                        Loggin in...
-                    </div> */}
-                </div>
-            }
             <div className='text-center flex flex-col justify-center items-center'>
-                <div className="mb-6 sm:mb-8">
+                <div className={`${mirrorIsOtpSent ? 'mb-0 sm:mb-8' : 'mb-6 sm:mb-8'}`}>
                     {
                         theme === 'light' ?
                             <MdOutlineDarkMode
@@ -172,7 +83,7 @@ const Welcome = () => {
                                 onClick={() => toggleTheme('light')} />
                     }
                 </div>
-                <div className='text-3xl italic'>
+                <div className={`text-3xl italic ${mirrorIsOtpSent && 'hidden sm:block'}`}>
                     <Typewriter
                         onInit={(typewritter) => {
                             typewritter
@@ -198,131 +109,99 @@ const Welcome = () => {
                     />
                 </div>
                 <p
-                    className='dark:text-gray-300'>Your AI sticker-notes
+                    className={`dark:text-gray-300 ${mirrorIsOtpSent && 'hidden sm:block'}`}>Your AI sticker-notes
                     <span><PiStickerLight className='ml-1 inline text-xl' /></span>
                 </p>
             </div>
-            <div className="signup-form-container bg-white dark:bg-zinc-800 sm:ml-12 shadow-2xl rounded-3xl
-            text-gray-800 dark:text-gray-300">
-                <h1 className='text-lg'>{isLogin ? 'Login' : 'Sign Up'}</h1>
-                <form onSubmit={handleSubmit}>
-                    <div className='input-group flex flex-col gap-3 w-full'>
-                        {!isLogin && (
-                            <div className='avatars'>
-                                <p className='text-md'>Select an avatar</p>
-                                <p className={`text-sm font-light text-red-400 ${isAvatar && 'hidden'}`}>Please select an avatar</p>
-                                <div className="radio-inputs mb-4 flex gap-3 mt-2">
-                                    <div>
-                                        <input type="radio" id="boy1" name="avatar"
-                                            className={`hidden signup-radio-btn ${theme}`}
-                                            value="boy1"
-                                            onChange={handleChange} checked={formData.avatar === 'boy1'}
-                                        />
-                                        <label htmlFor="boy1"
-                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
-                                            p-[0.5px]
-                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
-                                            <Image src={BoyAvatar1} width={400} height={400} className='rounded-full' />
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" id="girl1" name="avatar"
-                                            className={`hidden signup-radio-btn ${theme}`}
-                                            value="girl1"
-                                            onChange={handleChange} checked={formData.avatar === 'girl1'}
-                                        />
-                                        <label htmlFor="girl1"
-                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
-                                            p-[0.5px]
-                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
-                                            <Image src={GirlAvatar1} width={400} height={400} className='rounded-full' />
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" id="boy2" name="avatar"
-                                            className={`hidden signup-radio-btn ${theme}`}
-                                            value="boy2"
-                                            onChange={handleChange} checked={formData.avatar === 'boy2'}
-                                        />
-                                        <label htmlFor="boy2"
-                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
-                                            p-[0.5px]
-                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
-                                            <Image src={BoyAvatar2} width={400} height={400} className='rounded-full' />
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" id="girl2" name="avatar"
-                                            className={`hidden signup-radio-btn ${theme}`}
-                                            value="girl2"
-                                            onChange={handleChange} checked={formData.avatar === 'girl2'}
-                                        />
-                                        <label htmlFor="girl2"
-                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
-                                            p-[0.5px]
-                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
-                                            <Image src={GirlAvatar2} width={400} height={400} className=' rounded-full' />
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" id="anonymous" name="avatar"
-                                            className={`hidden signup-radio-btn ${theme}`}
-                                            value="anonymous"
-                                            onChange={handleChange} checked={formData.avatar === 'anonymous'}
-                                        />
-                                        <label htmlFor="anonymous"
-                                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
-                                            p-[0.5px]
-                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
-                                            <Image src={AnonymousAvatar} width={400} height={400} className=' rounded-full' />
-                                        </label>
-                                    </div>
-                                </div>
-                                <input
-                                    className='rounded-xl bg-zinc-200 dark:bg-zinc-900 dark:border-zinc-600 block w-full 
-                                            p-2.5 py-4 sm:py-3 text-md dark:placeholder-zinc-600 dark:text-zinc-100
-                                focus:ring-blue-500 focus:border-blue-500'
-                                    type="text"
-                                    name="username"
-                                    placeholder="Username"
-                                    value={formData.username}
-                                    onChange={handleChange} required
-                                />
-                            </div>
-                        )}
-                        <input
-                            className='rounded-lg bg-zinc-200 dark:bg-zinc-900 dark:border-gray-600 block w-full 
-                                p-2.5 py-4 sm:py-3 text-md dark:placeholder-zinc-600 dark:text-zinc-100 
-                                focus:ring-blue-500 focus:border-blue-500'
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            value={formData.email}
-                            onChange={handleChange} required
-                        />
-                        <input
-                            className='rounded-lg bg-zinc-200 dark:bg-zinc-900 dark:border-gray-600 block w-full 
-                                p-2.5 py-4 sm:py-3 text-md dark:placeholder-zinc-600 dark:text-zinc-100 
-                                focus:ring-blue-500 focus:border-blue-500'
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            value={formData.password}
-                            onChange={handleChange} required
-                        />
-                        <button className='border border-blue-500 focus:outline-none font-medium rounded-lg text-md px-5 py-4 
-                        sm:py-3 mb-2 bg-zinc-200 dark:bg-zinc-900 text-whiteborder-gray-600  hover:border-blue-700
-                            focus:ring-gray-700 block w-full '
-                            type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
+            {
+                !isLogin ?
+                    <Signup
+                        toggleLoading={toggleLoading}
+                        togglePasswordLoading={togglePasswordLoading}
+                        toggleVerificationLoading={toggleVerificationLoading}
+                        toggleSyncLoading={toggleSyncLoading}
+                        theme={theme} toggleMirrorIsOtpSent={toggleMirrorIsOtpSent}
+                        toggleIsLogin={toggleIsLogin}
+                    />
+                    :
+                    <Login
+                        toggleLoading={toggleLoading}
+                        toggleSyncLoading={toggleSyncLoading}
+                        theme={theme} toggleIsLogin={toggleIsLogin} isLogin={isLogin}
+                    />
+            }
+            {loading &&
+                <div
+                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    items-center flex-wrap -mt-6`}>
+                    <ClipLoader
+                        color="#3f3f46"
+                        loading='Welcome...'
+                        //cssOverride={override}
+                        size={150}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    {/* <div className="text-2xl mt-5 font-bold text-[#ac3232]">
+                        Loggin in...
+                    </div> */}
+                </div>
+            }
+            {syncLoading &&
+                <div
+                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    items-center flex-wrap`}>
+                    <SyncLoader
+                        color={`${theme === 'dark' ? '#51f770' : '#35a149'}`}
+                        loading='Generating...'
+                        //cssOverride={override}
+                        size={30}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    <div className="text-2xl mt-6 font-bold text-[#35a149] dark:text-[#51f770]">
+                        Syncing...
                     </div>
-                </form>
-                <button className='border border-green-500 focus:outline-none font-medium rounded-lg text-md px-5 py-4 
-                sm:py-3 mb-2 bg-zinc-200 dark:bg-zinc-900 text-whiteborder-gray-600  hover:border-green-700
-                            focus:ring-gray-700 block w-full'
-                    onClick={() => setIsLogin(!isLogin)}>
-                    {isLogin ? 'Create an Account' : 'Already have an account?'}
-                </button>
-            </div>
+                </div>
+            }
+            {passwordLoading &&
+                <div
+                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    items-center flex-wrap`}>
+                    <ClockLoader
+                        color={`${theme === 'dark' ? '#51f770' : '#35a149'}`}
+                        loading='Generating...'
+                        //cssOverride={override}
+                        size={80}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={3}
+                    />
+                    <div className="text-2xl mt-6 font-bold text-[#35a149] dark:text-[#51f770]">
+                        Sending email...
+                    </div>
+                </div>
+            }
+            {verificationLoading &&
+                <div
+                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    items-center flex-wrap`}>
+                    <PuffLoader
+                        color={`${theme === 'dark' ? '#51f770' : '#35a149'}`}
+                        loading='Generating...'
+                        //cssOverride={override}
+                        size={150}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={1}
+                    />
+                    <div className="text-2xl mt-6 font-bold text-[#35a149] dark:text-[#51f770]">
+                        Verifying...
+                    </div>
+                </div>
+            }
         </div>
     )
 }
