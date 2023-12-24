@@ -405,21 +405,6 @@ const NotePage = ({ params }) => {
         setTimeout(() => {
             handleSubmit(event)
         }, 20);
-
-        // try {
-        //     setLoadingGpt(true)
-        //     const res = await openAiGptTextGeneration({ gptData: gptData })
-        //     setSummarizedContent(res.choices[0].message.content)
-        //     setLoadingGpt(false)
-        //     toast('Summarized!', {
-        //         icon: '😀'
-        //     })
-        // } catch (error) {
-        //     setLoadingGpt(false)
-        //     toast(error.message, {
-        //         icon: '😔'
-        //     })
-        // }
     }
 
 

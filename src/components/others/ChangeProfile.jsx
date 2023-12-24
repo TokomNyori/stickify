@@ -79,6 +79,11 @@ const ChangeProfile = ({ user, getUserCookie, toggleLoading, theme, toggleVerifi
             return;
         }
 
+        if (!formData.password) {
+            toast.error("Please enter your password.");
+            return;
+        }
+
         toggleVerificationLoading(true)
 
         const verify = {
@@ -191,6 +196,7 @@ const ChangeProfile = ({ user, getUserCookie, toggleLoading, theme, toggleVerifi
                 return;
             }
         }
+
         setStages(stage);
     }
 
