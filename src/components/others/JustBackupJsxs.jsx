@@ -355,3 +355,7 @@
 // }
 
 // export default loading
+
+
+// WElcome main top container css
+//<div className='grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-0 justify-center items-center -mt-8 sm:-mt-4'></div>

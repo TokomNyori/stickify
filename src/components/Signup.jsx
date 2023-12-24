@@ -220,7 +220,7 @@ const Signup = (
                 <div className='input-group flex flex-col gap-3 w-full'>
                     {isOtpSent ?
                         <div className="flex flex-col gap-3 mb-4 items-center">
-                            <div className="text-2xl -mt-2 font-bold text-[#f1f5f9] w-[55%] sm:w-[40%]">
+                            <div className="text-2xl -mt-2 font-bold text-[#f1f5f9] w-[50%] sm:w-[40%]">
                                 <Lottie className="text-sm" animationData={otpverifyAni} loop={true} />
                             </div>
                             <div className='text-center'>

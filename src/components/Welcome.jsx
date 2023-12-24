@@ -70,7 +70,7 @@ const Welcome = () => {
     }
 
     return (
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-0 justify-center items-center -mt-8 sm:-mt-4'>
+        <div className='flex flex-col sm:grid sm:grid-cols-2 gap-6 sm:gap-0 justify-center items-center sm:-mt-4'>
             <div className='text-center flex flex-col justify-center items-center'>
                 <div className={`${mirrorIsOtpSent ? 'mb-0 sm:mb-8' : 'mb-6 sm:mb-8'}`}>
                     {
