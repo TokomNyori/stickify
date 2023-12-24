@@ -213,7 +213,7 @@ const Signup = (
         <div className={`signup-form-container sm:ml-12 rounded-3xl
         text-gray-800 dark:text-gray-300 ${isOtpSent ? 'mt-0 sm:mt-10' : 'mt-0 sm:mt-0  '}`}
         >
-            <h1 className={`text-lg ${isOtpSent && 'glow-texts'}`}>
+            <h1 className={`text-lg`}>
                 {isOtpSent ? 'Verify your email' : 'Sign Up'}
             </h1>
             <form onSubmit={handleSubmit}>

@@ -13,7 +13,7 @@ const EmailVeriOtpSchema = new Schema({
         type: Date,
         required: true,
         default: Date.now,
-        index: { expires: '1m' } // TTL for 5 minutes
+        index: { expires: '5m' } // TTL for 5 minutes
     },
 });
 
