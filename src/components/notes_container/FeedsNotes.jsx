@@ -48,10 +48,10 @@ const FeedsNotes = ({ notes, deletedNotes, toggleLikes, user, copyNote, initialR
         const diffInYears = differenceInYears(now, date);
 
         if (diffInMinutes < 1) return 'just now';
-        if (diffInMinutes < 60) return `${diffInMinutes} ${diffInMinutes === 1 ? 'min' : 'mins'} ago`;
-        if (diffInHours < 24) return `${diffInHours} ${diffInHours === 1 ? 'hr' : 'hrs'} ago`;
-        if (diffInDays < 7) return `${diffInDays} ${diffInDays === 1 ? 'day' : 'days'} ago`;
-        if (diffInWeeks < 5) return `${diffInWeeks} ${diffInWeeks === 1 ? 'week' : 'weeks'} ago`;
+        if (diffInMinutes < 60) return `${diffInMinutes} ${diffInMinutes === 1 ? 'min' : 'mins'}`;
+        if (diffInHours < 24) return `${diffInHours} ${diffInHours === 1 ? 'hr' : 'hrs'}`;
+        if (diffInDays < 7) return `${diffInDays} ${diffInDays === 1 ? 'day' : 'days'}`;
+        if (diffInWeeks < 5) return `${diffInWeeks} ${diffInWeeks === 1 ? 'week' : 'weeks'}`;
         if (now.getFullYear() === date.getFullYear()) return format(date, 'd MMM'); // return the date in "d MMM" format for current year
         return format(date, 'MMM yyyy'); // return the date in "MMM yyyy" format for different years
     }
