@@ -81,7 +81,7 @@ export default function FeedsContainer() {
         if (initialLoading === false) {
             timeoutId = setTimeout(() => {
                 setInitialRender(false)
-            }, 3000);
+            }, 3200);
         }
         return () => {
             // Clear the timeout when the component unmounts or when dependencies change
