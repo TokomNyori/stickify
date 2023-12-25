@@ -16,7 +16,7 @@ import { BiSolidGroup } from 'react-icons/bi'
 import { BsPersonFillUp } from "react-icons/bs";
 import NoteModal from "./modals/NoteModal";
 import Image from "next/image";
-import { logOutHelper } from "@/helper/httpHelpers/httpUserHelper";
+import { getSingleUserHelper, logOutHelper } from "@/helper/httpHelpers/httpUserHelper";
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,6 +58,12 @@ export default function Navbar() {
         getUserCookie()
     }, [])
 
+    // useEffect(() => {
+    //     if (Object.keys(userCookie).length !== 0) {
+    //         getSingleUser(userCookie._id)
+    //     }
+    // }, [userCookie])
+
     useEffect(() => {
         setActivePage(page)
     }, [page])
@@ -87,6 +93,25 @@ export default function Navbar() {
             console.log(error.message)
         }
     }
+
+    // async function getSingleUser(userid) {
+    //     try {
+    //         const res = await getSingleUserHelper(
+    //             { method: 'GET', id: userid, headers: { 'Content-Type': 'application/json' } }
+    //         )
+    //         if (res.message === "Account not found or has been removed.") {
+    //             dispatch(removeUser())
+    //             setTimeout(() => {
+    //                 toast.error(res.message)
+    //             }, 500);
+    //             router.push('/welcome')
+    //         }
+    //     } catch (error) {
+    //         console.log('getSingleUserHelper Error')
+    //         console.log(error)
+    //     }
+
+    // }
 
     // useEffect(() => {
     //     if (userCookie.cookieStatus === true) {

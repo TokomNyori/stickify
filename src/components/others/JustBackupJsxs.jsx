@@ -324,7 +324,7 @@
 
 
 
-// Important page code for loading.jsx 
+// Important page code for loading.jsx
 // 'use client'
 // import { useTheme } from "next-themes";
 // import ClipLoader from "react-spinners/GridLoader";
@@ -335,7 +335,7 @@
 //     return (
 //         <div className="flex justify-center items-center text-gray-200 h-screen w-full -mt-20">
 //             <div
-//                 className={`loader-gpt w-full h-full inset-0 backdrop-blur-[2px] flex justify-center 
+//                 className={`loader-gpt w-full h-full inset-0 backdrop-blur-[2px] flex justify-center
 //                                 items-center flex-col flex-wrap gap-y-10`}
 //             >
 //                 <div className="">
@@ -359,3 +359,47 @@
 
 // WElcome main top container css
 //<div className='grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-0 justify-center items-center -mt-8 sm:-mt-4'></div>
+
+
+
+// UPDATE like api function:
+// import { connectDB } from "@/helper/db"
+// import { getResponseMsg } from "@/helper/getResponseMsg"
+// import { NoteModel } from "@/models/notemodel"
+// import { Types } from 'mongoose';
+
+// connectDB()
+
+// // Edit only note status by noteId
+// export async function PUT(request, { params }) {
+//     const { noteid } = params
+//     //Fetch work data from request
+//     const { likedBy, func } = await request.json()
+//     const { ObjectId } = Types;
+//     console.log(func)
+//     try {
+//         let update;
+//         if (func === 'like') {
+//             update = {
+//                 $inc: { likes: 1 },
+//                 $addToSet: { likedBy: new ObjectId(likedBy) }, // Add to set to ensure unique entries
+//             };
+//         } else {
+//             // console.log(`likedBy before conversion: ${likedBy}, type: ${typeof likedBy}`)
+//             // const likedByObjectId = new ObjectId(likedBy)
+//             // console.log(`likedBy after conversion: ${likedByObjectId}, type: ${typeof likedByObjectId}`)
+//             update = { $inc: { likes: -1 }, $pull: { likedBy: new ObjectId(likedBy) } };
+//         }
+
+//         const updatedNote = await NoteModel.findByIdAndUpdate(noteid, update, { new: true });
+
+//         return getResponseMsg(
+//             { message: `Dynamically updated likes: ${noteid}`, status: 200, success: true, body: updatedNote }
+//         )
+//     } catch (error) {
+//         console.log(error)
+//         return getResponseMsg(
+//             { message: 'Failed to update likes', status: 500, success: false, body: error.message }
+//         )
+//     }
+// }

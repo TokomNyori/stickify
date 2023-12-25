@@ -97,7 +97,7 @@ const Notes = ({ notes, deleteNotes, deletedNotes, noteType, togglePinned, initi
                                     typewritter.typeString(note.content).start()
                                 }}
                                 options={{
-                                    delay: 25,
+                                    delay: 15,
                                 }}
                             />
                             :

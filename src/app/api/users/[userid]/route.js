@@ -15,9 +15,22 @@ export async function GET(request, { params }) {
     const { userid } = params
     try {
         const user = await UserModel.findById({ _id: userid })
-        return getResponseMsg(
-            { message: `Dynamically Fetched User: ${userid}`, status: 200, success: true, body: user }
-        )
+        if (!user) {
+            const response = NextResponse.json({
+                message: "Account not found or has been removed.",
+                success: true,
+            })
+
+            response.cookies.set('userJwtCookie', '', {
+                maxAge: new Date(0)
+            })
+
+            return response
+        } else {
+            return getResponseMsg(
+                { message: `Dynamically Fetched User: ${userid}`, status: 200, success: true, body: user }
+            )
+        }
     } catch (error) {
         return getResponseMsg(
             { message: `Problem Fetching the User: ${userid}`, status: 500, success: false, body: error.message }

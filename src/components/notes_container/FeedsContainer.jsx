@@ -81,7 +81,7 @@ export default function FeedsContainer() {
         if (initialLoading === false) {
             timeoutId = setTimeout(() => {
                 setInitialRender(false)
-            }, 5700);
+            }, 3000);
         }
         return () => {
             // Clear the timeout when the component unmounts or when dependencies change
@@ -377,7 +377,7 @@ export default function FeedsContainer() {
                 <div
                     className={`loader-gpt fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
-                    <div className="text-2xl mt-5 font-bold text-[#f1f5f9] w-[50%] sm:w-[25%]">
+                    <div className="text-2xl mt-5 font-bold text-[#f1f5f9] w-[35%] sm:w-[25%]">
                         <Lottie className="text-sm" animationData={dislikeAni} loop={false} />
                     </div>
                 </div>
