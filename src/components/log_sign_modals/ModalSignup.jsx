@@ -364,7 +364,7 @@ const ModalSignup = (
                                             p-2.5 py-4 sm:py-3 text-md focus:ring-blue-500 focus:border-blue-500`}
                                 type="text"
                                 name="username"
-                                placeholder="Username"
+                                placeholder="Full name"
                                 value={formData.username}
                                 onChange={handleChange} required
                             />

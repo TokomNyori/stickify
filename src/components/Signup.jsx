@@ -347,7 +347,7 @@ const Signup = (
                                 dark:bg-zinc-800 bg-white shadow-md  placeholder-gray-400`}
                                 type="text"
                                 name="username"
-                                placeholder="Username"
+                                placeholder="Full name"
                                 value={formData.username}
                                 onChange={handleChange} required
                             />
