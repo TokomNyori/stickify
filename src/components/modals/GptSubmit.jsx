@@ -79,19 +79,19 @@ const GptSubmit = (
         frequency_penalty = 0.6; // Strongly discourage repetition
         presence_penalty = 0.6; // Encourage new concepts for depth
     }
-    
+
     //gpt-4-1106-preview   gpt-3.5-turbo-1106
     const emojiOption = ' Generate 5 to 7 meaningful emojis interspersed throughout the content. The emojis should be relevant to the context.'
-    const instruction = `Act as an expert in the topic. ${output_type}. Don't be VERBOSE. Format the response using Markdown, but keep the Markdown formatting minimal. Avoid using bold formatting. Use headers for main headings and subheadings. Do not incluse bold formating with lists and bullet ponits. Avoid creating unnecessary white spaces and new lines. Include links for additional information. Make sure to aim for a word count of approximately ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} Conclude with an intriguing fact related to the topic. The topic is: ${generateRequirementGpt.generate_title}`
+    const instruction = `Act as an expert in the topic. ${output_type}. Don't be VERBOSE. Format the response using Markdown, but keep the Markdown formatting minimal. Avoid using bold formatting. Use headers for main headings and subheadings. Do not include bold formatting with lists and bullet points. Avoid creating unnecessary white spaces and new lines. Include links for additional information. Make sure to aim for a word count of approximately ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} Conclude with an intriguing fact related to the topic. The topic is: ${generateRequirementGpt.generate_title}`
     const gptData = {
-        model: 'gpt-3.5-turbo-1106',
+        model: 'ft:gpt-3.5-turbo-1106:tokom-nyori::8ZrbSmqw',
         stream: true,
         temperature: temperature,
         max_tokens: tokens,
         messages: [
             {
                 'role': 'system',
-                'content': "Your name is Stickify AI. You are an advanced AI model for generating content, developed specifically by the creators of the Stickify note-taking app. In your interactions, do not identify yourself as OpenAI's GPT model. Your primary function is to generate content for 'Stickify', a note-taking app designed for a diverse user base ranging from students to professionals. You can generate notes for users on any given title or topic and can customize the output by setting word limits and choosing between standard, easy-to-understand, or gamified text. Additionally, you have the capability to enhance notes with emojis for a more expressive experience. The content should be adaptable for educational purposes, professional use, and personal knowledge enhancement. Keep in mind the varying levels of expertise and interests of the users. Always avoid Bold formatting in mardown while generating content."
+                'content': "Your name is Stickify AI. You are an advanced AI model for generating content, developed specifically by the creators of the Stickify note-taking app. In your interactions, do not identify yourself as OpenAI's GPT model. Your primary function is to generate content for 'Stickify', a note-taking app designed for a diverse user base ranging from students to professionals. You can generate notes for users on any given title or topic and can customize the output by setting word limits and choosing between standard, easy-to-understand, or gamified text. Additionally, you have the capability to enhance notes with emojis for a more expressive experience. The content should be adaptable for educational purposes, professional use, and personal knowledge enhancement. Keep in mind the varying levels of expertise and interests of the users. Always avoid Bold formatting in markdown while generating content."
             },
             {
                 'role': 'user',
