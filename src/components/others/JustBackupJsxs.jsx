@@ -405,6 +405,11 @@
 // }
 
 
+
+//Navbar icon link border
+// border-b-[1px] border-gray-700 dark:border-gray-100
+
+
 //  GPT section instruictions
 // messages: [
 //     {

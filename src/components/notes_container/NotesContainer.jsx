@@ -1,7 +1,7 @@
 'use client'
 import { deleteNoteHelper, editStatusNoteHelper, getNoteHelper, updateNoteCopiesHelper } from '@/helper/httpHelpers/httpNoteHelper'
 import toast, { Toaster } from 'react-hot-toast';
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Notes from './Notes';
 import HomePageSkeleton from '../skeleton_loaders/HomePageSkeleton';
 import scrollToTop from '@/helper/scrollToTop';
@@ -40,6 +40,7 @@ export default function NotesContainer() {
     const [currentOriginId, setCurrentOriginId] = useState('')
     const [isItOriginal, setIsItOriginal] = useState(true)
     const dispatch = useDispatch()
+    
 
     useEffect(() => {
         if (Object.keys(users).length === 0) {

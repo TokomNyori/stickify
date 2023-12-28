@@ -86,6 +86,11 @@
   scrollbar-width: none;
 }
 
+.cyra-bot-ui {
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
 .gpt-generate-modal {
   width: 80%;
   height: auto;

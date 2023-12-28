@@ -1,7 +1,30 @@
 'use client'
 
+import { useRef, useEffect } from "react";
+
+
 const WarningModal = ({ warningModalState, action, modalType, noteid, isItOriginal, currentOriginId }) => {
     let modalBody;
+    const warningModalRef = useRef(null)
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (warningModalRef.current && !warningModalRef.current.contains(event.target)) {
+                action({
+                    operation: 'no'
+                })
+            }
+        };
+
+        if (warningModalState) {
+            document.addEventListener('click', handleOutsideClick);
+        }
+
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, [warningModalState]);
+
     if (modalType === 'delete') {
         modalBody = (
             <div
@@ -9,9 +32,9 @@ const WarningModal = ({ warningModalState, action, modalType, noteid, isItOrigin
                             ${warningModalState ? "gpt-fix-modal" : "hidden"} flex-wrap`}
             >
                 <div className='text-2xl bg-white/80 dark:bg-zinc-800/80 w-[80%] sm:w-[25%] h-auto 
-                shadow-lg px-4 py-5 pb-8 rounded-2xl text-center'>
+                    shadow-lg px-4 py-5 pb-8 rounded-2xl text-center' ref={warningModalRef}>
                     <div className="mb-4">
-                        Confirm Delete
+                        Delete note?
                     </div>
                     <div className="flex justify-center items-center gap-5">
                         <button className="bg-green-500/80 px-4 py-1 rounded-xl"
@@ -57,7 +80,7 @@ const WarningModal = ({ warningModalState, action, modalType, noteid, isItOrigin
                 </div>
             </div>
         )
-    } 
+    }
 
     return modalBody
 }

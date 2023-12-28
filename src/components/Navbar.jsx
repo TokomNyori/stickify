@@ -14,6 +14,11 @@ import { useEffect, useRef, useState } from "react";
 import { BiGroup } from 'react-icons/bi'
 import { BiSolidGroup } from 'react-icons/bi'
 import { BsPersonFillUp } from "react-icons/bs";
+import { IoChatboxOutline } from "react-icons/io5";
+import { IoChatbox } from "react-icons/io5";
+import { FcIdea } from "react-icons/fc";
+import { FaRegLightbulb } from "react-icons/fa6";
+import { FaLightbulb } from "react-icons/fa6";
 import NoteModal from "./modals/NoteModal";
 import Image from "next/image";
 import { getSingleUserHelper, logOutHelper } from "@/helper/httpHelpers/httpUserHelper";
@@ -186,7 +191,7 @@ export default function Navbar() {
                             <li className="relative flex flex-col items-center">
                                 <Link href='/'
                                     className={
-                                        `home-link ${activePage === 'home' && 'border-b-[1px] border-gray-700 dark:border-gray-100'}`
+                                        `home-link ${activePage === 'home' && ''}`
                                     }
                                     id="home" onClick={changePage}
                                 >
@@ -210,7 +215,7 @@ export default function Navbar() {
                             <li className="relative flex flex-col items-center">
                                 <Link href='/feeds'
                                     className={
-                                        `home-link ${activePage === 'feeds' && 'border-b-[1px] border-gray-700 dark:border-gray-100'}`
+                                        `home-link ${activePage === 'feeds' && ''}`
                                     }
                                     onClick={changePage} id="feeds"
                                 >
@@ -232,9 +237,33 @@ export default function Navbar() {
                                 </div>
                             </li>
                             <li className="relative flex flex-col items-center">
+                                <Link href='/research'
+                                    className={
+                                        `home-link ${activePage === 'research' && ''}`
+                                    }
+                                    onClick={changePage} id="research"
+                                >
+                                    {
+                                        activePage === 'research' ?
+                                            <FaLightbulb
+                                                className="text-[1.4rem] sm:text-[1.15rem] hover:scale-[1.04] hover:text-yellow-400 dark:hover:text-yellow-400
+                                                    transition-all duration-150 ease-in-out text-yellow-500"
+                                            /> :
+                                            <FaRegLightbulb
+                                                className="text-[1.4rem] sm:text-[1.15rem] hover:scale-[1.04] hover:text-black dark:hover:text-white
+                                                    transition-all duration-150 ease-in-out"
+                                            />
+                                    }
+                                </Link>
+                                <div className="home-link-info hidden justify-center items-start absolute top-10 bg-gray-600 
+                                                opacity-50 text-white text-sm px-2 py-1 rounded-md">
+                                    Research
+                                </div>
+                            </li>
+                            <li className="relative flex flex-col items-center">
                                 <div onClick={changeModal} className="cursor-pointer home-link">
                                     <IoAddSharp
-                                        className="text-[2.1rem] sm:text-[1.7rem] hover:scale-[1.05] hover:text-black dark:hover:text-white
+                                        className="text-[2.15rem] sm:text-[1.75rem] hover:scale-[1.05] hover:text-black dark:hover:text-white
                                                     transition-all duration-150 ease-in-out"
                                     />
                                 </div>

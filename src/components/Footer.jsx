@@ -1,13 +1,22 @@
+'use client'
 import Link from 'next/link'
+import { useEffect } from 'react'
 import { AiOutlineInstagram } from 'react-icons/ai'
 import { AiOutlineMail } from 'react-icons/ai'
 import { AiFillGithub } from 'react-icons/ai'
+import { useSelector } from "react-redux";
 
 const Footer = () => {
 
+    const page = useSelector(state => state.page.page)
+    // useEffect(() => {
+
+    // }, [page])
+
     return (
-        <div className='dark:bg-zinc-950 bg-[#fff] flex flex-col justify-center items-center pt-5 pb-10 px-3 sm:px-6 w-full
-        text-[1.1rem] sm:text-[1rem]'>
+        <div className={` ${page === 'research' ? 'hidden'
+            :
+            'flex flex-col justify-center items-center dark:bg-zinc-950 bg-[#fff] pt-5 pb-10 px-3 sm:px-6 w-full text-[1.1rem] sm:text-[1rem] '}`}>
             <div><span className='italic'>stickify</span>&#169; 2023</div>
             <div className='flex gap-3 mt-2'>
                 <Link href='https://www.instagram.com/geekpie.in/' target='_blank'>
