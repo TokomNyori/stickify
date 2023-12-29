@@ -127,7 +127,9 @@ const ResearchPage = () => {
                             <input
                                 className={`w-full sm:w-[100%] bg-zinc-100 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-300
                                 rounded-2xl py-3 px-12`}
-                                value={input} onChange={handleInputChange}
+                                value={input}
+                                type="text"
+                                onChange={handleInputChange}
                                 placeholder="Message Cyra..."
                             />
                             {

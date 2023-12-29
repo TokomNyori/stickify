@@ -5,7 +5,7 @@ import PromptCards from './PromptCards'
 
 const DisplayComp = () => {
   return (
-    <div className='flex flex-col justify-start items-center gap-16 sm:gap-14 mb-5'>
+    <div className='flex flex-col justify-start items-center gap-16 sm:gap-14 mb-5 w-full'>
       {/* Cyra Orb */}
       <div className='flex flex-col justify-center items-center' >
         <div className="">

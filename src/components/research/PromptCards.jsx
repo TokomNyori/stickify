@@ -1,6 +1,6 @@
 const PromptCards = () => {
     return (
-        < div className='cards grid grid-cols-1 sm:grid-cols-2 gap-2'>
+        < div className='cards grid grid-cols-1 sm:grid-cols-2 gap-2 w-full px-1 sm:px-2'>
             <div className='border border-zinc-500 rounded-xl px-4 py-3'>
                 <div className='font-bold'>Research Assistant</div>
                 <div className='text-sm'>Have a research query? Let's explore it together!</div>
