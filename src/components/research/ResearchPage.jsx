@@ -62,8 +62,8 @@ const ResearchPage = () => {
     }, [messages])
 
     useEffect(() => {
-        textareaRef.style.height = 'auto';
-        textareaRef.style.height = textareaRef.current.scrollHeight + 'px';
+        textareaRef.current.style.height = 'auto';
+        textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
     }, [input])
 
     function hi(event) {
