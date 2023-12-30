@@ -62,12 +62,8 @@ const ResearchPage = () => {
     }, [messages])
 
     useEffect(() => {
-        const textarea = textareaRef.current;
-        const textareaLineHeight = parseFloat(window.getComputedStyle(textarea).lineHeight);
-        const maxRows = 6;
-        textarea.style.height = 'auto';
-        const lines = Math.min(textarea.scrollHeight / textareaLineHeight, maxRows);
-        textarea.style.height = `${lines * textareaLineHeight}px`;
+        textareaRef.style.height = 'auto';
+        textareaRef.style.height = textareaRef.current.scrollHeight + 'px';
     }, [input])
 
     function hi(event) {
@@ -145,7 +141,8 @@ const ResearchPage = () => {
                             <div className="chatbotTextarea">
                                 <textarea
                                     className={`chatbotTextarea1 w-full sm:w-[100%] bg-zinc-100 dark:bg-zinc-900 border border-zinc-700 
-                                            dark:border-zinc-300 rounded-2xl py-[0.8rem] px-12 resize-none active:outline-none focus:outline-none`}
+                                            dark:border-zinc-300 rounded-2xl py-[0.8rem] px-12 resize-none active:outline-none 
+                                            focus:outline-none overflow-y-auto`}
                                     value={input}
                                     type="text"
                                     name="input"
