@@ -263,7 +263,7 @@ export default function Navbar() {
                             <li className="relative flex flex-col items-center">
                                 <div onClick={changeModal} className="cursor-pointer home-link">
                                     <IoAddSharp
-                                        className="text-[2.15rem] sm:text-[1.75rem] hover:scale-[1.05] hover:text-black dark:hover:text-white
+                                        className="text-[2.1rem] sm:text-[1.7rem] hover:scale-[1.05] hover:text-black dark:hover:text-white
                                                     transition-all duration-150 ease-in-out"
                                     />
                                 </div>
