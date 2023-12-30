@@ -133,12 +133,12 @@ const ResearchPage = () => {
                     }
                     <div className="w-full">
                         <form
-                            className="relative"
+                            className="relative flex justify-center items-start"
                             onSubmit={handleSubmit}>
                             <div className=" cursor-pointer">
                                 <LuSettings2 className="absolute left-4 bottom-[35%] text-2xl text-zinc-600 dark:text-zinc-300" />
                             </div>
-                            <div className="chatbotTextarea">
+                            <div className="chatbotTextarea w-full">
                                 <textarea
                                     className={`chatbotTextarea1 w-full sm:w-[100%] bg-zinc-100 dark:bg-zinc-900 border border-zinc-700 
                                             dark:border-zinc-300 rounded-2xl py-[0.8rem] px-12 resize-none active:outline-none 
