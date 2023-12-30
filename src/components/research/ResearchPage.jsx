@@ -86,7 +86,7 @@ const ResearchPage = () => {
                         >
                             <div>
                                 {m.role === 'user' ?
-                                    <div className="flex justify-start items-start rounded-full gap-3">
+                                    <div className="flex justify-start items-start rounded-full gap-2 sm:gap-3">
                                         <div>
                                             <Image
                                                 className="rounded-full w-[1.6rem] sm:w-[1.8rem]"
@@ -97,7 +97,7 @@ const ResearchPage = () => {
                                         <div className="font-bold text-[1.04rem]">You</div>
                                     </div>
                                     :
-                                    <div className="flex justify-start items-start rounded-full gap-3">
+                                    <div className="flex justify-start items-start rounded-full gap-2 sm:gap-3">
                                         {/* <div>
                                             <Image className="rounded-full w-[1.8rem]"
                                                 src={ReseracherOne} width={40} height={40}
