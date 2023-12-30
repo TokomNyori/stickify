@@ -91,6 +91,20 @@
   scroll-behavior: smooth;
 }
 
+.chatbotTextarea1 {
+  overflow-wrap: break-word;
+}
+
+.chatbotTextarea textarea::-webkit-scrollbar {
+  display: none;
+  
+  /* Adjust the width to your preference */
+}
+
+.chatbotTextarea textarea {
+  scrollbar-width: none;
+}
+
 .gpt-generate-modal {
   width: 80%;
   height: auto;

@@ -60,5 +60,5 @@ export function middleware(request) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: ['/', '/feeds', '/manage-profile', '/welcome', '/api/:path*', '/notes', '/notes/:path*'],
+    matcher: ['/', '/feeds', '/manage-profile', '/research', '/welcome', '/api/:path*', '/notes', '/notes/:path*'],
 }

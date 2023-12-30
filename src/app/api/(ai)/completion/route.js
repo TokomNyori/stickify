@@ -14,7 +14,7 @@ const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 // const openai = new OpenAIApi(config);
 
 export async function POST(request) {
-    console.log('Chat Completion API Triggered')
+    console.log('Completion API Triggered')
     const { geyi } = await request.json();
 
     console.log('body:', geyi)
@@ -26,9 +26,4 @@ export async function POST(request) {
 
     // Respond with the stream
     return new StreamingTextResponse(stream);
-
-    // for await (const chunk of response) {
-    //     const data = chunk.choices[0]?.delta?.content || "";
-    //     rrr.write('data: ' + 'Heeelllooooo!!!!!!\n\n');
-    // }
 }

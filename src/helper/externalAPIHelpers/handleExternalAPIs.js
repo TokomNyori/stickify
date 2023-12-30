@@ -5,7 +5,7 @@
 
 // API KEYS
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY
+//const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 
 //YOUTUBE API 
 export async function youtubeOneVideotHelper({ method, title, headers }) {
@@ -41,24 +41,24 @@ export async function youtubeTenVideotHelper({ method, title, headers }) {
 }
 
 //OPENAI API
-export async function openAiGptTextGeneration({ gptData }) {
-    const res = await fetch(`https://api.openai.com/v1/chat/completions`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${OPENAI_API_KEY}`
-        },
-        body: JSON.stringify(gptData)
-    })
+// export async function openAiGptTextGeneration({ gptData }) {
+//     const res = await fetch(`https://api.openai.com/v1/chat/completions`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': `Bearer ${OPENAI_API_KEY}`
+//         },
+//         body: JSON.stringify(gptData)
+//     })
 
-    if (!res.ok) {
-        const errorData = await res.json();
-        console.log(errorData)
-        throw new Error(errorData.message)
-    }
+//     if (!res.ok) {
+//         const errorData = await res.json();
+//         console.log(errorData)
+//         throw new Error(errorData.message)
+//     }
 
-    return res.json()
-}
+//     return res.json()
+// }
 
 // export async function openAiGptTextGeneration({ gptData: gptData }) {
 //     const openai = new OpenAI({ apiKey: OPENAI_API_KEY });

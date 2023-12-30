@@ -17,6 +17,7 @@ import orbOne from '@/assets/others/orb1.json'
 import toast, { Toaster } from 'react-hot-toast';
 import { set } from "lodash";
 import PromptCards from "./PromptCards";
+import { te } from "date-fns/locale";
 
 const ResearchPage = () => {
 
@@ -24,7 +25,7 @@ const ResearchPage = () => {
     const user = useSelector(state => state.user.users)
     const [responded, setResponded] = useState(false)
 
-    const { messages, input, handleInputChange, handleSubmit, isLoading, stop } = useChat({
+    const { messages, input, handleInputChange, handleSubmit, isLoading, stop, setInput } = useChat({
         initialMessages: researchMessages,
         onResponse: () => {
             if (!responded) {
@@ -35,6 +36,7 @@ const ResearchPage = () => {
 
     const dispatch = useDispatch()
     const chatRef = useRef(null)
+    const textareaRef = useRef(null)
 
     useEffect(() => {
         dispatch(addPage('research'))
@@ -58,6 +60,22 @@ const ResearchPage = () => {
     useEffect(() => {
         chatRef.current?.scrollIntoView()
     }, [messages])
+
+    useEffect(() => {
+        const textarea = textareaRef.current;
+        const textareaLineHeight = parseFloat(window.getComputedStyle(textarea).lineHeight);
+        const maxRows = 6;
+        textarea.style.height = 'auto';
+        const lines = Math.min(textarea.scrollHeight / textareaLineHeight, maxRows);
+        textarea.style.height = `${lines * textareaLineHeight}px`;
+    }, [input])
+
+    function hi(event) {
+        const { value } = event.target
+        setInput(value)
+    }
+
+    console.log(input)
 
 
     return (
@@ -112,30 +130,35 @@ const ResearchPage = () => {
 
             {/* Input fixed to the bottom */}
             <div className="fixed bottom-0 w-[100%] left-0 right-0  bg-zinc-100 dark:bg-zinc-900">
-                <div className="px-3 sm:px-14 lg:px-64 mb-3">
+                <div className="px-3 sm:px-14 lg:px-64 mb-2.5">
                     {
                         messages.length === 0 &&
                         <DisplayComp />
                     }
-                    <div className="mb-4 w-full">
+                    <div className="w-full">
                         <form
                             className="relative"
                             onSubmit={handleSubmit}>
                             <div className=" cursor-pointer">
-                                <LuSettings2 className="absolute left-4 bottom-[27%] text-2xl text-zinc-600 dark:text-zinc-300" />
+                                <LuSettings2 className="absolute left-4 bottom-[35%] text-2xl text-zinc-600 dark:text-zinc-300" />
                             </div>
-                            <input
-                                className={`w-full sm:w-[100%] bg-zinc-100 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-300
-                                rounded-2xl py-3 px-12`}
-                                value={input}
-                                type="text"
-                                onChange={handleInputChange}
-                                placeholder="Message Cyra..."
-                            />
+                            <div className="chatbotTextarea">
+                                <textarea
+                                    className={`chatbotTextarea1 w-full sm:w-[100%] bg-zinc-100 dark:bg-zinc-900 border border-zinc-700 
+                                            dark:border-zinc-300 rounded-2xl py-[0.8rem] px-12 resize-none active:outline-none focus:outline-none`}
+                                    value={input}
+                                    type="text"
+                                    name="input"
+                                    rows={1}
+                                    onChange={hi}
+                                    placeholder="Message Cyra..."
+                                    ref={textareaRef}
+                                />
+                            </div>
                             {
                                 isLoading ?
                                     <div
-                                        className="absolute right-4 bottom-[27%] cursor-pointer"
+                                        className="absolute right-4 bottom-[35%] cursor-pointer"
                                         onClick={stop}
                                     >
                                         <FaRegCircleStop className={`text-2xl`} />
@@ -143,7 +166,7 @@ const ResearchPage = () => {
                                     :
                                     <button
                                         disabled={!input}
-                                        className="absolute right-4 bottom-[27%]"
+                                        className="absolute right-4 bottom-[35%]"
                                         type="submit">
                                         <IoSend className={`text-2xl ${input ? 'text-green-500' : 'text-zinc-500'}`} />
                                     </button>

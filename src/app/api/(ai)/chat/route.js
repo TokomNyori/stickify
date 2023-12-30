@@ -8,7 +8,7 @@ const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
 export async function POST(request) {
 
-    console.log('Chat Completion API Triggered')
+    console.log('Chat API Triggered')
     const { messages } = await request.json();
 
     const temperature = 0.7;
