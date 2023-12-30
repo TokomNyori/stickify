@@ -18,12 +18,14 @@ import toast, { Toaster } from 'react-hot-toast';
 import { set } from "lodash";
 import PromptCards from "./PromptCards";
 import { te } from "date-fns/locale";
+import ConfigPop from "./ConfigPop";
 
 const ResearchPage = () => {
 
     const researchMessages = useSelector(state => state.researchMessages.researchMessages)
     const user = useSelector(state => state.user.users)
     const [responded, setResponded] = useState(false)
+    const [configPopState, setConfigPopState] = useState(false)
 
     const { messages, input, handleInputChange, handleSubmit, isLoading, stop, setInput } = useChat({
         initialMessages: researchMessages,
@@ -33,6 +35,11 @@ const ResearchPage = () => {
             }
         }
     });
+
+    const [config, setConfig] = useState({
+        outputType: 'Balance',
+        emoji: true,
+    })
 
     const dispatch = useDispatch()
     const chatRef = useRef(null)
@@ -48,15 +55,6 @@ const ResearchPage = () => {
         }
     }, [messages])
 
-    // useEffect(() => {
-    //     if (isLoading) {
-    //         const chaty = chatRef.current;
-    //         if (chaty) {
-    //             chaty.scrollTop = chaty.scrollHeight;
-    //         }
-    //     }
-    // }, [messages]);
-
     useEffect(() => {
         chatRef.current?.scrollIntoView()
     }, [messages])
@@ -66,9 +64,13 @@ const ResearchPage = () => {
         textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
     }, [input])
 
-    function hi(event) {
+    function customHandleInput(event) {
         const { value } = event.target
         setInput(value)
+    }
+
+    function toggleConfigState() {
+        setConfigPopState(!configPopState)
     }
 
     console.log(input)
@@ -135,8 +137,10 @@ const ResearchPage = () => {
                         <form
                             className="relative flex justify-center items-start"
                             onSubmit={handleSubmit}>
+                            <ConfigPop configPopState={configPopState} toggleConfigState={toggleConfigState} />
                             <div className=" cursor-pointer">
-                                <LuSettings2 className="absolute left-4 bottom-[35%] text-2xl text-zinc-600 dark:text-zinc-300" />
+                                <LuSettings2 className="absolute left-4 bottom-[35%] text-2xl text-zinc-600 dark:text-zinc-300"
+                                    onClick={toggleConfigState} />
                             </div>
                             <div className="chatbotTextarea w-full">
                                 <textarea
@@ -147,7 +151,7 @@ const ResearchPage = () => {
                                     type="text"
                                     name="input"
                                     rows={1}
-                                    onChange={hi}
+                                    onChange={customHandleInput}
                                     placeholder="Message Cyra..."
                                     ref={textareaRef}
                                 />

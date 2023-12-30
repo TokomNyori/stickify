@@ -9,16 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-switch": "^1.0.3",
     "@reduxjs/toolkit": "^1.9.7",
     "@vercel/speed-insights": "^1.0.2",
     "ai": "^2.2.27",
     "bcryptjs": "^2.4.3",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "date-fns": "^2.30.0",
     "framer-motion": "^10.16.5",
     "jsonwebtoken": "^9.0.2",
     "linkify-it": "^4.0.1",
     "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
+    "lucide-react": "^0.303.0",
     "mongoose": "^7.6.3",
     "nanoid": "^5.0.3",
     "next": "^14.0.4",
@@ -38,6 +42,8 @@
     "react-youtube": "^10.1.0",
     "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2",
+    "tailwind-merge": "^2.2.0",
+    "tailwindcss-animate": "^1.0.7",
     "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {

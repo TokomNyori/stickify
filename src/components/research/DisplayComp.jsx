@@ -13,7 +13,6 @@ const DisplayComp = () => {
         </div>
         <h1 className=' text-lg font-bold'>Hi, I'm Cyra—your research assistant!</h1>
       </div>
-
       {/* Prompt Cards */}
       <PromptCards />
     </div>
