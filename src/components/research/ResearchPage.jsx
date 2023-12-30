@@ -89,7 +89,7 @@ const ResearchPage = () => {
                                     <div className="flex justify-start items-start rounded-full gap-3">
                                         <div>
                                             <Image
-                                                className="rounded-full w-[1.8rem]"
+                                                className="rounded-full w-[1.6rem] sm:w-[1.8rem]"
                                                 src={`/assets/avatars/${user.avatar}.jpeg`} width={40} height={40}
                                                 alt="user avatar"
                                             />
@@ -105,7 +105,7 @@ const ResearchPage = () => {
                                             />
                                         </div> */}
                                         <div className="">
-                                            <Lottie className="rounded-full w-[1.8rem]" animationData={orbOne} loop={true} />
+                                            <Lottie className="rounded-full w-[1.6rem] sm:w-[1.8rem]" animationData={orbOne} loop={true} />
                                         </div>
                                         <div className="font-bold text-[1.04rem]">Cyra</div>
                                     </div>
