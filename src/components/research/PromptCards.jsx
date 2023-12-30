@@ -13,7 +13,7 @@ const PromptCards = () => {
                 <div className='font-bold'>Note Creator</div>
                 <div className='text-sm'>Jotting ideas? Let's craft the perfect note!</div>
             </div>
-            <div className='border border-zinc-400 dark:border-zinc-600 rounded-xl px-4 py-2'>
+            <div className={`hidden sm:block border border-zinc-400 dark:border-zinc-600 rounded-xl px-4 py-2`}>
                 <div className='font-bold'>Feel-Good Friend</div>
                 <div className='text-sm'>Feeling down? Let's talk and lift your spirits!</div>
             </div>
