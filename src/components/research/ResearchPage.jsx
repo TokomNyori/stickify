@@ -112,7 +112,7 @@ const ResearchPage = () => {
                                 }
                             </div>
 
-                            <div className=" pl-[2.4rem] sm:pl-[2.5rem]"
+                            <div className=" pl-[2.35rem] sm:pl-[2.5rem]"
                                 style={{ whiteSpace: 'pre-line' }}
                             >
                                 <MarkdownContent texts={m.content} />
