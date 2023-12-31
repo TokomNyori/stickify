@@ -18,7 +18,7 @@ const DisplayComp = ({ configPopState, toggleConfigState, cyraConfig, handleConf
         onClick={toggleConfigState}
         >
           <LuSettings2 className='text-2xl' />
-          <span>Configure Cyra</span>
+          <span className='text-[1.1rem]'>Configure Cyra</span>
         </div>
         <ConfigPop
           configPopState={configPopState}
