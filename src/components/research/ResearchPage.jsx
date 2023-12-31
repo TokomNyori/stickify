@@ -19,6 +19,7 @@ import { set } from "lodash";
 import PromptCards from "./PromptCards";
 import { te } from "date-fns/locale";
 import ConfigPop from "./ConfigPop";
+import { AiOutlineClear } from "react-icons/ai";
 
 const ResearchPage = () => {
 
@@ -83,6 +84,13 @@ const ResearchPage = () => {
         }))
     }
 
+    function creteNote() {
+        toast.success('Note created!', {
+            duration: 2000,
+            position: 'top-center',
+        });
+    }
+
     //console.log(cyraConfig)
 
 
@@ -128,6 +136,12 @@ const ResearchPage = () => {
                                 style={{ whiteSpace: 'pre-line' }}
                             >
                                 <MarkdownContent texts={m.content} />
+                                {
+                                    m.role === 'assistant' &&
+                                    <div className="mt-1 text-xs">
+                                        Save as note
+                                    </div>
+                                }
                             </div>
                         </div>
                     ))
@@ -154,13 +168,14 @@ const ResearchPage = () => {
                                 cyraConfig={cyraConfig}
                             />
                             <div className=" cursor-pointer">
-                                <LuSettings2 className="absolute left-4 bottom-[35%] text-2xl text-zinc-600 dark:text-zinc-300"
+                                <AiOutlineClear className="absolute left-4 text-3xl sm:text-2xl text-zinc-600 dark:text-zinc-300
+                                bottom-[32%] sm:bottom-[35%]"
                                     onClick={toggleConfigState} />
                             </div>
                             <div className="chatbotTextarea w-full">
                                 <textarea
                                     className={`chatbotTextarea1 w-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-700 
-                                            dark:border-zinc-300 rounded-2xl py-[0.8rem] px-12 resize-none active:outline-none 
+                                            dark:border-zinc-300 rounded-2xl py-[0.8rem] px-14 sm:px-12 resize-none active:outline-none 
                                             focus:outline-none overflow-y-auto`}
                                     value={input}
                                     inputMode="text"
@@ -184,17 +199,17 @@ const ResearchPage = () => {
                             {
                                 isLoading ?
                                     <div
-                                        className="absolute right-4 bottom-[35%] cursor-pointer"
+                                        className="absolute right-4 bottom-[32%] sm:bottom-[35%] cursor-pointer"
                                         onClick={stop}
                                     >
-                                        <FaRegCircleStop className={`text-2xl`} />
+                                        <FaRegCircleStop className={`text-3xl sm:text-2xl`} />
                                     </div>
                                     :
                                     <button
                                         disabled={!input}
-                                        className="absolute right-4 bottom-[35%]"
+                                        className="absolute right-4 bottom-[32%] sm:bottom-[35%]"
                                         type="submit">
-                                        <IoSend className={`text-2xl ${input ? 'text-green-500' : 'text-zinc-500'}`} />
+                                        <IoSend className={`text-3xl sm:text-2xl ${input ? 'text-green-500' : 'text-zinc-500'}`} />
                                     </button>
                             }
                         </form>

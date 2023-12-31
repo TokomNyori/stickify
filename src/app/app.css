@@ -226,6 +226,10 @@
   animation: blink 1s 2 ease-in-out;
 }
 
+.blinkit {
+  animation: blink 1s 2 ease-in-out;
+}
+
 @keyframes blink {
 
   0%,

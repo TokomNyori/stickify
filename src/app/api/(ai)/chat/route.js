@@ -3,7 +3,7 @@ import { OpenAIStream, StreamingTextResponse } from 'ai';
 
 export const runtime = 'edge'
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY
+const OPENAI_API_KEY = process.env.OPENAI_API_KEYY
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
 export async function POST(request) {

@@ -2,6 +2,7 @@ import Lottie from 'lottie-react'
 import orbOne from '@/assets/others/orb1.json'
 import { Prompt } from 'next/font/google'
 import PromptCards from './PromptCards'
+import { LuSettings2 } from "react-icons/lu";
 
 const DisplayComp = () => {
   return (
@@ -11,7 +12,11 @@ const DisplayComp = () => {
         <div className="">
           <Lottie className="rounded-full w-[8rem]" animationData={orbOne} loop={true} />
         </div>
-        <h1 className=' text-lg font-bold'>Hi, I'm Cyra—your research assistant!</h1>
+        <h1 className=' text-lg font-bold mb-2'>I'm Cyra—your research assistant!</h1>
+        <div className='flex justify-center items-center gap-2 glow-texts blinkit cursor-pointer'>
+          <LuSettings2 className='text-2xl' />
+          <span>Configure Cyra</span>
+        </div>
       </div>
       {/* Prompt Cards */}
       <PromptCards />
