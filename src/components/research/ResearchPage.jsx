@@ -29,6 +29,7 @@ const ResearchPage = () => {
     const [configPopState, setConfigPopState] = useState(false)
     const [cyraConfig, setCyraConfig] = useState({
         response: 'Balance',
+        username: user.username,
         emoji: true,
     })
 
@@ -168,7 +169,7 @@ const ResearchPage = () => {
                             onSubmit={handleSubmit}>
                             <div className=" cursor-pointer">
                                 <AiOutlineClear className={`absolute left-4 text-3xl sm:text-2xl
-                                bottom-[32%] sm:bottom-[35%] ${messages.length < 1 ? 'text-zinc-500' : ' text-zinc-600 dark:text-zinc-300'}`}
+                                bottom-[32%] sm:bottom-[35%] ${messages.length < 1 ? 'text-zinc-500' : ' text-blue-500'}`}
                                     onClick={messages.length > 0 && toggleConfigState} />
                             </div>
                             <div className="chatbotTextarea w-full">
@@ -201,7 +202,7 @@ const ResearchPage = () => {
                                         className="absolute right-4 bottom-[32%] sm:bottom-[35%] cursor-pointer"
                                         onClick={stop}
                                     >
-                                        <FaRegCircleStop className={`text-3xl sm:text-2xl`} />
+                                        <FaRegCircleStop className={`text-3xl sm:text-2xl text-red-500`} />
                                     </div>
                                     :
                                     <button
