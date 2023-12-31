@@ -26,6 +26,10 @@ const ResearchPage = () => {
     const user = useSelector(state => state.user.users)
     const [responded, setResponded] = useState(false)
     const [configPopState, setConfigPopState] = useState(false)
+    const [cyraConfig, setCyraConfig] = useState({
+        response: 'Balance',
+        emoji: false,
+    })
 
     const { messages, input, handleInputChange, handleSubmit, isLoading, stop, setInput } = useChat({
         initialMessages: researchMessages,
@@ -33,13 +37,11 @@ const ResearchPage = () => {
             if (!responded) {
                 setResponded(true)
             }
-        }
+        },
+        body: {
+            configure: cyraConfig,
+        },
     });
-
-    const [config, setConfig] = useState({
-        outputType: 'Balance',
-        emoji: true,
-    })
 
     const dispatch = useDispatch()
     const chatRef = useRef(null)
@@ -73,7 +75,15 @@ const ResearchPage = () => {
         setConfigPopState(!configPopState)
     }
 
-    console.log(input)
+    function handleConfigChange(event) {
+        const { name, value, type, checked } = event.target
+        setCyraConfig(prev => ({
+            ...prev,
+            [name]: type === "checkbox" ? checked : value
+        }))
+    }
+
+    //console.log(cyraConfig)
 
 
     return (
@@ -137,7 +147,12 @@ const ResearchPage = () => {
                         <form
                             className="relative flex justify-center items-start"
                             onSubmit={handleSubmit}>
-                            <ConfigPop configPopState={configPopState} toggleConfigState={toggleConfigState} />
+                            <ConfigPop
+                                configPopState={configPopState}
+                                toggleConfigState={toggleConfigState}
+                                handleConfigChange={handleConfigChange}
+                                cyraConfig={cyraConfig}
+                            />
                             <div className=" cursor-pointer">
                                 <LuSettings2 className="absolute left-4 bottom-[35%] text-2xl text-zinc-600 dark:text-zinc-300"
                                     onClick={toggleConfigState} />
