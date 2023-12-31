@@ -163,6 +163,7 @@ const ResearchPage = () => {
                                             dark:border-zinc-300 rounded-2xl py-[0.8rem] px-12 resize-none active:outline-none 
                                             focus:outline-none overflow-y-auto`}
                                     value={input}
+                                    inputMode="text"
                                     type="text"
                                     name="input"
                                     rows={1}
@@ -173,6 +174,9 @@ const ResearchPage = () => {
                                         if (event.key === 'Enter') {
                                             event.preventDefault();
                                             handleSubmit(event)
+                                            if (textareaRef && textareaRef.current) {
+                                                textareaRef.current.blur(); // This will close the virtual keyboard
+                                            }
                                         }
                                     }}
                                 />
