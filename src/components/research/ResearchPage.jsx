@@ -168,8 +168,8 @@ const ResearchPage = () => {
                             onSubmit={handleSubmit}>
                             <div className=" cursor-pointer">
                                 <AiOutlineClear className={`absolute left-4 text-3xl sm:text-2xl
-                                bottom-[32%] sm:bottom-[35%] ${!input ? 'text-zinc-500' : ' text-zinc-600 dark:text-zinc-300'}`}
-                                    onClick={input && toggleConfigState} />
+                                bottom-[32%] sm:bottom-[35%] ${messages.length < 1 ? 'text-zinc-500' : ' text-zinc-600 dark:text-zinc-300'}`}
+                                    onClick={messages.length > 0 && toggleConfigState} />
                             </div>
                             <div className="chatbotTextarea w-full">
                                 <textarea
