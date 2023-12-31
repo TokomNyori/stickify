@@ -28,6 +28,10 @@ export async function POST(request) {
         stream: true,
         temperature: temperature,
         messages: [
+            {
+                role: "system",
+                content: systemInstruction
+            },
             ...messages],
     });
 
