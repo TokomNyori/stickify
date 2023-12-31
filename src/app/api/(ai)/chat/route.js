@@ -13,8 +13,8 @@ export async function POST(request) {
 
     let temperature = 0.8;
     let systemInstruction = ""
-    let userInstruction1 = `${configure.emoji ? emoji : 'Do not use emojis.'}`
     const emoji = "Use relevant emojis in your response for a more expressive experience"
+    let userInstruction1 = `${configure.emoji ? emoji : 'Do not use emojis.'}`
 
     if (configure.response === 'Creative') {
         temperature = 0.8
