@@ -155,18 +155,17 @@ const ResearchPage = () => {
                 <div className="px-3 sm:px-14 lg:px-64 mb-2.5">
                     {
                         messages.length === 0 &&
-                        <DisplayComp />
+                        <DisplayComp
+                            configPopState={configPopState}
+                            toggleConfigState={toggleConfigState}
+                            handleConfigChange={handleConfigChange}
+                            cyraConfig={cyraConfig}
+                        />
                     }
                     <div className="w-full">
                         <form
                             className="relative flex justify-center items-start"
                             onSubmit={handleSubmit}>
-                            <ConfigPop
-                                configPopState={configPopState}
-                                toggleConfigState={toggleConfigState}
-                                handleConfigChange={handleConfigChange}
-                                cyraConfig={cyraConfig}
-                            />
                             <div className=" cursor-pointer">
                                 <AiOutlineClear className="absolute left-4 text-3xl sm:text-2xl text-zinc-600 dark:text-zinc-300
                                 bottom-[32%] sm:bottom-[35%]"

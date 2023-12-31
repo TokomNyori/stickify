@@ -25,7 +25,7 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
     console.log(cyraConfig.emoji)
 
     return (
-        <div className={`${configPopState ? "flex flex-col" : "hidden"} absolute bottom-[105%] left-0 border border-zinc-600 
+        <div className={`${configPopState ? "flex flex-col" : "hidden"} absolute top-[102%] border border-zinc-600 
         dark:border-zinc-400 rounded-2xl h-auto backdrop-blur-[10px] px-4 py-3 pr-6`}
             ref={configPopRef}
         >
@@ -47,9 +47,9 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
                     </label>
                 </div>
             </div> */}
-            <div className=" font-bold">Response:</div>
-            <div className="cyras-mode pl-2">
-                <div className='flex justify-start items-center gap-1'>
+            <div className=" font-bold text-[1.1rem] sm:text-[1rem]">Response:</div>
+            <div className="cyras-mode pl-2 text-[1.1rem] sm:text-[1rem]">
+                <div className='flex justify-start items-center gap-2'>
                     <input type="radio" id="creative"
                         name="response"
                         className=""
@@ -58,10 +58,10 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
                         onChange={handleConfigChange}
                     />
                     <label htmlFor="creative" className="cursor-pointer">
-                        Creative
+                        Creative ✨
                     </label>
                 </div>
-                <div className='flex justify-start items-center gap-1'>
+                <div className='flex justify-start items-center gap-2'>
                     <input type="radio" id="balance"
                         name="response"
                         className=""
@@ -70,10 +70,10 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
                         onChange={handleConfigChange}
                     />
                     <label htmlFor="balance" className="cursor-pointer">
-                        Balance
+                        Balance 🧘🏻‍♂️
                     </label>
                 </div>
-                <div className='flex justify-start items-center gap-1'>
+                <div className='flex justify-start items-center gap-2'>
                     <input type="radio" id="accurate"
                         name="response"
                         className="cursor-pointer"
@@ -82,7 +82,7 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
                         onChange={handleConfigChange}
                     />
                     <label htmlFor="accurate" className="cursor-pointer">
-                        Accurate
+                        Accurate 🎯
                     </label>
                 </div>
             </div>
@@ -91,25 +91,25 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
                     <input type="checkbox" class="sr-only peer" id='emoji' name='emoji' checked={cyraConfig.emoji}
                         onChange={handleConfigChange} />
                     <div
-                        class="w-9 h-5 bg-zinc-400 dark:bg-zinc-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 
+                        class="w-11 h-6 sm:w-9 sm:h-5 bg-zinc-400 dark:bg-zinc-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 
                     dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full 
                     rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white dark:peer-checked:after:border-zinc-900
                     after:content-[''] after:absolute 
-                    after:top-[4px] after:start-[2px] after:bg-white dark:after:bg-zinc-900 after:border-gray-300 
+                    after:top-[2px] after:start-[2px] sm:after:top-[4px] sm:after:start-[2px] after:bg-white dark:after:bg-zinc-900 after:border-gray-300 
                     dark:after:border-zinc-900
-                    after:border after:rounded-full after:h-4 
-                    after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-400">
+                    after:border after:rounded-full after:h-5 after:w-5 sm:after:h-4 sm:after:w-4 after:transition-all
+                     dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-400">
                     </div>
                     <span class="ms-2 font-bold">
-                        Emoji
+                        Emoji 
                     </span>
                 </label>
             </div>
-            <div className='mt-2 flex justify-start items-center gap-2 font-bold border-t border-zinc-400 dark:border-zinc-600 pt-2
+            {/* <div className='mt-2 flex justify-start items-center gap-2 font-bold border-t border-zinc-400 dark:border-zinc-600 pt-2
                 cursor-pointer'>
                 <IoChatboxOutline className='inline text-xl' />
                 New chat
-            </div>
+            </div> */}
         </div>
     )
 }
