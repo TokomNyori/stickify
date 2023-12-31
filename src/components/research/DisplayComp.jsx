@@ -13,7 +13,7 @@ const DisplayComp = () => {
           <Lottie className="rounded-full w-[8rem]" animationData={orbOne} loop={true} />
         </div>
         <h1 className=' text-lg font-bold mb-2'>I'm Cyra—your research assistant!</h1>
-        <div className='flex justify-center items-center gap-2 glow-texts blinkit cursor-pointer'>
+        <div className='flex justify-center items-center gap-2 glow-texts cursor-pointer'>
           <LuSettings2 className='text-2xl' />
           <span>Configure Cyra</span>
         </div>
