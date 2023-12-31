@@ -1,7 +1,7 @@
 'use client'
 
 import { addPage } from "@/redux_features/pages/pageSlice"
-import { useEffect, useRef, useState } from "react"
+import { use, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux';
 import { useChat } from 'ai/react';
 import { addResearchMessages } from "@/redux_features/researchMessages/researchSlice";
@@ -29,7 +29,7 @@ const ResearchPage = () => {
     const [configPopState, setConfigPopState] = useState(false)
     const [cyraConfig, setCyraConfig] = useState({
         response: 'Balance',
-        username: user.username,
+        username: user?.username,
         emoji: true,
     })
 
@@ -67,6 +67,16 @@ const ResearchPage = () => {
         textareaRef.current.style.height = 'auto';
         textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
     }, [input])
+
+    useEffect(() => {
+        if (Object.keys(user).length > 0) {
+            const username = user.username
+            setCyraConfig(prev => ({
+                ...prev,
+                username: username,
+            }))
+        }
+    }, [user])
 
     function customHandleInput(event) {
         const { value } = event.target
@@ -137,12 +147,6 @@ const ResearchPage = () => {
                                 style={{ whiteSpace: 'pre-line' }}
                             >
                                 <MarkdownContent texts={m.content} />
-                                {
-                                    m.role === 'assistant' &&
-                                    <div className="mt-1 text-xs">
-                                        Save as note
-                                    </div>
-                                }
                             </div>
                         </div>
                     ))

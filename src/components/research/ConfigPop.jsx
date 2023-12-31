@@ -22,7 +22,7 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
         };
     }, [configPopState]);
 
-    console.log(cyraConfig.emoji)
+    console.log(cyraConfig)
 
     return (
         <div className={`${configPopState ? "flex flex-col" : "hidden"} absolute top-[102%] border border-zinc-600 
