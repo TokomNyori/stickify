@@ -47,8 +47,8 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
                     </label>
                 </div>
             </div> */}
-            <div className=" font-bold text-[1.1rem] sm:text-[1rem]">Response:</div>
-            <div className="cyras-mode pl-2 text-[1.1rem] sm:text-[1rem]">
+            <div className=" font-bold text-[1.1rem] sm:text-[1rem] mb-1">Response:</div>
+            <div className="cyras-mode pl-2 text-[1.8] sm:text-[1rem] flex flex-col justify-start items-start gap-1">
                 <div className='flex justify-start items-center gap-2'>
                     <input type="radio" id="creative"
                         name="response"
@@ -57,7 +57,7 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
                         checked={cyraConfig.response === 'Creative'}
                         onChange={handleConfigChange}
                     />
-                    <label htmlFor="creative" className="cursor-pointer">
+                    <label htmlFor="creative" className="cursor-pointer text-[1.1rem] sm:text-[1rem]">
                         Creative ✨
                     </label>
                 </div>
@@ -69,7 +69,7 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
                         checked={cyraConfig.response === 'Balance'}
                         onChange={handleConfigChange}
                     />
-                    <label htmlFor="balance" className="cursor-pointer">
+                    <label htmlFor="balance" className="cursor-pointer text-[1.1rem] sm:text-[1rem]">
                         Balance 🧘🏻‍♂️
                     </label>
                 </div>
@@ -81,12 +81,12 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
                         checked={cyraConfig.response === 'Accurate'}
                         onChange={handleConfigChange}
                     />
-                    <label htmlFor="accurate" className="cursor-pointer">
+                    <label htmlFor="accurate" className="cursor-pointer text-[1.1rem] sm:text-[1rem]">
                         Accurate 🎯
                     </label>
                 </div>
             </div>
-            <div className='mt-2 flex justify-start items-center gap-2'>
+            <div className='mt-3 flex justify-start items-center gap-2'>
                 <label class="relative inline-flex items-center cursor-pointer" htmlFor='emoji'>
                     <input type="checkbox" class="sr-only peer" id='emoji' name='emoji' checked={cyraConfig.emoji}
                         onChange={handleConfigChange} />
