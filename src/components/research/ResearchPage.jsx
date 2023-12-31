@@ -28,7 +28,7 @@ const ResearchPage = () => {
     const [configPopState, setConfigPopState] = useState(false)
     const [cyraConfig, setCyraConfig] = useState({
         response: 'Balance',
-        emoji: false,
+        emoji: true,
     })
 
     const { messages, input, handleInputChange, handleSubmit, isLoading, stop, setInput } = useChat({
