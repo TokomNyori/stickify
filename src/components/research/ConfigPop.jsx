@@ -86,7 +86,7 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
                     </label>
                 </div>
             </div>
-            <div className='mt-3 flex justify-start items-center gap-2'>
+            <div className='mt-3 flex justify-start items-center gap-2 mb-1'>
                 <label class="relative inline-flex items-center cursor-pointer" htmlFor='emoji'>
                     <input type="checkbox" class="sr-only peer" id='emoji' name='emoji' checked={cyraConfig.emoji}
                         onChange={handleConfigChange} />
