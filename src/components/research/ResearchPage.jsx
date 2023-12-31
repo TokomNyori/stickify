@@ -167,9 +167,9 @@ const ResearchPage = () => {
                             className="relative flex justify-center items-start"
                             onSubmit={handleSubmit}>
                             <div className=" cursor-pointer">
-                                <AiOutlineClear className="absolute left-4 text-3xl sm:text-2xl text-zinc-600 dark:text-zinc-300
-                                bottom-[32%] sm:bottom-[35%]"
-                                    onClick={toggleConfigState} />
+                                <AiOutlineClear className={`absolute left-4 text-3xl sm:text-2xl
+                                bottom-[32%] sm:bottom-[35%] ${!input ? 'text-zinc-500' : ' text-zinc-600 dark:text-zinc-300'}`}
+                                    onClick={input && toggleConfigState} />
                             </div>
                             <div className="chatbotTextarea w-full">
                                 <textarea
