@@ -174,7 +174,7 @@ const ResearchPage = () => {
                             <div className="chatbotTextarea w-full">
                                 <textarea
                                     className={`chatbotTextarea1 w-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-700 
-                                            dark:border-zinc-300 rounded-2xl py-[0.9rem] sm:py-[0.8rem] px-14 sm:px-12 resize-none active:outline-none 
+                                            dark:border-zinc-200 rounded-2xl py-[0.9rem] sm:py-[0.8rem] px-14 sm:px-12 resize-none active:outline-none 
                                             focus:outline-none overflow-y-auto`}
                                     value={input}
                                     inputMode="text"
