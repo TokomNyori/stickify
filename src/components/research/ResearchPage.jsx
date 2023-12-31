@@ -169,6 +169,12 @@ const ResearchPage = () => {
                                     onChange={customHandleInput}
                                     placeholder="Message Cyra..."
                                     ref={textareaRef}
+                                    onKeyDown={event => {
+                                        if (event.key === 'Enter') {
+                                            event.preventDefault();
+                                            handleSubmit(event)
+                                        }
+                                    }}
                                 />
                             </div>
                             {
