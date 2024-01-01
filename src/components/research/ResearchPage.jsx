@@ -106,7 +106,6 @@ const ResearchPage = () => {
     function handleSubmitProcess(event) {
         handleSubmit(event)
         setCyraLoading(true)
-        toast.success("Submitted")
         // if (textareaRef && textareaRef.current) {
         //     textareaRef.current.blur(); // This will close the virtual keyboard
         // }
@@ -118,7 +117,7 @@ const ResearchPage = () => {
     return (
         <div className={`mt-8 relative px-4 sm:px-16 lg:px-72 flex flex-col justify-start items-start`}>
             {/* Chat UI */}
-            <div className={`mb-20`}>
+            <div className={``}>
                 {
                     messages.map(m => (
                         <div
