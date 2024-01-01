@@ -14,18 +14,21 @@ import { LuSettings2 } from "react-icons/lu";
 import { FaRegCircleStop } from "react-icons/fa6";
 import Lottie from 'lottie-react'
 import orbOne from '@/assets/others/orb1.json'
+import loader1 from '@/assets/others/Loader1.json'
+
 import toast, { Toaster } from 'react-hot-toast';
 import { set } from "lodash";
 import PromptCards from "./PromptCards";
 import { te } from "date-fns/locale";
 import ConfigPop from "./ConfigPop";
 import { AiOutlineClear } from "react-icons/ai";
+import CyraLoader from "./CyraLoader";
 
 const ResearchPage = () => {
 
     const researchMessages = useSelector(state => state.researchMessages.researchMessages)
     const user = useSelector(state => state.user.users)
-    const [responded, setResponded] = useState(false)
+    const [cyraLoding, setCyraLoading] = useState(false)
     const [configPopState, setConfigPopState] = useState(false)
     const [cyraConfig, setCyraConfig] = useState({
         response: 'Balance',
@@ -36,9 +39,7 @@ const ResearchPage = () => {
     const { messages, input, handleInputChange, handleSubmit, isLoading, stop, setInput } = useChat({
         initialMessages: researchMessages,
         onResponse: () => {
-            if (!responded) {
-                setResponded(true)
-            }
+            setCyraLoading(false)
         },
         body: {
             configure: cyraConfig,
@@ -102,13 +103,22 @@ const ResearchPage = () => {
         });
     }
 
+    function handleSubmitProcess(event) {
+        handleSubmit(event)
+        setCyraLoading(true)
+        toast.success("Submitted")
+        // if (textareaRef && textareaRef.current) {
+        //     textareaRef.current.blur(); // This will close the virtual keyboard
+        // }
+    }
+
     //console.log(cyraConfig)
 
 
     return (
         <div className={`mt-8 relative px-4 sm:px-16 lg:px-72 flex flex-col justify-start items-start`}>
             {/* Chat UI */}
-            <div className={`mb-20`}>
+            <div className={`mb-0`}>
                 {
                     messages.map(m => (
                         <div
@@ -151,6 +161,10 @@ const ResearchPage = () => {
                         </div>
                     ))
                 }
+                {
+                    cyraLoding &&
+                    <CyraLoader />
+                }
                 <div ref={chatRef}></div>
             </div>
 
@@ -170,7 +184,7 @@ const ResearchPage = () => {
                     <div className="w-full">
                         <form
                             className="relative flex justify-center items-start"
-                            onSubmit={handleSubmit}>
+                            onSubmit={handleSubmitProcess}>
                             <div className=" cursor-pointer">
                                 <AiOutlineClear className={`absolute left-4 text-3xl sm:text-2xl
                                 bottom-[32%] sm:bottom-[35%] ${messages.length < 1 ? 'text-zinc-500' : ' text-blue-500'}`}
@@ -192,7 +206,7 @@ const ResearchPage = () => {
                                     onKeyDown={event => {
                                         if (event.key === 'Enter') {
                                             event.preventDefault();
-                                            handleSubmit(event)
+                                            handleSubmitProcess(event)
                                             if (textareaRef && textareaRef.current) {
                                                 textareaRef.current.blur(); // This will close the virtual keyboard
                                             }
