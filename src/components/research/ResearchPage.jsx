@@ -115,9 +115,9 @@ const ResearchPage = () => {
 
 
     return (
-        <div className={`mt-8 relative px-4 sm:px-16 lg:px-72 flex flex-col justify-start items-start`}>
+        <div className={`mt-8 relative px-4 sm:px-16 lg:px-72 flex flex-col justify-start items-start h-min`}>
             {/* Chat UI */}
-            <div className={``}>
+            <div className={`mb-20`}>
                 {
                     messages.map(m => (
                         <div
