@@ -61,9 +61,7 @@ const ResearchPage = () => {
     }, [messages])
 
     useEffect(() => {
-        if (messages.length > 1) {
-            chatRef.current?.scrollIntoView()
-        }
+        chatRef.current?.scrollIntoView()
     }, [messages])
 
     useEffect(() => {
