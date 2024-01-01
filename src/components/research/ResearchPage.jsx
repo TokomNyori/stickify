@@ -61,7 +61,9 @@ const ResearchPage = () => {
     }, [messages])
 
     useEffect(() => {
-        chatRef.current?.scrollIntoView()
+        if (messages.length > 1) {
+            chatRef.current?.scrollIntoView()
+        }
     }, [messages])
 
     useEffect(() => {
@@ -118,7 +120,7 @@ const ResearchPage = () => {
     return (
         <div className={`mt-8 relative px-4 sm:px-16 lg:px-72 flex flex-col justify-start items-start`}>
             {/* Chat UI */}
-            <div className={`mb-0`}>
+            <div className={`mb-20`}>
                 {
                     messages.map(m => (
                         <div
