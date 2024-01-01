@@ -126,7 +126,7 @@ const ResearchPage = () => {
                         >
                             <div>
                                 {m.role === 'user' ?
-                                    <div className="flex justify-start items-start rounded-full gap-3">
+                                    <div className="flex justify-start items-start rounded-full gap-3 mt-8">
                                         <div>
                                             <Image
                                                 className="rounded-full w-[1.6rem] sm:w-[1.8rem]"
