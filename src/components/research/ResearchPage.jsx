@@ -4,7 +4,7 @@ import { addPage } from "@/redux_features/pages/pageSlice"
 import { use, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux';
 import { useChat } from 'ai/react';
-import { addResearchMessages } from "@/redux_features/researchMessages/researchSlice";
+import { addResearchMessages, clearResearchMessages } from "@/redux_features/researchMessages/researchSlice";
 import DisplayComp from "./DisplayComp";
 import MarkdownContent from '../others/MarkdownContent';
 import Image from 'next/image';
@@ -12,34 +12,37 @@ import ReseracherOne from '@/assets/researchers/researcher1.png';
 import { IoSend } from "react-icons/io5";
 import { LuSettings2 } from "react-icons/lu";
 import { FaRegCircleStop } from "react-icons/fa6";
+import { CiStickyNote } from "react-icons/ci";
 import Lottie from 'lottie-react'
 import orbOne from '@/assets/others/orb1.json'
 import loader1 from '@/assets/others/Loader1.json'
-
 import toast, { Toaster } from 'react-hot-toast';
 import { set } from "lodash";
 import PromptCards from "./PromptCards";
-import { te } from "date-fns/locale";
+import { cy, is, te } from "date-fns/locale";
 import ConfigPop from "./ConfigPop";
 import { AiOutlineClear } from "react-icons/ai";
 import CyraLoader from "./CyraLoader";
+import ResearchModals from "./ResearchModals";
+import { addResearchConfig, clearResearchConfig } from "@/redux_features/researchMessages/researchConfig";
 
 const ResearchPage = () => {
 
     const researchMessages = useSelector(state => state.researchMessages.researchMessages)
+    const researchConfig = useSelector(state => state.researchConfig.researchConfig)
     const user = useSelector(state => state.user.users)
     const [cyraLoding, setCyraLoading] = useState(false)
     const [configPopState, setConfigPopState] = useState(false)
-    const [cyraConfig, setCyraConfig] = useState({
-        response: 'Balance',
-        username: user?.username,
-        emoji: true,
-    })
+    const [cyraConfig, setCyraConfig] = useState(researchConfig)
+    const [researchModalsState, setResearchModalsState] = useState(false)
 
-    const { messages, input, handleInputChange, handleSubmit, isLoading, stop, setInput } = useChat({
+    const { messages, input, handleInputChange, handleSubmit, isLoading, stop, setInput, setMessages } = useChat({
         initialMessages: researchMessages,
         onResponse: () => {
             setCyraLoading(false)
+        },
+        onError: () => {
+            toast.error('Something went wrong!')
         },
         body: {
             configure: cyraConfig,
@@ -61,6 +64,10 @@ const ResearchPage = () => {
     }, [messages])
 
     useEffect(() => {
+        dispatch(addResearchConfig(cyraConfig))
+    }, [cyraConfig])
+
+    useEffect(() => {
         chatRef.current?.scrollIntoView()
     }, [messages])
 
@@ -71,10 +78,9 @@ const ResearchPage = () => {
 
     useEffect(() => {
         if (Object.keys(user).length > 0) {
-            const username = user.username
             setCyraConfig(prev => ({
                 ...prev,
-                username: username,
+                username: user.username,
             }))
         }
     }, [user])
@@ -86,6 +92,10 @@ const ResearchPage = () => {
 
     function toggleConfigState() {
         setConfigPopState(!configPopState)
+    }
+
+    function toggleResearchModalsState() {
+        setResearchModalsState(!researchModalsState)
     }
 
     function handleConfigChange(event) {
@@ -111,6 +121,21 @@ const ResearchPage = () => {
         // }
     }
 
+    function clearChat() {
+        if (isLoading) {
+            stop()
+        }
+        setMessages([])
+        setCyraConfig({
+            response: 'Balance',
+            username: user.username,
+            emoji: true,
+        })
+        toggleResearchModalsState()
+        toast.success('Chat cleared!', {
+            icon: '🧹',
+        })
+    }
     //console.log(cyraConfig)
 
 
@@ -187,7 +212,7 @@ const ResearchPage = () => {
                             <div className=" cursor-pointer">
                                 <AiOutlineClear className={`absolute left-4 text-3xl sm:text-2xl
                                 bottom-[32%] sm:bottom-[35%] ${messages.length < 1 ? 'text-zinc-500' : ' text-blue-500'}`}
-                                    onClick={messages.length > 0 && toggleConfigState} />
+                                    onClick={messages.length > 0 && toggleResearchModalsState} />
                             </div>
                             <div className="chatbotTextarea w-full">
                                 <textarea
@@ -216,7 +241,7 @@ const ResearchPage = () => {
                             {
                                 isLoading ?
                                     <div
-                                        className="absolute right-4 bottom-[32%] sm:bottom-[35%] cursor-pointer"
+                                        className="absolute right-4 bottom-[32%] sm:bottom-[35%] cursor-pointer blink-infinity"
                                         onClick={stop}
                                     >
                                         <FaRegCircleStop className={`text-3xl sm:text-2xl text-red-500`} />
@@ -236,6 +261,8 @@ const ResearchPage = () => {
                     </div> */}
                 </div>
             </div>
+            <ResearchModals researchModalsState={researchModalsState} action={clearChat} modalType={`Warning`}
+                toggleresearchModalsState={toggleResearchModalsState} />
         </div >
     )
 }

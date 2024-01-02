@@ -36,6 +36,11 @@
   animation-duration: 1.2s;
 }
 
+.warning-fix-modal {
+  z-index: 100;
+  position: fixed;
+}
+
 .save-warning-fix-modal {
   z-index: 100;
   position: fixed;
@@ -228,6 +233,9 @@
 
 .blinkit {
   animation: blink 1s 2 ease-in-out;
+}
+.blink-infinity {
+  animation: blink 1s infinite ease-in-out;
 }
 
 @keyframes blink {

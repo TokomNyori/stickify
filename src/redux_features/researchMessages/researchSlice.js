@@ -11,8 +11,11 @@ export const researchSlice = createSlice({
         addResearchMessages: (state, action) => {
             state.researchMessages = action.payload
         },
+        clearResearchMessages: (state, action) => {
+            state.researchMessages = []
+        },
     }
 })
 
-export const { addResearchMessages } = researchSlice.actions
+export const { addResearchMessages, clearResearchMessages } = researchSlice.actions
 export default researchSlice.reducer

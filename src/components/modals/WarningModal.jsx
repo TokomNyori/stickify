@@ -28,16 +28,16 @@ const WarningModal = ({ warningModalState, action, modalType, noteid, isItOrigin
     if (modalType === 'delete') {
         modalBody = (
             <div
-                className={`gpt-modal-blur inset-0 bg-black bg-opacity-30 backdrop-blur-[2px] flex justify-center items-center
-                            ${warningModalState ? "gpt-fix-modal" : "hidden"} flex-wrap`}
+                className={`gpt-modal-blur inset-0 flex justify-center items-center
+                            ${warningModalState ? "warning-fix-modal" : "hidden"} flex-wrap`}
             >
-                <div className='text-2xl bg-white/80 dark:bg-zinc-800/80 w-[80%] sm:w-[25%] h-auto 
+                <div className='text-2xl border border-zinc-700/80 dark:border-zinc-200/80 backdrop-blur-[10px] w-[80%] sm:w-[20%] h-auto 
                     shadow-lg px-4 py-5 pb-8 rounded-2xl text-center' ref={warningModalRef}>
                     <div className="mb-4">
                         Delete note?
                     </div>
                     <div className="flex justify-center items-center gap-5">
-                        <button className="bg-green-500/80 px-4 py-1 rounded-xl"
+                        <button className="border border-green-500/80 px-4 py-1 rounded-xl"
                             onClick={(e) => action({
                                 operation: 'yes', noteid: noteid,
                                 isItOriginalNote: isItOriginal, originNoteId: currentOriginId
@@ -45,7 +45,7 @@ const WarningModal = ({ warningModalState, action, modalType, noteid, isItOrigin
                         >
                             Yes
                         </button>
-                        <button className="bg-red-500/80 px-4 py-1 rounded-xl"
+                        <button className="border border-red-500/80 px-4 py-1 rounded-xl"
                             onClick={(e) => action({
                                 operation: 'no'
                             })}>
