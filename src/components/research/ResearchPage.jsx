@@ -242,7 +242,7 @@ const ResearchPage = () => {
                             {
                                 isLoading ?
                                     <div
-                                        className="absolute right-4 bottom-[32%] sm:bottom-[35%] cursor-pointer blink-infinity"
+                                        className="absolute right-4 bottom-[32%] sm:bottom-[35%] cursor-pointer"
                                         onClick={stop}
                                     >
                                         <FaRegCircleStop className={`text-3xl sm:text-2xl`} />
