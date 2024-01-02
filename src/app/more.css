@@ -225,7 +225,7 @@
     }
 
     100% {
-        @apply text-zinc-500;
+        @apply text-pink-400;
     }
 }
 
