@@ -203,6 +203,32 @@
     }
 }
 
+.glow-texts2 {
+    animation: glowText2 3.5s ease-in-out infinite;
+}
+
+@keyframes glowText2 {
+    0% {
+        @apply text-orange-400;
+    }
+
+    25% {
+        @apply text-green-500;
+    }
+
+    50% {
+        @apply text-blue-500;
+    }
+
+    75% {
+        @apply text-yellow-500;
+    }
+
+    100% {
+        @apply text-zinc-500;
+    }
+}
+
 .bg-colorr {
     background: linear-gradient(135deg,
             rgba(139, 0, 139, 0.6) 0%,

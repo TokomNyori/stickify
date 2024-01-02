@@ -26,7 +26,7 @@ const ResearchModals = ({ researchModalsState, action, toggleresearchModalsState
             className={`gpt-modal-blur inset-0 flex justify-center items-center
                             ${researchModalsState ? "warning-fix-modal" : "hidden"} flex-wrap`}
         >
-            <div className='text-2xl border border-zinc-600 dark:border-zinc-400 backdrop-blur-[10px] w-[80%] sm:w-[25%] h-auto 
+            <div className='text-2xl border border-zinc-400 dark:border-zinc-600 backdrop-blur-[10px] w-[80%] sm:w-[25%] h-auto 
                     shadow-lg px-4 py-5 pb-8 rounded-2xl text-center' ref={researchModalsStateRef}>
                 <div className="mb-4">
                     Start a new chat?

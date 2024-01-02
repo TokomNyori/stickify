@@ -13,6 +13,7 @@ import { IoSend } from "react-icons/io5";
 import { LuSettings2 } from "react-icons/lu";
 import { FaRegCircleStop } from "react-icons/fa6";
 import { CiStickyNote } from "react-icons/ci";
+import { TbMessageCirclePlus } from "react-icons/tb";
 import Lottie from 'lottie-react'
 import orbOne from '@/assets/others/orb1.json'
 import loader1 from '@/assets/others/Loader1.json'
@@ -210,7 +211,7 @@ const ResearchPage = () => {
                             className="relative flex justify-center items-start"
                             onSubmit={handleSubmitProcess}>
                             <div className=" cursor-pointer">
-                                <AiOutlineClear className={`absolute left-4 text-3xl sm:text-2xl
+                                <TbMessageCirclePlus className={`absolute left-4 text-3xl sm:text-2xl
                                 bottom-[32%] sm:bottom-[35%] ${messages.length < 1 ? 'text-zinc-500' : ' text-blue-500'}`}
                                     onClick={messages.length > 0 && toggleResearchModalsState} />
                             </div>
@@ -244,7 +245,7 @@ const ResearchPage = () => {
                                         className="absolute right-4 bottom-[32%] sm:bottom-[35%] cursor-pointer blink-infinity"
                                         onClick={stop}
                                     >
-                                        <FaRegCircleStop className={`text-3xl sm:text-2xl text-red-500`} />
+                                        <FaRegCircleStop className={`text-3xl sm:text-2xl`} />
                                     </div>
                                     :
                                     <button
