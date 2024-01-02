@@ -115,9 +115,9 @@ const ResearchPage = () => {
 
 
     return (
-        <div className={`mt-8 relative px-4 sm:px-16 lg:px-72 flex flex-col justify-start items-start mb-20`}>
+        <div className={`mt-8 relative px-4 sm:px-16 lg:px-72 flex flex-col justify-start items-start`}>
             {/* Chat UI */}
-            <div className={``}>
+            <div className={`mb-20`}>
                 {
                     messages.map(m => (
                         <div
@@ -126,7 +126,7 @@ const ResearchPage = () => {
                         >
                             <div>
                                 {m.role === 'user' ?
-                                    <div className="flex justify-start items-start rounded-full gap-3 mt-8">
+                                    <div className="flex justify-start items-start rounded-full gap-3">
                                         <div>
                                             <Image
                                                 className="rounded-full w-[1.6rem] sm:w-[1.8rem]"
