@@ -50,38 +50,38 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
             <div className=" font-bold text-[1.1rem] sm:text-[1rem] mb-1">Response:</div>
             <div className="cyras-mode pl-2 text-[1.8] sm:text-[1rem] flex flex-col justify-start items-start gap-1">
                 <div className='flex justify-start items-center gap-2'>
-                    <input type="radio" id="creative"
+                    <input type="radio" id="Creative"
                         name="response"
                         className=""
                         value="Creative"
                         checked={cyraConfig.response === 'Creative'}
                         onChange={handleConfigChange}
                     />
-                    <label htmlFor="creative" className="cursor-pointer text-[1.1rem] sm:text-[1rem]">
+                    <label htmlFor="Creative" className="cursor-pointer text-[1.1rem] sm:text-[1rem]">
                         Creative ✨
                     </label>
                 </div>
                 <div className='flex justify-start items-center gap-2'>
-                    <input type="radio" id="balance"
+                    <input type="radio" id="Balanced"
                         name="response"
                         className=""
-                        value="Balance"
-                        checked={cyraConfig.response === 'Balance'}
+                        value="Balanced"
+                        checked={cyraConfig.response === 'Balanced'}
                         onChange={handleConfigChange}
                     />
-                    <label htmlFor="balance" className="cursor-pointer text-[1.1rem] sm:text-[1rem]">
-                        Balance 🧘🏻‍♂️
+                    <label htmlFor="Balanced" className="cursor-pointer text-[1.1rem] sm:text-[1rem]">
+                        Balanced 🧘🏻‍♂️
                     </label>
                 </div>
                 <div className='flex justify-start items-center gap-2'>
-                    <input type="radio" id="accurate"
+                    <input type="radio" id="Accurate"
                         name="response"
                         className="cursor-pointer"
                         value="Accurate"
                         checked={cyraConfig.response === 'Accurate'}
                         onChange={handleConfigChange}
                     />
-                    <label htmlFor="accurate" className="cursor-pointer text-[1.1rem] sm:text-[1rem]">
+                    <label htmlFor="Accurate" className="cursor-pointer text-[1.1rem] sm:text-[1rem]">
                         Accurate 🎯
                     </label>
                 </div>
@@ -101,7 +101,7 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
                      dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-400">
                     </div>
                     <span class="ms-2 font-bold">
-                        Emoji 
+                        Emoji
                     </span>
                 </label>
             </div>

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     researchConfig: {
-        response: 'Balance',
+        response: 'Balanced',
         username: '',
         emoji: true,
     }
@@ -17,7 +17,7 @@ export const researchConfigSlice = createSlice({
         },
         clearResearchConfig: (state, action) => {
             state.researchConfig = {
-                response: 'Balance',
+                response: 'Balanced',
                 username: '',
                 emoji: true,
             }

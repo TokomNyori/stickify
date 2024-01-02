@@ -127,7 +127,7 @@ const ResearchPage = () => {
         }
         setMessages([])
         setCyraConfig({
-            response: 'Balance',
+            response: 'Balanced',
             username: user.username,
             emoji: true,
         })
