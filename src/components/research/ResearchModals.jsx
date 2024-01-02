@@ -32,11 +32,11 @@ const ResearchModals = ({ researchModalsState, action, toggleresearchModalsState
                     Start a new chat?
                 </div>
                 <div className="flex justify-center items-center gap-5">
-                    <button className="border border-green-500/80 px-4 py-1 rounded-xl"
+                    <button className="border border-green-500/75 px-4 py-1 rounded-xl"
                         onClick={action}>
                         Yes
                     </button>
-                    <button className="border border-blue-500/80 px-4 py-1 rounded-xl"
+                    <button className="border border-red-500/75 px-4 py-1 rounded-xl"
                         onClick={toggleresearchModalsState}>
                         No
                     </button>
