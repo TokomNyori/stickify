@@ -58,7 +58,7 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
                         onChange={handleConfigChange}
                     />
                     <label htmlFor="Creative" className="cursor-pointer text-[1.1rem] sm:text-[1rem]">
-                        Creative ✨
+                        More creative ✨
                     </label>
                 </div>
                 <div className='flex justify-start items-center gap-2'>
