@@ -70,7 +70,7 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
                         onChange={handleConfigChange}
                     />
                     <label htmlFor="Balanced" className="cursor-pointer text-[1.1rem] sm:text-[1rem]">
-                        Balanced 🧘🏻‍♂️
+                        More balanced 🧘🏻‍♂️
                     </label>
                 </div>
                 <div className='flex justify-start items-center gap-2'>
@@ -82,7 +82,7 @@ const ConfigPop = ({ configPopState, toggleConfigState, handleConfigChange, cyra
                         onChange={handleConfigChange}
                     />
                     <label htmlFor="Accurate" className="cursor-pointer text-[1.1rem] sm:text-[1rem]">
-                        Accurate 🎯
+                        More accurate 🎯
                     </label>
                 </div>
             </div>
