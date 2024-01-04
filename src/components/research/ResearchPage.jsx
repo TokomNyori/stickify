@@ -19,13 +19,13 @@ import orbOne from '@/assets/others/orb1.json'
 import loader1 from '@/assets/others/Loader1.json'
 import toast, { Toaster } from 'react-hot-toast';
 import { set } from "lodash";
-import PromptCards from "./PromptCards";
 import { cy, is, te } from "date-fns/locale";
 import ConfigPop from "./ConfigPop";
 import { AiOutlineClear } from "react-icons/ai";
 import CyraLoader from "./CyraLoader";
 import ResearchModals from "./ResearchModals";
 import { addResearchConfig, clearResearchConfig } from "@/redux_features/researchMessages/researchConfig";
+import { setNoteModalConfig } from "@/redux_features/noteModalConfig/noteModalConfigSlice";
 
 const ResearchPage = () => {
 
@@ -137,7 +137,48 @@ const ResearchPage = () => {
             icon: '🧹',
         })
     }
-    //console.log(cyraConfig)
+
+    function saveNote(content) {
+        //e.stopPropagation()
+        //const clickedNote = notes.filter(note => note._id === noteid)[0]
+        // Replace '**text**' with 'text' (removing the bold markdown)
+        const unformattedContent = content.replace(/\*\*(.*?)\*\*/g, '$1');
+
+        const objt = {
+            title: '',
+            status: 'others',
+            color: '#FFFAD1',
+            content: unformattedContent,
+            isPrivate: false,
+            userId: user._id,
+            userAvatar: user.avatar,
+            username: user.username,
+            ytVideo: []
+        }
+        dispatch(setNoteModalConfig({ noteModalState: true, as: 'save', noteObject: objt }))
+        console.log("CONTENT:")
+        console.log(content)
+    }
+
+    function saveAsNoteUI(m, index) {
+        if (m.role === 'assistant') {
+            if (isLoading && index === messages.length - 1) {
+                return null
+            } else {
+                return (
+                    <div className="pl-[2.4rem] sm:pl-[2.5rem] cursor-pointer flex justify-start items-center gap-1 mt-1
+                                        text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                        onClick={() => saveNote(m.content)}>
+                        <CiStickyNote className="text-[1.25rem]" />
+                        <span className="text-sm">Add Note</span>
+                    </div>
+                )
+            }
+        }
+    }
+
+    // console.log("researchMessages:")
+    // console.log(messages)
 
 
     return (
@@ -145,7 +186,7 @@ const ResearchPage = () => {
             {/* Chat UI */}
             <div className={`mb-20`}>
                 {
-                    messages.map(m => (
+                    messages.map((m, index) => (
                         <div
                             className="mb-7"
                             key={m.id}
@@ -178,11 +219,13 @@ const ResearchPage = () => {
                                 }
                             </div>
 
-                            <div className=" pl-[2.4rem] sm:pl-[2.5rem]"
+                            <div className="pl-[2.4rem] sm:pl-[2.5rem]"
                                 style={{ whiteSpace: 'pre-line' }}
                             >
                                 <MarkdownContent texts={m.content} />
                             </div>
+
+                            {saveAsNoteUI(m, index)}
                         </div>
                     ))
                 }

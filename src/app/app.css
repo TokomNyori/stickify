@@ -232,8 +232,9 @@
 }
 
 .blinkit {
-  animation: blink 1s 2 ease-in-out;
+  animation: blink 1s 3 ease-in-out;
 }
+
 .blink-infinity {
   animation: blink 1s infinite ease-in-out;
 }

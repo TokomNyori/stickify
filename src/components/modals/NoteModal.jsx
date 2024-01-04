@@ -30,6 +30,7 @@ import ClipLoader5 from "react-spinners/SyncLoader";
 import { motion, useDragControls } from "framer-motion";
 import { Courgette } from 'next/font/google'
 import TextFormatComp from '../others/TextFormatComp';
+import { set } from 'date-fns';
 const caveat = Courgette(
     {
         subsets: ['latin'],
@@ -43,6 +44,7 @@ const NoteModal = () => {
     const users = useSelector(state => state.user.users)
     const noteModalConfig = useSelector(state => state.noteModalConfig.noteModalConfig)
     const [isEdit, setIsEdit] = useState(false)
+    const [isSave, setIsSave] = useState(false)
     const [note, setNote] = useState({
         title: '',
         status: 'others',
@@ -111,7 +113,14 @@ const NoteModal = () => {
     }, [noteModalConfig]);
 
     useEffect(() => {
-        setIsEdit(noteModalConfig.as === 'edit' ? true : false)
+        if (noteModalConfig.as === 'edit') {
+            setIsEdit(true)
+        } else if (noteModalConfig.as === 'save') {
+            setIsSave(true)
+        } else {
+            setIsEdit(false)
+            setIsSave(false)
+        }
     }, [noteModalConfig])
 
     useEffect(() => {
@@ -132,8 +141,25 @@ const NoteModal = () => {
             } else {
                 setPin(false)
             }
+        } else if (isSave) {
+            setNote({
+                title: noteModalConfig.noteObject.title,
+                status: noteModalConfig.noteObject.status,
+                color: noteModalConfig.noteObject.color,
+                content: noteModalConfig.noteObject.content,
+                isPrivate: noteModalConfig.noteObject.isPrivate,
+                userId: users._id,
+                userAvatar: users.avatar,
+                username: users.username,
+                ytVideo: noteModalConfig.noteObject.ytVideo,
+            })
+            if (noteModalConfig.noteObject.status === 'pinned') {
+                setPin(true)
+            } else {
+                setPin(false)
+            }
         }
-    }, [isEdit])
+    }, [isEdit, isSave])
 
     useEffect(() => {
         if (pin) {
@@ -234,11 +260,17 @@ const NoteModal = () => {
                 if (isEdit) {
                     setIsEdit(false)
                 }
+                if (isSave) {
+                    setIsSave(false)
+                }
                 dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
             } else {
                 clearForm()
                 if (isEdit) {
                     setIsEdit(false)
+                }
+                if (isSave) {
+                    setIsSave(false)
                 }
                 dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
             }
@@ -270,6 +302,9 @@ const NoteModal = () => {
         rephraseDefaultTrue()
         if (isEdit) {
             setIsEdit(false)
+        }
+        if (isSave) {
+            setIsSave(false)
         }
         dispatch(setNoteModalConfig({ noteModalState: false, as: '', noteObject: {} }))
     }
@@ -955,7 +990,7 @@ const NoteModal = () => {
                                 applyFormattingToSelectedText={applyFormattingToSelectedText}
                                 parentRef={parentRef} ctx={isRephrasedNote ? rephrasedNote : note}
                             /> */}
-                            <motion.div
+                            {/* <motion.div
                                 drag
                                 animate={{ y: !noteModalConfig.noteModalState && 0, x: !noteModalConfig.noteModalState && 0 }}
                                 whileDrag={{ scale: 1.05 }}
@@ -993,7 +1028,7 @@ const NoteModal = () => {
                                         <RiMagicFill className='inline text-lg' /> Grammar
                                     </span>
                                 </div>
-                            </motion.div>
+                            </motion.div> */}
                         </div>
                         {/* <div className={`sm:text-sm text-red-400 mb-2 ${isContentEmpty ? 'hidden' : 'block'}`}>
                             Please enter content.
