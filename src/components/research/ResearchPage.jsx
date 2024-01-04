@@ -36,6 +36,7 @@ const ResearchPage = () => {
     const [configPopState, setConfigPopState] = useState(false)
     const [cyraConfig, setCyraConfig] = useState(researchConfig)
     const [researchModalsState, setResearchModalsState] = useState(false)
+    //const [showSavedAsNote, setShowSavedAsNote] = useState(false)
 
     const { messages, input, handleInputChange, handleSubmit, isLoading, stop, setInput, setMessages } = useChat({
         initialMessages: researchMessages,
@@ -75,7 +76,7 @@ const ResearchPage = () => {
     useEffect(() => {
         textareaRef.current.style.height = 'auto';
         textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
-    }, [input])
+    }, [input, isLoading])
 
     useEffect(() => {
         if (Object.keys(user).length > 0) {
@@ -186,7 +187,7 @@ const ResearchPage = () => {
                 {
                     messages.map((m, index) => (
                         <div
-                            className="mb-7"
+                            className="mb-8"
                             key={m.id}
                         >
                             <div>
@@ -231,8 +232,8 @@ const ResearchPage = () => {
                     cyraLoding &&
                     <CyraLoader />
                 }
+                <div ref={chatRef}></div>
             </div>
-            <div ref={chatRef}></div>
 
 
             {/* Input fixed to the bottom */}

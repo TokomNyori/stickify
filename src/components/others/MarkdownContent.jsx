@@ -20,7 +20,7 @@ const MarkdownContent = ({ texts }) => {
         //const segments = text.split(/(\*\*.*?\*\*|\*.*?\*|__.*?__|#{1,6} .*?\n|- .*?\n|\[.*?\]\(http[s]?:\/\/.*?\)|https?:\/\/[^\s]+|```[\s\S]+?```)/); // Added code block syntax
 
         // Updated regex to include complex LaTeX math
-        const segments = text.split(/(\*\*.*?\*\*|\*.*?\*|__.*?__|#{1,6} .*?\n|- .*?\n|\[.*?\]\(http[s]?:\/\/.*?\)|https?:\/\/[^\s]+|```[\s\S]+?```|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\))/);
+        const segments = text.split(/(\*\*.*?\*\*|\*.*?\*|__.*?__|#{1,6} .*?\n|- .*?\n|\[.*?\]\(http[s]?:\/\/.*?\)|https?:\/\/[^\s]+|```[\s\S]+?```|\\\[.*?\\\]|\\\(.+?\\\))/);
         // Function to parse inner markdown (bold/italic/underline) inside headings
         const parseInnerMarkdown = (text) => {
             return text.split(/(\*\*.*?\*\*|\*.*?\*|__.*?__|\n)/).map(innerSegment => {
@@ -53,11 +53,11 @@ const MarkdownContent = ({ texts }) => {
         // Map over the segments and return the appropriate JSX elements
         const jsx = segments.map(segment => {
             // Latex
-            if (/^\\\((.*?)\\\)$/.test(segment)) {
-                const mathContent = segment.match(/^\\\((.*?)\\\)$/)[1];
+            if (/^\\\((.+?)\\\)$/.test(segment)) {
+                const mathContent = segment.match(/^\\\((.+?)\\\)$/)[1].trim();
                 return <InlineMath math={mathContent} />;
             } else if (/^\\\[.*?\\\]$/.test(segment)) {
-                const mathContent = segment.slice(2, -2); // Remove the enclosing \[ and \]
+                const mathContent = segment.slice(2, -2).trim(); // Remove the enclosing \[ and \]
                 return <BlockMath math={mathContent} />;
             }
 
