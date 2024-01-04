@@ -139,8 +139,6 @@ const ResearchPage = () => {
     }
 
     function saveNote(content) {
-        //e.stopPropagation()
-        //const clickedNote = notes.filter(note => note._id === noteid)[0]
         // Replace '**text**' with 'text' (removing the bold markdown)
         const unformattedContent = content.replace(/\*\*(.*?)\*\*/g, '$1');
 
@@ -166,8 +164,8 @@ const ResearchPage = () => {
                 return null
             } else {
                 return (
-                    <div className="pl-[2.4rem] sm:pl-[2.5rem] cursor-pointer flex justify-start items-center gap-1 mt-1
-                                        text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                    <div className="pl-[2.4rem] sm:pl-[2.5rem] cursor-pointer flex justify-start items-center gap-1 mt-2
+                                        text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 w-fit"
                         onClick={() => saveNote(m.content)}>
                         <CiStickyNote className="text-[1.25rem]" />
                         <span className="text-sm">Add Note</span>
@@ -233,8 +231,8 @@ const ResearchPage = () => {
                     cyraLoding &&
                     <CyraLoader />
                 }
-                <div ref={chatRef}></div>
             </div>
+            <div ref={chatRef}></div>
 
 
             {/* Input fixed to the bottom */}
