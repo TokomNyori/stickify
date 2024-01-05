@@ -71,7 +71,7 @@ const ResearchPage = () => {
     }, [cyraConfig])
 
     useEffect(() => {
-        chatRef.current?.scrollIntoView({ behavior: "smooth" })
+        chatRef.current?.scrollIntoView()
     }, [messages, isLoading])
 
     // useEffect(() => {
