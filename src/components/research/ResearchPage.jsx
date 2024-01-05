@@ -267,7 +267,7 @@ const ResearchPage = () => {
                             onSubmit={handleSubmitProcess}>
                             <div className=" cursor-pointer">
                                 <TbMessageCirclePlus className={`absolute left-4 text-3xl sm:text-2xl
-                                bottom-[32%] sm:bottom-[35%] ${messages.length < 1 ? 'text-zinc-500' : ' text-blue-500'}`}
+                                bottom-[32%] sm:bottom-[36%] ${messages.length < 1 ? 'text-zinc-500' : ' text-blue-500'}`}
                                     onClick={messages.length > 0 && toggleResearchModalsState} />
                             </div>
                             <div className="chatbotTextarea w-full">
@@ -297,7 +297,7 @@ const ResearchPage = () => {
                             {
                                 isLoading ?
                                     <div
-                                        className="absolute right-4 bottom-[32%] sm:bottom-[35%] cursor-pointer"
+                                        className="absolute right-4 bottom-[32%] sm:bottom-[36%] cursor-pointer"
                                         onClick={stop}
                                     >
                                         <FaRegCircleStop className={`text-3xl sm:text-2xl`} />
@@ -305,7 +305,7 @@ const ResearchPage = () => {
                                     :
                                     <button
                                         disabled={!input}
-                                        className="absolute right-4 bottom-[32%] sm:bottom-[35%]"
+                                        className="absolute right-4 bottom-[32%] sm:bottom-[36%]"
                                         type="submit">
                                         <IoSend className={`text-3xl sm:text-2xl ${input ? 'text-green-500' : 'text-zinc-500'}`} />
                                     </button>

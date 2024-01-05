@@ -91,7 +91,7 @@ const MarkdownContent = ({ texts }) => {
                 const code = match[2];
 
                 return (
-                    <div className={`${page === 'notes/[noteid]' ? 'w-[91vw] sm:w-[100%]' : 'w-[82vw] sm:w-[53vw]'} rounded-2xl`}>
+                    <div className={`${page === 'notes/[noteid]' ? 'w-[91vw] sm:w-[63.6vw]' : 'w-[82vw] sm:w-[53vw]'} rounded-2xl`}>
                         <SyntaxHighlighter language={language} style={atomOneDark} customStyle={{
                             overflowX: 'scroll',
                             whiteSpace: 'pre-wrap',
