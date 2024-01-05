@@ -53,6 +53,7 @@ const ResearchPage = () => {
 
     const dispatch = useDispatch()
     const chatRef = useRef(null)
+    const inputRef = useRef(null)
     const textareaRef = useRef(null)
 
     useEffect(() => {
@@ -69,14 +70,26 @@ const ResearchPage = () => {
         dispatch(addResearchConfig(cyraConfig))
     }, [cyraConfig])
 
+    // useEffect(() => {
+    //     chatRef.current?.scrollIntoView({ behavior: "smooth" })
+    // }, [messages])
+
     useEffect(() => {
-        chatRef.current?.scrollIntoView()
-    }, [messages])
+        if (chatRef.current && inputRef.current) {
+            const chatRect = chatRef.current.getBoundingClientRect();
+            const inputRect = inputRef.current.getBoundingClientRect();
+
+            // Check if the bottom of the chat is near the top of the input
+            if (chatRect.bottom >= inputRect.top - 80) { // 80 is a threshold, adjust as needed
+                chatRef.current.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }, [messages, isLoading]);
 
     useEffect(() => {
         textareaRef.current.style.height = 'auto';
         textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
-    }, [input, isLoading])
+    }, [input])
 
     useEffect(() => {
         if (Object.keys(user).length > 0) {
@@ -181,7 +194,7 @@ const ResearchPage = () => {
 
 
     return (
-        <div className={`mt-8 relative px-4 sm:px-16 lg:px-72 flex flex-col justify-start items-start`}>
+        <div className={`mt-8 relative px-4 sm:px-16 lg:px-72 flex flex-col justify-start items-start overflow-y-auto`}>
             {/* Chat UI */}
             <div className={`mb-20`}>
                 {
@@ -237,7 +250,7 @@ const ResearchPage = () => {
 
 
             {/* Input fixed to the bottom */}
-            <div className="fixed bottom-0 w-[100%] left-0 right-0  bg-zinc-100 dark:bg-zinc-900">
+            <div className="fixed bottom-0 w-[100%] left-0 right-0  bg-zinc-100 dark:bg-zinc-900" ref={inputRef}>
                 <div className="px-3 sm:px-14 lg:px-64 mb-2.5">
                     {
                         messages.length === 0 &&

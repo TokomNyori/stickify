@@ -4,7 +4,7 @@ import loader1 from '@/assets/others/Loader1.json'
 
 const CyraLoader = () => {
     return (
-        <div className="mb-7">
+        <div className="mb-8">
             <div className="flex justify-start items-start rounded-full gap-3">
                 <div className="">
                     <Lottie className="rounded-full w-[1.6rem] sm:w-[1.8rem]" animationData={orbOne} loop={true} />
