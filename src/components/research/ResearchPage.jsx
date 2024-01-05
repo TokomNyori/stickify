@@ -70,21 +70,21 @@ const ResearchPage = () => {
         dispatch(addResearchConfig(cyraConfig))
     }, [cyraConfig])
 
-    useEffect(() => {
-        chatRef.current?.scrollIntoView()
-    }, [messages, isLoading])
-
     // useEffect(() => {
-    //     if (chatRef.current && inputRef.current) {
-    //         const chatRect = chatRef.current.getBoundingClientRect();
-    //         const inputRect = inputRef.current.getBoundingClientRect();
+    //     chatRef.current?.scrollIntoView()
+    // }, [messages, isLoading])
 
-    //         // Check if the bottom of the chat is near the top of the input
-    //         if (chatRect.bottom >= inputRect.top - 80) { // 80 is a threshold, adjust as needed
-    //             chatRef.current.scrollIntoView({ behavior: "smooth" });
-    //         }
-    //     }
-    // }, [messages, isLoading]);
+    useEffect(() => {
+        if (chatRef.current && inputRef.current) {
+            const chatRect = chatRef.current.getBoundingClientRect();
+            const inputRect = inputRef.current.getBoundingClientRect();
+
+            // Check if the bottom of the chat is near the top of the input
+            if (chatRect.bottom >= inputRect.top - 80) { // 80 is a threshold, adjust as needed
+                chatRef.current.scrollIntoView();
+            }
+        }
+    }, [messages, isLoading]);
 
     useEffect(() => {
         textareaRef.current.style.height = 'auto';
