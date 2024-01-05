@@ -20,8 +20,9 @@ const MarkdownContent = ({ texts }) => {
         //const segments = text.split(/(\*\*.*?\*\*|\*.*?\*|__.*?__|#{1,6} .*?\n|- .*?\n|\[.*?\]\(http[s]?:\/\/.*?\)|https?:\/\/[^\s]+|```[\s\S]+?```)/); // Added code block syntax
 
         // Updated regex to include complex LaTeX math
-        const segments = text.split(/(\*\*.*?\*\*|\*.*?\*|__.*?__|#{1,6} .*?\n|- .*?\n|\[.*?\]\(http[s]?:\/\/.*?\)|https?:\/\/[^\s]+|```[\s\S]+?```|\\\[.*?\\\]|\\\(.+?\\\))/);
-        // Function to parse inner markdown (bold/italic/underline) inside headings
+        //const segments = text.split(/(\*\*.*?\*\*|\*.*?\*|__.*?__|#{1,6} .*?\n|- .*?\n|\[.*?\]\(http[s]?:\/\/.*?\)|https?:\/\/[^\s]+|```[\s\S]+?```|\\\[.*?\\\]|\\\(.+?\\\))/);
+
+        const segments = text.split(/(\*\*.*?\*\*|\*.*?\*|__.*?__|#{1,6} .*?\n|- .*?\n|\[.*?\]\(http[s]?:\/\/.*?\)|https?:\/\/[^\s]+|```[\s\S]+?```|\\\[.*?\\\]|\\\(.+?\\\)|\\begin\{bmatrix\}.*?\\end\{bmatrix\}|\n---\n)/);        // Function to parse inner markdown (bold/italic/underline) inside headings
         const parseInnerMarkdown = (text) => {
             return text.split(/(\*\*.*?\*\*|\*.*?\*|__.*?__|\n)/).map(innerSegment => {
                 if (/^\*\*(.*?)\*\*$/.test(innerSegment)) {
@@ -61,6 +62,16 @@ const MarkdownContent = ({ texts }) => {
                 return <BlockMath math={mathContent} />;
             }
 
+            // New condition for LaTeX matrix expressions
+            if (/^\\begin\{bmatrix\}.*?\\end\{bmatrix\}$/.test(segment)) {
+                return <InlineMath math={segment} />;
+            }
+
+            // Condition for horizontal rule
+            if (segment === '\n---\n') {
+                return [<br />, <hr />, <br />]
+            }
+
             // Other Markdown
             if (/^\*\*(.*?)\*\*$/.test(segment)) {
                 return <strong>{segment.slice(2, -2)}</strong>;
@@ -91,7 +102,7 @@ const MarkdownContent = ({ texts }) => {
                 const code = match[2];
 
                 return (
-                    <div className={`${page === 'notes/[noteid]' ? 'w-[91vw] sm:w-[63.6vw]' : 'w-[82vw] sm:w-[53vw]'} rounded-2xl`}>
+                    <div className={`${page === 'notes/[noteid]' ? 'w-[91vw] sm:w-[63.6vw]' : 'w-[82.5vw] sm:w-[53vw]'} rounded-2xl`}>
                         <SyntaxHighlighter language={language} style={atomOneDark} customStyle={{
                             overflowX: 'scroll',
                             whiteSpace: 'pre-wrap',
