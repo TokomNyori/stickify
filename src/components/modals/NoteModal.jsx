@@ -968,7 +968,7 @@ const NoteModal = () => {
                                     name="title" onChange={changeNote} required />
                             </div>
                             <div className=' text-sm border border-gray-800 hover:border-gray-950 rounded-lg py-1 px-2 
-                                cursor-pointer text-center flex justify-center items-center gap-1'
+                                cursor-pointer text-center flex justify-center items-center gap-1 glow-border'
                                 onClick={changeGptRequirementModal}>
                                 <span>Generate</span>
                                 <span><BiSolidSend className='inline' /></span>

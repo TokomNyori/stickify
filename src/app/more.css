@@ -203,30 +203,22 @@
     }
 }
 
-.glow-texts2 {
-    animation: glowText2 3.5s ease-in-out infinite;
+.glow-border {
+    animation: glow-border 2s ease-in-out 1;
 }
 
-@keyframes glowText2 {
-    0% {
-        @apply text-orange-400;
-    }
+@keyframes glow-border {
+    0%, 100% { box-shadow: 0 0 6px transparent; }
+    16.66% { box-shadow: 0 0 6px rgb(96 165 250); }
+    33.33% { box-shadow: 0 0 6px rgb(74 222 128); }
+    50% { box-shadow: 0 0 6px rgb(251 146 60); }
+    66.66% { box-shadow: 0 0 6px rgb(74 222 128); }
+    83.33% { box-shadow: 0 0 6px rgb(96 165 250); }
+}
 
-    25% {
-        @apply text-green-500;
-    }
-
-    50% {
-        @apply text-blue-500;
-    }
-
-    75% {
-        @apply text-yellow-500;
-    }
-
-    100% {
-        @apply text-pink-400;
-    }
+.element {
+    border: 1px solid #00FF00; /* Your desired border */
+    animation: glow-border 2s ease-in-out 2;
 }
 
 .bg-colorr {
