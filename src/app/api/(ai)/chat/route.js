@@ -3,7 +3,7 @@ import { OpenAIStream, StreamingTextResponse } from 'ai';
 
 export const runtime = 'edge'
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY
+const OPENAI_API_KEY = process.env.OPENAI_API_KEYY
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
 export async function POST(request) {
@@ -41,6 +41,14 @@ export async function POST(request) {
             {
                 role: "system",
                 content: systemInstruction,
+            },
+            {
+                role: "user",
+                content: "You are chat gpt",
+            },
+            {
+                role: "assistant",
+                content: "No, I am not ChatGPT, and I do not utilize GPT or any other similar models. I have been developed by the creators of the Stickify note app.",
             },
             ...messages],
     });

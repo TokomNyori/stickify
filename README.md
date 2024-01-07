@@ -12,6 +12,7 @@ Welcome to Stickify - "Your AI sticker notes"! Stickify is an innovative note-ta
 - **Grammar Enhancement**: Improve your note's grammar for clarity and professionalism.
 - **Tone Conversion**: Alter the tone of your notes to professional, casual, formal, friendly, confident, etc.
 - **YouTube Integration**: Automatically add relevant YouTube videos or manually manage them using a dedicated YouTube modal for searching and curating content.
+- **AI Assistance:** Meet Cyra, Stickify's in-app research companion.
 - **Emoji Support**: Enhance your notes with emojis for a more expressive experience.
 - **Privacy Settings**: Choose to make your notes private or public.
 
@@ -26,6 +27,10 @@ Welcome to Stickify - "Your AI sticker notes"! Stickify is an innovative note-ta
 - **Social Feeds**: View, like, and copy public notes from other users. Copied notes are marked as copies in your collection, and private notes remain unseen in feeds (social section).
 - **Sharing and Privacy**: Share notes on WhatsApp and Telegram. Public notes are accessible via shared links; private notes are not.
 - **Non-Sign-In Accessibility**: Non-registered users can view public notes through shared links.
+
+## Cyra: Your Study Sidekick
+
+Cyra is our in-house AI research assistant. Bringing a blend of intelligence, humor, and practical advice, Cyra is dedicated to making your study sessions more engaging and insightful.
 
 ## Technologies Used
 
@@ -68,3 +73,4 @@ Stickify is released under [MIT License](LICENSE).
 ---
 
 Stickify - Bringing your notes to life with AI and community engagement! 🚀📝💡
+**😄Fun fact: Cyra is trained to claim that it doesn't use OpenAI's GPT model, but in reality, it is using a GPT model.**
