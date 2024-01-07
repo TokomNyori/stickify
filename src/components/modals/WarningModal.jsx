@@ -31,7 +31,7 @@ const WarningModal = ({ warningModalState, action, modalType, noteid, isItOrigin
                 className={`gpt-modal-blur inset-0 bg-black bg-opacity-30 flex justify-center items-center backdrop-blur-[2px] 
                             ${warningModalState ? "gpt-fix-modal" : "hidden"} flex-wrap`}
             >
-                <div className='text-2xl bg-white/80 dark:bg-zinc-800/80 w-[80%] sm:w-[20%] h-auto 
+                <div className='text-2xl bg-white/70 dark:bg-zinc-800/80 w-[80%] sm:w-[20%] h-auto 
                     shadow-lg px-4 py-5 pb-8 rounded-2xl text-center' ref={warningModalRef}>
                     <div className="mb-4">
                         Delete note?

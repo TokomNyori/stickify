@@ -22,6 +22,7 @@ const YtVideoAddModal = (
     const [navSection, setNavSection] = useState()
     const [ytLoading, setYtLoading] = useState(false)
     const ytVideoModalUpRef = useRef(null);
+    const searchInputRef = useRef(null);
     // Local Yt video refs
     const ytVideoAddModalRefs0 = useRef(null)
     const ytVideoAddModalRefs1 = useRef(null)
@@ -284,6 +285,16 @@ const YtVideoAddModal = (
                             value={formData.title}
                             onChange={handleFormData}
                             required
+                            ref={searchInputRef}
+                            onKeyDown={event => {
+                                if (event.key === 'Enter') {
+                                    handleSearch(event)
+                                    if (searchInputRef && searchInputRef.current) {
+                                        searchInputRef.current.blur(); // This will close the virtual keyboard
+                                    }
+                                }
+                            }}
+
                         />
                         <button className='rounded-3xl rounded-l-none px-2 bg-zinc-700 h-[2.5rem] border border-gray-600 border-l-0'
                             type='submit'>
