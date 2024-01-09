@@ -26,7 +26,7 @@
   z-index: 50;
   position: fixed;
   animation-name: modalopen;
-  /* animation-duration: 1s; */
+  animation-duration: 1s;
 }
 
 .gpt-fix-modal {
@@ -218,13 +218,13 @@
 }
 
 .light .manage-radio-btn[type="radio"]:checked+label {
-  border: 1.8px solid rgb(31 41 55);
-  transform: scale(1.14);
+  border: 2px solid rgb(26, 31, 39);
+  transform: scale(1.15);
 }
 
 .dark .manage-radio-btn[type="radio"]:checked+label {
-  border: 1.8px solid rgb(243 244 246);
-  transform: scale(1.14);
+  border: 2px solid rgb(243 244 246);
+  transform: scale(1.15);
 }
 
 .rephrase-default-btn {

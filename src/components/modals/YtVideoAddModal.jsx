@@ -12,6 +12,8 @@ import YourVideoPopup from '../popups/YourVideoPopup'
 import { nanoid } from 'nanoid'
 import ClipLoader from "react-spinners/BounceLoader";
 import { youtubeTenVideotHelper } from '@/helper/externalAPIHelpers/handleExternalAPIs'
+import Lottie from 'lottie-react'
+import notfoundAni from '@/assets/others/notfoundAni.json'
 //videoThumbnail: item.snippet.thumbnails.default
 const YtVideoAddModal = (
     { ytVideAddModalState, changeYtAddModal, ytVideoFromNote, AddToYtVideosFromYtModal, ytRefs, deleteYourYtVideo }
@@ -325,8 +327,13 @@ const YtVideoAddModal = (
                 <div className={`${navSection === 'your videos' ? 'flex flex-col' : 'hidden'}`}>
                     {
                         ytVideoFromNote.length < 1 ?
-                            <div className='flex justify-center items-center mt-20 text-2xl'>
-                                Empty
+                            <div className='flex flex-col justify-start items-center mt-20'>
+                                <div className='text-2xl'>
+                                    Empty
+                                </div>
+                                <div className="w-full sm:w-[50%] -mt-7">
+                                    <Lottie className="text-sm" animationData={notfoundAni} loop={true} />
+                                </div>
                             </div>
                             :
                             <YourVideoPopup

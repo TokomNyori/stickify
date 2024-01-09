@@ -204,7 +204,13 @@
 }
 
 .glow-border {
-    animation: glow-border 2s ease-in-out 1;
+    animation: glow-border 1.8s ease-in-out 1;
+    animation-delay: 1s;
+}
+
+.glow-border2 {
+    animation: glow-border 1.8s ease-in-out 1;
+    animation-delay: 3s;
 }
 
 @keyframes glow-border {
@@ -214,11 +220,6 @@
     50% { box-shadow: 0 0 6px rgb(251 146 60); }
     66.66% { box-shadow: 0 0 6px rgb(74 222 128); }
     83.33% { box-shadow: 0 0 6px rgb(96 165 250); }
-}
-
-.element {
-    border: 1px solid #00FF00; /* Your desired border */
-    animation: glow-border 2s ease-in-out 2;
 }
 
 .bg-colorr {

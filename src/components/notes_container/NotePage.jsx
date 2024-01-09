@@ -51,10 +51,11 @@ import { CookieHelper } from '@/helper/httpHelpers/httpCookieHelper';
 import LoginSignUpModal from '../modals/LoginSignUpModal';
 import RestrictedSkeleton from '../skeleton_loaders/RestrictedSkeleton';
 import Lottie from 'lottie-react'
-import pinwheelAni from '@/assets/others/pinwheelAni.json'
+import notfoundAni from '@/assets/others/notfoundAni.json'
 import { changePageLoader } from '@/redux_features/reduxPageLoader/reduxPageLoaderSlice';
 import NoteNotFound from '../skeleton_loaders/NoteNotFound';
 import ModalWelcome from '../log_sign_modals/ModalWelcome';
+import { set } from 'lodash';
 
 const NotePage = ({ params }) => {
     // Redux states
@@ -91,6 +92,8 @@ const NotePage = ({ params }) => {
     const contentContainerRef = useRef(null);
     const translatePopUpRef = useRef(null);
     const shareModalRef = useRef(null);
+    const contentScrollRef = useRef(null)
+    const translateScrollRef = useRef(null)
 
     // Browser theme state
     const { theme, setTheme } = useTheme()
@@ -272,16 +275,28 @@ const NotePage = ({ params }) => {
         }
     }, [isLoading])
 
+    // useEffect(() => {
+    //     if (loadingGpt) { // Or any other condition that indicates new content
+    //         const offset = 800; // Pixels to stop above the absolute bottom
+    //         const scrollPosition = document.documentElement.scrollHeight - offset;
+    //         window.scrollTo({
+    //             top: scrollPosition,
+    //             behavior: "smooth" // Optional: for smooth scrolling
+    //         });
+    //     }
+    // }, [summarizedContent, translatedContent]);
+
     useEffect(() => {
-        if (loadingGpt) { // Or any other condition that indicates new content
-            const offset = 800; // Pixels to stop above the absolute bottom
-            const scrollPosition = document.documentElement.scrollHeight - offset;
-            window.scrollTo({
-                top: scrollPosition,
-                behavior: "smooth" // Optional: for smooth scrolling
-            });
+        if (summarizedContent) {
+            contentScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
         }
-    }, [summarizedContent, translatedContent]);
+    }, [summarizedContent])
+
+    useEffect(() => {
+        if (translatedContent) {
+            translateScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+        }
+    }, [translatedContent])
 
     // console.log('params: ')
     // console.log(params)
@@ -703,17 +718,31 @@ const NotePage = ({ params }) => {
                                         <div className='sm:text-[1rem] text-[1.1rem] markDownContent'
                                             style={{ whiteSpace: 'pre-line' }}>
                                             <MarkdownContent texts={translatedContent} />
+                                            <div ref={translateScrollRef}></div>
                                         </div>
                                         :
                                         <div className='sm:text-[1rem] text-[1.1rem] markDownContent'
                                             style={{ whiteSpace: 'pre-line' }}>
                                             <MarkdownContent texts={summarizedContent ? summarizedContent : pageNoteData.content} />
+                                            <div ref={contentScrollRef}></div>
                                         </div>
                                 }
                             </div>
                             {/* Video Contents */}
                             <div className={`${navigationSection === 'videos-section' ? 'flex flex-col mt-2' : 'hidden'}`}>
-                                {videoSection}
+                                {
+                                    videoSection.length > 0 ?
+                                        videoSection
+                                        :
+                                        <div className='sm:mb-10 mb-8 mt-12 flex flex-col justify-start items-center gap-0'>
+                                            <div className={`font-semibold text-3xl`}>
+                                                Empty
+                                            </div>
+                                            <div className="w-full sm:w-[50%] -mt-7">
+                                                <Lottie className="text-sm" animationData={notfoundAni} loop={true} />
+                                            </div>
+                                        </div>
+                                }
                             </div>
                         </div>
                         <div className='mt-auto bottom-info-notePage'>

@@ -34,6 +34,8 @@ import ClipLoader from "react-spinners/SquareLoader";
 import { CookieHelper } from "@/helper/httpHelpers/httpCookieHelper";
 import { AiTwotoneHeart } from "react-icons/ai";
 import { changePageLoader } from "@/redux_features/reduxPageLoader/reduxPageLoaderSlice";
+import { clearResearchConfig } from "@/redux_features/researchMessages/researchConfig";
+import { clearResearchMessages } from "@/redux_features/researchMessages/researchSlice";
 
 export default function Navbar() {
     //const [noteModalState, setNoteModalState] = useState(false)
@@ -139,6 +141,8 @@ export default function Navbar() {
         const res = await logOutHelper({ method: 'POST', headers: { 'Content-Type': 'application/json' } })
         setProfilePopUp(prev => !prev)
         dispatch(removeUser())
+        dispatch(clearResearchConfig())
+        dispatch(clearResearchMessages())
         //setLoading(false)
         setTimeout(() => {
             toast(res.message, {
