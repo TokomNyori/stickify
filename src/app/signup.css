@@ -56,9 +56,8 @@ h1 {
 }
 
 .modal-signup-radio-btn[type="radio"]:checked+label {
-  border: 1.8px solid rgb(243 244 246);
-  ;
-  transform: scale(1.12);
+  border: 2px solid rgb(243 244 246);
+  transform: scale(1.15);
 }
 
 .light .signup-radio-btn[type="radio"]:checked+label {

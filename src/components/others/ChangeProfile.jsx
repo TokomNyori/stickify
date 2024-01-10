@@ -212,8 +212,6 @@ const ChangeProfile = ({ user, getUserCookie, toggleLoading, theme, toggleVerifi
         setAvatarModalState(prev => !prev)
     }
 
-    console.log(formData)
-
 
     // JSXs
     const renderDefaultStage = () => (
