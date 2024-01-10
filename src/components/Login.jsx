@@ -55,7 +55,7 @@ const Login = ({ toggleLoading, toggleSyncLoading, theme, toggleIsLogin, isLogin
                     <input
                         className={`rounded-xl dark:border-zinc-600 block w-full p-2.5 py-4 sm:py-3 text-md 
                         focus:ring-blue-500 focus:border-blue-500 dark:placeholder-gray-500 dark:text-zinc-100
-                        dark:bg-zinc-800 bg-white shadow-md  placeholder-gray-400`}
+                        dark:bg-zinc-800 bg-white shadow-sm  placeholder-gray-400`}
                         type="email"
                         name="email"
                         placeholder="Email"
@@ -65,7 +65,7 @@ const Login = ({ toggleLoading, toggleSyncLoading, theme, toggleIsLogin, isLogin
                     <input
                         className={`rounded-xl dark:border-zinc-600 block w-full p-2.5 py-4 sm:py-3 text-md 
                         focus:ring-blue-500 focus:border-blue-500 dark:placeholder-gray-500 dark:text-zinc-100
-                        dark:bg-zinc-800 bg-white shadow-md  placeholder-gray-400`}
+                        dark:bg-zinc-800 bg-white shadow-sm  placeholder-gray-400`}
                         type="password"
                         name="password"
                         placeholder="Password"

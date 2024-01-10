@@ -367,7 +367,7 @@ const Signup = (
                             <input
                                 className={`rounded-xl dark:border-zinc-600 block w-full p-2.5 py-4 sm:py-3 text-md 
                                 focus:ring-blue-500 focus:border-blue-500 dark:placeholder-gray-500 dark:text-zinc-100
-                                dark:bg-zinc-800 bg-white shadow-md  placeholder-gray-400`}
+                                dark:bg-zinc-800 bg-white shadow-sm  placeholder-gray-400`}
                                 type="text"
                                 name="username"
                                 placeholder="Full name"
@@ -377,7 +377,7 @@ const Signup = (
                             <input
                                 className={`rounded-xl block w-full p-2.5 py-4 sm:py-3 text-md 
                                 dark:placeholder-gray-500 dark:text-zinc-100
-                                dark:bg-zinc-800 bg-white shadow-md  placeholder-gray-400 
+                                dark:bg-zinc-800 bg-white shadow-sm  placeholder-gray-400 
                                     ${invalidEmailPattern ?
                                         'border border-red-500 focus:ring-red-500 focus:ring-1 focus:outline-none' : 'border-none'}`}
                                 type="email"
@@ -389,7 +389,7 @@ const Signup = (
                             <input
                                 className={`rounded-xl  block w-full p-2.5 py-4 sm:py-3 text-md 
                                 dark:placeholder-gray-500 dark:text-zinc-100
-                                dark:bg-zinc-800 bg-white shadow-md  placeholder-gray-400
+                                dark:bg-zinc-800 bg-white shadow-sm placeholder-gray-400
                                     ${invalidPasswordPattern ?
                                         'border border-red-500 focus:ring-red-500 focus:ring-1 focus:outline-none' : 'border-none'}`}
                                 type="password"

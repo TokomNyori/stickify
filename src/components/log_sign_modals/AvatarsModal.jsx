@@ -38,8 +38,8 @@ const AvatarsModal = ({ handleChange, formData, avatarModalState, toggleAvatarMo
     return (
         <div className={`modal-blur top-0 inset-0 bg-black bg-opacity-30 backdrop-blur-[1px] flex justify-center items-center
                         ${avatarModalState ? "fix-modal" : "hidden"} flex-wrap dark:brightness-[85%] w-full`}>
-            <div className=' avatar-manage-form-container flex flex-col justify-center items-center bg-white text-gray-800 dark:bg-zinc-800 
-                dark:text-gray-100 py-4 px-4 rounded-3xl'
+            <div className=' avatar-manage-form-container flex flex-col justify-center items-center bg-zinc-800 
+                text-zinc-100 py-4 px-4 rounded-3xl'
                 ref={avatarModalRef}
             >
                 <div className='flex flex-row justify-between items-center mb-5 -mt-1 font-bold w-full'>
