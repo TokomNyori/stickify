@@ -398,8 +398,8 @@ const ModalSignup = (
                                 value={formData.password}
                                 onChange={handleChange} required
                             />
-                            <button className='border border-blue-500 focus:outline-none font-medium rounded-lg text-md px-5 py-4 
-                                    sm:py-3 mb-2 text-whiteborder-gray-600 hover:border-blue-700
+                            <button className='border border-gray-100 focus:outline-none font-medium rounded-xl text-md px-5 py-4 
+                                    sm:py-3 mb-2 text-whiteborder-gray-600 hover:border-[1.4px]
                                     focus:ring-gray-700 block w-full '
                                 type="button" onClick={handleOtp}
                             >
@@ -409,8 +409,8 @@ const ModalSignup = (
                     }
                 </div>
             </form>
-            <button className={`border border-green-500 focus:outline-none font-medium rounded-lg text-md px-5 py-4 
-                sm:py-3 mb-2 text-whiteborder-gray-600  hover:border-green-700
+            <button className={`border border-gray-100 focus:outline-none font-medium rounded-xl text-md px-5 py-4 
+                sm:py-3 mb-2 text-whiteborder-gray-600  hover:border-[1.4px]
                             focus:ring-gray-700 block w-full ${isOtpSent && 'hidden'}`}
                 onClick={() => toggleIsLogin(true)}
             >
