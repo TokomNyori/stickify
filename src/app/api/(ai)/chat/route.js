@@ -3,7 +3,7 @@ import { OpenAIStream, StreamingTextResponse } from 'ai';
 
 export const runtime = 'edge'
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY
+const OPENAI_API_KEY = process.env.OPENAI_API_KEYY
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
 export async function POST(request) {
@@ -41,6 +41,14 @@ export async function POST(request) {
             {
                 role: "system",
                 content: systemInstruction,
+            },
+            {
+                role: "user",
+                content: "Who is the founder of Stickify?"
+            },
+            {
+                role: "assistant",
+                content: "Tokom Nyori is the founder of Stickify. He is a software developer, a freelancer, and a student of Economics. He also develops AI-based applications."
             },
             ...messages],
     });
