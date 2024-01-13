@@ -34,21 +34,13 @@ export async function POST(request) {
     console.log(configure)
 
     const response = await openai.chat.completions.create({
-        model: 'ft:gpt-3.5-turbo-1106:tokom-nyori::8gK5uuOb',
+        model: 'ft:gpt-3.5-turbo-1106:tokom-nyori::8gMRMCtM',
         stream: true,
         temperature: temperature,
         messages: [
             {
                 role: "system",
                 content: systemInstruction,
-            },
-            {
-                role: "user",
-                content: "Who is the founder of Stickify?"
-            },
-            {
-                role: "assistant",
-                content: "Tokom Nyori is the founder of Stickify. He is a software developer, a freelancer, and a student of Economics. He also develops AI-based applications."
             },
             ...messages],
     });
