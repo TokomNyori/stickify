@@ -47,7 +47,7 @@ const Avatars = ({ handleChange, formData, avatarModalState, toggleAvatarModalSt
 
     return (
         <div className={`modal-blur top-0 inset-0 bg-black bg-opacity-30 backdrop-blur-[1px] flex justify-center items-center
-                        ${avatarModalState ? "fix-modal" : "hidden"} flex-wrap dark:brightness-[85%]`}>
+                        ${avatarModalState ? "avatar-modal" : "hidden"} flex-wrap dark:brightness-[85%]`}>
             <div className='avatar-form-container flex flex-col justify-center items-center bg-white text-gray-800 dark:bg-zinc-800 
                 dark:text-gray-100 py-4 px-4 rounded-3xl w-full'
                 ref={avatarModalRef}

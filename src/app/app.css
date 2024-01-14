@@ -25,6 +25,11 @@
 .fix-modal {
   z-index: 50;
   position: fixed;
+}
+
+.avatar-modal {
+  z-index: 50;
+  position: fixed;
   animation-name: modalopen;
   animation-duration: 1s;
 }
