@@ -32,8 +32,8 @@ export async function POST(request) {
     }
 
     console.log(configure)
-    // ft:gpt-3.5-turbo-1106:tokom-nyori::8gK5uuOb
-    // ft:gpt-3.5-turbo-1106:tokom-nyori::8gMRMCtM
+    // ft:gpt-3.5-turbo-1106:tokom-nyori::8gK5uuOb     -- With 63 fine-tuning data
+    // ft:gpt-3.5-turbo-1106:tokom-nyori::8gMRMCtM     -- With 57 fine-tuning data
 
     const response = await openai.chat.completions.create({
         model: 'ft:gpt-3.5-turbo-1106:tokom-nyori::8gK5uuOb',
