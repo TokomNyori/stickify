@@ -52,7 +52,7 @@ const Avatars = ({ handleChange, formData, avatarModalState, toggleAvatarModalSt
                 dark:text-gray-100 py-4 px-4 rounded-3xl w-full'
                 ref={avatarModalRef}
             >
-                <div className='flex flex-row justify-between items-center mb-5 -mt-1 font-bold w-full'>
+                <div className='flex flex-row justify-between items-center mb-5 font-bold w-full'>
                     <div>
                         More Avatars
                     </div>
