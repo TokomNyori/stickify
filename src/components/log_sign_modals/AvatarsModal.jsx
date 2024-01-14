@@ -6,11 +6,20 @@ import BoyAvatar1 from '@/assets/avatars/boy1.jpeg'
 import BoyAvatar2 from '@/assets/avatars/boy2.jpeg'
 import GirlAvatar1 from '@/assets/avatars/girl1.jpeg'
 import GirlAvatar2 from '@/assets/avatars/girl2.jpeg'
-import Elezabeth from '@/assets/avatars/Elezabeth.jpeg'
-import Charlotte from '@/assets/avatars/Charlotte.jpeg'
 import Alvin from '@/assets/avatars/Alvin.jpeg'
 import Larry from '@/assets/avatars/Larry.jpeg'
-import Jasmine from '@/assets/avatars/Jasmine.jpeg'
+import Astra from '@/assets/avatars/Astra.jpeg'
+import Orion from '@/assets/avatars/Orion.jpeg'
+import Titan from '@/assets/avatars/Titan.jpeg'
+import AnonymousVip from '@/assets/avatars/AnonymousVip.jpeg'
+import Stickify from '@/assets/avatars/Stickify.jpeg'
+import Kaze from '@/assets/avatars/Kaze.jpeg'
+import Hana from '@/assets/avatars/Hana.jpeg'
+import Paw from '@/assets/avatars/Paw.jpeg'
+import Eagle from '@/assets/avatars/Eagle.jpeg'
+import RoboCute from '@/assets/avatars/RoboCute.jpeg'
+import Emma from '@/assets/avatars/Emma.jpeg'
+import Luna from '@/assets/avatars/Luna.jpeg'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { useEffect, useRef } from 'react';
 import '@/app/signup.css'
@@ -67,6 +76,19 @@ const AvatarsModal = ({ handleChange, formData, avatarModalState, toggleAvatarMo
                         </label>
                     </div>
                     <div>
+                        <input type="radio" id="AnonymousVip" name="avatar"
+                            className={`hidden modal-signup-radio-btn ${theme}`}
+                            value="AnonymousVip"
+                            onChange={handleChange} checked={formData.avatar === 'AnonymousVip'}
+                        />
+                        <label htmlFor="AnonymousVip"
+                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
+                                            p-[0.5px]
+                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                            <Image src={AnonymousVip} width={400} height={400} className=' rounded-full' />
+                        </label>
+                    </div>
+                    <div>
                         <input type="radio" id="scarlett" name="avatar"
                             className={`hidden modal-signup-radio-btn ${theme}`}
                             value="scarlett"
@@ -76,6 +98,42 @@ const AvatarsModal = ({ handleChange, formData, avatarModalState, toggleAvatarMo
                             className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500  p-[0.5px]
                                hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
                             <Image src={Scarlett} width={400} height={400} className='rounded-full' />
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="Astra" name="avatar"
+                            className={`hidden modal-signup-radio-btn ${theme}`}
+                            value="Astra"
+                            onChange={handleChange} checked={formData.avatar === 'Astra'}
+                        />
+                        <label htmlFor="Astra"
+                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500  p-[0.5px]
+                               hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                            <Image src={Astra} width={400} height={400} className='rounded-full' />
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="Titan" name="avatar"
+                            className={`hidden modal-signup-radio-btn ${theme}`}
+                            value="Titan"
+                            onChange={handleChange} checked={formData.avatar === 'Titan'}
+                        />
+                        <label htmlFor="Titan"
+                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500  p-[0.5px]
+                               hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                            <Image src={Titan} width={400} height={400} className='rounded-full' />
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="Orion" name="avatar"
+                            className={`hidden modal-signup-radio-btn ${theme}`}
+                            value="Orion"
+                            onChange={handleChange} checked={formData.avatar === 'Orion'}
+                        />
+                        <label htmlFor="Orion"
+                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500  p-[0.5px]
+                               hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                            <Image src={Orion} width={400} height={400} className='rounded-full' />
                         </label>
                     </div>
                     <div>
@@ -157,29 +215,107 @@ const AvatarsModal = ({ handleChange, formData, avatarModalState, toggleAvatarMo
                         </label>
                     </div>
                     <div>
-                        <input type="radio" id="Charlotte" name="avatar"
+                        <input type="radio" id="Emma" name="avatar"
                             className={`hidden modal-signup-radio-btn ${theme}`}
-                            value="Charlotte"
-                            onChange={handleChange} checked={formData.avatar === 'Charlotte'}
+                            value="Emma"
+                            onChange={handleChange} checked={formData.avatar === 'Emma'}
                         />
-                        <label htmlFor="Charlotte"
+                        <label htmlFor="Emma"
                             className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
-                            <Image src={Charlotte} width={400} height={400} className=' rounded-full' />
+                            <Image src={Emma} width={400} height={400} className=' rounded-full' />
                         </label>
                     </div>
                     <div>
-                        <input type="radio" id="Elezabeth" name="avatar"
+                        <input type="radio" id="Luna" name="avatar"
                             className={`hidden modal-signup-radio-btn ${theme}`}
-                            value="Elezabeth"
-                            onChange={handleChange} checked={formData.avatar === 'Elezabeth'}
+                            value="Luna"
+                            onChange={handleChange} checked={formData.avatar === 'Luna'}
                         />
-                        <label htmlFor="Elezabeth"
+                        <label htmlFor="Luna"
                             className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
-                            <Image src={Elezabeth} width={400} height={400} className=' rounded-full' />
+                            <Image src={Luna} width={400} height={400} className=' rounded-full' />
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="Stickify" name="avatar"
+                            className={`hidden modal-signup-radio-btn ${theme}`}
+                            value="Stickify"
+                            onChange={handleChange} checked={formData.avatar === 'Stickify'}
+                        />
+                        <label htmlFor="Stickify"
+                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
+                                            p-[0.5px]
+                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                            <Image src={Stickify} width={400} height={400} className=' rounded-full' />
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="Kaze" name="avatar"
+                            className={`hidden modal-signup-radio-btn ${theme}`}
+                            value="Kaze"
+                            onChange={handleChange} checked={formData.avatar === 'Kaze'}
+                        />
+                        <label htmlFor="Kaze"
+                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
+                                            p-[0.5px]
+                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                            <Image src={Kaze} width={400} height={400} className=' rounded-full' />
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="Hana" name="avatar"
+                            className={`hidden modal-signup-radio-btn ${theme}`}
+                            value="Hana"
+                            onChange={handleChange} checked={formData.avatar === 'Hana'}
+                        />
+                        <label htmlFor="Hana"
+                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
+                                            p-[0.5px]
+                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                            <Image src={Hana} width={400} height={400} className=' rounded-full' />
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="RoboCute" name="avatar"
+                            className={`hidden modal-signup-radio-btn ${theme}`}
+                            value="RoboCute"
+                            onChange={handleChange} checked={formData.avatar === 'RoboCute'}
+                        />
+                        <label htmlFor="RoboCute"
+                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
+                                            p-[0.5px]
+                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                            <Image src={RoboCute} width={400} height={400} className=' rounded-full' />
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="Paw" name="avatar"
+                            className={`hidden modal-signup-radio-btn ${theme}`}
+                            value="Paw"
+                            onChange={handleChange} checked={formData.avatar === 'Paw'}
+                        />
+                        <label htmlFor="Paw"
+                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
+                                            p-[0.5px]
+                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                            <Image src={Paw} width={400} height={400} className=' rounded-full' />
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="Eagle" name="avatar"
+                            className={`hidden modal-signup-radio-btn ${theme}`}
+                            value="Eagle"
+                            onChange={handleChange} checked={formData.avatar === 'Eagle'}
+                        />
+                        <label htmlFor="Eagle"
+                            className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
+                                            p-[0.5px]
+                                            hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
+                            <Image src={Eagle} width={400} height={400} className=' rounded-full' />
                         </label>
                     </div>
                 </div>

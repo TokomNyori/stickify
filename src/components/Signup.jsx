@@ -3,14 +3,10 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signupHelper } from '@/helper/httpHelpers/httpUserHelper';
 import Image from 'next/image';
-import BoyAvatar1 from '@/assets/avatars/boy1.jpeg'
-import BoyAvatar2 from '@/assets/avatars/boy2.jpeg'
-import GirlAvatar1 from '@/assets/avatars/girl1.jpeg'
-import GirlAvatar2 from '@/assets/avatars/girl2.jpeg'
-import Emma from '@/assets/avatars/Emma.jpeg'
-import Martha from '@/assets/avatars/Martha.jpeg'
 import Kylie from '@/assets/avatars/Kylie.jpeg'
 import David from '@/assets/avatars/David.jpeg'
+import Elezabeth from '@/assets/avatars/Elezabeth.jpeg'
+import Charlotte from '@/assets/avatars/Charlotte.jpeg'
 import toast, { Toaster } from 'react-hot-toast';
 import { newUserOtpVerify } from '@/helper/nodemailer/handleOTPhelper';
 import Lottie from 'lottie-react'
@@ -301,16 +297,16 @@ const Signup = (
                                         </label>
                                     </div>
                                     <div>
-                                        <input type="radio" id="Emma" name="avatar"
+                                        <input type="radio" id="Charlotte" name="avatar"
                                             className={`hidden signup-radio-btn ${theme}`}
-                                            value="Emma"
-                                            onChange={handleChange} checked={formData.avatar === 'Emma'}
+                                            value="Charlotte"
+                                            onChange={handleChange} checked={formData.avatar === 'Charlotte'}
                                         />
-                                        <label htmlFor="Emma"
+                                        <label htmlFor="Charlotte"
                                             className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
-                                            <Image src={Emma} width={400} height={400} className='rounded-full' />
+                                            <Image src={Charlotte} width={400} height={400} className='rounded-full' />
                                         </label>
                                     </div>
                                     <div>
@@ -327,16 +323,16 @@ const Signup = (
                                         </label>
                                     </div>
                                     <div>
-                                        <input type="radio" id="Martha" name="avatar"
+                                        <input type="radio" id="Elezabeth" name="avatar"
                                             className={`hidden signup-radio-btn ${theme}`}
-                                            value="Martha"
-                                            onChange={handleChange} checked={formData.avatar === 'Martha'}
+                                            value="Elezabeth"
+                                            onChange={handleChange} checked={formData.avatar === 'Elezabeth'}
                                         />
-                                        <label htmlFor="Martha"
+                                        <label htmlFor="Elezabeth"
                                             className="block w-12 h-12 rounded-full border border-gray-700 dark:border-gray-500 
                                             p-[0.5px]
                                             hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer">
-                                            <Image src={Martha} width={400} height={400} className=' rounded-full' />
+                                            <Image src={Elezabeth} width={400} height={400} className=' rounded-full' />
                                         </label>
                                     </div>
                                     {/* <div>

@@ -3,7 +3,7 @@ import { OpenAIStream, StreamingTextResponse } from 'ai';
 
 export const runtime = 'edge'
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY
+const OPENAI_API_KEY = process.env.OPENAI_API_KEYY
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
 export async function POST(request) {
@@ -32,9 +32,11 @@ export async function POST(request) {
     }
 
     console.log(configure)
+    // ft:gpt-3.5-turbo-1106:tokom-nyori::8gK5uuOb
+    // ft:gpt-3.5-turbo-1106:tokom-nyori::8gMRMCtM
 
     const response = await openai.chat.completions.create({
-        model: 'ft:gpt-3.5-turbo-1106:tokom-nyori::8gMRMCtM',
+        model: 'ft:gpt-3.5-turbo-1106:tokom-nyori::8gK5uuOb',
         stream: true,
         temperature: temperature,
         messages: [
