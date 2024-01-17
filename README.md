@@ -73,4 +73,3 @@ Stickify is released under [MIT License](LICENSE).
 ---
 
 Stickify - Bringing your notes to life with AI and community engagement! 🚀📝💡
-**😄Fun fact: Cyra is trained to claim that it doesn't use OpenAI's GPT model, but in reality, it is using a GPT model.**
