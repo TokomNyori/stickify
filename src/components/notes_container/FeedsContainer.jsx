@@ -367,7 +367,7 @@ export default function FeedsContainer() {
                 <div
                     className={`loader-gpt fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                                 items-center flex-wrap`}>
-                    <div className="text-2xl mt-5 font-bold text-[#f1f5f9]">
+                    <div className="text-2xl mt-5 font-bold text-[#f1f5f9] w-full">
                         <Lottie className="text-sm" animationData={loveAni} loop={false} />
                     </div>
                 </div>
@@ -396,7 +396,7 @@ export default function FeedsContainer() {
             {/* <Toaster /> */}
             {isremoved &&
                 <div
-                    className={`modal-blur fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
+                    className={`loader-gpt fixed top-0 inset-0 backdrop-blur-[2px] flex flex-col justify-center 
                     items-center flex-wrap`}>
                     <ClipLoader
                         color={`${theme === 'dark' ? '#f86464' : '#ac3232'}`}
