@@ -87,6 +87,7 @@ export async function PUT(request, { params }) {
         // Getting user cookie
         const userCookie = request.cookies.get('userJwtCookie')?.value
         const tokenPayload = jwt.verify(userCookie, process.env.JWT_SECRET)
+        
         // Convert userid to an ObjectId
         const cookiesUserId = new mongoose.Types.ObjectId(tokenPayload._id);
         const noteUserId = new mongoose.Types.ObjectId(userId);
