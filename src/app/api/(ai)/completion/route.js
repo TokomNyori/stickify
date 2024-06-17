@@ -17,8 +17,6 @@ export async function POST(request) {
     console.log('Completion API Triggered')
     const { geyi } = await request.json();
 
-    console.log('body:', geyi)
-
     const response = await openai.chat.completions.create(geyi);
 
     // Convert the response into a friendly text-stream

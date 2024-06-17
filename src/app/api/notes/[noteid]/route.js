@@ -72,9 +72,31 @@ export async function PUT(request, { params }) {
     console.log('EDIT NOTE API was called')
     const { noteid } = params
     //Fetch work data from request
-    const { title, content, status, color, isPrivate, ytVideo } = await request.json()
+    const { title, content, status, color, isPrivate, ytVideo, userId } = await request.json()
 
     try {
+
+        const user = await UserModel.findById({ _id: userId })
+
+        if (!user) {
+            return getResponseMsg(
+                { message: `User not found`, status: 404, success: false }
+            )
+        }
+
+        // Getting user cookie
+        const userCookie = request.cookies.get('userJwtCookie')?.value
+        const tokenPayload = jwt.verify(userCookie, process.env.JWT_SECRET)
+        // Convert userid to an ObjectId
+        const cookiesUserId = new mongoose.Types.ObjectId(tokenPayload._id);
+        const noteUserId = new mongoose.Types.ObjectId(userId);
+
+        if (String(cookiesUserId) !== String(noteUserId)) {
+            return getResponseMsg(
+                { message: `User not authorized`, status: 401, success: false }
+            )
+        }
+
         const note = await NoteModel.findById({ _id: noteid })
         note.title = title
         note.content = content
