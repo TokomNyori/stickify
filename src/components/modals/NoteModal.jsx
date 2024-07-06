@@ -50,7 +50,7 @@ const NoteModal = () => {
         status: 'others',
         color: '#FFFAD1',
         content: '',
-        isPrivate: false,
+        isPrivate: true,
         userId: users._id,
         userAvatar: users.avatar,
         username: users.username,
