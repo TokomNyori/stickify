@@ -48,33 +48,33 @@ const GptSubmit = (
     //console.log(words)
 
     if (words <= 250) {
-        tokens = 700; // For shorter inputs, a lower token count
+        tokens = 1000; // For shorter inputs, a lower token count
     } else if (words <= 500) {
-        tokens = 1200; // Sufficient tokens for a moderate length
+        tokens = 1500; // Sufficient tokens for a moderate length
     } else if (words <= 750) {
-        tokens = 1700; // Allowing more tokens for longer inputs
+        tokens = 2000; // Allowing more tokens for longer inputs
     } else if (words <= 1000) {
-        tokens = 2200; // Increasing tokens as the input length increases
+        tokens = 2500; // Increasing tokens as the input length increases
     } else if (words <= 2000) {
-        tokens = 4000; // Maximum token allowance for the longest inputs
+        tokens = 5000; // Maximum token allowance for the longest inputs
     }
 
     let output_type = ''
     if (generateRequirementGpt.output_type === 'easy to understand') {
         output_type = `Simplify the explanation as if teaching a young child. Use analogies and metaphors for complex concepts, and avoid jargon. The language should be straightforward and engaging, suitable for someone with no prior knowledge of the topic`
-        temperature = 0.7
+        temperature = 1.2
         top_p = 0.9; // Allows for some creativity but not too wide
         frequency_penalty = 0.4; // Moderately discourage repetition
         presence_penalty = 0.4; // Encourage new concepts but not too divergent
     } else if (generateRequirementGpt.output_type === 'gamify') {
         output_type = `Explain the topic so it feels like a game. Gamify the learning process. Use gamification techniques to engage the audience. Explain the topic by playing a Game. Introduce elements like progress levels. Use simple language, playful language and scenarios to make the learning process fun and memorable`
-        temperature = 0.7
+        temperature = 1.2
         top_p = 0.95; // More diversity for creative expression
         frequency_penalty = 0.3; // Moderately discourage repetition
         presence_penalty = 0.5; // Encourage introduction of new elements
     } else {
         output_type = `Explain the topic with precision and accuracy. Deliver the content with accuracy and depth. Use technical terms appropriately and provide clear definitions. Ensure that the information is up-to-date and cite reliable sources where applicable`
-        temperature = 0.5
+        temperature = 1
         top_p = 0.85; // Focused, yet allows for some diversity
         frequency_penalty = 0.6; // Strongly discourage repetition
         presence_penalty = 0.6; // Encourage new concepts for depth
@@ -84,7 +84,7 @@ const GptSubmit = (
     const emojiOption = ' Generate 5 to 7 meaningful emojis interspersed throughout the content. The emojis should be relevant to the context.'
     const instruction = `Act as an expert in the topic. ${output_type}. Don't be VERBOSE. Format the response using Markdown, but keep the Markdown formatting minimal. Avoid using bold formatting. Use headers for main headings and subheadings. Do not include bold formatting with lists and bullet points. Avoid creating unnecessary white spaces and new lines. Include links for additional information. Make sure to aim for a word count of approximately ${words} words.${generateRequirementGpt.emojis ? emojiOption : ''} Conclude with an intriguing fact related to the topic. The topic is: ${generateRequirementGpt.generate_title}`
     const gptData = {
-        model: 'ft:gpt-3.5-turbo-1106:tokom-nyori::8ZrbSmqw',
+        model: 'gemini-1.5-pro',
         stream: true,
         temperature: temperature,
         max_tokens: tokens,
@@ -113,14 +113,15 @@ const GptSubmit = (
             geyi: gptData
         },
         initialInput: instruction,
-        onError: () => {
+        onError: (error) => {
             toast('Sorry, could not generate', {
                 icon: '🥺'
             })
+            console.log(error)
         },
         onResponse: (res) => {
-            //const resp = res.json()
-            console.log(res)
+            // const resp = res.json()
+            // console.log(resp)
         },
         onFinish: async () => {
             if (generateRequirementGpt.videos) {

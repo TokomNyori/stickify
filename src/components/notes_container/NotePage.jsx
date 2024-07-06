@@ -397,9 +397,9 @@ const NotePage = ({ params }) => {
         //const words = `${generateRequirementGpt.words}`
         const instruction = `Concisely summarize the following content, capturing the essential points and main ideas, and format the summary using Markdown. Focus on brevity and clarity, avoiding unnecessary details. Keep the summary short. The content is: ${pageNoteData.content}`
         const gptData = {
-            model: 'gpt-3.5-turbo-1106',
-            temperature: 0.5,
-            max_tokens: 1000,
+            model: 'gemini-1.5-flash',
+            temperature: 1,
+            max_tokens: 3000,
             stream: true,
             messages: [
                 {

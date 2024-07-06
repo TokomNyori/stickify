@@ -118,9 +118,9 @@ const PopUp2 =
             const systemContentGrammar = 'Your task is to refine the provided content to standard English. This includes correcting grammatical errors, clarifying ambiguous statements, and improving overall readability.';
             const systemContentRephrase = 'You are to rephrase the provided content to match a specific tone. Adjust the style, vocabulary, and structure to reflect the designated tone, while maintaining the original message.';
             const gptData = {
-                model: 'gpt-3.5-turbo-1106',
-                temperature: 0.5,
-                max_tokens: 2000,
+                model: 'gemini-1.5-pro',
+                temperature: 1,
+                max_tokens: 4000,
                 stream: true,
                 messages: [
                     {

@@ -1,27 +1,46 @@
-import OpenAI from "openai";
-import { OpenAIStream, StreamingTextResponse } from 'ai';
-import { Configuration, OpenAIApi } from "openai-edge";
+import { GoogleGenerativeAIStream, StreamingTextResponse } from "ai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export const runtime = 'edge'
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
-
-// const config = new Configuration({
-//     apiKey: OPENAI_API_KEY
-// });
-
-// const openai = new OpenAIApi(config);
+const GEMINI_API_KEY = process.env.GOOGLE_API_KEY
 
 export async function POST(request) {
     console.log('Completion API Triggered')
     const { geyi } = await request.json();
 
-    const response = await openai.chat.completions.create(geyi);
+    const { messages, model, temperature, max_tokens } = geyi
 
-    // Convert the response into a friendly text-stream
-    const stream = OpenAIStream(response);
+    console.log(messages)
 
-    // Respond with the stream
-    return new StreamingTextResponse(stream);
+    const systemContent = messages[0].content
+    const userContent = messages[1].content
+
+    console.log(systemContent)
+    console.log(userContent)
+
+    try {
+        const genAI = new GoogleGenerativeAI(GEMINI_API_KEY)
+        const modelConfig = genAI.getGenerativeModel(
+            {
+                model: model,
+                generationConfig :{
+                    maxOutputTokens: max_tokens,
+                    temperature: temperature,
+                },
+                systemInstruction: systemContent,
+            }
+        )
+
+        const streamResponse = await modelConfig.generateContentStream(userContent)
+
+
+        const stream = GoogleGenerativeAIStream(streamResponse)
+        return new StreamingTextResponse(stream)
+    } catch (error) {
+        console.error("GeminiAI Error:", error)
+        return NextResponse.json({
+            error: error
+        }, { status: 500 })
+    }
 }
