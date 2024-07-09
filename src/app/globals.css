@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: rgb(244 244 245);
+  }
+
+  .dark {
+    --background: rgb(23 23 23);
+  }
+}
+
 :root,
 body,
 html {
@@ -10,6 +20,7 @@ html {
 
 body {
   @apply antialiased;
+  @apply bg-background;
 }
 
 nav {
@@ -51,7 +62,6 @@ nav {
   max-height: 60%;
 }
 
-
 .note-box-two:hover {
   transform: scale(1.02) !important;
   /* Slightly zoom in */
@@ -76,7 +86,7 @@ nav {
   }
 }
 
-.note-radio-btn[type="radio"]:checked+label {
+.note-radio-btn[type="radio"]:checked + label {
   border: 1.5px solid rgb(71, 71, 71);
   transform: scale(1.1);
 }
@@ -88,10 +98,12 @@ nav {
 
 .skeleton {
   opacity: 0.7;
-  background: linear-gradient(to right,
-      rgba(54, 54, 54, 0.9),
-      rgba(106, 106, 106, 1),
-      rgba(54, 54, 54, 0.9));
+  background: linear-gradient(
+    to right,
+    rgba(54, 54, 54, 0.9),
+    rgba(106, 106, 106, 1),
+    rgba(54, 54, 54, 0.9)
+  );
   background-size: 200% 100%;
   background-position: -100% 0;
   animation: skeleton-loading 1s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
@@ -99,10 +111,12 @@ nav {
 
 .skeleton2 {
   opacity: 0.9;
-  background: linear-gradient(to right,
-      rgba(54, 54, 54, 0.9),
-      rgba(106, 106, 106, 1),
-      rgba(54, 54, 54, 0.9));
+  background: linear-gradient(
+    to right,
+    rgba(54, 54, 54, 0.9),
+    rgba(106, 106, 106, 1),
+    rgba(54, 54, 54, 0.9)
+  );
   background-size: 200% 100%;
   background-position: -100% 0;
   animation: skeleton-loading 1s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
@@ -110,10 +124,12 @@ nav {
 
 .skeleton3 {
   opacity: 1;
-  background: linear-gradient(to right,
-      rgba(54, 54, 54, 0.9),
-      rgba(106, 106, 106, 1),
-      rgba(54, 54, 54, 0.9));
+  background: linear-gradient(
+    to right,
+    rgba(54, 54, 54, 0.9),
+    rgba(106, 106, 106, 1),
+    rgba(54, 54, 54, 0.9)
+  );
   background-size: 200% 100%;
   background-position: -100% 0;
   animation: skeleton-loading 1s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
@@ -144,7 +160,6 @@ textarea {
   justify-content: space-between;
   align-items: flex-end;
 }
-
 
 @media (max-width: 640px) {
   .note-box {
@@ -178,5 +193,4 @@ textarea {
     align-items: center;
     gap: 0.5rem;
   }
-
 }

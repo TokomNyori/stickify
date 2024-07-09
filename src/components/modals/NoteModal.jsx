@@ -299,6 +299,7 @@ const NoteModal = () => {
     function closeModal(event) {
         event.preventDefault()
         clearForm()
+
         rephraseDefaultTrue()
         if (isEdit) {
             setIsEdit(false)
@@ -536,7 +537,7 @@ const NoteModal = () => {
             status: 'others',
             color: '#FFFAD1',
             content: '',
-            isPrivate: false,
+            isPrivate: true,
             userId: users._id,
             userAvatar: users.avatar,
             username: users.username,
@@ -547,7 +548,7 @@ const NoteModal = () => {
             status: 'others',
             color: '#FFFAD1',
             content: '',
-            isPrivate: false,
+            isPrivate: true,
             userId: users._id,
             userAvatar: users.avatar,
             username: users.username,
