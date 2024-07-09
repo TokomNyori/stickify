@@ -186,7 +186,7 @@ export default function Navbar() {
     return (
         Object.keys(userCookie).length !== 0 ?
             <>
-                <nav className=" z-10 fixed top-0 w-full flex justify-between items-center pt-2 pb-1 px-3 sm:px-5">
+                <nav className="z-10 fixed top-0 w-full flex justify-between items-center pt-2 pb-1 px-3 sm:px-5">
                     <div>
                         <Link href='/' className="italic text-xl sm:text-lg font-bold">stickify</Link>
                     </div>
